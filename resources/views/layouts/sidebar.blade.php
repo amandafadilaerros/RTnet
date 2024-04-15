@@ -1,7 +1,9 @@
 <div class="sidebar">
   <div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="info">
-      <a href="#" class="d-block">Sistem Informasi RT Online</a>
+      <a href="#" class="d-block" style="font-family: 'Nunito Sans', sans-serif; font-size: 25px; font-weight: bold; color: #424874;">
+        Sistem Informasi<br>RT Online</a>    
+
     </div>
   </div>
 
@@ -32,7 +34,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link {{ ($activeMenu == 'peminjaman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'peminjaman')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-sign-out-alt"></i>
+        <a href="#" class="nav-link {{ ($activeMenu == 'peminjaman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'peminjaman')? 'background-color: #424874;' : '' }}">  <i class="fas fa-list"></i>
           <p>Daftar Peminjaman</p>
         </a>
       </li>
