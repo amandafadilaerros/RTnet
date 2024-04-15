@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\templateController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,6 @@ Route::get('/login', function () {
 
 // hanya untuk testing template
 Route::get('/templates', [templateController::class, 'index']);
+
+//testing pemasukan
+Route::get('/pemasukan', [pemasukanController::class, 'index']);
