@@ -4,6 +4,7 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\templateController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,7 @@ Route::get('/templates', [templateController::class, 'index']);
 
 //testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
+Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
 
 
 //Data keluarga
