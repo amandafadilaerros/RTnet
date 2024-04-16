@@ -109,7 +109,9 @@
               <label for="nominal">Nominal:</label>
               <input type="text" class="form-control" id="nominal" name="nominal">
             </div>
-            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Tambah</button>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
+            </div>
           </form>
         </div>
       </div>
@@ -150,7 +152,9 @@
                         <label for="nominal_edit">Nominal:</label>
                         <input type="text" class="form-control" id="nominal_edit" name="nominal_edit">
                     </div>
-                    <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Simpan</button>
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Simpan</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -172,7 +176,9 @@
           <form id="hapusForm" method="" action="">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Hapus</button>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+            </div>
           </form>
         </div>
       </div>
