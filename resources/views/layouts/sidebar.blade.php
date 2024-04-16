@@ -9,9 +9,9 @@
 
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-      {{-- php
-        $role = Auth::user()->role;
-      endphp --}}
+      @php
+        $role = session('role');
+      @endphp
       @switch($role)
       {{-- PENDUDUK --}}
         @case('penduduk')
@@ -183,13 +183,13 @@
           </li>
           <li class="nav-header">Keuangan</li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'pemasukan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pemasukan')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/pemasukan') }}" class="nav-link {{ ($activeMenu == 'pemasukan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pemasukan')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-money-bill-wave"></i>
               <p>Pemasukan</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'pengeluaran')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengeluaran')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/pengeluaran') }}" class="nav-link {{ ($activeMenu == 'pengeluaran')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengeluaran')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-money-bill-alt"></i>
               <p>Pengeluaran</p>
             </a>
