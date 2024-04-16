@@ -9,6 +9,8 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\templateController;
+use App\Http\Controllers\peminjamanController;
+use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +50,11 @@ Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
 Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
 Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 
+//peminjaman
+Route::get('/peminjaman', [peminjamanController::class, 'index']);
+
+
+//Data keluarga
 Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
 Route::get('/Dashboard', [DashboardController::class, 'index']);
 
