@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\kerjabaktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
@@ -34,6 +35,13 @@ Route::post('/dashboard', [loginController::class, 'test']);
 
 Route::get('/templates', [templateController::class, 'index']);
 
+//testing pemasukan
+Route::get('/pemasukan', [pemasukanController::class, 'index']);
+
+//Kerja Bakti
+Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
+
+//testing bendahara
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
 Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
@@ -42,4 +50,6 @@ Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 
 Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
 Route::get('/Dashboard', [DashboardController::class, 'index']);
+
 Route::get('/inventaris',[inventarisController::class, 'index']);
+
