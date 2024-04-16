@@ -11,6 +11,7 @@ use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\templateController;
 use App\Http\Controllers\peminjamanController;
 use App\Http\Controllers\daftar_peminjamanController;
+use App\Http\Controllers\data_rumahController;
 use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -46,6 +47,7 @@ Route::get('/inventaris', [inventarisController::class, 'index']);
 
 
 Route::group(['prefix' => 'ketuaRt'], function () {
+    Route::get('/data_rumah', [data_rumahController::class, 'index']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
