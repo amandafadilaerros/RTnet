@@ -189,7 +189,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'pengeluaran')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengeluaran')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/pengeluaran') }}" class="nav-link {{ ($activeMenu == 'pengeluaran')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengeluaran')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-money-bill-alt"></i>
               <p>Pengeluaran</p>
             </a>

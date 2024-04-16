@@ -45,11 +45,7 @@
                 <td>2024-04-15</td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                  <form class="d-inline-block" method="" action="#">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
-                  </form>
+                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             <tr>
@@ -60,11 +56,7 @@
                 <td>2024-04-15</td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
-                  <form class="d-inline-block" method="" action="#">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
-                  </form>
+                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
             <tr>
@@ -75,11 +67,7 @@
                 <td>2024-04-15</td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                  <form class="d-inline-block" method="" action="#">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
-                  </form>
+                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
@@ -232,6 +220,29 @@
     </div>
   </div>
 </div>
+<!-- Modal untuk konfirmasi hapus data -->
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Apakah Anda yakin menghapus data ini?
+      </div>
+      <div class="modal-footer justifiy-content">
+        <form id="hapusForm" method="" action="">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Hapus</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 @push('css')
 @endpush
@@ -257,5 +268,14 @@
     }
   });
 });
+
+// Fungsi untuk menampilkan modal hapus data
+document.querySelectorAll('.btn-delete').forEach(function(btnDelete) {
+    btnDelete.addEventListener('click', function() {
+      var form = btnDelete.closest('tr').querySelector('form#hapusForm');
+      $('#hapusModal').find('form#hapusForm').attr('action', form.action);
+      $('#hapusModal').modal('show');
+    });
+  });
 </script>
 @endpush
