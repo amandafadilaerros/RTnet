@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\kerjabaktiController;
 use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\templateController;
 use Illuminate\Auth\Events\Login;
@@ -30,3 +31,8 @@ Route::get('/templates', [templateController::class, 'index']);
 
 //testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
+
+//Kerja Bakti
+Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
+
+
