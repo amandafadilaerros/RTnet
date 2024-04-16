@@ -6,7 +6,7 @@
         {{ $page->title }}
       </h3>
       <div class="card-tools">
-          <a href="{{url('kerjabakti/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+          <a href="{{url('/ketuaRt/kerja_bakti')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
       </div>
   </div> --}}
   <div class="card-body">
@@ -24,7 +24,7 @@
             {{-- UNTUK SEARCH --}}
             
             <div class="col-md-6 d-flex justify-content-end"> <!-- Menambahkan kelas justify-content-end -->
-            <form action="{{url('kerja_bakti')}}" class="form-inline">
+            <form action="{{url('/ketuaRt/kerja_bakti')}}" class="form-inline">
             <input type="text" class="form-control form-control-sm mr-sm-2 mt-1" name="search" placeholder="Search" value="{{Request::get('search')}}">
         <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;" type="submit">Search</button>
     </form>

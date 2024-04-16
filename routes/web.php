@@ -37,16 +37,11 @@ Route::get('/templates', [templateController::class, 'index']);
 //testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
-//Kerja Bakti
-Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
-
-
-Route::get('/inventaris', [inventarisController::class, 'index']);
-
-
 Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::get('/kerja_bakti', [kerjabaktiController::class, 'index']);
+    Route::get('/inventaris', [inventarisController::class, 'index']);
 });
 
 Route::group(['prefix' => 'sekretaris'], function () {
