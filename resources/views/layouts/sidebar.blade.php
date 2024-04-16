@@ -9,6 +9,9 @@
 
   <nav class="mt-2">
     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+      {{-- php
+        $role = Auth::user()->role;
+      endphp --}}
       @php
       $role = session('role');
       @endphp
