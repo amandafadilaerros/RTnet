@@ -67,3 +67,9 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
 });
+
+//halaman tidak ditemukan
+Route::fallback(function () {
+    return view('404');
+});
+
