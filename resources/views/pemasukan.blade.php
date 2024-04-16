@@ -44,8 +44,8 @@
                 <td>Susanto</td>
                 <td>2024-04-15</td>
                 <td>
-                  <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-                  <form class="d-inline-block" method="POST" action="">
+                  <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="kas"><i class="fas fa-pen"></i></a>
+                  <form class="d-inline-block" method="" action="#">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
@@ -59,8 +59,8 @@
                 <td>Sriyuni</td>
                 <td>2024-04-15</td>
                 <td>
-                  <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-                  <form class="d-inline-block" method="POST" action="">
+                  <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
+                  <form class="d-inline-block" method="" action="#">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
@@ -74,8 +74,8 @@
                 <td>Tono</td>
                 <td>2024-04-15</td>
                 <td>
-                  <a href="" class="btn btn-success btn-sm"><i class="fas fa-pen"></i></a>
-                  <form class="d-inline-block" method="POST" action="">
+                  <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="kas"><i class="fas fa-pen"></i></a>
+                  <form class="d-inline-block" method="" action="#">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
@@ -133,7 +133,7 @@
             <label for="nominal_kas">Nominal:</label>
             <input type="text" class="form-control" id="nominal_kas" name="nominal_kas">
           </div>
-          <button type="submit" class="btn btn-primary">Simpan</button>
+          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Tambah</button>
         </form>
       </div>
     </div>
@@ -164,7 +164,69 @@
             <label for="nominal_paguyuban">Nominal:</label>
             <input type="text" class="form-control" id="nominal_paguyuban" name="nominal_paguyuban">
           </div>
-          <button type="submit" class="btn btn-primary">Simpan</button>
+          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Tambah</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal tambahan untuk Edit KAS -->
+<div class="modal fade" id="editKasModal" tabindex="-1" role="dialog" aria-labelledby="editKasModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editKasModalLabel">Ubah Data KAS</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulir untuk mengedit data KAS -->
+        <form id="editKasForm">
+          <div class="form-group">
+            <label for="edit_warga_kas">Pilih Warga:</label>
+            <select class="form-control" id="edit_warga_kas" name="edit_warga_kas">
+              <option value="">Pilih warga</option>
+              <!-- Isi dengan opsi warga untuk KAS -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit_nominal_kas">Nominal:</label>
+            <input type="text" class="form-control" id="edit_nominal_kas" name="edit_nominal_kas">
+          </div>
+          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Edit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal tambahan untuk Edit PAGUYUBAN -->
+<div class="modal fade" id="editPaguyubanModal" tabindex="-1" role="dialog" aria-labelledby="editPaguyubanModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editPaguyubanModalLabel">Ubah Data PAGUYUBAN</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulir untuk mengedit data PAGUYUBAN -->
+        <form id="editPaguyubanForm">
+          <div class="form-group">
+            <label for="edit_warga_paguyuban">Pilih Warga:</label>
+            <select class="form-control" id="edit_warga_paguyuban" name="edit_warga_paguyuban">
+              <option value="">Pilih warga</option>
+              <!-- Isi dengan opsi warga untuk PAGUYUBAN -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit_nominal_paguyuban">Nominal:</label>
+            <input type="text" class="form-control" id="edit_nominal_paguyuban" name="edit_nominal_paguyuban">
+          </div>
+          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Edit</button>
         </form>
       </div>
     </div>
@@ -184,5 +246,16 @@
   document.getElementById('paguyubanButton').addEventListener('click', function() {
     $('#paguyubanModal').modal('show');
   });
+
+  document.querySelectorAll('.btn-edit').forEach(function(btnEdit) {
+  btnEdit.addEventListener('click', function() {
+    var jenisPemasukan = btnEdit.dataset.jenis;
+    if (jenisPemasukan === 'kas') {
+      $('#editKasModal').modal('show');
+    } else if (jenisPemasukan === 'paguyuban') {
+      $('#editPaguyubanModal').modal('show');
+    }
+  });
+});
 </script>
 @endpush

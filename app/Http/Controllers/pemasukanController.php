@@ -16,7 +16,7 @@ class pemasukanController extends Controller
             'title' => '-----',
         ];
 
-        $activeMenu = 'keuangan';
+        $activeMenu = 'pemasukan';
 
         // $barang = BarangModel::all();
 
