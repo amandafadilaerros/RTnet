@@ -11,6 +11,8 @@ class loginController extends Controller
         // ini hanya TEST
         // PENENTU ROLE
         $role = $request->family_number;
+        $request->session()->put('role', $role);
+
 
         $breadcrumb = (object) [
             'title' => 'Dashboard',
