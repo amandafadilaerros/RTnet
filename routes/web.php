@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\kerjabaktiController;
+use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
@@ -10,6 +10,8 @@ use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\templateController;
 use App\Http\Controllers\peminjamanController;
+use App\Http\Controllers\daftar_peminjamanController;
+use App\Http\Controllers\data_rumahController;
 use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -38,10 +40,12 @@ Route::get('/templates', [templateController::class, 'index']);
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
 Route::group(['prefix' => 'ketuaRt'], function () {
+    Route::get('/data_rumah', [data_rumahController::class, 'index']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-    Route::get('/kerja_bakti', [kerjabaktiController::class, 'index']);
+    Route::get('/kerja_bakti', [kerja_baktiController::class, 'index']);
     Route::get('/inventaris', [inventarisController::class, 'index']);
+    Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
 });
 
 Route::group(['prefix' => 'sekretaris'], function () {
@@ -62,3 +66,9 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
 });
+
+//halaman tidak ditemukan
+Route::fallback(function () {
+    return view('404');
+});
+
