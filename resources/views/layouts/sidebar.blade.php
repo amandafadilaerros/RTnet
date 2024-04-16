@@ -23,36 +23,36 @@
         </li>
         <li class="nav-header">Kegiatan Warga</li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-users"></i>
+          <a href="{{ url('/penduduk/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-users"></i>
             <p>Kerja Bakti</p>
           </a>
         </li>
         <li class="nav-header">Keuangan</li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'keuangan')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-file-invoice"></i>
+          <a href="{{ url('/penduduk/keuangan') }}" class="nav-link {{ ($activeMenu == 'keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'keuangan')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-file-invoice"></i>
             <p>Laporan Keuangan</p>
           </a>
         </li>
         <li class="nav-header">Inventaris</li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ ($activeMenu == 'inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'inventaris')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-box"></i>
+          <a href="{{ url('/penduduk/inventaris') }}" class="nav-link {{ ($activeMenu == 'inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'inventaris')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-box"></i>
             <p>Daftar Inventaris</p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ ($activeMenu == 'peminjaman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'peminjaman')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-sign-out-alt"></i>
+          <a href="{{ url('/penduduk/peminjaman') }}" class="nav-link {{ ($activeMenu == 'peminjaman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'peminjaman')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-sign-out-alt"></i>
             <p>Daftar Peminjaman</p>
           </a>
         </li>
         <li class="nav-header">Pengumuman</li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ ($activeMenu == 'pengumuman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengumuman')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-bullhorn"></i>
+          <a href="{{ url('/penduduk/pengumuman') }}" class="nav-link {{ ($activeMenu == 'pengumuman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengumuman')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-bullhorn"></i>
             <p>Daftar Pengumuman</p>
           </a>
         </li>
         <li class="nav-header">Informasi Akun</li>
         <li class="nav-item">
-          <a href="#" class="nav-link {{ ($activeMenu == 'anggota')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'anggota')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-users"></i>
+          <a href="{{ url('/penduduk/DaftarAnggota') }}" class="nav-link {{ ($activeMenu == 'DaftarAnggota')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'DaftarAnggota')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-users"></i>
             <p>Daftar Anggota</p>
           </a>
         </li>
@@ -75,19 +75,19 @@
           <li class="nav-header">Kependudukan</li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'data_rumah')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_rumah')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/data_rumah') }}" class="nav-link {{ ($activeMenu == 'data_rumah')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_rumah')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-home"></i>
               <p>Data Rumah</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'data_kk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_kk')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/data_kk') }}" class="nav-link {{ ($activeMenu == 'data_kk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_kk')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-id-card"></i>
               <p>Data Kartu Keluarga</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'data_penduduk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_penduduk')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/data_penduduk') }}" class="nav-link {{ ($activeMenu == 'data_penduduk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_penduduk')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>Data Penduduk</p>
             </a>
@@ -95,7 +95,7 @@
           <li class="nav-header">Kegiatan Warga</li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>Kerja Bakti</p>
             </a>
@@ -103,7 +103,7 @@
           <li class="nav-header">Keuangan</li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/laporan_keuangan') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-file-invoice"></i>
               <p>Laporan Keuangan</p>
             </a>
@@ -111,20 +111,20 @@
           <li class="nav-header">Inventaris</li>
           
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'daftar_inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'daftar_inventaris')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/daftar_inventaris') }}" class="nav-link {{ ($activeMenu == 'daftar_inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'daftar_inventaris')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-box"></i>
               <p>Daftar Inventaris</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'daftar_peminjaman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'daftar_peminjaman')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/daftar_peminjaman') }}" class="nav-link {{ ($activeMenu == 'daftar_peminjaman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'daftar_peminjaman')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-sign-out-alt"></i>
               <p>Daftar Peminjaman</p>
             </a>
           </li>
           <li class="nav-header">Pengumuman</li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'kelola_pengumuman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kelola_pengumuman')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/ketuaRt/kelola_pengumuman') }}" class="nav-link {{ ($activeMenu == 'kelola_pengumuman')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kelola_pengumuman')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-bullhorn"></i>
               <p>Kelola Pengumuman</p>
             </a>
@@ -147,19 +147,19 @@
           </li>
           <li class="nav-header">Kependudukan</li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'data_rumah')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_rumah')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/sekretaris/data_rumah') }}" class="nav-link {{ ($activeMenu == 'data_rumah')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_rumah')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-home"></i>
               <p>Data Rumah</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'data_kk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_kk')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/sekretaris/data_kk') }}" class="nav-link {{ ($activeMenu == 'data_kk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_kk')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-id-card"></i>
               <p>Data Kartu Keluarga</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'data_penduduk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_penduduk')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/sekretaris/data_penduduk') }}" class="nav-link {{ ($activeMenu == 'data_penduduk')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'data_penduduk')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-users"></i>
               <p>Data Penduduk</p>
             </a>
