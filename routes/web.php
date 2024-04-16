@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\loginController;
 use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\templateController;
 use Illuminate\Auth\Events\Login;
@@ -24,6 +25,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('login');
 });
+Route::post('/dashboard', [loginController::class, 'test']);
 
 // hanya untuk testing template
 Route::get('/templates', [templateController::class, 'index']);
