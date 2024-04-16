@@ -18,7 +18,14 @@
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-
+  <style>
+    .content-wrapper{
+            background-color: #f4eeff;
+        }
+    body{
+      color: #424874;
+    }
+  </style>
   @stack('css') <!-- digunakan untuk memanggil custom css dari perintah push('css') pada masing-masing view -->
 </head>
 <body class="hold-transition sidebar-mini">
