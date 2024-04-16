@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class bendaharaController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'dashboard',
@@ -15,14 +16,17 @@ class bendaharaController extends Controller
         $page = (object) [
             'title' => '-----',
         ];
-
         $activeMenu = 'dashboard';
 
-        // $barang = BarangModel::all();
-
-        return view('dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('dashboardBendahara', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
-    public function keuangan(){
+
+    public function keuangan()
+    {
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Laporan Keuangan',
@@ -31,14 +35,17 @@ class bendaharaController extends Controller
         $page = (object) [
             'title' => '-----',
         ];
-
         $activeMenu = 'laporan_keuangan';
 
-        // $barang = BarangModel::all();
-
-        return view('keuanganBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('keuanganBendahara', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
-    public function akun(){
+
+    public function akun()
+    {
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
@@ -47,11 +54,13 @@ class bendaharaController extends Controller
         $page = (object) [
             'title' => '-----',
         ];
-
         $activeMenu = 'akun_saya';
 
-        // $barang = BarangModel::all();
-
-        return view('akunBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('akunBendahara', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
 }
+

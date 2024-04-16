@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class pengeluaranController extends Controller
+class PengeluaranController extends Controller
 {
-    public function index(){
-        // ini hanya TEST
+    public function index()
+    {
         $breadcrumb = (object) [
             'title' => 'Pengeluaran',
             'list' => ['--', '--'],
@@ -15,11 +15,17 @@ class pengeluaranController extends Controller
         $page = (object) [
             'title' => '-----',
         ];
-
         $activeMenu = 'pengeluaran';
 
-        // $barang = BarangModel::all();
-
-        return view('pengeluaran', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view(
+            'pengeluaran',
+            [
+                'breadcrumb' => $breadcrumb,
+                'page' => $page,
+                'activeMenu' => $activeMenu,
+            ]
+        );
     }
 }
+
+
