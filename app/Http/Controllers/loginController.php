@@ -36,7 +36,7 @@ class loginController extends Controller
                 return view('layouts.template', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
                 break;
             case 'bendahara':
-                return view('layouts.template', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
+                return view('dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
                 break;
         }
     }

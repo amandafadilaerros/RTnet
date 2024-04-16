@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class pemasukanController extends Controller
+class data_rumahController extends Controller
 {
     public function index(){
         // ini hanya TEST
         $breadcrumb = (object) [
-            'title' => 'Pemasukan',
+            'title' => 'Data Rumah',
             'list' => ['--', '--'],
         ];
         $page = (object) [
             'title' => '-----',
         ];
 
-        $activeMenu = 'pemasukan';
+        $activeMenu = 'data_rumah';
 
         // $barang = BarangModel::all();
 
-        return view('pemasukan', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('data_rumah', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 }
