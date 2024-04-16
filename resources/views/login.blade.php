@@ -127,7 +127,8 @@
                 <a class="d-block">Sistem Informasi<br>RT Online</a>
             </div>
             <h2>Masuk</h2>
-            <form action="/" method="POST">
+            <form action="{{url('dashboard')}}" method="POST">
+                @csrf
                 <input type="text" name="family_number" placeholder="Nomor Kartu Keluarga" required>
                 <input type="password" name="password" placeholder="Sandi" required>
                 <input type="checkbox" name="remember"> Ingatkan Saya
