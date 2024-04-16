@@ -195,14 +195,14 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="keuanganBendahara" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/keuanganBendahara') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-file-invoice"></i>
               <p>Laporan Keuangan</p>
             </a>
           </li>
           <li class="nav-header">Informasi Akun</li>
           <li class="nav-item">
-            <a href="#" class="nav-link {{ ($activeMenu == 'akun_saya')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'akun_saya')? 'background-color: #424874;' : '' }}">
+            <a href="{{ url('/akunBendahara') }}" class="nav-link {{ ($activeMenu == 'akun_saya')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'akun_saya')? 'background-color: #424874;' : '' }}">
               <i class="nav-icon fas fa-user"></i>
               <p>Akun Saya</p>
             </a>

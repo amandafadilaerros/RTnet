@@ -38,4 +38,20 @@ class bendaharaController extends Controller
 
         return view('keuanganBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
+    public function akun(){
+        // ini hanya TEST
+        $breadcrumb = (object) [
+            'title' => 'Akun Saya',
+            'list' => ['--', '--'],
+        ];
+        $page = (object) [
+            'title' => '-----',
+        ];
+
+        $activeMenu = 'akun_saya';
+
+        // $barang = BarangModel::all();
+
+        return view('akunBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+    }
 }

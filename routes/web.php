@@ -34,11 +34,12 @@ Route::post('/dashboard', [loginController::class, 'test']);
 // hanya untuk testing template
 Route::get('/templates', [templateController::class, 'index']);
 
-//testing pemasukan
+//testing bendahara
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
 Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
 Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
+Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 
 
 //Data keluarga
