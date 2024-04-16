@@ -22,16 +22,23 @@
           </div>
           <div class="col-md-6">
             {{-- UNTUK SEARCH --}}
+            <div class="col-md-6">
+              <form action="{{url('inventaris')}}" class="form-inline">
+                <input type="text" class="form-control form-control-sm mr-sm-2 mt-1" name="search" placeholder="Search" value="{{Request::get('search')}}">
+                <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;" type="submit">Search</button>
+              </form>
+            </div>
+
           </div>
       </div>
       <table class="table table-bordered table-hover table-sm" id="table_user">
           <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">Nominal</th>
-                <th scope="col">Jenis Pengeluaran</th>
-                <th scope="col">Tanggal</th>
-                <th scope="col">Penggunaan</th>
+                <th scope="col">Gambar</th>
+                <th scope="col">Nama</th>
+                <th scope="col">Tanggal Pengembalian </th>
+                <th scope="col">Peminjaman</th>
                 <th scope="col">Aksi</th>
               </tr>
           </thead>
@@ -39,10 +46,14 @@
           <tbody>
             <tr>
                 <td>1</td>
-                <td>15000</td>
-                <td>Kas</td>
+                <td>
+                  <img src="{{URL::asset('img/speaker.png')}}" alt="Placeholder" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
+                </td>
+                <td>Sound</td>
                 <td>2024-04-15</td>
-                <td>RW</td>
+                <td>
+                  <span class="badge badge-danger">Dipinjam</span>
+                </td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
@@ -50,10 +61,14 @@
             </tr>
             <tr>
                 <td>2</td>
-                <td>12000</td>
-                <td>Paguyuban</td>
-                <td>2024-04-15</td>
-                <td>Kematian</td>
+                <td>
+                  <img src="{{URL::asset('img/carpet.png')}}" alt="Placeholder" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
+                </td>
+                <td>Karpet</td>
+                <td></td>
+                <td>
+                    <span class="badge badge-success">Tersedia</span>
+                </td>
                 <td>
                     <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
@@ -61,10 +76,14 @@
             </tr>
             <tr>
                 <td>3</td>
-                <td>10000</td>
-                <td>Kas</td>
-                <td>2024-04-15</td>
-                <td>Kematian</td>
+                <td>
+                    <img src="{{URL::asset('img/sprayer.png')}}" alt="" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
+                </td>
+                <td>Semprotan</td>
+                <td></td>
+                <td>
+                    <span class="badge badge-success">Tersedia</span>
+                </td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
@@ -77,9 +96,9 @@
 <!-- Modal tambah pengeluaran -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
+      <div class="modal-content" style="border-radius: 25px;">
         <div class="modal-header">
-          <h5 class="modal-title" id="tambahModalLabel">Tambah Pengeluaran</h5>
+          <h5 class="modal-title" id="tambahModalLabel">Tambah Data Inventaris</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -87,27 +106,23 @@
         <div class="modal-body">
           <form id="tambahPengeluaranForm">
             <div class="form-group">
-              <label for="jenis_keuangan">Jenis Keuangan:</label>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="jenis_keuangan" id="kas" value="kas" checked>
-                <label class="form-check-label" for="kas">
-                  Kas
+              <label for="jenis_keuangan">Tambah Data</label>
+              <div class="form-group">
+                <input type="text" class="form-control" name="nama_barang" id="nama_barang" placeholder="Nama Barang">
                 </label>
               </div>
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="jenis_keuangan" id="paguyuban" value="paguyuban">
-                <label class="form-check-label" for="paguyuban">
-                  Paguyuban
+              <div class="form-group">
+                <label for="jumlah">Jumlah:</label>
+                <input type="text" class="form-control" id="jumlah" name="jumlah">
                 </label>
               </div>
             </div>
             <div class="form-group">
-              <label for="tujuan">Tujuan:</label>
-              <input type="text" class="form-control" id="tujuan" name="tujuan">
-            </div>
-            <div class="form-group">
-              <label for="nominal">Nominal:</label>
-              <input type="text" class="form-control" id="nominal" name="nominal">
+              <label for="gambar">Gambar:</label>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="gambar" name="gambar">
+                <label class="custom-file-label" for="gambar">Choose file</label>
+              </div>
             </div>
             <div class="text-center">
               <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
@@ -117,10 +132,11 @@
       </div>
     </div>
   </div>
+
   <!-- Modal edit pengeluaran -->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="border-radius: 25px;">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel">Edit Pengeluaran</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -130,28 +146,23 @@
             <div class="modal-body">
                 <form id="editPengeluaranForm">
                     <div class="form-group">
-                        <label for="jenis_keuangan_edit">Jenis Keuangan:</label>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="jenis_keuangan_edit" id="kas_edit" value="kas" checked>
-                            <label class="form-check-label" for="kas_edit">
-                                Kas
-                            </label>
+                        <label for="jenis_keuangan_edit">Tambah Data</label>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="nama_barang" id="nama_barang" placeholder="Nama Barang">
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="jenis_keuangan_edit" id="paguyuban_edit" value="paguyuban">
-                            <label class="form-check-label" for="paguyuban_edit">
-                                Paguyuban
+                        <div class="form-group">
+                            <label for="jumlah">Jumlah:</label>
+                            <input type="text" class="form-control" id="jumlah" name="jumlah">
                             </label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="tujuan_edit">Tujuan:</label>
-                        <input type="text" class="form-control" id="tujuan_edit" name="tujuan_edit">
-                    </div>
-                    <div class="form-group">
-                        <label for="nominal_edit">Nominal:</label>
-                        <input type="text" class="form-control" id="nominal_edit" name="nominal_edit">
-                    </div>
+                        <label for="gambar">Gambar:</label>
+                        <div class="custom-file">
+                          <input type="file" class="custom-file-input" id="gambar" name="gambar">
+                          <label class="custom-file-label" for="gambar">Choose file</label>
+                        </div>
+                      </div>
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Simpan</button>
                     </div>
@@ -184,6 +195,8 @@
       </div>
     </div>
   </div>
+
+
 @endsection
 @push('css')
 @endpush

@@ -4,22 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class pemasukanController extends Controller
+class inventarisController extends Controller
 {
     public function index(){
-        // ini hanya TEST
+        // hanya untuk testing template
         $breadcrumb = (object) [
-            'title' => 'Pemasukan',
+            'title' => 'Inventaris',
             'list' => ['--', '--'],
         ];
         $page = (object) [
             'title' => '-----',
         ];
 
-        $activeMenu = 'pemasukan';
+        $activeMenu = 'inventaris';
 
         // $barang = BarangModel::all();
 
-        return view('pemasukan', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 }
