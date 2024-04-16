@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\DaftarAnggotaController;
@@ -35,6 +36,8 @@ Route::get('/templates', [templateController::class, 'index']);
 //testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
+Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
+Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
 
 
 //Data keluarga
