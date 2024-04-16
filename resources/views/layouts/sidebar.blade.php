@@ -12,6 +12,9 @@
       {{-- php
         $role = Auth::user()->role;
       endphp --}}
+      @php
+        $role = session('role');
+@endphp
       @switch($role)
       {{-- PENDUDUK --}}
         @case('penduduk')
