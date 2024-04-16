@@ -26,11 +26,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login', function () {
     return view('login');
+
 });
 
 Route::post('/dashboard', [loginController::class, 'test']);
@@ -43,20 +40,30 @@ Route::get('/pemasukan', [pemasukanController::class, 'index']);
 //Kerja Bakti
 Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
 
-//testing bendahara
-Route::get('/pemasukan', [pemasukanController::class, 'index']);
-Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
-Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
-Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
-Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 
-//peminjaman
-Route::get('/peminjaman', [peminjamanController::class, 'index']);
+Route::get('/inventaris', [inventarisController::class, 'index']);
 
 
-//Data keluarga
-Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-Route::get('/Dashboard', [DashboardController::class, 'index']);
+Route::group(['prefix' => 'ketuaRt'], function () {
+    Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+});
 
-Route::get('/inventaris',[inventarisController::class, 'index']);
+Route::group(['prefix' => 'sekretaris'], function () {
+    Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+});
 
+Route::group(['prefix' => 'bendahara'], function () {
+    Route::get('/pemasukan', [pemasukanController::class, 'index']);
+    Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
+    Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
+    Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
+    Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
+});
+
+Route::group(['prefix' => 'penduduk'], function () {
+    Route::get('/Dashboard', [DashboardController::class, 'index']);
+    Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::get('/peminjaman', [peminjamanController::class, 'index']);
+});
