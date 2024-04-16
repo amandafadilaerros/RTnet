@@ -6,6 +6,7 @@ use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\templateController;
+use App\Http\Controllers\peminjamanController;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,9 @@ Route::get('/templates', [templateController::class, 'index']);
 //testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
+
+//peminjaman
+Route::get('/peminjaman', [peminjamanController::class, 'index']);
 
 
 //Data keluarga
