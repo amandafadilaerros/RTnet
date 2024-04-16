@@ -121,7 +121,9 @@
             <label for="nominal_kas">Nominal:</label>
             <input type="text" class="form-control" id="nominal_kas" name="nominal_kas">
           </div>
-          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Tambah</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
+          </div>
         </form>
       </div>
     </div>
@@ -152,7 +154,9 @@
             <label for="nominal_paguyuban">Nominal:</label>
             <input type="text" class="form-control" id="nominal_paguyuban" name="nominal_paguyuban">
           </div>
-          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Tambah</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
+          </div>
         </form>
       </div>
     </div>
@@ -183,7 +187,9 @@
             <label for="edit_nominal_kas">Nominal:</label>
             <input type="text" class="form-control" id="edit_nominal_kas" name="edit_nominal_kas">
           </div>
-          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Edit</button>
+          <div class="text-cemter">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Edit</button>
+          </div>
         </form>
       </div>
     </div>
@@ -214,7 +220,9 @@
             <label for="edit_nominal_paguyuban">Nominal:</label>
             <input type="text" class="form-control" id="edit_nominal_paguyuban" name="edit_nominal_paguyuban">
           </div>
-          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Edit</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Edit</button>
+          </div>
         </form>
       </div>
     </div>
@@ -237,7 +245,9 @@
         <form id="hapusForm" method="" action="">
           @csrf
           @method('DELETE')
-          <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874;">Hapus</button>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+          </div>
         </form>
       </div>
     </div>
