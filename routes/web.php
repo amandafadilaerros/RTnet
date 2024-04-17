@@ -17,8 +17,9 @@ use App\Http\Controllers\KKController;
 use App\Http\Controllers\pendudukController;
 use App\Http\Controllers\pengumumanController;
 use App\Http\Controllers\laporanKeuanganController;
-use App\Http\Controllers\datapendudukController;
 use App\Http\Controllers\sekretarisController;
+use App\Http\Controllers\datapendudukController;
+
 use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -53,7 +54,6 @@ Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
 
 Route::group(['prefix' => 'ketuaRt'], function () {
-    Route::get('/dashboard', [ketuaController::class, 'index']);
     Route::get('/data_rumah', [data_rumahController::class, 'index']);
     Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
     Route::get('/data_kk', [KKController::class, 'index']);
