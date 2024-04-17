@@ -56,6 +56,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/data_penduduk', [datapendudukController::class, 'index']);
+    Route::get('/daftar_inventaris', [inventarisController::class, 'index']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
 });
 
