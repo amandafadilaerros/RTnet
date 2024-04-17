@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\kerjabaktiController;
+use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
@@ -16,6 +16,9 @@ use App\Http\Controllers\ketuaController;
 use App\Http\Controllers\KKController;
 use App\Http\Controllers\pendudukController;
 use App\Http\Controllers\pengumumanController;
+use App\Http\Controllers\laporanKeuanganController;
+use App\Http\Controllers\datapendudukController;
+
 use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -58,6 +61,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
     Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/daftar_inventaris', [inventarisController::class, 'index']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);

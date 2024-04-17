@@ -1,38 +1,36 @@
 @extends('layouts.template')
 @section('content')
+<div class="row mb-4">
+    <div class="col-md-6">
+        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
+            <div class="input-group-append">
+                <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card">
-  {{-- <div class="card-header">
+    {{-- <div class="card-header">
       <h3 class="card-title">
         {{ $page->title }}
-      </h3>
-      <div class="card-tools">
-          <a href="{{url('kerjabakti/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
-      </div>
-  </div> --}}
-  <div class="card-body">
-      @if (session('success'))
-          <div class="alert alert-success">{{session('success')}}</div>
-      @endif
-      @if (session('error'))
-          <div class="alert alert-danger">{{session('error')}}</div>
-      @endif
-      <div class="row">
-          <div class="col-md-6">
-            <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
-          </div>
-          <div class="col-md-6">
-            {{-- UNTUK SEARCH --}}
-            
-            <div class="col-md-6 d-flex justify-content-end"> <!-- Menambahkan kelas justify-content-end -->
-            <form action="{{url('kerja_bakti')}}" class="form-inline">
-            <input type="text" class="form-control form-control-sm mr-sm-2 mt-1" name="search" placeholder="Search" value="{{Request::get('search')}}">
-        <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;" type="submit">Search</button>
-    </form>
-</div>
+    </h3>
+    <div class="card-tools">
+        <a href="{{url('kerja_bakti/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+    </div>
+</div> --}}
+<div class="card-body">
+    @if (session('success'))
+    <div class="alert alert-success">{{session('success')}}</div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">{{session('error')}}</div>
+    @endif
 
-          </div>
-      </div>
-      <table class="table table-bordered table-hover table-sm" id="table_user">
+      <table class="table table-straped table-hover " id="table_user">
           <thead>
               <tr>
                 <th scope="col">No</th>
