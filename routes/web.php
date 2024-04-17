@@ -14,6 +14,7 @@ use App\Http\Controllers\daftar_peminjamanController;
 use App\Http\Controllers\data_rumahController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\datapendudukController;
+use App\Http\Controllers\DashboardRTController;
 
 use Illuminate\Auth\Events\Login;
 
@@ -50,6 +51,7 @@ Route::get('/inventaris', [inventarisController::class, 'index']);
 
 
 Route::group(['prefix' => 'ketuaRt'], function () {
+    Route::get('/dashboardRT', [DashboardRTController::class, 'index']);
     Route::get('/data_rumah', [data_rumahController::class, 'index']);
     Route::get('/kerja_bakti', [kerjabaktiController::class, 'index']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
@@ -63,6 +65,9 @@ Route::group(['prefix' => 'ketuaRt'], function () {
 Route::group(['prefix' => 'sekretaris'], function () {
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::get('/data_rumah', [data_rumahController::class, 'index']);
+    Route::get('/data_penduduk', [datapendudukController::class, 'index']);
+
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
