@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class kerjabaktiController extends Controller
+class kerja_baktiController extends Controller
 {
     public function index(){
         // ini hanya TEST
@@ -20,6 +20,6 @@ class kerjabaktiController extends Controller
 
         // $barang = BarangModel::all();
 
-        return view('kerjabakti', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('kerja_bakti', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 }
