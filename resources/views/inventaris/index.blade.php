@@ -1,5 +1,19 @@
 @extends('layouts.template')
 @section('content')
+<div class="row">
+    <div class="col-md-8">
+      <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
+    </div>
+    {{-- <div class="col-md-6"> --}}
+      {{-- UNTUK SEARCH --}}
+      <div class="col-md-4" style="">
+        <div class="row">
+            <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+            <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+        </div>
+      </div>
+    {{-- </div> --}}
+</div>
 <div class="card">
   {{-- <div class="card-header">
       <h3 class="card-title">
@@ -16,21 +30,6 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <div class="row">
-          <div class="col-md-6">
-            <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
-          </div>
-          <div class="col-md-6">
-            {{-- UNTUK SEARCH --}}
-            <div class="col-md-6">
-              <form action="{{url('inventaris')}}" class="form-inline">
-                <input type="text" class="form-control form-control-sm mr-sm-2 mt-1" name="search" placeholder="Search" value="{{Request::get('search')}}">
-                <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;" type="submit">Search</button>
-              </form>
-            </div>
-
-          </div>
-      </div>
       <table class="table table-bordered table-hover table-sm" id="table_user">
           <thead>
               <tr>
