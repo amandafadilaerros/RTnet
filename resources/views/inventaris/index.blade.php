@@ -36,8 +36,7 @@
                 <th scope="col">No</th>
                 <th scope="col">Gambar</th>
                 <th scope="col">Nama</th>
-                <th scope="col">Tanggal Pengembalian </th>
-                <th scope="col">Peminjaman</th>
+                <th scope="col">Jumlah</th>
                 <th scope="col">Aksi</th>
               </tr>
           </thead>
@@ -49,10 +48,7 @@
                   <img src="{{URL::asset('img/speaker.png')}}" alt="Placeholder" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
                 </td>
                 <td>Sound</td>
-                <td>2024-04-15</td>
-                <td>
-                  <span class="badge badge-danger">Dipinjam</span>
-                </td>
+                <td>2</td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
@@ -64,10 +60,7 @@
                   <img src="{{URL::asset('img/carpet.png')}}" alt="Placeholder" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
                 </td>
                 <td>Karpet</td>
-                <td></td>
-                <td>
-                    <span class="badge badge-success">Tersedia</span>
-                </td>
+                <td>3</td>
                 <td>
                     <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
@@ -79,10 +72,7 @@
                     <img src="{{URL::asset('img/sprayer.png')}}" alt="" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
                 </td>
                 <td>Semprotan</td>
-                <td></td>
-                <td>
-                    <span class="badge badge-success">Tersedia</span>
-                </td>
+                <td>4</td>
                 <td>
                   <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
