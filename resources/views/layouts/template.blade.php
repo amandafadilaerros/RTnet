@@ -19,8 +19,9 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
   <style>
-    .content-wrapper {
+    .container-fluid {
       background-color: #f4eeff;
+      width: 100%;
     }
 
     body {
@@ -60,8 +61,8 @@
       font-weight: bold;
     }
 
-    .content-wrapper {
-      margin-left: 250px;
+    .container-fluid {
+      /* margin-left: 250px; */
       /* Sesuaikan dengan lebar sidebar */
       padding: 20px;
       /* Atur jarak antara content dengan batas content-wrapper */
@@ -92,13 +93,15 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      @include('layouts.breadcrumb')
-
-      <!-- Main content -->
-      <section class="content">
-        @yield('content')
-      </section>
-      <!-- /.content -->
+      <div class="container-fluid">
+        @include('layouts.breadcrumb')
+  
+        <!-- Main content -->
+        <section class="content">
+          @yield('content')
+        </section>
+        <!-- /.content -->
+      </div>
     </div>
     <!-- /.content-wrapper -->
 
