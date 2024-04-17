@@ -27,7 +27,7 @@
         <h3 class="card-title">Laporan Keuangan</h3>
     </div> --}}
     <div class="card-body">
-        <table class="table table-bordered table-hover table-sm">
+        <table class="table table-hover table-striped" id="table_user">
             <thead>
                 <tr>
                     <th scope="col">No</th>

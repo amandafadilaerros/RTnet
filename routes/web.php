@@ -17,6 +17,7 @@ use App\Http\Controllers\KKController;
 use App\Http\Controllers\pendudukController;
 use App\Http\Controllers\pengumumanController;
 use App\Http\Controllers\laporanKeuanganController;
+use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
 
 use Illuminate\Auth\Events\Login;
