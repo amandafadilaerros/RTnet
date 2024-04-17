@@ -54,7 +54,7 @@ class ketuaController extends Controller
         ];
         $activeMenu = 'kerja_bakti';
 
-        return view('kerjabakti', [
+        return view('kerja_bakti', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,

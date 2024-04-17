@@ -17,7 +17,7 @@ class DaftarAnggotaController extends Controller
             'title' => '-----',
         ];
 
-        $activeMenu = 'Daftar Anggota';
+        $activeMenu = 'DaftarAnggota';
 
         return view('DaftarAnggota', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }

@@ -86,6 +86,7 @@ Route::group(['prefix' => 'bendahara'], function () {
 Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/dashboard', [pendudukController::class, 'index']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/inventaris', [inventarisController::class, 'index']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
