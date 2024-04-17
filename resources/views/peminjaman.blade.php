@@ -17,7 +17,7 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_user" style="border-radius: 50px;">
+    <table class="table table-hover table-striped" id="table_user">
       <thead>
         <tr>
           <th scope="col">No</th>

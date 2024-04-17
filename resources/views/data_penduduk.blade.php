@@ -18,7 +18,7 @@
                 </div>
             </div>
         </div>        
-        <table class="table table-bordered table-hover table-sm">
+        <table class="table table-hover table-striped" id="table_user">
             <thead>
                 <tr>
                     <th scope="col">No</th>
