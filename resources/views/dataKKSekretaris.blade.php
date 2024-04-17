@@ -46,7 +46,7 @@
                 <td>08/06</td>
                 <td>12</td>
                 <td>
-                    <a href="{{url('/ketuaRt/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
+                    <a href="{{url('/sekretaris/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
                     <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
                     <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
@@ -59,7 +59,7 @@
                 <td>08/06</td>
                 <td>2</td>
                 <td>
-                    <a href="{{url('/ketuaRt/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
+                    <a href="{{url('/sekretaris/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
                     <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
                     <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
@@ -72,7 +72,7 @@
                 <td>08/06</td>
                 <td>4</td>
                 <td>
-                    <a href="{{url('/ketuaRt/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
+                    <a href="{{url('/sekretaris/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
                     <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
                     <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
