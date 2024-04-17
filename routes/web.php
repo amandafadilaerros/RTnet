@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\kerjabaktiController;
+use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
@@ -42,13 +42,6 @@ Route::get('/templates', [templateController::class, 'index']);
 //testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
-//Kerja Bakti
-Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
-
-
-Route::get('/inventaris', [inventarisController::class, 'index']);
-
-
 Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/data_rumah', [data_rumahController::class, 'index']);
     Route::get('/kerja_bakti', [kerjabaktiController::class, 'index']);
@@ -57,6 +50,8 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/data_penduduk', [datapendudukController::class, 'index']);
     Route::get('/daftar_inventaris', [inventarisController::class, 'index']);
+    Route::get('/kerja_bakti', [kerja_baktiController::class, 'index']);
+    Route::get('/inventaris', [inventarisController::class, 'index']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
 });
 
