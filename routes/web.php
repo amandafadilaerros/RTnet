@@ -18,7 +18,7 @@ use App\Http\Controllers\pendudukController;
 use App\Http\Controllers\pengumumanController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\datapendudukController;
-
+use App\Http\Controllers\sekretarisController;
 use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -47,7 +47,7 @@ Route::get('/templates', [templateController::class, 'index']);
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
 //Kerja Bakti
-Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
+// Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
 
 
 
@@ -70,9 +70,14 @@ Route::group(['prefix' => 'ketuaRt'], function () {
 });
 
 Route::group(['prefix' => 'sekretaris'], function () {
+    Route::get('/dashboard', [sekretarisController::class, 'index']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/data_rumah', [data_rumahController::class, 'index']);
+    Route::get('/data_penduduk', [sekretarisController::class, 'dataPenduduk']);
+    Route::get('/data_kk', [KKController::class, 'index1']);
+    Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-    Route::get('/akun', [ketuaController::class, 'akun']);
+    Route::get('/akun', [sekretarisController::class, 'akun']);
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
