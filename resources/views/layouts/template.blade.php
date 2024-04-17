@@ -19,6 +19,14 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
   <style>
+   .content-wrapper {
+    background-color: #f4eeff;
+    top: 0;
+    left: 0;
+    height: 100%;
+    bottom: 0; /* Menghapus jarak di bagian bawah */
+}
+
     .container-fluid {
       background-color: #f4eeff;
       width: 100%;
