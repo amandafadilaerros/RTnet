@@ -8,16 +8,18 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-8">
-          
+                <!-- Export PDF button -->
+                <button class="btn btn-secondary" type="button" style="border-radius: 20px; width: 120px; margin-bottom: 10px;">Export PDF</button>
             </div>
             <!-- Search -->
-            <div class="col-md-4" style="">
+            <div class="col-md-4">
                 <div class="row">
                     <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
                     <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
                 </div>
             </div>
-        </div>        
+        </div>
+
         <table class="table table-hover table-striped" id="table_user">
             <thead>
                 <tr>
@@ -68,8 +70,8 @@
 </div>
 @endsection
 @push('css')
-    
+
 @endpush
 @push('js')
-    
+
 @endpush
