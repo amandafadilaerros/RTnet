@@ -4,21 +4,24 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class DaftarAnggotaController extends Controller
+class pengumumanController extends Controller
 {
     public function index()
     {
         // ini hanya TEST
         $breadcrumb = (object) [
-            'title' => 'Data Keluarga Saya',
+            'title' => 'Pengumuman',
             'list' => ['--', '--'],
         ];
         $page = (object) [
             'title' => '-----',
         ];
+        $activeMenu = 'kelola_pengumuman';
 
-        $activeMenu = 'DaftarAnggota';
-
-        return view('DaftarAnggota', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('pengumumanKetua', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
 }

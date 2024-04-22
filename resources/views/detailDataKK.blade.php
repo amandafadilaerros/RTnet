@@ -85,7 +85,7 @@
             </div>
         </div>
         <div class="header">
-            <table class="table table-hover table-striped" id="table_user">
+            <table class="table table-bordered table-hover table-sm" id="table_user">
                 <thead>
                     <tr>
                         <th scope="col">No</th>

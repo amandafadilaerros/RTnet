@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
@@ -8,6 +9,19 @@ use App\Http\Controllers\loginController;
 use App\Http\Controllers\pemasukanController;
 use App\Http\Controllers\pengeluaranController;
 use App\Http\Controllers\templateController;
+use App\Http\Controllers\peminjamanController;
+use App\Http\Controllers\daftar_peminjamanController;
+use App\Http\Controllers\data_rumahController;
+use App\Http\Controllers\ketuaController;
+use App\Http\Controllers\KKController;
+use App\Http\Controllers\pendudukController;
+use App\Http\Controllers\pengumumanController;
+use App\Http\Controllers\laporanKeuanganController;
+use App\Http\Controllers\sekretarisController;
+use App\Http\Controllers\datapendudukController;
+
+
+use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
 
@@ -23,26 +37,59 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/login', function () {
     return view('login');
+
 });
 
 Route::post('/dashboard', [loginController::class, 'test']);
 
 Route::get('/templates', [templateController::class, 'index']);
 
+//testing pemasukan
 Route::get('/pemasukan', [pemasukanController::class, 'index']);
-Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
-Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
-Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
-Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
+
+//Kerja Bakti
+// Route::get('/kerjabakti', [kerjabaktiController::class, 'index']);
+
+
+
+
+Route::group(['prefix' => 'ketuaRt'], function () {
+    Route::get('/dashboard', [KetuaController::class, 'index']);
+    Route::get('/data_rumah', [data_rumahController::class, 'index']);
+    Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
+    Route::get('/data_kk', [KKController::class, 'index']);
+    Route::get('/detail_anggota', [KKController::class, 'detail']);
+    Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
+    Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
+    Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
+    Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::get('/daftar_inventaris', [inventarisController::class, 'index']);
+    Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
+    Route::get('/kelola_pengumuman', [pengumumanController::class, 'index']);
+    Route::get('/akun', [ketuaController::class, 'akun']);
+});
+
+Route::group(['prefix' => 'sekretaris'], function () {
+    Route::get('/dashboard', [sekretarisController::class, 'index']);
+    Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/data_rumah', [data_rumahController::class, 'index']);
+    Route::get('/data_penduduk', [sekretarisController::class, 'dataPenduduk']);
+    Route::get('/data_kk', [KKController::class, 'index1']);
+    Route::get('/detail_anggota', [KKController::class, 'detail']);
+    Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::get('/akun', [sekretarisController::class, 'akun']);
+});
+
+Route::group(['prefix' => 'bendahara'], function () {
+    Route::get('/pemasukan', [pemasukanController::class, 'index']);
+    Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
+    Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
+    Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
+    Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
+});
 
 Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
 Route::get('/Dashboard', [DashboardController::class, 'index']);
-
 Route::get('/inventaris',[inventarisController::class, 'index']);
-Route::get('/inventaris_penduduk',[inventarisController::class, 'pk']);
-Route::get('/inventaris_penduduk_peminjaman',[inventarisController::class, 'pk_peminjaman']);

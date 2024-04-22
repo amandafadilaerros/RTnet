@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,71 +18,136 @@
   <link rel="stylesheet" href="{{asset('adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
+  <style>
+   .content-wrapper {
+    background-color: #f4eeff;
+    top: 0;
+    left: 0;
+    height: 100%;
+    bottom: 0; /* Menghapus jarak di bagian bawah */
+}
 
+    .container-fluid {
+      background-color: #f4eeff;
+      width: 100%;
+    }
+
+    body {
+      color: #424874;
+      font-family: 'Nunito Sans', sans-serif;
+    }
+
+    .sidebar {
+      position: fixed;
+      /* Tetap di tempat */
+      top: 0;
+      /* Posisi dari atas */
+      left: 0;
+      /* Posisi dari kiri */
+      bottom: 0;
+      /* Posisi dari bawah */
+      width: 250px;
+      /* Lebar sidebar */
+      height: 100%;
+      /* Ketinggian sesuai tinggi layar */
+      background-color: #ffffff;
+      /* Warna latar belakang sidebar */
+      overflow-y: auto;
+      /* Memberikan scroll jika konten sidebar lebih panjang dari tinggi layar */
+    }
+
+    .sidebar .nav-item .nav-link {
+      color: #424874;
+    }
+
+    .sidebar .nav-item .nav-link.active {
+      color: white;
+    }
+
+
+    h1 {
+      font-weight: bold;
+    }
+
+    .container-fluid {
+      /* margin-left: 250px; */
+      /* Sesuaikan dengan lebar sidebar */
+      padding: 20px;
+      /* Atur jarak antara content dengan batas content-wrapper */
+    }
+  </style>
   @stack('css') <!-- digunakan untuk memanggil custom css dari perintah push('css') pada masing-masing view -->
 </head>
-<body class="hold-transition sidebar-mini">
-<!-- Site wrapper -->
-<div class="wrapper">
-  <!-- Navbar -->
-    @include('layouts.header')
-  <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-white-primary elevation-4">
-    <!-- Brand Logo -->
-    {{-- <a href="{{ url('/') }}" class="brand-link">
+<body class="hold-transition sidebar-mini">
+  <!-- Site wrapper -->
+  <div class="wrapper">
+    <!-- Navbar -->
+    @include('layouts.header')
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-white-primary elevation-4">
+      <!-- Brand Logo -->
+      {{-- <a href="{{ url('/') }}" class="brand-link">
       <img src="{{asset('adminlte/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">PWL - Starter Code</span>
-    </a> --}}
+      </a> --}}
 
-    <!-- Sidebar -->
-    @include('layouts.sidebar')
-    <!-- /.sidebar -->
-  </aside>
+      <!-- Sidebar -->
+      @include('layouts.sidebar')
+      <!-- /.sidebar -->
+    </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    @include('layouts.breadcrumb')
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+      <div class="container-fluid">
+        @include('layouts.breadcrumb')
+  
+        <!-- Main content -->
+        <section class="content">
+          @yield('content')
+        </section>
+        <!-- /.content -->
+      </div>
+    </div>
+    <!-- /.content-wrapper -->
 
-    <!-- Main content -->
-    <section class="content">
-        @yield('content')
-    </section>
-    <!-- /.content -->
+    @include('layouts.footer')
+    <!-- /.control-sidebar -->
   </div>
-  <!-- /.content-wrapper -->
+  <!-- ./wrapper -->
 
-  @include('layouts.footer')
-  <!-- /.control-sidebar -->
-</div>
-<!-- ./wrapper -->
+  <!-- jQuery -->
+  <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  <!-- DataTables & Plugins -->
+  <script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
+  <script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colvis.min.js')}}"></script>
 
-<!-- jQuery -->
-<script src="{{ asset('adminlte/plugins/jquery/jquery.min.js')}}"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-<!-- DataTables & Plugins -->
-<script src="{{ asset('adminlte/plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{ asset('adminlte/plugins/datatables-buttons/js/buttons.colvis.min.js')}}"></script>
-
-<!-- AdminLTE App -->
-<script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
-<!-- AdminLTE for demo purposes -->
-{{-- <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script> --}}
-<script>
-    $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-</script>
-@stack('js')
+  <!-- AdminLTE App -->
+  <script src="{{ asset('adminlte/dist/js/adminlte.min.js')}}"></script>
+  <!-- AdminLTE for demo purposes -->
+  {{-- <script src="{{ asset('adminlte/dist/js/demo.js')}}"></script> --}}
+  <script>
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  </script>
+  @stack('js')
 </body>
+
 </html>
