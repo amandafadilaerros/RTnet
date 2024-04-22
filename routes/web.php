@@ -42,4 +42,7 @@ Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 
 Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
 Route::get('/Dashboard', [DashboardController::class, 'index']);
+
 Route::get('/inventaris',[inventarisController::class, 'index']);
+Route::get('/inventaris_penduduk',[inventarisController::class, 'pk']);
+Route::get('/inventaris_penduduk_peminjaman',[inventarisController::class, 'pk_peminjaman']);
