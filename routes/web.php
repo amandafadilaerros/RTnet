@@ -94,13 +94,12 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/dashboard', [pendudukController::class, 'index']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
-    Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
-    Route::get('/inventaris_penduduk',[inventarisController::class, 'pk']);
-Route::get('/inventaris_penduduk_peminjaman',[inventarisController::class, 'pk_peminjaman']);
+    Route::get('/inventaris',[inventarisController::class, 'pk']);
+    Route::get('/peminjaman',[inventarisController::class, 'pk_peminjaman']);
 
 });
 
