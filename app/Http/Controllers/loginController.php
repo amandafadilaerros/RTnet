@@ -27,16 +27,16 @@ class loginController extends Controller
         // $barang = BarangModel::all();
         switch ($role) {
             case 'ketua_rt':
-                return view('dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
+                return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
                 break;
             case 'penduduk':
-                return view('dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
+                return view('penduduk.dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
                 break;
             case 'sekretaris':
-                return view('dashboardSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
+                return view('sekretaris.dashboardSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
                 break;
             case 'bendahara':
-                return view('dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
+                return view('bendahara.dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role]);
                 break;
         }
     }
