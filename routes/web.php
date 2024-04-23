@@ -55,8 +55,17 @@ Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
 
 Route::group(['prefix' => 'ketuaRt'], function () {
-    Route::get('/dashboard', [KetuaController::class, 'index']);
-    Route::get('/data_rumah', [data_rumahController::class, 'index']);
+    Route::get('/dashboard', [ketuaController::class, 'index']);
+    Route::group(['prefix' => 'data_rumah'], function () {
+        Route::get('/', [data_rumahController::class, 'index']);
+        Route::post('/list', [data_rumahController::class, 'list']);
+        Route::get('/create', [data_rumahController::class, 'create']);
+        Route::post('/', [data_rumahController::class, 'store']);
+        Route::get('/{id}', [data_rumahController::class, 'show']);
+        Route::get('/{id}/edit', [data_rumahController::class, 'edit']);
+        Route::put('/{id}', [data_rumahController::class, 'update']);
+        Route::delete('/{id}', [data_rumahController::class, 'destroy']);
+    }); // tambahkan tanda kurung kurawal di sini
     Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
     Route::get('/data_kk', [KKController::class, 'index']);
     Route::get('/detail_anggota', [KKController::class, 'detail']);
@@ -70,6 +79,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/kelola_pengumuman', [pengumumanController::class, 'index']);
     Route::get('/akun', [ketuaController::class, 'akun']);
 });
+
 
 Route::group(['prefix' => 'sekretaris'], function () {
     Route::get('/dashboard', [sekretarisController::class, 'index']);
@@ -98,8 +108,8 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
-    Route::get('/inventaris',[inventarisController::class, 'pk']);
-    Route::get('/peminjaman',[inventarisController::class, 'pk_peminjaman']);
+    Route::get('/inventaris', [inventarisController::class, 'pk']);
+    Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 
 });
 
@@ -107,4 +117,3 @@ Route::group(['prefix' => 'penduduk'], function () {
 Route::fallback(function () {
     return view('404');
 });
-

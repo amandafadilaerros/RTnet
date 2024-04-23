@@ -22,51 +22,84 @@
         </div>
     </div>
 </div>        
+
 <div class="card">
-    {{-- <div class="card-header">
-        <h3 class="card-title">Laporan Keuangan</h3>
-    </div> --}}
     <div class="card-body">
-        <table class="table table-hover table-striped" id="table_user">
+        <table class="table table-hover table-striped" id="laporan_keuangan_table">
             <thead>
                 <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Jenis</th>
+                    <th scope="col">Jenis Transaksi</th>
+                    <th scope="col">Jenis Iuran</th>
                     <th scope="col">Keuangan Masuk</th>
                     <th scope="col">Keuangan Keluar</th>
                     <th scope="col">Saldo</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Kas</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Kas</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Kas</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                </tr>
+             
             </tbody>
         </table>
     </div>
 </div>
 @endsection
+
 @push('css')
-    
+    <!-- Tambahkan CSS tambahan jika diperlukan -->
 @endpush
+
 @push('js')
-    
+<script>
+    $(document).ready(function() {
+        var laporan_keuangan = $('#laporan_keuangan_table').DataTable({
+            serverSide: true,   // Jika ingin menggunakan server-side processing
+            ajax: {
+                "url": "{{ url('penduduk/laporan_keuangan/list') }}", // Ganti URL dengan endpoint yang sesuai
+                "dataType": "json",
+                "type": "POST"
+            },
+            columns: [
+                {
+                    data: "DT_RowIndex",    // Nomor urut dari Laravel DataTable addIndexColumn()
+                    className: "text-center",
+                    orderable: false,
+                    searchable: false
+                }, {
+                    data: "jenis_transaksi",    // Sesuaikan dengan nama kolom untuk jenis iuran
+                    className: "",
+                    orderable: true,        // Jika ingin kolom bisa diurutkan
+                    searchable: true        // Jika kolom bisa dicari
+                }, {
+                    data: "jenis_iuran",    // Sesuaikan dengan nama kolom untuk jenis iuran
+                    className: "",
+                    orderable: true,        // Jika ingin kolom bisa diurutkan
+                    searchable: true        // Jika kolom bisa dicari
+                }, {
+                    data: "pemasukan",      // Sesuaikan dengan nama kolom untuk pemasukan
+                    className: "",
+                    orderable: true,        // Jika ingin kolom bisa diurutkan 
+                    searchable: true        // Jika kolom bisa dicari
+                }, {
+                    data: "pengeluaran",    // Sesuaikan dengan nama kolom untuk pengeluaran
+                    className: "",
+                    orderable: true,        // Jika ingin kolom bisa diurutkan 
+                    searchable: true        // Jika kolom bisa dicari
+                }, {
+                    data: "saldo",          // Sesuaikan dengan nama kolom untuk saldo
+                    className: "",
+                    orderable: true,        // Jika ingin kolom bisa diurutkan 
+                    searchable: true        // Jika kolom bisa dicari
+                }, {
+                    data: "aksi",
+                    className: "",
+                    orderable: true,        // Jika ingin kolom bisa diurutkan 
+                    searchable: true        // Jika kolom bisa dicari
+                }
+
+            ]
+        });
+        
+    });
+</script>
+
 @endpush
