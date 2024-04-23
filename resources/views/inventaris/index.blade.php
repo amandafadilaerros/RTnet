@@ -30,7 +30,7 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_user">
+      <table class="table table-hover table-striped" id="table_inventaris">
           <thead>
               <tr>
                 <th scope="col">No</th>
@@ -41,7 +41,7 @@
               </tr>
           </thead>
           {{-- hanya CONTOH DATA TABEL --}}
-          <tbody>
+          {{-- <tbody>
             <tr>
                 <td>1</td>
                 <td>
@@ -78,7 +78,7 @@
                   <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                 </td>
             </tr>
-        </tbody>
+        </tbody> --}}
       </table>
   </div>
 </div>
@@ -93,7 +93,8 @@
           </button>
         </div>
         <div class="modal-body">
-          <form id="tambahPengeluaranForm">
+          <form id="tambahPengeluaranForm" action="{{url('/ketuaRt/inventaris')}}" method="POST" enctype="multipart/form-data">
+            @csrf
             <div class="form-group">
               <label for="jenis_keuangan">Tambah Data</label>
               <div class="form-group">
@@ -191,4 +192,76 @@
 @endpush
 
 @push('js')
+<script>
+  $(document).ready(function(){
+      var dataBarang = $('#table_inventaris').DataTable({
+          serverSide: true, //serverside true jika ingin menggunakan server side processing
+          searching: false,
+          ajax: {
+              "url": "{{ url('ketuaRt/daftar_inventaris/list') }}",
+              "dataType": "json",
+              "type": "POST",
+              "data": function (d){
+                  d.kategori_id = $('#kategori_id').val();
+              }
+          },
+          columns: [
+              {
+                  data: "DT_RowIndex", //nomor urut dari laravel datatable addindexcolumn()
+                  classname: "text-center",
+                  orderable: false,
+                  searchable: false
+              },{
+                  data: "id_gambar",
+                  classname: "",
+                  orderable: false, //orderable false jika ingin kolom bisa diurutkan
+                  searchable: false, //searchable false jika ingin kolom bisa dicari
+                  render: function (data, type, row) {
+                      if (data) {
+                          return '<img data-id-gambar="' + row.id_inventaris + '" width="50" height="50">';
+                      } else {
+                          return '<img src="placeholder.png" width="50" height="50">'; // Replace with placeholder image path
+                      }
+                  }
+              },{
+                  data: "nama_barang",
+                  classname: "",
+                  orderable: true, //orderable true jika ingin kolom bisa diurutkan
+                  searchable: true //searchable true jika ingin kolom bisa dicari
+              },{
+                  data: "jumlah",
+                  classname: "",
+                  orderable: false, //orderable true jika ingin kolom bisa diurutkan
+                  searchable: false //searchable true jika ingin kolom bisa dicari
+              },{
+                  data: "aksi",
+                  classname: "",
+                  orderable: false, //orderable true jika ingin kolom bisa diurutkan
+                  searchable: false //searchable true jika ingin kolom bisa dicari
+              }
+          ]
+      });
+      $('#kategori_id').on('change', function(){
+          dataBarang.ajax.reload();
+      });
+      $('#table_inventaris').on('draw.dt', function(){
+        $('img[data-id-gambar]').each(function(){
+            var idInventaris = $(this).data('id-gambar');
+            var imgElement = $(this); // Simpan referensi objek gambar
+
+            $.ajax({
+                url: "http://localhost/RTnet/public/inventaris/image/" + idInventaris,
+                type: 'GET',
+                success: function(response){
+                  var imageData = 'data:' + response.mimeType + ';base64,' + response.imageData;
+                  imgElement.attr('src', imageData);
+                },
+                error: function(){
+                    imgElement.attr('src', 'placeholder.png');
+                }
+            });
+          });
+      });
+  });
+</script>
 @endpush

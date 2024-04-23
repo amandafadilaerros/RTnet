@@ -19,8 +19,9 @@ use App\Http\Controllers\pengumumanController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
-
-
+use App\Http\Controllers\InventarisKetuaController;
+use App\Models\gambar;
+use App\Models\inventaris;
 use Illuminate\Auth\Events\Login;
 
 use Illuminate\Support\Facades\Route;
@@ -85,9 +86,11 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/peminjaman', [peminjamanController::class, 'index']); 
     Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']); 
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-    Route::get('/daftar_inventaris', [inventarisController::class, 'index']); 
-    Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']); 
-    Route::get('/kelola_pengumuman', [pengumumanController::class, 'index']); 
+    Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
+    Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
+    Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
+    Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
+    Route::get('/kelola_pengumuman', [pengumumanController::class, 'index']);
     Route::get('/akun', [ketuaController::class, 'akun']);
 });
 
@@ -129,3 +132,22 @@ Route::fallback(function () {
     return view('404');
 });
 
+Route::get('/inventaris/image/{id}', function ($id) {
+    $inventaris = inventaris::with('gambar')->find($id);
+
+    if ($inventaris && $inventaris->id_gambar) {
+        $gambar = gambar::find($inventaris->id_gambar);
+        // Get the image data from the database or storage
+        $imageData = base64_encode($gambar->data_gambar); // Assuming you have an image relationship
+        $mimeType = $gambar->mime_type; // Assuming you have a mime_type attribute
+
+        // Return the image data with appropriate headers
+        // return response($imageData, 200)->header('Content-Type', $mimeType);
+        return response()->json([
+            'imageData' => $imageData,
+            'mimeType' => $mimeType
+        ], 200);
+    } else {
+        return response()->json('Image not found', 404);
+    }
+});
