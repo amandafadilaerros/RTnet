@@ -19,7 +19,7 @@
         {{ $page->title }}
     </h3>
     <div class="card-tools">
-        <a href="{{url('kerjabakti/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+        <a href="{{url('data_rumah/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
     </div>
 </div> --}}
 <div class="card-body">
@@ -30,7 +30,7 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_user">
+    <table class="table table-hover table-striped" id="table_data_rumah">
         <thead>
             <tr>
                 <th scope="col">No</th>
@@ -39,39 +39,7 @@
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
-        {{-- hanya CONTOH DATA TABEL --}}
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>112</td>
-                <td>Kos Besar</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>113</td>
-                <td>Rumah Pribadi</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>113</td>
-                <td>Kontrakan</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-</div>
+        
 
 <!-- Modal Tambah -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
@@ -87,7 +55,7 @@
                 <!-- Isi dengan formulir untuk memasukkan data rumah -->
                 <form id="tambahRumahForm">
                     <div class="form-group">
-                        <label for="no_rumah" style="color: #424874;">No. Rumah</label>
+                        <label for="no_rumah" style="color: #424874;">No.Rumah</label>
                         <input type="text" class="form-control" id="no_rumah" name="no_rumah">
                     </div>
                     <div class="form-group">
@@ -168,14 +136,42 @@
 @endpush
 
 @push('js')
-<!-- <script>
-  // Fungsi untuk menampilkan modal tambahan berdasarkan jenis pemasukan yang dipilih
-  document.getElementById('kasButton').addEventListener('click', function() {
-    $('#kasModal').modal('show');
-  });
+    <script>
+        $(document).ready(function() {
+            var dataRumah = $('#table_data_rumah').DataTable({
+                serverSide: true,   //jika ingin menggunakan server side processing
+                ajax: {
+                    "url": "{{ url('ketuaRt/data_rumah/list') }}",
+                    "dataType": "json",
+                    "type": "POST"
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",    // nomor urut dari laravel datatable addIndexColimn()
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "no_rumah",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    }, {
+                        data: "status_rumah",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                        //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "aksi",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }
 
-  document.getElementById('paguyubanButton').addEventListener('click', function() {
-    $('#paguyubanModal').modal('show');
-  });
-</script> -->
+                ]
+            });
+            
+        });
+    </script>
 @endpush
