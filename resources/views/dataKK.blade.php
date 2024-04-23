@@ -14,7 +14,7 @@
         {{ $page->title }}
       </h3>
       <div class="card-tools">
-          <a href="{{url('user/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+          <a href="{{url('data_kk/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
       </div>
   </div> --}}
   <div class="card-body">
@@ -24,63 +24,19 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_user">
+      <table class="table table-hover table-striped" id="table_data_kk">
           <thead>
               <tr>
                 <th scope="col">No</th>
-                <th scope="col">No. Rumah</th>
-                <th scope="col">Kepala Keluarga</th>
                 <th scope="col">No. KK</th>
-                <th scope="col">RW/RT</th>
+                <th scope="col">Nama Kepala Keluarga</th>
                 <th scope="col">Jumlah Individu</th>
+                <th scope="col">Alamat</th>
+                <th scope="col">Dokumen</th>
                 <th scope="col">Aksi</th>
               </tr>
           </thead>
-          {{-- hanya CONTOH DATA TABEL --}}
-          <tbody>
-            <tr>
-                <td>1</td>
-                <td>112</td>
-                <td>Susanto</td>
-                <td>01919289828727</td>
-                <td>08/06</td>
-                <td>12</td>
-                <td>
-                    <a href="{{url('/ketuaRt/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>113</td>
-                <td>Katiman</td>
-                <td>01919289828727</td>
-                <td>08/06</td>
-                <td>2</td>
-                <td>
-                    <a href="{{url('/ketuaRt/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>114</td>
-                <td>Mardi</td>
-                <td>01919289828727</td>
-                <td>08/06</td>
-                <td>4</td>
-                <td>
-                    <a href="{{url('/ketuaRt/detail_anggota')}}" class="btn btn-primary btn-detail" style="border-radius: 10px; background-color: #424874;"><i class="fas fa-eye"></i></a>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-        </tbody>
-      </table>
-  </div>
-</div>
+        
 <!-- Modal tambah pengeluaran -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -281,5 +237,57 @@
 @push('css')
 @endpush
 
+
 @push('js')
+    <script>
+        $(document).ready(function() {
+            var dataKK = $('#table_data_kk').DataTable({
+                serverSide: true,   //jika ingin menggunakan server side processing
+                ajax: {
+                    "url": "{{ url('ketuaRt/data_kk/list') }}",
+                    "dataType": "json",
+                    "type": "POST"
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",    // nomor urut dari laravel datatable addIndexColimn()
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "no_kk",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    }, {
+                        data: "nama_kepala_keluarga",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                      data: "jumlah_individu",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                      data: "alamat",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                      data: "dokumen",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                      data: "aksi",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }
+                ]
+            });
+            
+        });
+    </script>
 @endpush
