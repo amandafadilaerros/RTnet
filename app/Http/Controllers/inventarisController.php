@@ -29,8 +29,9 @@ class InventarisController extends Controller
     public function list(Request $request)
     {
         // Ambil data inventaris
-        $inventaris = Inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'status')
-            ->get();
+        $inventaris = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'id_gambar')->with('gambar');
+
+        // ->get();
 
         return DataTables::of($inventaris)
             ->addIndexColumn()

@@ -16,28 +16,28 @@ class pendudukController extends Controller
 {
     public function index()
     {
-        $laporan_keuangan = IuranModel::all();
-        // $laporan_keuangan_count = LaporanKeuangan::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        // $laporan_keuangan = IuranModel::all();
+        // // $laporan_keuangan_count = LaporanKeuangan::count();
+        // $inventaris = Inventaris::count();
+        // $pengumuman = Pengumumans::count();
 
-        return view('penduduk/dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman'));
+        // return view('penduduk/dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman'));
 
 
-        // $breadcrumb = (object) [
-        //     'title' => 'dashboard',
-        //     'list' => ['--', '--'],
-        // ];
-        // $page = (object) [
-        //     'title' => '-----',
-        // ];
-        // $activeMenu = 'dashboard';
+        $breadcrumb = (object) [
+            'title' => 'dashboard',
+            'list' => ['--', '--'],
+        ];
+        $page = (object) [
+            'title' => '-----',
+        ];
+        $activeMenu = 'dashboard';
 
-        // return view('penduduk/dashboard', [
-        //     'breadcrumb' => $breadcrumb,
-        //     'page' => $page,
-        //     'activeMenu' => $activeMenu,
-        // ]);
+        return view('penduduk/dashboard', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
 
 
