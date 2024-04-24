@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Inventaris;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
-class inventarisController extends Controller
+class InventarisController extends Controller
 {
-    public function index(){
-        // hanya untuk testing template
+    public function index()
+    {
+        // Hanya untuk testing template
         $breadcrumb = (object) [
             'title' => 'Inventaris',
             'list' => ['--', '--'],
@@ -20,28 +23,35 @@ class inventarisController extends Controller
 
         // $barang = BarangModel::all();
 
-        return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('inventaris.index', compact('breadcrumb', 'page', 'activeMenu'));
     }
 
-    public function pk(){
-         // hanya untuk testing template
-         $breadcrumb = (object) [
-            'title' => 'Daftar Inventaris',
-            'list' => ['--', '--'],
-        ];
-        $page = (object) [
-            'title' => '-----',
-        ];
+    public function list(Request $request)
+    {
+        // Ambil data inventaris
+        $inventaris = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'id_gambar')->with('gambar');
 
-        $activeMenu = 'inventaris';
+        // ->get();
 
-        // $barang = BarangModel::all();
-
-        return view('inventaris_pk.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return DataTables::of($inventaris)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($inventaris) {
+                $status = $inventaris->status;
+                if ($status == 'Dipinjam') {
+                    $btn = '<button class="btn btn-warning btn-sm" disabled>Dipinjam</button>';
+                } elseif ($status == 'Tersedia') {
+                    $btn = '<button class="btn btn-success btn-sm" disabled>Tersedia</button>';
+                }
+                return $btn;
+            })
+            ->rawColumns(['aksi'])
+            ->make(true);
     }
-    public function pk_peminjaman(){
-         // hanya untuk testing template
-         $breadcrumb = (object) [
+
+    public function pk_peminjaman()
+    {
+        // Hanya untuk testing template
+        $breadcrumb = (object) [
             'title' => 'Daftar Peminjaman',
             'list' => ['--', '--'],
         ];
@@ -53,6 +63,6 @@ class inventarisController extends Controller
 
         // $barang = BarangModel::all();
 
-        return view('inventaris_pk.peminjaman', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('inventaris_pk.peminjaman', compact('breadcrumb', 'page', 'activeMenu'));
     }
 }

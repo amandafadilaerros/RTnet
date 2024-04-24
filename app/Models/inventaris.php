@@ -18,7 +18,8 @@ class inventaris extends Model
     protected $fillable = ['nama_barang', 'jumlah', 'id_gambar'];
     // protected $fillable = ['level_id', 'username', 'nama'];
 
-    public function gambar(): BelongsTo{
+    public function gambar(): BelongsTo
+    {
         return $this->belongsTo(gambar::class, 'id_gambar', 'id_gambar');
     }
 

@@ -3,7 +3,9 @@
     <div class="info">
       <a href="#" class="d-block" style="font-family: 'Nunito Sans', sans-serif; font-size: 25px; font-weight: bold; color: #424874;">
         Sistem Informasi<br>RT Online</a>
-
+        <a href="#" class="d-block" style="font-family: 'Nunito Sans', sans-serif; font-size: 20px; font-weight: ; color: #424874;">
+          (jl.Candi Panggung <br>
+          Gang 1B)</a><br>
     </div>
   </div>
 
