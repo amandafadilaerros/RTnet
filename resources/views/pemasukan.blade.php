@@ -24,7 +24,7 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_user">
+      <table class="table table-hover table-striped" id="table_pemasukan">
           <thead>
               <tr>
                 <th scope="col">No</th>
@@ -35,42 +35,6 @@
                 <th scope="col">Aksi</th>
               </tr>
           </thead>
-          {{-- hanya CONTOH DATA TABEL --}}
-          <tbody>
-            <tr>
-                <td>1</td>
-                <td>112</td>
-                <td>Kas</td>
-                <td>Susanto</td>
-                <td>2024-04-15</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>113</td>
-                <td>Paguyuban</td>
-                <td>Sriyuni</td>
-                <td>2024-04-15</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>114</td>
-                <td>Kas</td>
-                <td>Tono</td>
-                <td>2024-04-15</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-        </tbody>
       </table>
   </div>
 </div>
@@ -109,17 +73,21 @@
       </div>
       <div class="modal-body">
         <!-- Isi dengan formulir untuk memilih warga dan nominal -->
-        <form id="kasForm">
+        <form method="POST" action="{{ url('bendahara/pemasukan/store') }}" class="form-horizontal"> @csrf
           <div class="form-group">
             <label for="warga_kas">Pilih Warga:</label>
-            <select class="form-control" id="warga_kas" name="warga_kas">
-              <option value="">Pilih warga</option>
-              <!-- Isi dengan opsi warga -->
-            </select>
+            <select class="form-control" id="no_kk" name="no_kk" required>
+                        <option value="">- Pilih Warga -</option> @foreach($kk as $item)
+                        <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
+                        @endforeach
+                    </select> @error('no_kk')
+                    <small class="form-text text-danger">{{ $message }}</small> @enderror
           </div>
           <div class="form-group">
             <label for="nominal_kas">Nominal:</label>
-            <input type="text" class="form-control" id="nominal_kas" name="nominal_kas">
+            <input type="text" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
+                    @error('nominal')
+                    <small class="form-text text-danger">{{ $message }}</small> @enderror
           </div>
           <div class="text-center">
             <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
@@ -288,4 +256,58 @@ document.querySelectorAll('.btn-delete').forEach(function(btnDelete) {
     });
   });
 </script>
+
+<script>
+        $(document).ready(function() {
+            var dataPemasukan = $('#table_pemasukan').DataTable({
+                serverSide: true,   //jika ingin menggunakan server side processing
+                ajax: {
+                    "url": "{{ url('bendahara/pemasukan/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function (d) {
+                        d.no_kk = $('#no_kk').val();
+                    }
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",    // nomor urut dari laravel datatable addIndexColimn()
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "nominal",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    },{
+                        data: "jenis_iuran",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    }, {
+                        data: "kk.nama_kepala_keluarga",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    }, {
+                        data: "nominal",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    },{
+                        data: "aksi",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }
+                ]
+            });
+
+            $('#no_kk').on('change', function() {
+                dataPemasukan.ajax.reload();
+            });
+            
+        });
+    </script>
 @endpush

@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\kkModel;
 
-class iuran extends Model
+class iuranModel extends Model
 {
     protected $table = 'iurans';
     protected $primaryKey = 'id_iuran';
@@ -15,6 +16,6 @@ class iuran extends Model
 
     public function kk(): BelongsTo
     {
-        return $this->belongsTo(kk::class, 'no_kk', 'no_kk');
+        return $this->belongsTo(kkModel::class, 'no_kk', 'no_kk');
     }
 }
