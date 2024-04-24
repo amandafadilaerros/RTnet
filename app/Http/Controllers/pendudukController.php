@@ -8,20 +8,38 @@ use Illuminate\Support\Facades\DB;
 use JeroenNoten\LaravelAdminLte\View\Components\Tool\Datatable;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Columns\Action;
+use App\Models\LaporanKeuangan;
+use App\Models\Inventaris;
+use App\Models\Pengumumans;
 
 class pendudukController extends Controller
 {
     public function index()
     {
-        // Definisikan variabel $breadcrumb
-        $breadcrumb = (object) [
-            'title' => 'Laporan Keuangan',
-            'list' => ['Home', 'Laporan Keuangan']
-        ];
+        $laporan_keuangan = IuranModel::all();
+        // $laporan_keuangan_count = LaporanKeuangan::count();
+        $inventaris = Inventaris::count();
+        $pengumuman = Pengumumans::count();
 
-        // Kirimkan variabel $breadcrumb ke tampilan Blade
-        return view('laporan_keuangan', ['breadcrumb' => $breadcrumb]);
+        return view('penduduk/dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman'));
+
+
+        // $breadcrumb = (object) [
+        //     'title' => 'dashboard',
+        //     'list' => ['--', '--'],
+        // ];
+        // $page = (object) [
+        //     'title' => '-----',
+        // ];
+        // $activeMenu = 'dashboard';
+
+        // return view('penduduk/dashboard', [
+        //     'breadcrumb' => $breadcrumb,
+        //     'page' => $page,
+        //     'activeMenu' => $activeMenu,
+        // ]);
     }
+
 
 
     public function show(string $id)
@@ -57,8 +75,9 @@ class pendudukController extends Controller
             'title' => 'Laporan Keuangan',
             'list' => ['Home', 'Laporan Keuangan'],
         ];
+
         // Query untuk mengambil data laporan keuangan dari tabel iuran
-        $laporan_keuangan = DB::table('iurans')
+        $iuran = DB::table('iurans')
             ->select(
                 'jenis_transaksi',
                 'jenis_iuran',
@@ -70,13 +89,11 @@ class pendudukController extends Controller
 
         // Filter data iuran berdasarkan id_iuran (jika perlu)
         if ($request->id_iuran) {
-            $laporan_keuangan->where('id_iuran', $request->id_iuran);
+            $iuran->where('id_iuran', $request->id_iuran);
         }
 
-        // Lakukan penyesuaian jika diperlukan sesuai dengan struktur relasi antar model
-
         // Mengembalikan data dalam format DataTables
-        return DataTables::of($laporan_keuangan) // Corrected import statement
+        return DataTables::of($iuran) // Corrected import statement
             ->addIndexColumn()
             ->addColumn('aksi', function ($laporan) {
                 // Check if the 'id_iuran' attribute exists in the data $laporan

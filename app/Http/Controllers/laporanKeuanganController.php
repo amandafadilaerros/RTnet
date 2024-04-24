@@ -12,54 +12,22 @@ class laporanKeuanganController extends Controller
 {
     public function index()
     {
-        // Definisikan variabel $breadcrumb
+        // ini hanya TEST
         $breadcrumb = (object) [
-            'title' => 'Laporan Keuangan',
-            'list' => ['Home', 'Laporan Keuangan']
+            'title' => 'dashboard',
+            'list' => ['--', '--'],
         ];
-
-        // Kirimkan variabel $breadcrumb ke tampilan Blade
-        return view('laporankeuangan', ['breadcrumb' => $breadcrumb]);
-    }
-
-    public function list(Request $request)
-    {
-        $breadcrumb = (object) [
-            'title' => 'Laporan Keuangan',
-            'list' => ['Home', 'Laporan Keuangan'],
+        $page = (object) [
+            'title' => '-----',
         ];
-        // Query untuk mengambil data laporan keuangan dari tabel iuran
-        $laporanKeuangan = DB::table('iurans')
-            ->select(
-                'jenis_transaksi',
-                'jenis_iuran',
-                DB::raw('SUM(CASE WHEN jenis_transaksi = "pemasukan" THEN nominal ELSE 0 END) AS pemasukan'),
-                DB::raw('SUM(CASE WHEN jenis_transaksi = "pengeluaran" THEN nominal ELSE 0 END) AS pengeluaran'),
-                DB::raw('SUM(CASE WHEN jenis_transaksi = "pemasukan" THEN nominal ELSE -nominal END) AS saldo')
-            )
-            ->groupBy('jenis_transaksi', 'jenis_iuran');
+        $activeMenu = 'dashboard';
 
-        // Filter data iuran berdasarkan id_iuran (jika perlu)
-        if ($request->id_iuran) {
-            $laporanKeuangan->where('id_iuran', $request->id_iuran);
-        }
-
-        // Lakukan penyesuaian jika diperlukan sesuai dengan struktur relasi antar model
-
-        // Mengembalikan data dalam format DataTables
-        return DataTables::of($laporanKeuangan)
-            ->addIndexColumn()
-            ->addColumn('aksi', function ($laporan) {
-                $btn = '<a href="' . url('/iuran/' . $laporan->id_iuran) . '" class="btn btn-info btn-sm">Detail</a> ';
-                $btn .= '<a href="' . url('/iuran/' . $laporan->id_iuran . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-                $btn .= '<form class="d-inline-block" method="POST" action="' . url('/iuran/' . $laporan->id_iuran) . '">' . csrf_field() . method_field('DELETE') .
-                    '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
-            ->make(true);
+        return view('dashboardBendahara', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
-
 
     public function keuangan()
     {
@@ -72,8 +40,6 @@ class laporanKeuanganController extends Controller
         // Mengirimkan data ke tampilan Blade
         return view('keuanganBendahara', ['breadcrumb' => $breadcrumb]);
     }
-
-
 
     public function akun()
     {

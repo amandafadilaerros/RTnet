@@ -34,6 +34,7 @@
                     <th scope="col">Keuangan Masuk</th>
                     <th scope="col">Keuangan Keluar</th>
                     <th scope="col">Saldo</th>
+                    <th scope="col">Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -101,5 +102,4 @@
         
     });
 </script>
-
 @endpush
