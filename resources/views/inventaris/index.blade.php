@@ -14,6 +14,10 @@
       </div>
     {{-- </div> --}}
 </div>
+<a data-toggle="modal" data-id="9" class="passingID">
+  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal">
+      <i class="fas fa-pencil-alt"></i> Edit</button>
+</a>
 <div class="card">
   {{-- <div class="card-header">
       <h3 class="card-title">
@@ -134,7 +138,9 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editPengeluaranForm">
+                <form id="editPengeluaranForm" action="{{url('/ketuaRt/inventaris/edit')}}" method="POST" enctype="multipart/form-data">
+                  @csrf
+                  <input type="hidden" id="id_inventaris" name="id_inventaris" value="">
                     <div class="form-group">
                         <label for="jenis_keuangan_edit">Tambah Data</label>
                         <div class="form-group">
@@ -195,7 +201,7 @@
 <script>
   $(document).ready(function(){
       var dataBarang = $('#table_inventaris').DataTable({
-          serverSide: true, //serverside true jika ingin menggunakan server side processing
+        serverSide: true,
           searching: false,
           ajax: {
               "url": "{{ url('ketuaRt/daftar_inventaris/list') }}",
@@ -234,10 +240,13 @@
                   orderable: false, //orderable true jika ingin kolom bisa diurutkan
                   searchable: false //searchable true jika ingin kolom bisa dicari
               },{
-                  data: "aksi",
+                  data: null,
                   classname: "",
                   orderable: false, //orderable true jika ingin kolom bisa diurutkan
-                  searchable: false //searchable true jika ingin kolom bisa dicari
+                  searchable: false, //searchable true jika ingin kolom bisa dicari
+                  render: function (data, type, row) {
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.id_inventaris + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_inventaris + '"><i class="fas fa-trash"></i></a>';
+                  }
               }
           ]
       });
@@ -262,6 +271,27 @@
             });
           });
       });
-  });
+      $(document).on("click", ".btn-edit", function () {
+        var ids = $(this).data('id');
+        $(".modal-body #id_inventaris").val( ids );
+        $.ajax({
+            url: "{{ url('ketuaRt/getData') }}",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id_inventaris: ids
+            },
+            success: function(response) {
+                // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                $('.modal-body #nama_barang').val(response.nama_barang);
+                $('.modal-body #jumlah').val(response.jumlah);
+                // Isi formulir lainnya sesuai kebutuhan Anda
+            },
+            error: function(xhr, status, error) {
+                // Tangani kesalahan yang terjadi
+            }
+        });
+    });
+});
 </script>
 @endpush
