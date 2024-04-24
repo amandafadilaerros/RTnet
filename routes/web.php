@@ -61,14 +61,24 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::group(['prefix' => 'data_rumah'], function () { 
         Route::get('/', [data_rumahController::class, 'index']); 
         Route::post('/list', [data_rumahController::class, 'list']);
-        Route::get('/create', [data_rumahController::class, 'create']);
+        // Route::get('/create', [data_rumahController::class, 'create']);
         Route::post('/', [data_rumahController::class, 'store']);
-        Route::get('/{id}', [data_rumahController::class, 'show']);
+        // Route::get('/{id}', [data_rumahController::class, 'show']);
         Route::get('/{id}/edit', [data_rumahController::class, 'edit']);
         Route::put('/{id}', [data_rumahController::class, 'update']);
-        Route::delete('/{id}', [data_rumahController::class, 'destroy']);
+        // Route::delete('/{id}', [data_rumahController::class, 'destroy']);
     }); 
-    Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
+    //Data Penduduk
+    Route::group(['prefix' => 'data_penduduk'], function () { 
+        Route::get('/', [pendudukController::class, 'index']); 
+        Route::post('/list', [pendudukController::class, 'list']);
+        Route::get('/create', [pendudukController::class, 'create']);
+        Route::post('/', [pendudukController::class, 'store']);
+        Route::get('/{id}', [pendudukController::class, 'show']);
+        Route::get('/{id}/edit', [pendudukController::class, 'edit']);
+        Route::put('/{id}', [pendudukController::class, 'update']);
+        Route::delete('/{id}', [pendudukController::class, 'destroy']);
+    }); 
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () { 
         Route::get('/', [KKController::class, 'index']); 
@@ -80,6 +90,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::put('/{id}', [KKController::class, 'update']);
         Route::delete('/{id}', [KKController::class, 'destroy']);
     }); 
+    // Route::get('/data_rumah', [data_rumahController::class, 'index']);
     Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
     Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);

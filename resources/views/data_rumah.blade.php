@@ -19,7 +19,7 @@
         {{ $page->title }}
     </h3>
     <div class="card-tools">
-        <a href="{{url('data_rumah/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+        <a href="{{url('user/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
     </div>
 </div> --}}
 <div class="card-body">
@@ -52,8 +52,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <!-- Isi dengan formulir untuk memasukkan data rumah -->
-                <form id="tambahRumahForm">
+                <form id="tambahRumahForm" action="{{url('/ketuaRt/data_rumah')}}" method="POST" enctype="multipart/form-data">
+                @csrf
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No.Rumah</label>
                         <input type="text" class="form-control" id="no_rumah" name="no_rumah">
@@ -81,21 +81,22 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 25px;">
             <div class="modal-header d-flex justify-content-between align-items-center">
+                <!-- <a data-toggle="modal" data-id="10" class="passingID"> -->
                 <h5 class="modal-title text-center" id="editModalLabel" style="font-weight: bold; color: #424874; margin: 0 auto;">Edit Data Rumah</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 20px; right: 20px;">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                <!-- </a> -->
             </div>
             <div class="modal-body">
-                <!-- Isi dengan formulir untuk mengedit data rumah -->
                 <form id="editRumahForm">
                     <div class="form-group">
-                        <label for="edit_no_rumah" style="color: #424874;">No. Rumah</label>
-                        <input type="text" class="form-control" id="edit_no_rumah" name="edit_no_rumah">
+                        <label for="no_rumah" style="color: #424874;">No. Rumah</label>
+                        <input type="text" class="form-control" id="no_rumah" name="no_rumah">
                     </div>
                     <div class="form-group">
-                        <label for="edit_status_rumah" style="color: #424874;">Status Rumah</label>
-                        <select class="form-control" id="edit_status_rumah" name="edit_status_rumah">
+                        <label for="status_rumah" style="color: #424874;">Status Rumah</label>
+                        <select class="form-control" id="status_rumah" name="status_rumah">
                             <option value="Rumah Pribadi">Rumah Pribadi</option>
                             <option value="Kos Kecil">Kos Kecil</option>
                             <option value="Kos Besar">Kos Besar</option>
@@ -110,6 +111,7 @@
         </div>
     </div>
 </div>
+
 <!-- Modal Hapus -->
 <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -173,5 +175,6 @@
             });
             
         });
-    </script>
+
+   </script>
 @endpush

@@ -97,4 +97,5 @@ class pendudukController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
+    
 }
