@@ -123,17 +123,19 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
+    Route::post('/laporan_keuangan/list', [pendudukController::class, 'list']);
     // Route::get('/inventaris', [inventarisController::class, 'list']);
 
 
-    Route::group(['prefix' => 'inventaris'], function () {
+    Route::group(['prefix' => 'daftar_inventaris'], function () {
         Route::get('/', [inventarisController::class, 'index']);
-        Route::post('/list', [inventarisController::class, 'list']);
+
 
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 
 });
+
 
 //halaman tidak ditemukan
 Route::fallback(function () {

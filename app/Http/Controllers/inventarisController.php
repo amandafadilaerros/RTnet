@@ -46,6 +46,7 @@ class InventarisController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
+
     }
 
     public function pk_peminjaman()

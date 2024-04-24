@@ -71,46 +71,23 @@ class pendudukController extends Controller
 
     public function list(Request $request)
     {
-        $breadcrumb = (object) [
-            'title' => 'Laporan Keuangan',
-            'list' => ['Home', 'Laporan Keuangan'],
-        ];
-
-        // Query untuk mengambil data laporan keuangan dari tabel iuran
         $iuran = DB::table('iurans')
             ->select(
                 'jenis_transaksi',
                 'jenis_iuran',
                 DB::raw('SUM(CASE WHEN jenis_transaksi = "pemasukan" THEN nominal ELSE 0 END) AS pemasukan'),
                 DB::raw('SUM(CASE WHEN jenis_transaksi = "pengeluaran" THEN nominal ELSE 0 END) AS pengeluaran'),
-                DB::raw('SUM(CASE WHEN jenis_transaksi = "pemasukan" THEN nominal ELSE -nominal END) AS saldo')
+                DB::raw('SUM(nominal) AS saldo') // Jumlahkan semua nominal
             )
             ->groupBy('jenis_transaksi', 'jenis_iuran');
 
-        // Filter data iuran berdasarkan id_iuran (jika perlu)
-        if ($request->id_iuran) {
-            $iuran->where('id_iuran', $request->id_iuran);
-        }
 
-        // Mengembalikan data dalam format DataTables
-        return DataTables::of($iuran) // Corrected import statement
+        return DataTables::of($iuran)
             ->addIndexColumn()
-            ->addColumn('aksi', function ($laporan) {
-                // Check if the 'id_iuran' attribute exists in the data $laporan
-                if (isset ($laporan->id_iuran)) {
-                    $btn = '<a href="' . url('/iuran/' . $laporan->id_iuran) . '" class="btn btn-info btn-sm">Detail</a> ';
-                    $btn .= '<a href="' . url('/iuran/' . $laporan->id_iuran . '/edit') . '" class="btn btn-warning btn-sm">Edit</a> ';
-                    $btn .= '<form class="d-inline-block" method="POST" action="' . url('/iuran/' . $laporan->id_iuran) . '">' . csrf_field() . method_field('DELETE') .
-                        '<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\');">Hapus</button></form>';
-                } else {
-                    // If the 'id_iuran' attribute is not available in the data, display "Not available" message
-                    $btn = '<span class="text-muted">Tidak tersedia</span>';
-                }
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
             ->make(true);
+
     }
+
 
     public function keuangan()
     {
@@ -124,7 +101,7 @@ class pendudukController extends Controller
         ];
         $activeMenu = 'keuangan';
 
-        return view('keuanganPenduduk', [
+        return view('penduduk/laporanKeuangan', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
