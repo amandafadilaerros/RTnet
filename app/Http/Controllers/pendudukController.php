@@ -16,29 +16,19 @@ class pendudukController extends Controller
 {
     public function index()
     {
-        // $laporan_keuangan = IuranModel::all();
-        // // $laporan_keuangan_count = LaporanKeuangan::count();
-        // $inventaris = Inventaris::count();
-        // $pengumuman = Pengumumans::count();
+        $laporan_keuangan = IuranModel::count();
+        $inventaris = Inventaris::count();
+        $pengumuman = Pengumumans::count();
 
-        // return view('penduduk/dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman'));
-
-
+        // Inisialisasi variabel breadcrumb
         $breadcrumb = (object) [
-            'title' => 'dashboard',
-            'list' => ['--', '--'],
+            'title' => 'Dashboard',
+            'list' => ['Home', 'Dashboard']
         ];
-        $page = (object) [
-            'title' => '-----',
-        ];
-        $activeMenu = 'dashboard';
 
-        return view('penduduk/dashboard', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-        ]);
+        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'breadcrumb'));
     }
+
 
 
 
@@ -69,7 +59,7 @@ class pendudukController extends Controller
         ]);
     }
 
-    public function list(Request $request)
+    public function laporan(Request $request)
     {
         $iuran = DB::table('iurans')
             ->select(
@@ -79,7 +69,7 @@ class pendudukController extends Controller
                 DB::raw('SUM(CASE WHEN jenis_transaksi = "pengeluaran" THEN nominal ELSE 0 END) AS pengeluaran'),
                 DB::raw('SUM(nominal) AS saldo') // Jumlahkan semua nominal
             )
-            ->groupBy('jenis_transaksi', 'jenis_iuran');
+            ->groupBy('jenis_transaksi', 'jenis_iuran', 'nominal');
 
 
         return DataTables::of($iuran)
@@ -87,6 +77,34 @@ class pendudukController extends Controller
             ->make(true);
 
     }
+    public function search(Request $request)
+    {
+        // Ambil nilai pencarian dari permintaan POST
+        $searchText = $request->input('searchText');
+
+        // Query SQL untuk mencari data berdasarkan nilai pencarian
+        $results = DB::table('iurans')
+            ->select(
+                'jenis_transaksi',
+                'jenis_iuran',
+                DB::raw('SUM(CASE WHEN jenis_transaksi = "pemasukan" THEN nominal ELSE 0 END) AS pemasukan'),
+                DB::raw('SUM(CASE WHEN jenis_transaksi = "pengeluaran" THEN nominal ELSE 0 END) AS pengeluaran'),
+                DB::raw('SUM(nominal) AS saldo')
+            )
+            ->groupBy('jenis_transaksi', 'jenis_iuran')
+            ->havingRaw('LOWER(jenis_transaksi) LIKE ?', ["%$searchText%"])
+            ->orWhereRaw('LOWER(jenis_iuran) LIKE ?', ["%$searchText%"])
+            ->orWhereRaw('LOWER(pemasukan) LIKE ?', ["%$searchText%"])
+            ->orWhereRaw('LOWER(pengeluaran) LIKE ?', ["%$searchText%"])
+            ->orWhereRaw('LOWER(saldo) LIKE ?', ["%$searchText%"])
+            ->get();
+
+        // Kembalikan hasil pencarian dalam format JSON
+        return response()->json($results);
+    }
+
+
+
 
 
     public function keuangan()

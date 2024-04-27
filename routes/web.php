@@ -117,22 +117,25 @@ Route::group(['prefix' => 'bendahara'], function () {
 
 Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/dashboard', [pendudukController::class, 'index']);
+
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
-    Route::post('/laporan_keuangan/list', [pendudukController::class, 'list']);
-    // Route::get('/inventaris', [inventarisController::class, 'list']);
+    Route::post('penduduk/laporan_keuangan/search', 'LaporanKeuanganController@search');
 
+    Route::group(['prefix' => 'laporan_keuangan'], function () {
+        Route::post('/search', [pendudukController::class, 'search']);
+        Route::post('/list', [pendudukController::class, 'laporan']);
+    });
 
     Route::group(['prefix' => 'daftar_inventaris'], function () {
         Route::get('/', [inventarisController::class, 'index']);
-
-
+        Route::post('/list', [inventarisController::class, 'list']);
     });
-    Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
+    Route::post('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 
 });
 
