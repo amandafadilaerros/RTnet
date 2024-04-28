@@ -4,9 +4,9 @@
 <div class="row">
   <div class="col-md-6 offset-md-6 mb-4">
     <div class="input-group">
-      <input type="text" class="form-control" style="border-radius: 20px; margin-left: 200px;" placeholder="Cari...">
+      <input type="text" class="form-control" id="searchInput" style="border-radius: 20px; margin-left: 200px;" placeholder="Cari...">
       <div class="input-group-append">
-        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left: 10px; width: 100px;">Cari</a>
+        <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; margin-left: 10px; width: 100px;">Cari</button>
       </div>
     </div>
   </div>
@@ -34,6 +34,18 @@
     </table>
   </div>
 </div>
+@push('css')
+<style>
+  /* Menyembunyikan fitur pencarian di tabel */
+  .dataTables_filter {
+      display: none;
+  }
+</style>
+
+    <!-- Tambahkan CSS tambahan jika diperlukan -->
+@endpush
+
+
 @endsection
 
 @push('js')
@@ -41,8 +53,10 @@
     $(document).ready(function() {
         var inventaris = $('#inventaris_table').DataTable({
             serverSide: true,   // Jika ingin menggunakan server-side processing
+            searching: true,    // Mengaktifkan fitur pencarian
+           
             ajax: {
-                "url": "{{ url('penduduk/inventaris/list') }}", // Ganti URL dengan endpoint yang sesuai
+                "url": "{{ url('penduduk/daftar_inventaris/list') }}", // Ganti URL dengan endpoint yang sesuai
                 "dataType": "json",
                 "type": "POST"
             },
@@ -71,6 +85,12 @@
             ]
         });
         
+        // Fungsi untuk melakukan pencarian saat tombol "Cari" ditekan
+        $('#searchButton').on('click', function() {
+          
+            var keyword = $('#searchInput').val().toLowerCase();
+            inventaris.search(keyword).draw();
+        });
     });
 </script>
 @endpush
