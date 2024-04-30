@@ -82,6 +82,7 @@
       </table>
   </div>
 </div>
+
 <!-- Modal tambah pengeluaran -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
