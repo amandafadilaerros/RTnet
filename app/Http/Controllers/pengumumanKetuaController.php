@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\pengumuman;
+use App\Models\pengumumans;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,7 +27,7 @@ class pengumumanKetuaController extends Controller
         ]);
     }
     public function list(Request $request){
-        $pengumumans = pengumuman::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
+        $pengumumans = pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
 
         // if ($request->kategori_id){
         //     $pengumumans->where('kategori_id', $request->kategori_id);
@@ -50,7 +50,7 @@ class pengumumanKetuaController extends Controller
             'jadwal' => 'required',
         ]);
         
-        pengumuman::create([
+        pengumumans::create([
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
@@ -63,7 +63,7 @@ class pengumumanKetuaController extends Controller
 
         // Lakukan apa pun yang diperlukan dengan ID inventaris
         // Di sini Anda dapat melakukan pencarian atau operasi lainnya
-        $pengumuman = pengumuman::find($idPengumuman);
+        $pengumuman = pengumumans::find($idPengumuman);
 
         // Misalnya, mengembalikan data pengumuman dalam format JSON
         return response()->json($pengumuman);
@@ -75,7 +75,7 @@ class pengumumanKetuaController extends Controller
         ]);
     
         // Lakukan pembaruan
-        pengumuman::find($request->id_pengumuman)->update([
+        pengumumans::find($request->id_pengumuman)->update([
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
@@ -84,13 +84,13 @@ class pengumumanKetuaController extends Controller
         return redirect('/ketuaRt/kelola_pengumuman')->with('success', 'Data pengumuman berhasil diubah');
     }
     public function destroy(Request $request){
-        $check = pengumuman::find($request->id_pengumuman);
+        $check = pengumumans::find($request->id_pengumuman);
         if(!$check) {
             return redirect('/ketuaRt/kelola_pengumuman')->with('error', 'Data pengumuman tidak ditemukan');
         }
 
         try{
-            pengumuman::destroy($request->id_pengumuman);
+            pengumumans::destroy($request->id_pengumuman);
 
             return redirect('/ketuaRt/kelola_pengumuman')->with('success', 'Data pengumuman berhasil dihapus');
         }catch (\illuminate\Database\QueryException $e){
