@@ -114,7 +114,16 @@ Route::group(['prefix' => 'sekretaris'], function () {
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
-    Route::get('/pemasukan', [pemasukanController::class, 'index']);
+    Route::group(['prefix' => 'pemasukan'], function () { 
+        Route::get('/', [pemasukanController::class, 'index']); 
+        Route::post('/list', [pemasukanController::class, 'list']);
+        // Route::get('/create', [pemasukanController::class, 'create']);
+        Route::post('/tambah', [pemasukanController::class, 'store']);
+        // Route::get('/{id}', [pemasukanController::class, 'show']);
+        Route::post('/edit', [pemasukanController::class, 'edit']);
+        Route::post('/update', [pemasukanController::class, 'update']);
+        Route::delete('/destroy', [pemasukanController::class, 'destroy']);
+    }); 
     Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
     Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
     Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
