@@ -16,7 +16,7 @@ use App\Http\Controllers\data_rumahController;
 use App\Http\Controllers\ketuaController;
 use App\Http\Controllers\KKController;
 use App\Http\Controllers\pendudukController;
-use App\Http\Controllers\pengumumanController;
+use App\Http\Controllers\pengumumanKetuaController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
@@ -81,8 +81,8 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::delete('/{id}', [pendudukController::class, 'destroy']);
     }); 
     //Data KK
-    Route::group(['prefix' => 'data_kk'], function () { 
-        Route::get('/', [KKController::class, 'index']); 
+    Route::group(['prefix' => 'data_kk'], function () {
+        Route::get('/', [KKController::class, 'index']);
         Route::post('/list', [KKController::class, 'list']);
         Route::get('/create', [KKController::class, 'create']);
         Route::post('/', [KKController::class, 'store']);
@@ -90,6 +90,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::get('/{id}/edit', [KKController::class, 'edit']);
         Route::put('/{id}', [KKController::class, 'update']);
         Route::delete('/{id}', [KKController::class, 'destroy']);
+
     }); 
     Route::group(['prefix' => 'data_penduduk'], function () { 
         Route::get('/', [data_pendudukRTController::class, 'index']); 
@@ -101,23 +102,28 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::put('/{id}', [data_pendudukRTController::class, 'update']);
         Route::delete('/{id}', [data_pendudukRTController::class, 'destroy']);
     }); 
-    // Route::get('/data_rumah', [data_rumahController::class, 'index']);
+
     Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
     Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
-    Route::get('/peminjaman', [peminjamanController::class, 'index']); 
-    Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']); 
+    Route::get('/peminjaman', [peminjamanController::class, 'index']);
+    Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
     Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
-    Route::post('/getData', [InventarisKetuaController::class, 'getData']);
+    Route::post('/inventaris/getData', [InventarisKetuaController::class, 'getData']);
     Route::post('/inventaris/edit', [InventarisKetuaController::class, 'update']);
+    Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
-    Route::get('/kelola_pengumuman', [pengumumanController::class, 'index']);
+    Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
+    Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
+    Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
+    Route::post('/pengumuman/getData', [pengumumanKetuaController::class, 'getData']);
+    Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
+    Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
 });
-
 
 Route::group(['prefix' => 'sekretaris'], function () {
     Route::get('/dashboard', [sekretarisController::class, 'index']);
@@ -131,7 +137,16 @@ Route::group(['prefix' => 'sekretaris'], function () {
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
-    Route::get('/pemasukan', [pemasukanController::class, 'index']);
+    Route::group(['prefix' => 'pemasukan'], function () { 
+        Route::get('/', [pemasukanController::class, 'index']); 
+        Route::post('/list', [pemasukanController::class, 'list']);
+        // Route::get('/create', [pemasukanController::class, 'create']);
+        Route::post('/tambah', [pemasukanController::class, 'store']);
+        // Route::get('/{id}', [pemasukanController::class, 'show']);
+        Route::post('/edit', [pemasukanController::class, 'edit']);
+        Route::post('/update', [pemasukanController::class, 'update']);
+        Route::delete('/destroy', [pemasukanController::class, 'destroy']);
+    }); 
     Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
     Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
     Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
@@ -140,38 +155,31 @@ Route::group(['prefix' => 'bendahara'], function () {
 
 Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/dashboard', [pendudukController::class, 'index']);
+
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
-    Route::get('/inventaris',[inventarisController::class, 'pk']);
-    Route::get('/peminjaman',[inventarisController::class, 'pk_peminjaman']);
+    Route::post('penduduk/laporan_keuangan/search', 'LaporanKeuanganController@search');
+
+    Route::group(['prefix' => 'laporan_keuangan'], function () {
+        Route::post('/search', [pendudukController::class, 'search']);
+        Route::post('/list', [pendudukController::class, 'laporan']);
+    });
+
+    Route::group(['prefix' => 'daftar_inventaris'], function () {
+        Route::get('/', [inventarisController::class, 'index']);
+        Route::post('/list', [inventarisController::class, 'list']);
+    });
+    Route::post('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 
 });
+
 
 //halaman tidak ditemukan
 Route::fallback(function () {
     return view('404');
 });
 
-Route::get('/inventaris/image/{id}', function ($id) {
-    $inventaris = inventaris::with('gambar')->find($id);
-
-    if ($inventaris && $inventaris->id_gambar) {
-        $gambar = gambar::find($inventaris->id_gambar);
-        // Get the image data from the database or storage
-        $imageData = base64_encode($gambar->data_gambar); // Assuming you have an image relationship
-        $mimeType = $gambar->mime_type; // Assuming you have a mime_type attribute
-
-        // Return the image data with appropriate headers
-        // return response($imageData, 200)->header('Content-Type', $mimeType);
-        return response()->json([
-            'imageData' => $imageData,
-            'mimeType' => $mimeType
-        ], 200);
-    } else {
-        return response()->json('Image not found', 404);
-    }
-});

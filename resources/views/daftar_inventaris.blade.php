@@ -18,7 +18,7 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_user">
+    <table class="table table-hover table-striped" id="laporan_keuangan_table">
       <thead>
         <tr>
           <th scope="col">No</th>

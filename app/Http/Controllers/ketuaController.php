@@ -18,7 +18,7 @@ class ketuaController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('dashboardKetuaRt', [
+        return view('ketuaRT.dashboardKetuaRt', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,

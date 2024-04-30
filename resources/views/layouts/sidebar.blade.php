@@ -3,7 +3,9 @@
     <div class="info">
       <a href="#" class="d-block" style="font-family: 'Nunito Sans', sans-serif; font-size: 25px; font-weight: bold; color: #424874;">
         Sistem Informasi<br>RT Online</a>
-
+        <a href="#" class="d-block" style="font-family: 'Nunito Sans', sans-serif; font-size: 20px; font-weight: ; color: #424874;">
+          (jl.Candi Panggung <br>
+          Gang 1B)</a><br>
     </div>
   </div>
 
@@ -42,7 +44,7 @@
       </li>
       <li class="nav-header">Inventaris</li>
       <li class="nav-item">
-        <a href="{{ url('/penduduk/inventaris') }}" class="nav-link {{ ($activeMenu == 'inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'inventaris')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-box"></i>
+        <a href="{{ url('/penduduk/daftar_inventaris') }}" class="nav-link {{ ($activeMenu == 'inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'inventaris')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-box"></i>
           <p>Daftar Inventaris</p>
         </a>
       </li>
