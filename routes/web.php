@@ -15,7 +15,7 @@ use App\Http\Controllers\data_rumahController;
 use App\Http\Controllers\ketuaController;
 use App\Http\Controllers\KKController;
 use App\Http\Controllers\pendudukController;
-use App\Http\Controllers\pengumumanController;
+use App\Http\Controllers\pengumumanKetuaController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
@@ -88,11 +88,17 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
     Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
-    Route::post('/getData', [InventarisKetuaController::class, 'getData']);
+    Route::post('/inventaris/getData', [InventarisKetuaController::class, 'getData']);
     Route::post('/inventaris/edit', [InventarisKetuaController::class, 'update']);
+    Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
-    Route::get('/kelola_pengumuman', [pengumumanController::class, 'index']);
+    Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
+    Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
+    Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
+    Route::post('/pengumuman/getData', [pengumumanKetuaController::class, 'getData']);
+    Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
+    Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
 });
 

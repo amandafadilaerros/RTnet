@@ -14,10 +14,6 @@
       </div>
     {{-- </div> --}}
 </div>
-<a data-toggle="modal" data-id="9" class="passingID">
-  <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal">
-      <i class="fas fa-pencil-alt"></i> Edit</button>
-</a>
 <div class="card">
   {{-- <div class="card-header">
       <h3 class="card-title">
@@ -180,9 +176,10 @@
           Apakah Anda yakin menghapus data ini?
         </div>
         <div class="modal-footer justifiy-content">
-          <form id="hapusForm" method="" action="">
+          <form id="hapusForm" action="{{url('/ketuaRt/inventaris/delete')}}" method="POST">
             @csrf
             @method('DELETE')
+            <input type="hidden" id="id_inventaris" name="id_inventaris" value="">
             <div class="text-center">
               <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
             </div>
@@ -201,7 +198,7 @@
 <script>
   $(document).ready(function(){
       var dataBarang = $('#table_inventaris').DataTable({
-        serverSide: true,
+          serverSide: true,
           searching: false,
           ajax: {
               "url": "{{ url('ketuaRt/daftar_inventaris/list') }}",
@@ -275,7 +272,7 @@
         var ids = $(this).data('id');
         $(".modal-body #id_inventaris").val( ids );
         $.ajax({
-            url: "{{ url('ketuaRt/getData') }}",
+            url: "{{ url('ketuaRt/inventaris/getData') }}",
             type: "POST",
             dataType: "json",
             data: {
@@ -291,7 +288,11 @@
                 // Tangani kesalahan yang terjadi
             }
         });
-    });
+      });
+      $(document).on("click", ".btn-delete", function () {
+        var ids = $(this).data('id');
+        $(".modal-footer #id_inventaris").val( ids );
+      });
 });
 </script>
 @endpush

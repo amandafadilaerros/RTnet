@@ -18,7 +18,7 @@ class pendudukController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('dashboard', [
+        return view('penduduk.dashboard', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
