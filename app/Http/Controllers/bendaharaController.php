@@ -18,7 +18,7 @@ class bendaharaController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('dashboardBendahara', [
+        return view('bendahara.dashboardBendahara', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
