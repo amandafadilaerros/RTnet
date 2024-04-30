@@ -27,7 +27,7 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_user">
+      <table class="table table-hover table-striped" id="table_pengumuman">
         <thead>
             <tr>
                 <th scope="col">No</th>
@@ -36,35 +36,11 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td><p>&lt;Kerja Bakti&gt; Pembetulan saluran air depan masjid &lt;19 Maret 2023&gt;</p></td>
-                <td>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td><p>&lt;RAPAT&gt; Di rumah Bpk Susanto &lt;16 Maret 2023&gt;</p></td>
-                <td>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td><p>&lt;LOMBA&gt; Kegiatan RW &lt;17 Agustus 2023&gt;</p></td>
-                <td>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                    <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
         </tbody>
     </table>
   </div>
 </div>
-<<!-- Modal tambah pengumuman -->
+<!-- Modal tambah pengumuman -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -75,7 +51,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="tambahPengumumanForm">
+                <form id="tambahPengumumanForm" action="{{url('/ketuaRt/pengumuman')}}" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for="judul">Judul:</label>
                         <input type="text" class="form-control" id="judul" name="judul">
@@ -86,7 +63,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="text" class="form-control" id="jadwal" name="jadwal">
+                        <input type="date" class="form-control" id="jadwal" name="jadwal">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
@@ -101,13 +78,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Pengeluaran</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Pengumuman</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editPengumumanForm">
+                <form id="editPengumumanForm" action="{{url('/ketuaRt/pengumuman/edit')}}" method="POST">
+                    @csrf
+                    <input type="hidden" id="id_pengumuman" name="id_pengumuman" value="">
                     <div class="form-group">
                         <label for="judul">Judul:</label>
                         <input type="text" class="form-control" id="judul" name="judul">
@@ -118,12 +97,39 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="text" class="form-control" id="jadwal" name="jadwal">
+                        <input type="date" class="form-control" id="jadwal_pelaksanaan" name="jadwal">
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
+                        <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Ubah</button>
                     </div>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Show Modal --}}
+<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="showModalLabel">Detail Pengumuman</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group">
+                        <label for="judul">Judul:</label>
+                        <input type="text" class="form-control" id="judul" name="judul" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="kegiatan">Kegiatan:</label>
+                        <input type="text" class="form-control" id="kegiatan" name="kegiatan" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal">Jadwal Pelaksanaan:</label>
+                        <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal" readonly>
+                    </div>
             </div>
         </div>
     </div>
@@ -141,9 +147,10 @@
           Apakah Anda yakin menghapus data ini?
         </div>
         <div class="modal-footer justifiy-content">
-          <form id="hapusForm" method="" action="">
+          <form id="hapusForm" action="{{url('/ketuaRt/pengumuman/delete')}}" method="post">
             @csrf
             @method('DELETE')
+            <input type="hidden" name="id_pengumuman" id="id_pengumuman">
             <div class="text-center">
               <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
             </div>
@@ -157,4 +164,95 @@
 @endpush
 
 @push('js')
+  <script>
+    $(document).ready(function(){
+      var dataBarang = $('#table_pengumuman').DataTable({
+          serverSide: true,
+          searching: false,
+          ajax: {
+              "url": "{{ url('ketuaRt/pengumuman/list') }}",
+              "dataType": "json",
+              "type": "POST",
+              "data": function (d){
+                  d.id_pengumuman = $('#id_pengumuman').val();
+              }
+          },
+          columns: [
+              {
+                  data: "DT_RowIndex", //nomor urut dari laravel datatable addindexcolumn()
+                  classname: "text-center",
+                  orderable: false,
+                  searchable: false
+              },{
+                  data: "",
+                  classname: "",
+                  orderable: false, //orderable false jika ingin kolom bisa diurutkan
+                  searchable: false, //searchable false jika ingin kolom bisa dicari
+                  render: function (data, type, row) {
+                        return row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan + ')';
+                    }
+              },{
+                  data: null,
+                  classname: "",
+                  orderable: false, //orderable true jika ingin kolom bisa diurutkan
+                  searchable: false, //searchable true jika ingin kolom bisa dicari
+                  render: function (data, type, row) {
+                      return '<a href="#" class="btn btn-primary btn-sm btn-show" data-toggle="modal" data-target="#showModal" data-id="' + row.id_pengumuman + '"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.id_pengumuman + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_pengumuman + '"><i class="fas fa-trash"></i></a>';
+                  }
+              }
+          ]
+      });
+      $('#kategori_id').on('change', function(){
+          dataBarang.ajax.reload();
+      });
+      $(document).on("click", ".btn-edit", function () {
+        var ids = $(this).data('id');
+        $(".modal-body #id_pengumuman").val( ids );
+        $.ajax({
+            url: "{{ url('ketuaRt/pengumuman/getData') }}",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id_pengumuman: ids
+            },
+            success: function(response) {
+                // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                $('.modal-body #judul').val(response.judul);
+                $('.modal-body #kegiatan').val(response.kegiatan);
+                $('.modal-body #jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                // Isi formulir lainnya sesuai kebutuhan Anda
+            },
+            error: function(xhr, status, error) {
+                // Tangani kesalahan yang terjadi
+            }
+        });
+      });
+      $(document).on("click", ".btn-show", function () {
+        var ids = $(this).data('id');
+        $(".modal-body #id_pengumuman").val( ids );
+        $.ajax({
+            url: "{{ url('ketuaRt/pengumuman/getData') }}",
+            type: "POST",
+            dataType: "json",
+            data: {
+                id_pengumuman: ids
+            },
+            success: function(response) {
+                // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                $('.modal-body #judul').val(response.judul);
+                $('.modal-body #kegiatan').val(response.kegiatan);
+                $('.modal-body #jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                // Isi formulir lainnya sesuai kebutuhan Anda
+            },
+            error: function(xhr, status, error) {
+                // Tangani kesalahan yang terjadi
+            }
+        });
+      });
+      $(document).on("click", ".btn-delete", function () {
+        var ids = $(this).data('id');
+        $(".modal-footer #id_pengumuman").val( ids );
+      });
+    });
+  </script>
 @endpush

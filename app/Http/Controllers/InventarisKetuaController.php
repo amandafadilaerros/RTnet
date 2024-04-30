@@ -14,7 +14,7 @@ class InventarisKetuaController extends Controller
         // hanya untuk testing template
         $breadcrumb = (object) [
             'title' => 'Inventaris',
-            'list' => ['--', '--'],
+            'list' => ['Ketua RT', 'Inventaris'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -22,28 +22,28 @@ class InventarisKetuaController extends Controller
 
         $activeMenu = 'inventaris';
 
-        // $barang = BarangModel::all();
+        // $inventaris = BarangModel::all();
 
         return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request){
         $barangs = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'id_gambar')->with('gambar');
 
-        if ($request->kategori_id){
-            $barangs->where('kategori_id', $request->kategori_id);
-        }
+        // if ($request->kategori_id){
+        //     $barangs->where('kategori_id', $request->kategori_id);
+        // }
 
         return DataTables::of($barangs)
         ->addIndexColumn()
-        // ->addColumn('aksi', function ($barang) {
-        //     $btn = '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $barang->id_inventaris .'"><i class="fas fa-pen"></i></a>';
-        //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal data-id="'. $barang->id_inventaris .'"><i class="fas fa-trash"></i></a>';
+        // ->addColumn('aksi', function ($inventaris) {
+        //     $btn = '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $inventaris->id_inventaris .'"><i class="fas fa-pen"></i></a>';
+        //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal data-id="'. $inventaris->id_inventaris .'"><i class="fas fa-trash"></i></a>';
         //     return $btn;
         // })
         // ->rawColumns(['aksi'])
         ->make(true);
     }
-    public function store(Request $request): RedirectResponse{
+    public function store(Request $request){
         $validated = $request->validate([
             'nama_barang' => 'bail|required',
             'jumlah' => 'required|integer',
@@ -61,7 +61,7 @@ class InventarisKetuaController extends Controller
             $newImage->data_gambar = $imageData;
             $newImage->save();
 
-            $id_gambar = $newImage->id;
+            $id_gambar = $newImage->id_gambar;
         }
         inventaris::create([
             'nama_barang' => $request->nama_barang,
@@ -69,7 +69,7 @@ class InventarisKetuaController extends Controller
             'id_gambar' => $id_gambar,
         ]);
 
-        return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data barang berhasil disimpan');
+        return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil disimpan');
     }
     public function getData(Request $request){
         $idInventaris = $request->id_inventaris;
@@ -111,6 +111,20 @@ class InventarisKetuaController extends Controller
             'id_gambar' => $id_gambar,
         ]);
 
-        return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data barang berhasil diubah');
+        return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil diubah');
+    }
+    public function destroy(Request $request){
+        $check = inventaris::find($request->id_inventaris);
+        if(!$check) {
+            return redirect('/ketuaRt/daftar_inventaris')->with('error', 'Data inventaris tidak ditemukan');
+        }
+
+        try{
+            inventaris::destroy($request->id_inventaris);
+
+            return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil dihapus');
+        }catch (\illuminate\Database\QueryException $e){
+            return redirect('/ketuaRt/daftar_inventaris')->with('error', 'Data inventaris gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+        }
     }
 }

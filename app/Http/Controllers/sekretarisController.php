@@ -18,7 +18,7 @@ class sekretarisController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('dashboardSekretaris', [
+        return view('sekretaris.dashboardSekretaris', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,

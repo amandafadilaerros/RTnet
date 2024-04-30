@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class bendaharaController extends Controller
 {
     public function index()
@@ -18,7 +19,7 @@ class bendaharaController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('dashboardBendahara', [
+        return view('bendahara.dashboardBendahara', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -62,5 +63,6 @@ class bendaharaController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
-}
 
+    
+}
