@@ -5,13 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\kkModel;
-use Illuminate\Support\Facades\DB;
-use App\Models\kkModel;
 use App\Models\rumahModel;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Hash;
 
 class data_rumahController extends Controller
