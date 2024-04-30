@@ -5,20 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\kkModel;
+use Illuminate\Support\Facades\DB;
+use App\Models\kkModel;
 use App\Models\rumahModel;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Hash;
 
 class data_rumahController extends Controller
 {
     public function index(){
         // menampilkan halaman awal data rumah
+        // menampilkan halaman awal data rumah
         $breadcrumb = (object) [
             'title' => 'Data Rumah',
             'list' => ['Home', 'Data Rumah'],
+            'list' => ['Home', 'Data Rumah'],
         ];
         $page = (object) [
+            'title' => 'Daftar data rumah yang terdaftar dalam sistem ',
             'title' => 'Daftar data rumah yang terdaftar dalam sistem ',
         ];
 
@@ -33,6 +40,17 @@ class data_rumahController extends Controller
 
         return DataTables::of($rumahs)
         ->addIndexColumn()
+        // ->addColumn('aksi', function ($data_rumah) {
+        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
+        // //     Detail
+        // // </button>';
+        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
+        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
+        // //             '<button type="submit" class="btn btn-danger btn-sm"
+        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
+        //     // return $btn;
+        // })
+        // ->rawColumns(['aksi'])
         // ->addColumn('aksi', function ($data_rumah) {
         // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
         // //     Detail

@@ -4,25 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\kkModel;
 
-class IuranModel extends Model
+class iuranModel extends Model
 {
-    use HasFactory;
-
     protected $table = 'iurans';
-
     protected $primaryKey = 'id_iuran';
 
-    protected $fillable = [
-        'nominal',
-        'keterangan',
-        'jenis_transaksi',
-        'jenis_iuran',
-        'no_kk',
-    ];
+    protected $fillable = ['nominal','keterangan','jenis_transaksi','jenis_iuran','no_kk'];
 
-    // Definisikan relasi dengan model KK (Kartu Keluarga)
-    public function kartuKeluarga()
+    public function kk(): BelongsTo
     {
         return $this->belongsTo(kkModel::class, 'no_kk', 'no_kk');
     }

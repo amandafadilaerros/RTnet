@@ -88,10 +88,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editRumahForm" action="{{ url('/ketuaRt/data_rumah/update') }}" method="POST" enctype="multipart/form-data">
+                <form id="editRumahForm" action="{{ url('/ketuaRt/data_rumah/edit') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                    <input type="hidden" id="id" name="id">
+                    <input type="hidden" id="no_rumah" name="no_rumah" value="">
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No. Rumah</label>
                         <input type="text" class="form-control" id="no_rumah" name="no_rumah">
@@ -128,10 +128,10 @@
           Apakah Anda yakin menghapus data ini?
         </div>
         <div class="modal-footer justifiy-content">
-          <form id="hapusForm" method="post" action="{{url('/ketuaRt/data_rumah/delete')}}">
+          <form id="hapusForm" method="delete" action="{{url('/ketuaRt/data_rumah/destroy')}}">
             @csrf
             @method('DELETE')
-            <input type="hidden" id="no_rumah" name="no_rumah">
+            <input type="hidden" id="no_rumah_delete" name="no_rumah">
             <div class="text-center">
               <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
             </div>
@@ -186,34 +186,35 @@
               }
           ]
       });
+
       $('#no_rumah').on('change', function(){
           dataRumah.ajax.reload();
       });
-        $(document).on("click", ".btn-edit", function () {
-        var ids = $(this).data('id');
-        $(".modal-body #id").val( ids );
-        $.ajax({
-            url: "{{ url('ketuaRt/data_rumah/edit') }}",
-            type: "POST",
-            dataType: "json",
-            data: {
-                no_rumah: ids
-            },
-            success: function(response) {
-                // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #no_rumah').val(response.no_rumah);
-                $('.modal-body #status_rumah').val(response.status_rumah);
-                // Isi formulir lainnya sesuai kebutuhan Anda
-            },
-            error: function(xhr, status, error) {
-                // Tangani kesalahan yang terjadi
-            }
-        });
+   
+    $(document).on("click", ".btn-update", function () {
+    var no_rumah = $(this).data('no_rumah');
+    $(".modal-body #no_rumah").val( ids );
+    $.ajax({
+        url: "{{ url('ketuaRt/data_rumah/update') }}",
+        type: "POST",
+        dataType: "json",
+        data: {
+            no_rumah: ids
+        },
+        success: function(response) {
+            // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+            $('.modal-body #status_rumah').val(response.status_rumah);
+            // Isi formulir lainnya sesuai kebutuhan Anda
+        },
+        error: function(xhr, status, error) {
+            // Tangani kesalahan yang terjadi
+        }
     });
-    $(document).on("click", ".btn-delete", function () {
-        var no_rumah = $(this).data('id');
-        $(".modal-footer #no_rumah").val( no_rumah );
-    });
+});
+$(document).on("click", ".btn-delete", function () {
+    var no_rumah = $(this).data('no_rumah');
+    $(".modal-body #no_rumah").val( no_rumah );
+});
 });
 
    </script>
