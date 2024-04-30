@@ -37,8 +37,10 @@ class laporanKeuanganController extends Controller
             'list' => ['Home', 'Laporan Keuangan'],
         ];
 
+        $activeMenu = 'laporan_keuangan';
+
         // Mengirimkan data ke tampilan Blade
-        return view('keuanganBendahara', ['breadcrumb' => $breadcrumb]);
+        return view('laporanKeuangan', ['breadcrumb' => $breadcrumb, 'activeMenu' => $activeMenu]);
     }
 
     public function akun()
@@ -58,6 +60,23 @@ class laporanKeuanganController extends Controller
             'page' => $page,
             'activeMenu' => $activeMenu,
         ]);
+    }
+    public function list(Request $request){
+        $keuangans = IuranModel::select('jenis_iuran','nominal');
+
+        // if ($request->kategori_id){
+        //     $keuangans->where('kategori_id', $request->kategori_id);
+        // }
+
+        return DataTables::of($keuangans)
+        ->addIndexColumn()
+        // ->addColumn('aksi', function ($barang) {
+        //     $btn = '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $barang->id_pengumuman .'"><i class="fas fa-pen"></i></a>';
+        //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal data-id="'. $barang->id_pengumuman .'"><i class="fas fa-trash"></i></a>';
+        //     return $btn;
+        // })
+        // ->rawColumns(['aksi'])
+        ->make(true);
     }
 }
 

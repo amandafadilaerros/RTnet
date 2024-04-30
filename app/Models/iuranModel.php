@@ -24,6 +24,6 @@ class IuranModel extends Model
     // Definisikan relasi dengan model KK (Kartu Keluarga)
     public function kartuKeluarga()
     {
-        return $this->belongsTo(kk::class, 'no_kk', 'no_kk');
+        return $this->belongsTo(kkModel::class, 'no_kk', 'no_kk');
     }
 }
