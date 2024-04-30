@@ -3,11 +3,30 @@
 @section('content')
 <div class="card-body">
     <div class="header">
-        <p><strong>Kepala Keluarga &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> John Doe</p>
-        <p><strong>Nomor Kartu Keluarga &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> 123456789</p>
-        <p><strong>Alamat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> Jalan Contoh No. 123</p>
-        <p><strong>Jumlah Individu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> 2</p>
-        <p><strong>No. Rumah / Status Rumah &nbsp;&nbsp; :</strong> 123 / Hunian Tetap</p>
+        <table border="0">
+            <tr>
+                <td><strong>Kepala Keluarga </strong></td>
+                <td>: John Doe</td>
+            </tr>
+            <tr>
+                <td><strong>Nomor Kartu Keluarga</strong></td>
+                <td>:123456789</td>
+            </tr>
+            <tr>
+                <td><strong>Alamat</strong></td>
+                <td>:Jalan Contoh No. 123</td>
+            </tr>
+            <tr>
+                <td><strong>Jumlah Individu</strong></td>
+                <td>:2</td>
+            </tr>
+            <tr>
+                <td><strong>No. Rumah / Status Rumah</strong></td>
+                <td>:123 / Hunian Tetap</td>
+            </tr>
+        </table>
+        
+        
     </div>
     <div class="card-body">
         @if (session('success'))

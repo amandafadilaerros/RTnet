@@ -44,7 +44,7 @@
       </li>
       <li class="nav-header">Inventaris</li>
       <li class="nav-item">
-        <a href="{{ url('/penduduk/inventaris') }}" class="nav-link {{ ($activeMenu == 'inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'inventaris')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-box"></i>
+        <a href="{{ url('/penduduk/daftar_inventaris') }}" class="nav-link {{ ($activeMenu == 'inventaris')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'inventaris')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-box"></i>
           <p>Daftar Inventaris</p>
         </a>
       </li>
