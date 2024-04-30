@@ -14,18 +14,21 @@ class data_rumahController extends Controller
 {
     public function index(){
         // menampilkan halaman awal data rumah
+        // menampilkan halaman awal data rumah
         $breadcrumb = (object) [
             'title' => 'Data Rumah',
             'list' => ['Home', 'Data Rumah'],
+            'list' => ['Home', 'Data Rumah'],
         ];
         $page = (object) [
+            'title' => 'Daftar data rumah yang terdaftar dalam sistem ',
             'title' => 'Daftar data rumah yang terdaftar dalam sistem ',
         ];
 
         $activeMenu = 'data_rumah';
         $rumahs = rumahModel::all();
         // return view('data_rumah.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kk' => $kk , 'activeMenu' => $activeMenu]);
-        return view('data_rumah.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('data_rumah', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request){
@@ -33,6 +36,17 @@ class data_rumahController extends Controller
 
         return DataTables::of($rumahs)
         ->addIndexColumn()
+        // ->addColumn('aksi', function ($data_rumah) {
+        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
+        // //     Detail
+        // // </button>';
+        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
+        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
+        // //             '<button type="submit" class="btn btn-danger btn-sm"
+        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
+        //     // return $btn;
+        // })
+        // ->rawColumns(['aksi'])
         // ->addColumn('aksi', function ($data_rumah) {
         // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
         // //     Detail
@@ -108,21 +122,20 @@ class data_rumahController extends Controller
           ]);
       }
 
-    public function edit($no_rumah)
+    public function edit(Request $request)
     {
-        $data_rumah = rumahModel::find($no_rumah);
+        $data_rumah = rumahModel::find($request->no_rumah);
         return response()->json($data_rumah);
     }
     
     public function update(Request $request)
     {
-        $no_rumah = $request->no_rumah;
         $request->validate([
-            'no_rumah'     => 'required|max:255',                         
+            'no_rumah'     => 'required|integer|max:255|unique:rumahs,no_rumah,'. $request->id . ',no_rumah',
             'status_rumah'     => 'required|max:255',
         ]);
 
-        iuranModel::find($no_rumah)->update([
+        rumahModel::find($request->id)->update([
             'no_rumah'     => $request->no_rumah,
             'status_rumah'     => $request->status_rumah,
         ]);
@@ -131,16 +144,16 @@ class data_rumahController extends Controller
     }
 
    //Menghapus data rumah
-    public function destroy(Request $request, string $no_rumah)
+    public function destroy(Request $request)
     {
-        $check = rumahModel::find($no_rumah); // Menggunakan $no_rumah dari parameter
+        $check = rumahModel::find($request->no_rumah); // Menggunakan $request->no_rumah dari parameter
 
         if (!$check) {      //untuk mengecek apakah data rumah dengan id yang dimaksud ada atau tidak
         return redirect('/ketuaRt/data_rumah')->with('error', 'Data Rumah tidak ditemukan');
         }
 
         try {
-        rumahModel::destroy($no_rumah);    //Hapus data rumah dengan $no_rumah dari parameter
+        rumahModel::destroy($request->no_rumah);    //Hapus data rumah dengan $request->no_rumah dari parameter
 
         return redirect('/ketuaRt/data_rumah')->with('success', 'Data rumah berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 

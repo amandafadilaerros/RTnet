@@ -64,22 +64,12 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::post('/list', [data_rumahController::class, 'list']);
         Route::get('/create', [data_rumahController::class, 'create']);
         Route::post('/', [data_rumahController::class, 'store']);
-        Route::get('/{id}', [data_rumahController::class, 'show']);
-        Route::get('/{id}/edit', [data_rumahController::class, 'edit']);
-        Route::put('/{id}', [data_rumahController::class, 'update']);
-        Route::delete('/{id}', [data_rumahController::class, 'destroy']);
-    }); 
-    //Data Penduduk
-    Route::group(['prefix' => 'data_penduduk'], function () { 
-        Route::get('/', [pendudukController::class, 'index']); 
-        Route::post('/list', [pendudukController::class, 'list']);
-        Route::get('/create', [pendudukController::class, 'create']);
-        Route::post('/', [pendudukController::class, 'store']);
-        Route::get('/{id}', [pendudukController::class, 'show']);
-        Route::get('/{id}/edit', [pendudukController::class, 'edit']);
-        Route::put('/{id}', [pendudukController::class, 'update']);
-        Route::delete('/{id}', [pendudukController::class, 'destroy']);
-    }); 
+        Route::get('/show', [data_rumahController::class, 'show']);
+        Route::post('/edit', [data_rumahController::class, 'edit']);
+        Route::put('/update', [data_rumahController::class, 'update']);
+        Route::delete('/delete', [data_rumahController::class, 'destroy']);
+    });
+    Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
         Route::get('/', [KKController::class, 'index']);
@@ -108,6 +98,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
+    Route::post('/keuangan/list', [laporanKeuanganController::class, 'list']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
     Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
@@ -177,6 +168,25 @@ Route::group(['prefix' => 'penduduk'], function () {
 
 });
 
+Route::get('/inventaris/image/{id}', function ($id) {
+    $inventaris = inventaris::with('gambar')->find($id);
+
+    if ($inventaris && $inventaris->id_gambar) {
+        $gambar = gambar::find($inventaris->id_gambar);
+        // Get the image data from the database or storage
+        $imageData = base64_encode($gambar->data_gambar); // Assuming you have an image relationship
+        $mimeType = $gambar->mime_type; // Assuming you have a mime_type attribute
+
+        // Return the image data with appropriate headers
+        // return response($imageData, 200)->header('Content-Type', $mimeType);
+        return response()->json([
+            'imageData' => $imageData,
+            'mimeType' => $mimeType
+        ], 200);
+    } else {
+        return response()->json('Image not found', 404);
+    }
+});
 
 //halaman tidak ditemukan
 Route::fallback(function () {
