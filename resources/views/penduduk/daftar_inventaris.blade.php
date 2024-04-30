@@ -1,15 +1,25 @@
 @extends('layouts.template')
 
 @section('content')
+
 <div class="row">
-  <div class="col-md-6 offset-md-6 mb-4">
+  
+  <div class="col-md-3 mb-4"> <!-- Mengubah kelas col-md-8 menjadi col-md-3 -->
+    <div class="input-group float-right">
+        <input type="text" class="form-control" id="searchInput" style="border-radius: 20px;" placeholder="Cari berdasarkan nama barang...">
+    </div>
+</div>
+
+  <div class="col-md-4">
     <div class="input-group">
-      <input type="text" class="form-control" id="searchInput" style="border-radius: 20px; margin-left: 200px;" placeholder="Cari...">
+      <input type="date" class="form-control" id="searchDate" style="border-radius: 20px;" placeholder="Cari berdasarkan tanggal...">
       <div class="input-group-append">
-        <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; margin-left: 10px; width: 100px;">Cari</button>
+        <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; width: 100px;">Cari</button>
       </div>
     </div>
+    
   </div>
+  
 </div>
 
 <div class="card">
@@ -24,13 +34,13 @@
     <table class="table table-hover table-striped" id="inventaris_table">
       <thead>
         <tr>
-          <th scope="col">ID Inventaris</th>
-          <th scope="col">Nama Barang</th>
-          <th scope="col">Jumlah</th>
-          <th scope="col">ID Gambar</th>
-    
+            <th scope="col">ID Inventaris</th>
+            <th scope="col">Gambar</th>
+            <th scope="col">Nama Barang</th>
+            <th scope="col">Aksi</th>
+            
         </tr>
-      </thead>
+    </thead>
     </table>
   </div>
 </div>
@@ -50,47 +60,113 @@
 
 @push('js')
 <script>
-    $(document).ready(function() {
-        var inventaris = $('#inventaris_table').DataTable({
-            serverSide: true,   // Jika ingin menggunakan server-side processing
-            searching: true,    // Mengaktifkan fitur pencarian
-           
-            ajax: {
-                "url": "{{ url('penduduk/daftar_inventaris/list') }}", // Ganti URL dengan endpoint yang sesuai
-                "dataType": "json",
-                "type": "POST"
-            },
-            columns: [
-                {
-                    data: "DT_RowIndex",    // Nomor urut dari Laravel DataTable addIndexColumn()
-                    className: "text-center",
-                    orderable: false,
-                    searchable: false
-                }, {
-                    data: "nama_barang",    // Sesuaikan dengan nama kolom untuk nama barang
-                    className: "",
-                    orderable: true,        // Jika ingin kolom bisa diurutkan
-                    searchable: true        // Jika kolom bisa dicari
-                }, {
-                    data: "jumlah",    // Sesuaikan dengan nama kolom untuk jumlah barang
-                    className: "",
-                    orderable: true,        // Jika ingin kolom bisa diurutkan
-                    searchable: true        // Jika kolom bisa dicari
-                }, {
-                    data: "id_gambar",      // Sesuaikan dengan nama kolom untuk foto barang
-                    className: "",
-                    orderable: false,      // Foto mungkin tidak perlu diurutkan
-                    searchable: false      // Foto mungkin tidak perlu dicari
-                }
-            ]
-        });
+   $(document).ready(function() {
+    var inventaris = $('#inventaris_table').DataTable({
+        serverSide: true,   // Jika ingin menggunakan server-side processing
+        searching: true,    // Mengaktifkan fitur pencarian
         
-        // Fungsi untuk melakukan pencarian saat tombol "Cari" ditekan
-        $('#searchButton').on('click', function() {
-          
-            var keyword = $('#searchInput').val().toLowerCase();
-            inventaris.search(keyword).draw();
+        ajax: {
+            "url": "{{ url('penduduk/daftar_inventaris/list') }}", // Ganti URL dengan endpoint yang sesuai
+            "dataType": "json",
+            "type": "POST"
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                className: "text-center",
+                orderable: false,
+                searchable: false
+            },
+            // Kolom untuk menampilkan gambar
+            {
+                data: "id_gambar",
+                className: "",
+                orderable: false,
+                searchable: false,
+                render: function (data, type, row) {
+                    if (data) {
+                        return '<img data-id-gambar="' + row.id_inventaris + '" width="50" height="50">';
+                    } else {
+                        return '<img src="placeholder.png" width="50" height="50">'; // Replace with placeholder image path
+                    }
+                }
+            },
+            {
+                // Kolom untuk nama barang
+                data: "nama_barang",
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            // Kolom untuk aksi (Dipinjam/Tersedia)
+            {
+              data: "tanggal_peminjaman",
+                className: "text-center",
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    var currentDate = new Date();
+                    var peminjamanDate = new Date(data);
+                    if (peminjamanDate <= currentDate) {
+                        return '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
+                    } else {
+                        return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia</button>';
+                    }
+                    }
+            }
+        ]
+    });
+    
+    // Fungsi untuk melakukan pencarian saat tombol "Cari" ditekan
+    $('#searchButton').on('click', function() {
+        var keyword = $('#searchInput').val().toLowerCase();
+        inventaris.search(keyword).draw();
+    });
+    
+
+    // Fungsi untuk melakukan pencarian berdasarkan tanggal
+    $('#searchButton').click(function() {
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+
+        // Kirim permintaan AJAX ke server dengan parameter startDate dan endDate
+        $.ajax({
+            url: 'pencarian.php',
+            type: 'GET',
+            data: { startDate: startDate, endDate: endDate },
+            success: function(response) {
+                // Tampilkan hasil pencarian di sini
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
         });
     });
+    
+    // Menampilkan gambar inventaris
+    $('#table_inventaris').on('draw.dt', function() {
+        $('img[data-id-gambar]').each(function() {
+            var idInventaris = $(this).data('id-gambar');
+            var imgElement = $(this); // Simpan referensi objek gambar
+            
+            $.ajax({
+                url: "http://localhost/RTnet/public/inventaris/image/" + idInventaris,
+                type: 'GET',
+                success: function(response) {
+                    var imageData = 'data:' + response.mimeType + ';base64,' + response.imageData;
+                    imgElement.attr('src', imageData);
+                },
+                error: function() {
+                    imgElement.attr('src', 'placeholder.png');
+                }
+            });
+        });
+    });
+    
+    
+});
+
+    
 </script>
 @endpush

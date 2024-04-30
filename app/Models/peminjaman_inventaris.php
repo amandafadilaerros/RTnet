@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class peminjaman_inventaris extends Model
 {
-    use HasFactory;
+    protected $table = 'peminjaman_inventaris';
+
+    // Definisikan relasi belongsTo ke model Inventaris
+    public function inventaris()
+    {
+        return $this->belongsTo(Inventaris::class, 'id_inventaris');
+    }
 }

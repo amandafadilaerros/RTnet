@@ -132,8 +132,28 @@ Route::group(['prefix' => 'penduduk'], function () {
     });
 
     Route::group(['prefix' => 'daftar_inventaris'], function () {
+        Route::get('/inventaris/image/{id}', function ($id) {
+            $inventaris = inventaris::with('gambar')->find($id);
+
+            if ($inventaris && $inventaris->id_gambar) {
+                $gambar = gambar::find($inventaris->id_gambar);
+                // Get the image data from the database or storage
+                $imageData = base64_encode($gambar->data_gambar); // Assuming you have an image relationship
+                $mimeType = $gambar->mime_type; // Assuming you have a mime_type attribute
+
+                // Return the image data with appropriate headers
+                // return response($imageData, 200)->header('Content-Type', $mimeType);
+                return response()->json([
+                    'imageData' => $imageData,
+                    'mimeType' => $mimeType
+                ], 200);
+            } else {
+                return response()->json('Image not found', 404);
+            }
+        });
         Route::get('/', [inventarisController::class, 'index']);
         Route::post('/list', [inventarisController::class, 'list']);
+        Route::get('/list', [inventarisController::class, 'list']);
     });
     Route::post('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 

@@ -77,6 +77,8 @@ class pendudukController extends Controller
             ->make(true);
 
     }
+
+
     public function search(Request $request)
     {
         // Ambil nilai pencarian dari permintaan POST
@@ -91,17 +93,17 @@ class pendudukController extends Controller
                 DB::raw('SUM(CASE WHEN jenis_transaksi = "pengeluaran" THEN nominal ELSE 0 END) AS pengeluaran'),
                 DB::raw('SUM(nominal) AS saldo')
             )
+            ->where(function ($query) use ($searchText) {
+                $query->where(DB::raw('LOWER(jenis_transaksi)'), 'LIKE', "%" . strtolower($searchText) . "%")
+                    ->orWhere(DB::raw('LOWER(jenis_iuran)'), 'LIKE', "%" . strtolower($searchText) . "%");
+            })
             ->groupBy('jenis_transaksi', 'jenis_iuran')
-            ->havingRaw('LOWER(jenis_transaksi) LIKE ?', ["%$searchText%"])
-            ->orWhereRaw('LOWER(jenis_iuran) LIKE ?', ["%$searchText%"])
-            ->orWhereRaw('LOWER(pemasukan) LIKE ?', ["%$searchText%"])
-            ->orWhereRaw('LOWER(pengeluaran) LIKE ?', ["%$searchText%"])
-            ->orWhereRaw('LOWER(saldo) LIKE ?', ["%$searchText%"])
             ->get();
 
         // Kembalikan hasil pencarian dalam format JSON
         return response()->json($results);
     }
+
 
 
 
@@ -124,6 +126,40 @@ class pendudukController extends Controller
             'page' => $page,
             'activeMenu' => $activeMenu,
         ]);
+    }
+
+
+
+    public function getInfoPeminjaman($id_inventaris)
+    {
+        // Menggunakan Eloquent untuk mengambil informasi peminjaman berdasarkan ID inventaris
+        $inventaris = Inventaris::with('peminjaman')->find($id_inventaris);
+
+        // Jika inventaris dengan ID yang diberikan tidak ditemukan, kembalikan respons dengan pesan kesalahan
+        if (!$inventaris) {
+            return response()->json(['error' => 'Inventaris not found'], 404);
+        }
+
+        // Jika inventaris ditemukan, ambil informasi peminjamannya
+        $info_peminjaman = [
+            'tanggal_peminjaman' => null,
+            'tanggal_pengembalian' => null,
+            'status_peminjaman' => 'Tersedia' // Status default jika tidak ada peminjaman
+        ];
+
+        // Jika ada data peminjaman, atur informasi peminjaman sesuai
+        if ($inventaris->peminjaman) {
+            $info_peminjaman['tanggal_peminjaman'] = $inventaris->peminjaman->tanggal_peminjaman;
+            $info_peminjaman['tanggal_pengembalian'] = $inventaris->peminjaman->tanggal_kembali;
+
+            // Jika tanggal pengembalian belum lewat, ubah status peminjaman menjadi 'Dipinjam'
+            if ($inventaris->peminjaman->tanggal_kembali >= now()->toDateString()) {
+                $info_peminjaman['status_peminjaman'] = 'Dipinjam';
+            }
+        }
+
+        // Kembalikan informasi peminjaman sebagai respons JSON
+        return response()->json($info_peminjaman);
     }
     public function kegiatan()
     {
