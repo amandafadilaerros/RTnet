@@ -3,11 +3,30 @@
 @section('content')
 <div class="card-body">
     <div class="header">
-        <p><strong>Kepala Keluarga &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> John Doe</p>
-        <p><strong>Nomor Kartu Keluarga &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> 123456789</p>
-        <p><strong>Alamat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> Jalan Contoh No. 123</p>
-        <p><strong>Jumlah Individu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> 2</p>
-        <p><strong>No. Rumah / Status Rumah &nbsp;&nbsp; :</strong> 123 / Hunian Tetap</p>
+        <table border="0">
+            <tr>
+                <td><strong>Kepala Keluarga </strong></td>
+                <td>: John Doe</td>
+            </tr>
+            <tr>
+                <td><strong>Nomor Kartu Keluarga</strong></td>
+                <td>:123456789</td>
+            </tr>
+            <tr>
+                <td><strong>Alamat</strong></td>
+                <td>:Jalan Contoh No. 123</td>
+            </tr>
+            <tr>
+                <td><strong>Jumlah Individu</strong></td>
+                <td>:2</td>
+            </tr>
+            <tr>
+                <td><strong>No. Rumah / Status Rumah</strong></td>
+                <td>:123 / Hunian Tetap</td>
+            </tr>
+        </table>
+        
+        
     </div>
     <div class="card-body">
         @if (session('success'))
@@ -21,14 +40,7 @@
                 <h2>Data Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Search...">
-                    <div class="input-group-append">
-                        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px;">Search</a>
-                    </div>
-                </div>
-            </div>
+          
         </div>
         <div class="header">
             <table class="table table-hover table-striped" id="table_user">
@@ -75,14 +87,14 @@
                 <h2>Data Non-Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahNonAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <div class="input-group">
                     <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Search...">
                     <div class="input-group-append">
                         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px;">Search</a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
         <div class="header">
             <table class="table table-hover table-striped" id="table_user">
