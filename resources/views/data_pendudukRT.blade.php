@@ -188,12 +188,12 @@
             //     dataRumah.ajax.reload();
             // });
             $('#nik').on('input', function() {
-                dataRumah.ajax.reload();
+                datapenduduk.ajax.reload();
             });
 
             $('#formSearch').on('submit', function(e) {
                 e.preventDefault(); // Menghentikan perilaku default dari tombol "Cari"
-                dataRumah.ajax.reload();
+                datapenduduk.ajax.reload();
             });
         });
     </script>
