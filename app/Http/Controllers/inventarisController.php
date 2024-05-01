@@ -53,7 +53,7 @@ class InventarisController extends Controller
         // Hanya untuk testing template
         $breadcrumb = (object) [
             'title' => 'Daftar Peminjaman',
-            'list' => ['--', '--'],
+            'list' => [date('j F Y')],
         ];
         $page = (object) [
             'title' => '-----',

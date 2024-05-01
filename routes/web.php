@@ -122,7 +122,11 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
+    Route::post('/pengumuman',[pendudukController::class,'list_pengumuman']);
+    Route::get('/showPengumumanPenduduk/{id_pengumuman}',[pendudukController::class,'show_pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
+    Route::put('/akun', [pendudukController::class, 'update_akun']);
+    Route::post('/akun', [pendudukController::class, 'edit_akun']);
     // Route::get('/inventaris', [inventarisController::class, 'list']);
 
 

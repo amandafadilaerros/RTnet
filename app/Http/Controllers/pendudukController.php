@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\akun;
 use App\Models\IuranModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,6 +11,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Columns\Action;
 use App\Models\LaporanKeuangan;
 use App\Models\Inventaris;
+use App\Models\level;
 use App\Models\Pengumumans;
 
 class pendudukController extends Controller
@@ -33,7 +35,7 @@ class pendudukController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('penduduk/dashboard', [
+        return view('penduduk.dashboard', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -153,7 +155,7 @@ class pendudukController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Daftar Pengumuman',
-            'list' => ['--', '--'],
+            'list' => [date('j F Y')],
         ];
         $page = (object) [
             'title' => '-----',
@@ -166,22 +168,96 @@ class pendudukController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
-    public function akun()
+
+    public function list_pengumuman()
     {
+        $pengumumans = Pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
+
+        return DataTables::of($pengumumans)
+            ->addIndexColumn() // Add index column
+            ->addColumn('aksi', function ($pengumuman) { // Add action column
+                $btn = '<a href="' . url('/penduduk/showPengumumanPenduduk/' . $pengumuman->id_pengumuman) . '" class="btn btn-info btn-sm">Detail</a> ';
+                return $btn;
+            })
+            ->rawColumns(['aksi']) // Let DataTables know that the action column is HTML
+            ->make(true);
+    }
+
+    public function show_pengumuman(string $id)
+    {
+        $pengumumans = Pengumumans::find($id);
+        
+        $breadcrumb = (object) [
+            'title' => 'Pengumuman',
+            'list' => [date('j F Y')],
+        ];
+
+        $page = (object) [
+            'title' => 'Pengumuman'
+        ];
+
+        $activeMenu = 'pengumuman';
+
+        return view('showPengumumanPenduduk', ['breadcrumb' => $breadcrumb, 'page' => $page, 'pengumuman' => $pengumumans, 'activeMenu' => $activeMenu]);
+    }
+    public function akun()
+    {   
+        $akun = akun::find(4);
+        $level = level::all();
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
-            'list' => ['--', '--'],
+            'list' => [date('j F Y')],
         ];
         $page = (object) [
             'title' => '-----',
         ];
         $activeMenu = 'akun';
 
-        return view('akunBendahara', [
+        return view('akunPenduduk', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
+            'akun' => $akun,
+            'level' => $level
         ]);
+    }
+
+    public function edit_akun()
+    {
+        $akun = akun::find(4);
+        $level = level::all();
+        // ini hanya TEST
+        $breadcrumb = (object) [
+            'title' => 'Akun Saya',
+            'list' => [date('j F Y')],
+        ];
+        $page = (object) [
+            'title' => '-----',
+        ];
+        $activeMenu = 'akun';
+
+        return view('akunPenduduk', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+            'akun' => $akun,
+            'level' => $level
+        ]);
+    }
+
+    public function update_akun(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+          
+        ]);
+
+        akun::where('id_akun', 4)->update([
+            'password' => $request->password,
+            
+        ]);
+
+        return redirect('/penduduk/akun')->with('success', 'Akun berhasil diubah');
     }
 }
