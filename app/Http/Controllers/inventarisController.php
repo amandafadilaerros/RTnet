@@ -6,13 +6,13 @@ use App\Models\Inventaris;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
-class InventarisController extends Controller
+class inventarisController extends Controller
 {
     public function index()
     {
         // Hanya untuk testing template
         $breadcrumb = (object) [
-            'title' => 'Inventaris',
+            'title' => 'Daftar Inventaris',
             'list' => ['--', '--'],
         ];
         $page = (object) [
@@ -23,7 +23,11 @@ class InventarisController extends Controller
 
         // $barang = BarangModel::all();
 
-        return view('inventaris.index', compact('breadcrumb', 'page', 'activeMenu'));
+        return view('penduduk.daftar_inventaris', [
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
 
     public function list(Request $request)
@@ -31,22 +35,11 @@ class InventarisController extends Controller
         // Ambil data inventaris
         $inventaris = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'id_gambar')->with('gambar');
 
-        // ->get();
-
         return DataTables::of($inventaris)
             ->addIndexColumn()
-            ->addColumn('aksi', function ($inventaris) {
-                $status = $inventaris->status;
-                if ($status == 'Dipinjam') {
-                    $btn = '<button class="btn btn-warning btn-sm" disabled>Dipinjam</button>';
-                } elseif ($status == 'Tersedia') {
-                    $btn = '<button class="btn btn-success btn-sm" disabled>Tersedia</button>';
-                }
-                return $btn;
-            })
-            ->rawColumns(['aksi'])
             ->make(true);
     }
+
 
     public function pk_peminjaman()
     {
