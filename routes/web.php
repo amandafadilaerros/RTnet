@@ -166,7 +166,7 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::get('/', [inventarisController::class, 'index']);
         Route::post('/list', [inventarisController::class, 'list']);
     });
-    Route::post('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
+    Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 
 });
 

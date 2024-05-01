@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class pengumumans extends Model
 {
-    use HasFactory;
+    protected $table = 'pengumumans';
+    protected $primaryKey = 'id_pengumuman';
+
+    protected $fillable = [
+        'id_pengumuman','judul', 'kegiatan', 'jadwal_pelaksanaan',
+    ];
 }

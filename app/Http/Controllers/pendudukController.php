@@ -27,6 +27,11 @@ class pendudukController extends Controller
             'title' => 'Dashboard',
             'list' => ['Home', 'Dashboard']
         ];
+        $page = (object) [
+            'title' => 'Laporan Keuangan'
+        ];
+
+        $activeMenu = 'keuangan';
 
         return view('penduduk/dashboard', [
             'breadcrumb' => $breadcrumb,
