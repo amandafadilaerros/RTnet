@@ -11,9 +11,11 @@ use Yajra\DataTables\Html\Columns\Action;
 use App\Models\LaporanKeuangan;
 use App\Models\Inventaris;
 use App\Models\Pengumumans;
+use App\Models\peminjaman_inventaris;
 
 class pendudukController extends Controller
 {
+
     public function index()
     {
         $laporan_keuangan = IuranModel::count();
@@ -215,5 +217,5 @@ class pendudukController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
-    
+
 }

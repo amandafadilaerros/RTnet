@@ -100,19 +100,10 @@
             },
             // Kolom untuk aksi (Dipinjam/Tersedia)
             {
-              data: "tanggal_peminjaman",
+              data: "aksi",
                 className: "text-center",
                 orderable: false,
                 searchable: false,
-                render: function(data, type, row) {
-                    var currentDate = new Date();
-                    var peminjamanDate = new Date(data);
-                    if (peminjamanDate <= currentDate) {
-                        return '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
-                    } else {
-                        return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia</button>';
-                    }
-                    }
             }
         ]
     });
