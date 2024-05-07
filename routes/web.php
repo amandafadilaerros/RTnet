@@ -76,8 +76,9 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::post('/list', [KKController::class, 'list']);
         Route::get('/create', [KKController::class, 'create']);
         Route::post('/', [KKController::class, 'store']);
-        Route::get('/{id}', [KKController::class, 'show']);
-        Route::get('/{id}/edit', [KKController::class, 'edit']);
+        // Route::get('/{id}', [KKController::class, 'show']);
+        Route::post('/edit', [KKController::class, 'edit']);
+        Route::get('/edit', [KKController::class, 'edit']);
         Route::put('/{id}', [KKController::class, 'update']);
         Route::delete('/{id}', [KKController::class, 'destroy']);
 

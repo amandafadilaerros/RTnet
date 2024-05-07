@@ -14,8 +14,8 @@ class kkModel extends Model
 
     protected $fillable = ['no_kk','nama_kepala_keluarga', 'id_level', 'jumlah_individu', 'alamat', 'dokumen'];
 
-    public function penduduk_tetap(): HasMany
+    public function ktp(): HasMany
     {
-        return $this->hasMany(penduduk_tetapModel::class, 'id_penduduk_tetap');
+        return $this->hasMany(ktp::class, 'NIK');
     }
 }
