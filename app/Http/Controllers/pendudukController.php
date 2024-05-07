@@ -29,17 +29,8 @@ class pendudukController extends Controller
             'title' => 'Dashboard',
             'list' => ['Home', 'Dashboard']
         ];
-        $page = (object) [
-            'title' => 'Laporan Keuangan'
-        ];
 
-        $activeMenu = 'keuangan';
-
-        return view('penduduk/dashboard', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-        ]);
+        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'breadcrumb'));
     }
 
 
@@ -228,7 +219,7 @@ class pendudukController extends Controller
     public function show_pengumuman(string $id)
     {
         $pengumumans = Pengumumans::find($id);
-        
+
         $breadcrumb = (object) [
             'title' => 'Pengumuman',
             'list' => [date('j F Y')],
@@ -243,7 +234,7 @@ class pendudukController extends Controller
         return view('showPengumumanPenduduk', ['breadcrumb' => $breadcrumb, 'page' => $page, 'pengumuman' => $pengumumans, 'activeMenu' => $activeMenu]);
     }
     public function akun()
-    {   
+    {
         $akun = akun::find(4);
         $level = level::all();
         // ini hanya TEST
@@ -265,8 +256,6 @@ class pendudukController extends Controller
         ]);
     }
 
-<<<<<<< HEAD
-=======
     public function edit_akun()
     {
         $akun = akun::find(4);
@@ -294,16 +283,15 @@ class pendudukController extends Controller
     {
         $request->validate([
             'password' => 'required',
-          
+
         ]);
 
         akun::where('id_akun', 4)->update([
             'password' => $request->password,
-            
+
         ]);
 
         return redirect('/penduduk/akun')->with('success', 'Akun berhasil diubah');
     }
-    
->>>>>>> c20b126d16c826bcc9b3ea10709f1bbcf2d880e5
+
 }
