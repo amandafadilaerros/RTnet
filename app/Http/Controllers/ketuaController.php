@@ -60,7 +60,7 @@ class ketuaController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
-    public function dataPenduduk()
+    public function data_Penduduk()
     {
         // ini hanya TEST
         $breadcrumb = (object) [
@@ -72,7 +72,7 @@ class ketuaController extends Controller
         ];
         $activeMenu = 'data_penduduk';
 
-        return view('dataPenduduk', [
+        return view('data_Penduduk', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
