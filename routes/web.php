@@ -80,14 +80,21 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::put('/{id}', [pendudukController::class, 'update']);
         Route::delete('/{id}', [pendudukController::class, 'destroy']);
     });
+        Route::get('/show', [data_rumahController::class, 'show']);
+        Route::post('/edit', [data_rumahController::class, 'edit']);
+        Route::put('/update', [data_rumahController::class, 'update']);
+        Route::delete('/delete', [data_rumahController::class, 'destroy']);
+    });
+    Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
         Route::get('/', [KKController::class, 'index']);
         Route::post('/list', [KKController::class, 'list']);
         Route::get('/create', [KKController::class, 'create']);
         Route::post('/', [KKController::class, 'store']);
-        Route::get('/{id}', [KKController::class, 'show']);
-        Route::get('/{id}/edit', [KKController::class, 'edit']);
+        // Route::get('/{id}', [KKController::class, 'show']);
+        Route::post('/edit', [KKController::class, 'edit']);
+        Route::get('/edit', [KKController::class, 'edit']);
         Route::put('/{id}', [KKController::class, 'update']);
         Route::delete('/{id}', [KKController::class, 'destroy']);
 
@@ -108,6 +115,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
+    Route::post('/keuangan/list', [laporanKeuanganController::class, 'list']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
     Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
@@ -161,8 +169,10 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
+    Route::post('/pengumuman', [pendudukController::class, 'list_pengumuman']);
+    Route::get('/showPengumumanPenduduk/{id_pengumuman}', [pendudukController::class, 'show_pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
-    Route::post('penduduk/laporan_keuangan/search', 'LaporanKeuanganController@search');
+    // Route::get('/inventaris', [inventarisController::class, 'list']);
 
     Route::group(['prefix' => 'laporan_keuangan'], function () {
         Route::post('/search', [pendudukController::class, 'search']);
@@ -193,10 +203,29 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::post('/list', [inventarisController::class, 'list']);
         Route::get('/list', [inventarisController::class, 'list']);
     });
-    Route::post('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
+    Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
 
 });
 
+Route::get('/inventaris/image/{id}', function ($id) {
+    $inventaris = inventaris::with('gambar')->find($id);
+
+    if ($inventaris && $inventaris->id_gambar) {
+        $gambar = gambar::find($inventaris->id_gambar);
+        // Get the image data from the database or storage
+        $imageData = base64_encode($gambar->data_gambar); // Assuming you have an image relationship
+        $mimeType = $gambar->mime_type; // Assuming you have a mime_type attribute
+
+        // Return the image data with appropriate headers
+        // return response($imageData, 200)->header('Content-Type', $mimeType);
+        return response()->json([
+            'imageData' => $imageData,
+            'mimeType' => $mimeType
+        ], 200);
+    } else {
+        return response()->json('Image not found', 404);
+    }
+});
 
 //halaman tidak ditemukan
 Route::fallback(function () {
