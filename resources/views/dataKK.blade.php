@@ -53,30 +53,31 @@
             </button>
           </div>
           <div class="modal-body">
-            <form>
+            <form method="" action="">
+              @csrf
               <div class="form-group">
                 <label for="noKK">No KK</label>
-                <input type="text" class="form-control" id="noKK" placeholder="Masukkan No KK">
+                <input type="text" class="form-control" id="noKK" name="no_kk" placeholder="Masukkan No KK">
               </div>
               <div class="form-group">
                 <label for="alamat">Alamat</label>
-                <input type="text" class="form-control" id="alamat" placeholder="Masukkan Alamat">
+                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
               </div>
               <div class="form-group">
                 <label for="nik">NIK</label>
-                <input type="text" class="form-control" id="nik" placeholder="Masukkan NIK">
+                <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK">
               </div>
               <div class="form-group">
                 <label for="namaKepalaKeluarga">Nama Kepala Keluarga</label>
-                <input type="text" class="form-control" id="namaKepalaKeluarga" placeholder="Masukkan Nama Kepala Keluarga">
+                <input type="text" class="form-control" id="namaKepalaKeluarga" name="nama" placeholder="Masukkan Nama Kepala Keluarga">
               </div>
               <div class="form-group">
                 <label for="jumlahAnggotaKeluarga">Jumlah Anggota Keluarga</label>
-                <input type="number" class="form-control" id="jumlahAnggotaKeluarga" placeholder="Masukkan Jumlah Anggota Keluarga">
+                <input type="number" class="form-control" id="jumlahAnggotaKeluarga" name="jumlah_anggota" placeholder="Masukkan Jumlah Anggota Keluarga">
               </div>
               <div class="form-group">
                 <label for="agama">Agama</label>
-                <select class="form-control" id="agama">
+                <select class="form-control" id="agama" name="agama">
                   <option value="islam">Islam</option>
                   <option value="kristen">Kristen</option>
                   <option value="katolik">Katolik</option>
@@ -86,22 +87,26 @@
               </div>
               <div class="form-group">
                 <label for="statusPernikahan">Status Pernikahan</label>
-                <select class="form-control" id="statusPernikahan">
+                <select class="form-control" id="statusPernikahan" name="status_pernikahan">
                   <option value="kawin">Kawin</option>
                   <option value="belumKawin">Belum Kawin</option>
                 </select>
               </div>
               <div class="form-group">
                 <label for="nomorRumah">Nomor Rumah</label>
-                <input type="text" class="form-control" id="nomorRumah" placeholder="Masukkan Nomor Rumah">
+                <input type="text" class="form-control" id="nomorRumah" name="no_rumah" placeholder="Masukkan Nomor Rumah">
               </div>
               <div class="form-group">
-                <label for="tempatTanggalLahir">Tempat Tanggal Lahir</label>
-                <input type="date" class="form-control" id="tempatTanggalLahir">
+                <label for="tempatTanggalLahir">Tanggal Lahir</label>
+                <input type="date" class="form-control" id="tanggalLahir" name="tanggal_lahir">
+              </div>
+              <div class="form-group">
+                <label for="tempatTanggalLahir">Tempat Lahir</label>
+                <input type="text" class="form-control" id="tempatLahir" name="tempat_lahir">
               </div>
               <div class="form-group">
                 <label for="pendidikan">Pendidikan</label>
-                <select class="form-control" id="pendidikan">
+                <select class="form-control" id="pendidikan" name="pendidikan">
                   <option value="SD">SD</option>
                   <option value="SMP">SMP</option>
                   <option value="SMA">SMA</option>
@@ -114,11 +119,11 @@
               </div>
               <div class="form-group">
                 <label for="jenisPekerjaan">Jenis Pekerjaan</label>
-                <input type="text" class="form-control" id="jenisPekerjaan" placeholder="Masukkan Jenis Pekerjaan">
+                <input type="text" class="form-control" id="jenisPekerjaan" name="pekerjaan" placeholder="Masukkan Jenis Pekerjaan">
               </div>
               <div class="form-group">
                 <label for="dokumenKK">Dokumen Kartu Keluarga</label>
-                <input type="file" class="form-control-file" id="dokumenKK">
+                <input type="file" class="form-control-file" id="dokumenKK" name="dokumen">
               </div>
               <div class="text-center">
                   <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px; margin-top: 10px; margin-bottom: 10px;">Tambah</button>
@@ -141,29 +146,30 @@
               </div>
               <div class="modal-body">
                 <form>
+                  @csrf
                   <div class="form-group">
                     <label for="noKK">No KK</label>
-                    <input type="text" class="form-control" id="noKK" placeholder="Masukkan No KK">
+                    <input type="text" class="form-control" id="noKK" name="noKK" placeholder="Masukkan No KK">
                   </div>
                   <div class="form-group">
                     <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" id="alamat" placeholder="Masukkan Alamat">
+                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
                   </div>
                   <div class="form-group">
                     <label for="nik">NIK</label>
-                    <input type="text" class="form-control" id="nik" placeholder="Masukkan NIK">
+                    <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK">
                   </div>
                   <div class="form-group">
                     <label for="namaKepalaKeluarga">Nama Kepala Keluarga</label>
-                    <input type="text" class="form-control" id="namaKepalaKeluarga" placeholder="Masukkan Nama Kepala Keluarga">
+                    <input type="text" class="form-control" id="namaKepalaKeluarga" name="namaKepalaKeluarga" placeholder="Masukkan Nama Kepala Keluarga">
                   </div>
                   <div class="form-group">
                     <label for="jumlahAnggotaKeluarga">Jumlah Anggota Keluarga</label>
-                    <input type="number" class="form-control" id="jumlahAnggotaKeluarga" placeholder="Masukkan Jumlah Anggota Keluarga">
+                    <input type="number" class="form-control" id="jumlahAnggotaKeluarga" name="jumlahAnggotaKeluarga" placeholder="Masukkan Jumlah Anggota Keluarga">
                   </div>
                   <div class="form-group">
                     <label for="agama">Agama</label>
-                    <select class="form-control" id="agama">
+                    <select class="form-control" id="agama" name="agama">
                       <option value="islam">Islam</option>
                       <option value="kristen">Kristen</option>
                       <option value="katolik">Katolik</option>
@@ -173,22 +179,26 @@
                   </div>
                   <div class="form-group">
                     <label for="statusPernikahan">Status Pernikahan</label>
-                    <select class="form-control" id="statusPernikahan">
+                    <select class="form-control" id="statusPernikahan" name="statusPernikahan">
                       <option value="kawin">Kawin</option>
                       <option value="belumKawin">Belum Kawin</option>
                     </select>
                   </div>
                   <div class="form-group">
                     <label for="nomorRumah">Nomor Rumah</label>
-                    <input type="text" class="form-control" id="nomorRumah" placeholder="Masukkan Nomor Rumah">
+                    <input type="text" class="form-control" id="nomorRumah" name="nomorRumah" placeholder="Masukkan Nomor Rumah">
                   </div>
                   <div class="form-group">
-                    <label for="tempatTanggalLahir">Tempat Tanggal Lahir</label>
-                    <input type="date" class="form-control" id="tempatTanggalLahir">
+                    <label for="tanggalLahir">Tanggal Lahir</label>
+                    <input type="date" class="form-control" id="tanggalLahir" name="tanggalLahir">
+                  </div>
+                  <div class="form-group">
+                    <label for="tempatLahir">Tempat Lahir</label>
+                    <input type="text" class="form-control" id="tempatLahir" name="tempat">
                   </div>
                   <div class="form-group">
                     <label for="pendidikan">Pendidikan</label>
-                    <select class="form-control" id="pendidikan">
+                    <select class="form-control" id="pendidikan" name="pendidikan">
                       <option value="SD">SD</option>
                       <option value="SMP">SMP</option>
                       <option value="SMA">SMA</option>
@@ -201,11 +211,11 @@
                   </div>
                   <div class="form-group">
                     <label for="jenisPekerjaan">Jenis Pekerjaan</label>
-                    <input type="text" class="form-control" id="jenisPekerjaan" placeholder="Masukkan Jenis Pekerjaan">
+                    <input type="text" class="form-control" id="jenisPekerjaan" name="pekerjaan" placeholder="Masukkan Jenis Pekerjaan">
                   </div>
                   <div class="form-group">
                     <label for="dokumenKK">Dokumen Kartu Keluarga</label>
-                    <input type="file" class="form-control-file" id="dokumenKK">
+                    <input type="file" class="form-control-file" id="dokumenKK" name="dokumenKK">
                   </div>
                   <div class="text-center">
                       <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px; margin-top: 10px; margin-bottom: 10px;">Tambah</button>
@@ -304,7 +314,7 @@
       });
         $(document).on("click", ".btn-edit", function () {
         var ids = $(this).data('id');
-        $(".modal-body #id").val( ids );
+        $(".modal-body #noKK").val( ids );
         $.ajax({
             url: "{{ url('ketuaRt/data_kk/edit') }}",
             type: "POST",
@@ -314,10 +324,14 @@
             },
             success: function(response) {
                 // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #no_kk').val(response.no_kk);
-                $('.modal-body #nama_kepala_keluarga').val(response.nama_kepala_keluarga);
-                $('.modal-body #jumlah_individu').val(response.jumlah_individu);
-                $('.modal-body #alamat').val(response.alamat);
+                $('.modal-body #alamat').val(response.kk.alamat);
+                $('.modal-body #nik').val(response.ktp[0].NIK);
+                $('.modal-body #namaKepalaKeluarga').val(response.kk.nama_kepala_keluarga);
+                $('.modal-body #jumlahAnggotaKeluarga').val(response.kk.jumlah_individu);
+                $('.modal-body #jenisPekerjaan').val(response.ktp[0].pekerjaan);
+                $('.modal-body #tempatLahir').val(response.ktp[0].tempat);
+                $('.modal-body #tanggalLahir').val(response.ktp[0].tanggal_lahir);
+                $('.modal-body #nomorRumah').val(response.kk.no_rumah);
                 $('.modal-body #dokumen').val(response.dokumen);
                 // Isi formulir lainnya sesuai kebutuhan Anda
             },

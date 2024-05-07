@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\kkModel;
+use App\Models\ktp;
 use App\Models\ktpModel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -77,7 +78,6 @@ class KKController extends Controller
         // ->rawColumns(['aksi'])
         ->make(true);
     }
-    
 
     public function createKTP()
     {
@@ -161,4 +161,71 @@ class KKController extends Controller
         return redirect('/ketuaRt/data_kk')->with('success', 'Data KK berhasil disimpan');
     }
 
+    public function store(Request $request){
+        $request->validate([
+            'nik'                => 'required|unique:ktps|max:255',
+            'no_kk'              => 'required|max:255',
+            'nama'              => 'required|max:255',
+            'alamat'              => 'required|max:255',
+            'jumlah_anggota'               => 'required|integer',
+            'tempat_lahir'             => 'required|max:255',
+            'tanggal_lahir'      => 'required|date',
+            'agama'              => 'required|max:255',
+            'no_rumah'              => 'required',
+            'status_pernikahan'  => 'required|max:255',
+            'pekerjaan'          => 'required|max:255',
+            'pendidikan'          => 'required|max:255',
+            'tgl_masuk'          => 'nullable|date',
+            'tgl_keluar'         => 'nullable|date',
+            'dokumen'            => 'nullable',
+        ]);
+
+        kkModel::create([
+            'no_kk' => $request->no_kk,
+            'nama_kepala_keluarga' => $request->nama,
+            'jumlah_individu' => $request->jumlah_anggota,
+            'alamat' => $request->alamat,
+            'no_rumah' => $request->no_rumah,
+        ]);
+        ktp::create([
+            'NIK' => $request->nik,
+            'no_kk' => $request->no_kk,
+            'nama' => $request->nama,
+            'tempat' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'agama' => $request->agama,
+            'status_perkawinan' => $request->status_pernikahan,
+            'pekerjaan' => $request->pekerjaan,
+        ]);
+        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
+    }
+    
+    public function edit(Request $request)
+    {
+        $kk = kkModel::find($request->no_kk);
+
+        if ($kk) {
+            // Jika KK ditemukan, kita bisa menggunakan relasi hasMany untuk mencari data KTP
+            $nama = $kk->nama; // Mendapatkan nama dari KK
+
+            // Mencari data KTP berdasarkan no_kk dari KK dan kemudian memfilter berdasarkan nama
+            $data_ktps = ktp::where('no_kk', $kk->no_kk)
+                            ->where('nama', 'LIKE', "%$nama%")
+                            ->get();
+
+            $combinedData = [
+                'kk' => $kk,
+                'ktp' => $data_ktps
+            ];
+                    
+            // Mengembalikan data KK dan KTP dalam format JSON
+            return response()->json($combinedData);
+        } else {
+            // Handle jika KK tidak ditemukan
+            return response()->json(['message' => 'KK not found'], 404);
+        }
+    }
 }
+
+
