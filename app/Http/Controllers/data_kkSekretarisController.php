@@ -8,7 +8,7 @@ use App\Models\ktp;
 use App\Models\ktpModel;
 use Yajra\DataTables\Facades\DataTables;
 
-class KKController extends Controller
+class data_kkSekretarisController extends Controller
 {
     public function index()
     {
@@ -22,7 +22,7 @@ class KKController extends Controller
         ];
         $activeMenu = 'data_kk';
 
-        return view('dataKK', [
+        return view('data_KKrt', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -40,7 +40,7 @@ class KKController extends Controller
         ];
         $activeMenu = 'data_kk';
 
-        return view('dataKKSekretaris', [
+        return view('data_KKSekretaris', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -65,7 +65,7 @@ class KKController extends Controller
         ]);
     }
     public function list(Request $request){
-        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat', 'dokumen');
+        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat','no_rumah', 'dokumen');
     
         return DataTables::of($kks)
         ->addIndexColumn()
@@ -78,7 +78,9 @@ class KKController extends Controller
         // ->rawColumns(['aksi'])
         ->make(true);
     }
-    public function store(Request $request){
+
+    public function store(Request $request)
+    {
         $request->validate([
             'no_kk'                 => 'required|max:255',                         
             'nama_kepala_keluarga'  => 'required|max:255',
@@ -96,38 +98,65 @@ class KKController extends Controller
             'no_rumah'                => $request->no_rumah,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
+        return redirect('/sekretaris/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
-    
+
+    public function create()
+    {
+
+        $breadcrumb = (object) [
+            'title' => 'Tambah Data Kartu Keluarga',
+            'list'  => ['Home', 'Kartu Keluarga', 'Tambah']
+        ];
+
+        $page = (object) [
+            'title' => 'Tambah Data Kartu Keluarga'
+        ];
+
+        $activeMenu = 'data_kk';       //set menu yang sedang aktif
+        return view('data_kk.create', 
+        [
+            'breadcrumb' => $breadcrumb,
+            'page'       => $page,
+            'activeMenu' => $activeMenu,
+        ]);
+    }
+
+      //Menampilkan detail rumah
+      public function show(String $no_kk)
+      {
+
+        $data_kk = kkModel::find($no_kk);
+
+          $breadcrumb = (object) [
+              'title' => 'Detail Data Kartu Keluarga',
+              'list'  => ['Home', 'Kartu Keluarga', 'Detail']
+          ];
+  
+          $page = (object) [
+              'title' => 'Detail Kartu Keluarga'
+          ];
+  
+          $activeMenu = 'data_kk';       //set menu yang sedang aktif
+          return view('data_kk.show', 
+          [
+              'breadcrumb' => $breadcrumb,
+              'page'       => $page,
+              'activeMenu' => $activeMenu,
+              'data_kk' => $data_kk,
+          ]);
+      }
+
     public function edit(Request $request)
     {
-        $kk = kkModel::find($request->no_kk);
-
-        if ($kk) {
-            // Jika KK ditemukan, kita bisa menggunakan relasi hasMany untuk mencari data KTP
-            $nama = $kk->nama; // Mendapatkan nama dari KK
-
-            // Mencari data KTP berdasarkan no_kk dari KK dan kemudian memfilter berdasarkan nama
-            $data_ktps = ktp::where('no_kk', $kk->no_kk)
-                            ->where('nama', 'LIKE', "%$nama%")
-                            ->get();
-
-            $combinedData = [
-                'kk' => $kk,
-                'ktp' => $data_ktps
-            ];
-                    
-            // Mengembalikan data KK dan KTP dalam format JSON
-            return response()->json($combinedData);
-        } else {
-            // Handle jika KK tidak ditemukan
-            return response()->json(['message' => 'KK not found'], 404);
-        }
+        $data_kk = kkModel::find($request->no_kk);
+        return response()->json($data_kk);
     }
-    public function update(Request $request){
-        // dd($request);
+    
+    public function update(Request $request)
+    {
         $request->validate([
-            'no_kk'                 => 'required|max:255',                         
+            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',
@@ -140,7 +169,29 @@ class KKController extends Controller
             'alamat'                => $request->alamat,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
+
+        return redirect('/sekretaris/data_kk')->with('success', 'Data berhasil diubah');
+    }
+
+   //Menghapus data rumah
+    public function destroy(Request $request)
+    {
+        $check = kkModel::find($request->no_kk); // Menggunakan $request->no_rumah dari parameter
+
+        if (!$check) {      //untuk mengecek apakah data rumah dengan id yang dimaksud ada atau tidak
+        return redirect('/sekretaris/data_kk')->with('error', 'Data Kartu Keluarga tidak ditemukan');
+        }
+
+        try {
+        kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
+
+        return redirect('/sekretaris/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
+        } catch (\Illuminate\Database\QueryException $e) { 
+        //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
+        return redirect('/sekretaris/data_kk')->with('error', 'Data Data Kartu Keluarga gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+        }
     }
 
 }
+
+

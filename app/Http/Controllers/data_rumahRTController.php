@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
 
-class data_rumahController extends Controller
+class data_rumahRTController extends Controller
 {
     public function index(){
         // menampilkan halaman awal data rumah
@@ -28,7 +28,7 @@ class data_rumahController extends Controller
         $activeMenu = 'data_rumah';
         $rumahs = rumahModel::all();
         // return view('data_rumah.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kk' => $kk , 'activeMenu' => $activeMenu]);
-        return view('data_rumah', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('data_rumahRT', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request){

@@ -1,84 +1,175 @@
 @extends('layouts.template')
+
 @section('content')
-<div class="row">
-            <div class="col-md-8">
-                <!-- Export PDF button -->
-                <button class="btn btn-danger" type="button" style="border-radius: 20px; width: 120px; margin-bottom: 10px;">Export PDF</button>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;" data-toggle="modal" data-target="#tambahModal">Eksport PDF</a>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
+            <div class="input-group-append">
+                <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
             </div>
-            <!-- Search -->
-            <div class="col-md-4">
-                <div class="row">
-                    <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Cari Data Penduduk" aria-label="Search" aria-describedby="search-addon">
-                    <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
-                </div>
-            </div>
-        </div> 
+        </div>
+    </div>
+</div>
 <div class="card">
-  {{-- <div class="card-header">
+    {{-- <div class="card-header">
       <h3 class="card-title">
         {{ $page->title }}
-      </h3>
-      <div class="card-tools">
-          <a href="{{url('user/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
-      </div>
-  </div> --}}
-  <div class="card-body">
-    <table class="table table-hover table-striped" id="table_user">
-          <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Kelamin</th>
-                <th scope="col">NIK</th>
-                <th scope="col">No. KK</th>
-                <th scope="col">Jenis Penduduk</th>
-                <th scope="col">Usia</th>
-                <th scope="col">Gol. darah</th>
-                <th scope="col">Status</th>
-              </tr>
-          </thead>
-          {{-- hanya CONTOH DATA TABEL --}}
-          <tbody>
-            <tr>
-                <td>1</td>
-                <td>Susanto</td>
-                <td>L</td>
-                <td>1234</td>
-                <td>01919289828727</td>
-                <td>Tetap</td>
-                <td>20</td>
-                <td>O</td>
-                <td>Kawin</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Katiman</td>
-                <td>L</td>
-                <td>1135</td>
-                <td>01919289828727</td>
-                <td>Baru</td>
-                <td>21</td>
-                <td>B</td>
-                <td>Belum Kawin</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Mardi</td>
-                <td>L</td>
-                <td>1142</td>
-                <td>01919289828727</td>
-                <td>Tetap</td>
-                <td>32</td>
-                <td>A</td>
-                <td>Kawin</td>
-            </tr>
-        </tbody>
-      </table>
-  </div>
+    </h3>
+    <div class="card-tools">
+        <a href="{{url('user/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+    </div>
+</div> --}}
+<div class="card-body">
+    @if (session('success'))
+    <div class="alert alert-success">{{session('success')}}</div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">{{session('error')}}</div>
+    @endif
+
+        <table class="table table-hover table-striped" id="table_data_penduduk">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">NIK</th>
+                    <th scope="col">No. KK</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Tempat</th>
+                    <th scope="col">Tgl Lahir</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Gol. Darah</th>
+                    <th scope="col">Agama</th>
+                    <th scope="col">Status Perkawinan</th>
+                    <th scope="col">Pekerjaan</th>
+                    <th scope="col">Status Keluarga</th>
+                    <th scope="col">Status Anggota</th>
+                    <th scope="col">Jenis Penduduk</th>
+                    <th scope="col">Tgl Msuk</th>
+                    <th scope="col">Tgl Keluar</th>
+                    <th scope="col">Dokumen</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
 @endsection
 @push('css')
-@endpush
 
 @push('js')
+    <script>
+        $(document).ready(function() {
+            var dataPenduduk = $('#table_data_penduduk').DataTable({
+                serverSide: true,   //jika ingin menggunakan server side processing
+                ajax: {
+                    "url": "{{ url('sekretaris/data_penduduk/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function (d) {
+                        d.nik = $('#nik').val();
+                    }
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",    // nomor urut dari laravel datatable addIndexColimn()
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "nik",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    }, {
+                        data: "no_kk",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                        data: "nama",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tempat",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tanggal_lahir",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "jenis_kelamin",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "golongan_darah",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "agama",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "status_perkawinan",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "pekerjaan",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                        data: "status_keluarga",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "status_anggota",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "jenis_penduduk",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tgl_masuk",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tgl_keluar",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "dokumen",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }
+                ]
+            });
+
+            $('#nik').on('input', function() {
+                dataPenduduk.ajax.reload();
+            });
+
+            $('#formSearch').on('submit', function(e) {
+                e.preventDefault(); // Menghentikan perilaku default dari tombol "Cari"
+                dataPenduduk.ajax.reload();
+            });
+        });
+    </script>
 @endpush

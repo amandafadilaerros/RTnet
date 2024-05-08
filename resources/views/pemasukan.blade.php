@@ -188,14 +188,14 @@
         Apakah Anda yakin menghapus data ini?
       </div>
       <div class="modal-footer justifiy-content">
-          <form id="hapusForm" action="{{url('/bendahara/pemasukan/destroy')}}" method="post">
-            @csrf
-            @method('DELETE')
-            <input type="hidden" name="id_iuran" id="id_iuran">
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
-            </div>
-          </form>
+        <form id="hapusForm" action="{{url('/bendahara/pemasukan/destroy')}}" method="post">
+          @csrf
+          @method('DELETE')
+          <input type="hidden" name="id_iuran" id="id_iuran">
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -218,25 +218,25 @@
   $(document).on('click', '.btn-edit', function() {
     var jenisPemasukan = $(this).data('jenis');
     var ids = $(this).data('id');
-      $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
-      $.ajax({
-        url: "{{ url('/bendahara/pemasukan/edit') }}", // Ganti URL dengan URL yang sesuai
-        type: "POST",
-        dataType: "json",
-        data: {
-          id_iuran: ids
-        },
-        success: function(response) {
-          // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-          $('.modal-body #edit_no_kk').val(response.no_kk);
-          $('.modal-body #edit_nominal').val(response.nominal);
-          // Isi formulir lainnya sesuai kebutuhan Anda
-        },
-        error: function(xhr, status, error) {
-          // Tangani kesalahan yang terjadi
-        }
-      });
-      $('#editKasModal').modal('show');
+    $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
+    $.ajax({
+      url: "{{ url('/bendahara/pemasukan/edit') }}", // Ganti URL dengan URL yang sesuai
+      type: "POST",
+      dataType: "json",
+      data: {
+        id_iuran: ids
+      },
+      success: function(response) {
+        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+        $('.modal-body #no_kk').val(response.no_kk);
+        $('.modal-body #nominal').val(response.nominal);
+        // Isi formulir lainnya sesuai kebutuhan Anda
+      },
+      error: function(xhr, status, error) {
+        // Tangani kesalahan yang terjadi
+      }
+    });
+    $('#editKasModal').modal('show');
   });
 
   // Fungsi untuk menampilkan modal hapus data
@@ -282,9 +282,9 @@
         orderable: true, //jika ingin kolom bisa urut
         searchable: true // jika kolom bisa dicari
       }, {
-        data: "nominal",
+        data: "created_at_formatted", // menggunakan kolom formatted yang telah ditambahkan pada controller
         className: "",
-        orderable: true, //jika ingin kolom bisa urut
+        orderable: true, // jika ingin kolom bisa urut
         searchable: true // jika kolom bisa dicari
       }, {
         data: null,
@@ -297,7 +297,7 @@
       }]
     });
 
-    $('#no_kk').on('change', function() {
+    $('#id_iuran').on('change', function() {
       dataPemasukan.ajax.reload();
     });
 
