@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class penduduk_tetapModel extends Model
+class ktpModel extends Model
 {
     protected $table = 'ktps'; //mendefiniskan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'nik'; //mendefiniskan primary key dari tabel yang digunakan
