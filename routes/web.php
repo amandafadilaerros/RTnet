@@ -106,19 +106,19 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
     Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
-});
-//Data KK
-Route::group(['prefix' => 'data_kk'], function () {
-    Route::get('/', [KKController::class, 'index']);
-    Route::post('/list', [KKController::class, 'list']);
-    Route::get('/create', [KKController::class, 'create']);
-    Route::post('/', [KKController::class, 'store']);
-    // Route::get('/{id}', [KKController::class, 'show']);
-    Route::post('/edit', [KKController::class, 'edit']);
-    Route::get('/edit', [KKController::class, 'edit']);
-    Route::put('/{id}', [KKController::class, 'update']);
-    Route::delete('/{id}', [KKController::class, 'destroy']);
-
+    //Data KK
+    Route::group(['prefix' => 'data_kk'], function () {
+        Route::get('/', [KKController::class, 'index']);
+        Route::post('/list', [KKController::class, 'list']);
+        Route::get('/create', [KKController::class, 'create']);
+        Route::post('/', [KKController::class, 'store']);
+        // Route::get('/{id}', [KKController::class, 'show']);
+        Route::post('/edit', [KKController::class, 'edit']);
+        Route::get('/edit', [KKController::class, 'edit']);
+        Route::put('/{id}', [KKController::class, 'update']);
+        Route::delete('/{id}', [KKController::class, 'destroy']);
+    
+    });
 });
 Route::group(['prefix' => 'data_penduduk'], function () {
     Route::get('/', [data_pendudukRTController::class, 'index']);
