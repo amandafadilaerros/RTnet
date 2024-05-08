@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\inventaris;
+use App\Models\ktp;
+use App\Models\pengumumans;
 use Illuminate\Http\Request;
 
 class ketuaController extends Controller
 {
     public function index()
     {
+        $pengumuman = pengumumans::count();
+        $inventaris = inventaris::count();
+        $ktp = ktp::count();
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'dashboard',
@@ -22,6 +28,9 @@ class ketuaController extends Controller
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
+            'pengumuman' => $pengumuman,
+            'inventaris' => $inventaris,
+            'ktp' => $ktp,
         ]);
     }
     public function keuangan()

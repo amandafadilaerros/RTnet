@@ -80,40 +80,21 @@ class KKController extends Controller
     }
     public function store(Request $request){
         $request->validate([
-            'nik'                => 'required|unique:ktps|max:255',
-            'no_kk'              => 'required|max:255',
-            'nama'              => 'required|max:255',
-            'alamat'              => 'required|max:255',
-            'jumlah_anggota'               => 'required|integer',
-            'tempat_lahir'             => 'required|max:255',
-            'tanggal_lahir'      => 'required|date',
-            'agama'              => 'required|max:255',
-            'no_rumah'              => 'required',
-            'status_pernikahan'  => 'required|max:255',
-            'pekerjaan'          => 'required|max:255',
-            'pendidikan'          => 'required|max:255',
-            'tgl_masuk'          => 'nullable|date',
-            'tgl_keluar'         => 'nullable|date',
-            'dokumen'            => 'nullable',
+            'no_kk'                 => 'required|max:255',                         
+            'nama_kepala_keluarga'  => 'required|max:255',
+            'jumlah_individu'       => 'required|max:255',
+            'alamat'                => 'required|max:255',
+            'no_rumah'              => 'required|max:255'
         ]);
+        // dd($request);
 
         kkModel::create([
-            'no_kk' => $request->no_kk,
-            'nama_kepala_keluarga' => $request->nama,
-            'jumlah_individu' => $request->jumlah_anggota,
-            'alamat' => $request->alamat,
-            'no_rumah' => $request->no_rumah,
-        ]);
-        ktp::create([
-            'NIK' => $request->nik,
-            'no_kk' => $request->no_kk,
-            'nama' => $request->nama,
-            'tempat' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'agama' => $request->agama,
-            'status_perkawinan' => $request->status_pernikahan,
-            'pekerjaan' => $request->pekerjaan,
+            'no_kk'                 => $request->no_kk,
+            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+            'jumlah_individu'       => $request->jumlah_individu,
+            'alamat'                => $request->alamat,
+            'no_rumah'                => $request->no_rumah,
+            'dokumen'               => $request->dokumen,
         ]);
         return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
     }
@@ -142,7 +123,24 @@ class KKController extends Controller
             // Handle jika KK tidak ditemukan
             return response()->json(['message' => 'KK not found'], 404);
         }
+    }
+    public function update(Request $request){
+        // dd($request);
+        $request->validate([
+            'no_kk'                 => 'required|max:255',                         
+            'nama_kepala_keluarga'  => 'required|max:255',
+            'jumlah_individu'       => 'required|max:255',
+            'alamat'                => 'required|max:255',
+        ]);
 
+        kkModel::find($request->id)->update([
+            'no_kk'                 => $request->no_kk,
+            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+            'jumlah_individu'       => $request->jumlah_individu,
+            'alamat'                => $request->alamat,
+            'dokumen'               => $request->dokumen,
+        ]);
+        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
     }
 
 }
