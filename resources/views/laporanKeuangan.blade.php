@@ -5,7 +5,7 @@
     <div class="col-md-8">
         <!-- Filter -->
         <div class="col-md-4">
-            <select class="form-select" style="border-radius: 20px; background-color: #424874;width:20%" aria-label="Filter" aria-describedby="filter-addon">
+            <select class="form-select" style="border-radius: 20px; background-color: #424874;width:100px" aria-label="Filter" aria-describedby="filter-addon">
                 <option selected>Filter</option>
                 <option value="1">Bulan ini</option>
                 <option value="2">Bulan lalu</option>
@@ -30,7 +30,7 @@
         <h3 class="card-title">Laporan Keuangan</h3>
     </div> --}}
     <div class="card-body">
-        <table class="table table-hover table-striped" id="table_user">
+        <table class="table table-hover table-striped" id="table_keuangan">
             <thead>
                 <tr>
                     <th scope="col">No</th>
@@ -41,27 +41,6 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>Kas</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Kas</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Kas</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                    <td>100,000</td>
-                </tr>
             </tbody>
         </table>
     </div>
@@ -71,5 +50,51 @@
     
 @endpush
 @push('js')
-    
+<script>
+    $(document).ready(function(){
+      var dataBarang = $('#table_keuangan').DataTable({
+          serverSide: true,
+          searching: false,
+          ajax: {
+              "url": "{{ url('ketuaRt/keuangan/list') }}",
+              "dataType": "json",
+              "type": "POST",
+              "data": function (d){
+                  d.id_pengumuman = $('#id_pengumuman').val();
+              }
+          },
+          columns: [
+              {
+                  data: "DT_RowIndex", //nomor urut dari laravel datatable addindexcolumn()
+                  classname: "text-center",
+                  orderable: false,
+                  searchable: false
+              },{
+                  data: "jenis_iuran",
+                  classname: "",
+                  orderable: true, //orderable false jika ingin kolom bisa diurutkan
+                  searchable: true //searchable false jika ingin kolom bisa dicari
+              },{
+                  data: "nominal",
+                  classname: "",
+                  orderable: false, //orderable false jika ingin kolom bisa diurutkan
+                  searchable: false //searchable false jika ingin kolom bisa dicari
+              },{
+                  data: "nominal",
+                  classname: "",
+                  orderable: false, //orderable false jika ingin kolom bisa diurutkan
+                  searchable: false //searchable false jika ingin kolom bisa dicari
+              },{
+                  data: "nominal",
+                  classname: "",
+                  orderable: false, //orderable true jika ingin kolom bisa diurutkan
+                  searchable: false, //searchable true jika ingin kolom bisa dicari
+              }
+          ]
+      });
+      $('#kategori_id').on('change', function(){
+          dataBarang.ajax.reload();
+      });
+    });
+  </script>
 @endpush
