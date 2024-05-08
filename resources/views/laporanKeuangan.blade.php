@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-8">
         <!-- Filter -->
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <select class="form-select" style="border-radius: 20px; background-color: #424874;width:100px" aria-label="Filter" aria-describedby="filter-addon">
                 <option selected>Filter</option>
                 <option value="1">Bulan ini</option>
@@ -12,7 +12,7 @@
                 <option value="3">Tahun ini</option>
                 <option value="4">Tahun lalu</option>
             </select>
-        </div>
+        </div> --}}
     </div>
  <!-- Search -->
  <div class="col-md-4" style="">
