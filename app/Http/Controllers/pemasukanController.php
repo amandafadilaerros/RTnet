@@ -52,17 +52,18 @@ class pemasukanController extends Controller
 
 public function store(Request $request)
 {
-    $request->merge(['jenis_transaksi' => 'pemasukan']); // pengisian manual
+    $request->merge(['jenis_transaksi' => 'pemasukan']); // Pengisian manual jenis transaksi
 
     $request->validate([
-        'nominal' => 'required|numeric', // Ubah 'decimal' menjadi 'numeric' agar sesuai dengan validasi
+        'nominal' => 'required|numeric',
         'jenis_transaksi' => 'required|max:10',
         'jenis_iuran' => 'required|max:50',
-        'no_kk' => 'required|integer' // Ubah 'bigint' menjadi 'integer' agar sesuai dengan validasi
+        'no_kk' => 'required|integer'
     ]);
 
-    // Periksa apakah data sudah ada pada bulan yang sama
+    // Periksa apakah data sudah ada pada bulan yang sama berdasarkan jenis iuran
     $existingData = iuranModel::where('no_kk', $request->no_kk)
+        ->where('jenis_iuran', $request->jenis_iuran) // Filter berdasarkan jenis iuran
         ->whereMonth('created_at', now()->month) // Filter berdasarkan bulan
         ->whereYear('created_at', now()->year) // Filter berdasarkan tahun
         ->first();
@@ -73,14 +74,15 @@ public function store(Request $request)
 
     // Jika data belum ada, simpan data baru
     iuranModel::create([
-        'nominal' => $request->nominal, // Sesuaikan dengan field 'nominal' pada model
-        'jenis_transaksi' => $request->jenis_transaksi, // Sesuaikan dengan field 'jenis_transaksi' pada model
-        'jenis_iuran' => $request->jenis_iuran, // Sesuaikan dengan field 'jenis_iuran' pada model
-        'no_kk' => $request->no_kk, // Sesuaikan dengan field 'no_kk' pada model
+        'nominal' => $request->nominal,
+        'jenis_transaksi' => $request->jenis_transaksi,
+        'jenis_iuran' => $request->jenis_iuran,
+        'no_kk' => $request->no_kk,
     ]);
 
     return redirect('/bendahara/pemasukan')->with('success', 'Data berhasil disimpan');
 }
+
 
 
     public function edit(Request $request)

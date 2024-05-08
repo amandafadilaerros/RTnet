@@ -77,11 +77,24 @@
           <div class="form-group">
             <label for="warga_kas">Pilih Warga:</label>
             <select class="form-control" id="no_kk" name="no_kk" required>
-              <option value="">- Pilih Warga -</option> @foreach($kk as $item)
+              <option value="">- Pilih Warga -</option>
+              @foreach($kk as $item)
+              @php
+              // Periksa apakah warga telah membayar kas pada bulan ini
+              $existingData = \App\Models\iuranModel::where('no_kk', $item->no_kk)
+              ->where('jenis_iuran', 'Kas')
+              ->whereMonth('created_at', now()->month)
+              ->whereYear('created_at', now()->year)
+              ->exists();
+              @endphp
+              @if(!$existingData)
               <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
+              @endif
               @endforeach
-            </select> @error('no_kk')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
+            </select>
+            @error('no_kk')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
           </div>
           <div class="form-group">
             <label for="nominal_kas">Nominal:</label>
@@ -113,13 +126,28 @@
         <!-- Isi dengan formulir untuk memilih warga dan nominal -->
         <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
           <div class="form-group">
+          <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
+          <div class="form-group">
             <label for="warga_kas">Pilih Warga:</label>
             <select class="form-control" id="no_kk" name="no_kk" required>
-              <option value="">- Pilih Warga -</option> @foreach($kk as $item)
+              <option value="">- Pilih Warga -</option>
+              @foreach($kk as $item)
+              @php
+              // Periksa apakah warga telah membayar kas pada bulan ini
+              $existingData = \App\Models\iuranModel::where('no_kk', $item->no_kk)
+              ->where('jenis_iuran', 'Paguyuban')
+              ->whereMonth('created_at', now()->month)
+              ->whereYear('created_at', now()->year)
+              ->exists();
+              @endphp
+              @if(!$existingData)
               <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
+              @endif
               @endforeach
-            </select> @error('no_kk')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
+            </select>
+            @error('no_kk')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
           </div>
           <div class="form-group">
             <label for="nominal_kas">Nominal:</label>
