@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\IuranModel;
 use App\Models\Inventaris;
 use App\Models\Pengumumans;
+use App\Models\ktp;
 
 
 class loginController extends Controller
@@ -20,6 +21,11 @@ class loginController extends Controller
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
+
+        $data_grafik = [
+            'penduduk_tetap' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
+            'penduduk_kos' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
+        ];
 
         $breadcrumb = (object) [
             'title' => 'Dashboard',
@@ -36,7 +42,7 @@ class loginController extends Controller
                 return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
                 break;
             case 'penduduk':
-                return view('penduduk.dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
+                return view('penduduk.dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'data_grafik' => $data_grafik]);
                 break;
             case 'sekretaris':
                 return view('sekretaris.dashboardSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
