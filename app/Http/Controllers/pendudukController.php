@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\akun;
 use App\Models\IuranModel;
+use App\Models\ktp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use JeroenNoten\LaravelAdminLte\View\Components\Tool\Datatable;
@@ -23,6 +24,12 @@ class pendudukController extends Controller
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
+
+        // Ambil data untuk grafik garis dari kolom jenis_penduduk di dalam tabel ktps
+        // $data_grafik = [
+        //     'penduduk_tetap' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
+        //     'penduduk_kos' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
+        // ];
 
         // Inisialisasi variabel breadcrumb
         $breadcrumb = (object) [
@@ -63,24 +70,51 @@ class pendudukController extends Controller
         ]);
     }
 
-    public function laporan(Request $request)
+    public function list(Request $request)
     {
-        $iuran = DB::table('iurans')
-            ->select(
-                'jenis_transaksi',
-                'jenis_iuran',
-                DB::raw('SUM(CASE WHEN jenis_transaksi = "pemasukan" THEN nominal ELSE 0 END) AS pemasukan'),
-                DB::raw('SUM(CASE WHEN jenis_transaksi = "pengeluaran" THEN nominal ELSE 0 END) AS pengeluaran'),
-                DB::raw('SUM(nominal) AS saldo') // Jumlahkan semua nominal
-            )
-            ->groupBy('jenis_transaksi', 'jenis_iuran', 'nominal');
+        // Menghitung total pemasukan dari seluruh data
+        $totalPemasukan = DB::table('iurans')
+            ->where('jenis_transaksi', 'pemasukan')
+            ->sum('nominal');
 
+        // Menghitung total pengeluaran dari seluruh data
+        $totalPengeluaran = DB::table('iurans')
+            ->where('jenis_transaksi', 'pengeluaran')
+            ->sum('nominal');
 
-        return DataTables::of($iuran)
+        // Menghitung saldo dari total pemasukan dan total pengeluaran
+        $saldo = 0;
+
+        // Mengambil semua data iuran
+        $iuran = DB::table('iurans')->get();
+
+        // Inisialisasi struktur data yang sesuai untuk DataTables
+        $data = [];
+
+        // Menambahkan setiap baris data iuran ke dalam struktur data
+        foreach ($iuran as $row) {
+            if ($row->jenis_transaksi === 'pemasukan') {
+                $saldo += $row->nominal;
+            } elseif ($row->jenis_transaksi === 'pengeluaran') {
+                $saldo -= $row->nominal;
+            }
+
+            $data[] = [
+                'jenis_transaksi' => $row->jenis_transaksi,
+                'jenis_iuran' => $row->jenis_iuran,
+                'pemasukan' => $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0,
+                'pengeluaran' => $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0,
+                'saldo' => $saldo, // Set saldo pada setiap baris data
+            ];
+        }
+
+        return DataTables::of($data)
             ->addIndexColumn()
             ->make(true);
-
     }
+
+
+
 
 
     public function search(Request $request)
@@ -104,9 +138,16 @@ class pendudukController extends Controller
             ->groupBy('jenis_transaksi', 'jenis_iuran')
             ->get();
 
+        // Periksa apakah hasil pencarian kosong
+        if ($results->isEmpty()) {
+            // Jika hasil pencarian kosong, kirim pesan error ke pengguna
+            return response()->json(['error' => 'Pencarian tidak mengembalikan hasil yang sesuai.'], 404);
+        }
+
         // Kembalikan hasil pencarian dalam format JSON
-        return response()->json($results);
+        return response()->json(['data' => $results]);
     }
+
 
 
 

@@ -111,6 +111,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
+    Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
     Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
     Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
     Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
@@ -211,8 +212,8 @@ Route::group(['prefix' => 'penduduk'], function () {
     // Route::get('/inventaris', [inventarisController::class, 'list']);
 
     Route::group(['prefix' => 'laporan_keuangan'], function () {
-        Route::post('/search', [pendudukController::class, 'search']);
-        Route::post('/list', [pendudukController::class, 'laporan']);
+        // Route::post('/search', [pendudukController::class, 'search']);
+        Route::post('/list', [pendudukController::class, 'list']);
     });
 
     Route::group(['prefix' => 'daftar_inventaris'], function () {
@@ -238,6 +239,7 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::get('/', [inventarisController::class, 'index']);
         Route::post('/list', [inventarisController::class, 'list']);
         Route::get('/list', [inventarisController::class, 'list']);
+        Route::get('/list', [inventarisController::class, 'searchdate']);
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
     Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);

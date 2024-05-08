@@ -13,16 +13,6 @@ class inventarisController extends Controller
     public function index()
     {
 
-        // Ambil data inventaris dari database, termasuk data peminjaman
-        $inventaris = Inventaris::select('inventaris.*', 'pi.tanggal_peminjaman', 'pi.tanggal_kembali')
-            ->leftJoin('peminjaman_inventaris as pi', 'inventaris.id_inventaris', '=', 'pi.id_inventaris')
-            ->get();
-
-        $breadcrumb = (object) [
-            'title' => 'Daftar Inventaris',
-            'list' => [] // Definisikan properti list sebagai array kosong
-        ];
-
 
         // Hanya untuk testing template
         $breadcrumb = (object) [
@@ -44,36 +34,88 @@ class inventarisController extends Controller
         ]);
     }
 
-    public function list(Request $request)
+    public function list()
     {
-        $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
-            ->select('inventaris.id_inventaris', 'inventaris.nama_barang', 'inventaris.id_gambar', 'peminjaman_inventaris.tanggal_peminjaman')
-            ->get();
+        // Mengambil semua inventaris
+        $inventaris = Inventaris::all();
+
+        // Mengambil id inventaris yang sedang dipinjam
+        $barang_dipinjam = peminjaman_inventaris::pluck('id_inventaris')->toArray();
+
+        // Menghitung jumlah barang yang tersedia
+        $jumlah_tersedia = 0;
+
+        foreach ($inventaris as $barang) {
+            // Jumlah barang yang tersedia adalah jumlah total dikurangi jumlah yang dipinjam
+            $jumlah_tersedia += $barang->jumlah;
+        }
+
+        // Jumlah barang yang dipinjam
+        $jumlah_dipinjam = count($barang_dipinjam);
+
+        // Menentukan status berdasarkan jumlah barang tersedia dan dipinjam
+        if ($jumlah_tersedia > 0) {
+            $status = 'Tersedia (' . $jumlah_tersedia . ')';
+        } else {
+            $status = 'Dipinjam (' . $jumlah_dipinjam . ')';
+        }
 
         return DataTables::of($inventaris)
             ->addIndexColumn()
-            ->addColumn('aksi', function ($row) {
-                // Periksa apakah tanggal peminjaman tidak null
-                if ($row->tanggal_peminjaman !== null) {
-                    $currentDate = now(); // Tanggal saat ini
-                    $peminjamanDate = Carbon::parse($row->tanggal_peminjaman); // Tanggal peminjaman
-    
-                    // Jika tanggal peminjaman masih dalam range tanggal saat ini, maka aksi adalah "Dipinjam", jika tidak, maka "Tersedia"
-                    if ($peminjamanDate > $currentDate) {
-                        $action = '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia</button>';
-                    } else {
-                        $action = '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
-                    }
+            ->addColumn('aksi', function ($row) use ($barang_dipinjam) {
+                // Periksa apakah barang sedang dipinjam
+                if (in_array($row->id_inventaris, $barang_dipinjam)) {
+                    $action = '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
                 } else {
-                    // Jika tanggal peminjaman null, maka barang tersedia
                     $action = '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia</button>';
                 }
-
                 return $action;
+            })
+            ->addColumn('status', function ($row) {
+                // Tampilkan status berdasarkan jumlah barang tersedia
+                if ($row->jumlah > 0) {
+                    return 'Tersedia (' . $row->jumlah . ')';
+                } else {
+                    return 'Dipinjam';
+                }
             })
             ->rawColumns(['aksi']) // Menggunakan rawColumns agar HTML dapat di-render
             ->make(true);
     }
+
+
+    public function searchdate(Request $request)
+    {
+        // Terima parameter tanggal pencarian dari permintaan HTTP
+        $searchDate = $request->input('searchDate');
+
+        // Mengambil data barang yang tersedia pada tanggal tertentu
+        $inventaris = Inventaris::whereNotExists(function ($query) use ($searchDate) {
+            $query->select('id_inventaris')
+                ->from('peminjaman_inventaris')
+                ->whereColumn('peminjaman_inventaris.id_inventaris', 'inventaris.id_inventaris')
+                ->whereDate('tanggal_peminjaman', '=', $searchDate);
+        })->get();
+
+        // Format data untuk DataTables
+        $dataTable = DataTables::of($inventaris)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($row) {
+                // Logika untuk menentukan aksi (Tersedia/Dipinjam)
+                return $row->jumlah > 0 ? '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia</button>' : '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
+            })
+            ->addColumn('status', function ($row) {
+                // Tampilkan status berdasarkan jumlah barang tersedia
+                return $row->jumlah > 0 ? 'Tersedia (' . $row->jumlah . ')' : 'Dipinjam';
+            })
+            ->rawColumns(['aksi']); // Menggunakan rawColumns agar HTML dapat di-render
+
+        return $dataTable->make(true);
+    }
+
+
+
+
 
 
     public function pk_peminjaman()
