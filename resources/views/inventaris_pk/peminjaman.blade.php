@@ -21,6 +21,7 @@
             </div>
         </div>
     </div>
+    @if ($minjams->count() > 0)
       <table class="table table-bordered table-hover table-sm" id="table_user">
           <thead>
               <tr>
@@ -33,52 +34,67 @@
           </thead>
           {{-- hanya CONTOH DATA TABEL --}}
           <tbody>
-            <tr>
-                <td>1</td>
-                <td>Sound</td>
-                <td>12-02-2024</td>
-                <td>-</td>
-                <td>
-                    <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; min-width: 170px; max-width: 70%;" type="submit" data-toggle="modal" data-target="#pengembalian">Kembalikan</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Karpet</td>
-                <td>12-02-2024</td>
-                <td>12-02-2024</td>
-                <td>
-                  <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; min-width: 170px; max-width: 70%;" type="submit" data-toggle="modal" data-target="#pengembalian">Selesai</button>
-                </td>
+            <?php $no = 1; ?>
+            @foreach ( $minjams as $minjam)
+                  <tr>
+                      <td>{{$no++}}</td>
+                      <td>{{$minjam -> inventaris->nama_barang}}</td>
+                      <td>{{$minjam -> tanggal_peminjaman}}</td>
+                      <td>{{$minjam -> tanggal_kembali}}</td>
+                      <td>
+                          @if($minjam->tanggal_kembali)
+                          <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #747998; min-width: 170px; max-width: 70%;" type="submit" data-target="#pengembalian">Selesai</button>
+                          @else
+                          <button class="btn btn-sm btn-primary mt-1 btn-edit" style="border-radius: 20px; background-color: #424874; min-width: 170px; max-width: 70%;" type="submit" data-toggle="modal" data-target="#pengembalian" data-id="{{$minjam->id_peminjaman}}">Kembalikan</button>
+                          @endif
+                      </td>
+                  </tr>
+            @endforeach
         </tbody>
       </table>
+    @else
+    @endif
+
   </div>
 </div>
 <!-- Peminjaman Barang -->
 <div class="modal fade" id="pengembalian" tabindex="-1" role="dialog" aria-labelledby="pengembalian" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content" style="border-radius: 25px;">
-        <div class="modal-header">
-          <h5 class="modal-title" id="pengembalian">Detail Peminjaman</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form id="pinjam_barang">
-          </div>
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Pinjam</button>
-            </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="border-radius: 25px;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="pengembalian">Detail Peminjaman</h5>
+      <form method="POST" action="{{ url('peminjaman') }}" class="form-horizontal">
+        @csrf
+        {{ method_field('PUT') }}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="text-center">
+        <form action="{{ url('penduduk/peminjaman/update') }}" method="POST">
+          @csrf
+            <input type="hidden" id="id" name="id" value="">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Kembalikan</button>
           </form>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 @endsection
 @push('css')
 @endpush
 
 @push('js')
+<script>
+  $(document).ready(function() {
+    $(document).on("click", ".btn-edit", function() {
+      var ids= $(this).data('id');
+      $(".modal-body #id").val( ids );
+    });
+  });
+</script>
 @endpush
