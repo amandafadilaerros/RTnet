@@ -13,6 +13,7 @@ class bendaharaController extends Controller
         // Mengambil total pemasukan dan pengeluaran
         $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
         $totalPengeluaran = iuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
+        $laporan_keuangan = IuranModel::count();
 
         // ini hanya TEST
         $breadcrumb = (object) [
@@ -24,7 +25,7 @@ class bendaharaController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('bendahara.dashboardBendahara', compact('breadcrumb', 'page', 'activeMenu', 'totalPemasukan', 'totalPengeluaran'));
+        return view('bendahara.dashboardBendahara', compact('breadcrumb', 'page', 'activeMenu', 'totalPemasukan', 'totalPengeluaran', 'laporan_keuangan'));
     }
 
 
