@@ -97,7 +97,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::delete('/delete', [data_kkRtController::class, 'destroy']);
     }); 
 
-    Route::get('/detail_anggota', [KKController::class, 'detail']);
+    // Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
     Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
@@ -118,15 +118,6 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
-
-        Route::get('/', [data_rumahController::class, 'index']);
-        Route::post('/list', [data_rumahController::class, 'list']);
-        Route::get('/create', [data_rumahController::class, 'create']);
-        Route::post('/', [data_rumahController::class, 'store']);
-        Route::get('/{id}', [data_rumahController::class, 'show']);
-        Route::get('/{id}/edit', [data_rumahController::class, 'edit']);
-        Route::put('/{id}', [data_rumahController::class, 'update']);
-        Route::delete('/{id}', [data_rumahController::class, 'destroy']);
     });
 
 
@@ -172,7 +163,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
     // Route::get('/data_rumah', [data_rumahController::class, 'index']);
     // Route::get('/data_penduduk', [sekretarisController::class, 'dataPenduduk']);
     // Route::get('/data_kk', [KKController::class, 'index1']);
-    Route::get('/detail_anggota', [KKController::class, 'detail']);
+    // Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/akun', [sekretarisController::class, 'akun']);
 });
@@ -187,10 +178,22 @@ Route::group(['prefix' => 'bendahara'], function () {
         Route::post('/edit', [pemasukanController::class, 'edit']);
         Route::post('/update', [pemasukanController::class, 'update']);
         Route::delete('/destroy', [pemasukanController::class, 'destroy']);
-    });
-    Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
+    }); 
+    Route::group(['prefix' => 'pengeluaran'], function () { 
+        Route::get('/', [pengeluaranController::class, 'index']); 
+        Route::post('/list', [pengeluaranController::class, 'list']);
+        // Route::get('/create', [pengeluaranController::class, 'create']);
+        Route::post('/tambah', [pengeluaranController::class, 'store']);
+        // Route::get('/{id}', [pengeluaranController::class, 'show']);
+        Route::post('/edit', [pengeluaranController::class, 'edit']);
+        Route::post('/update', [pengeluaranController::class, 'update']);
+        Route::delete('/destroy', [pengeluaranController::class, 'destroy']);
+    }); 
     Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
     Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
+    Route::group(['prefix' => 'laporan'], function () { 
+        Route::post('/list', [bendaharaController::class, 'list']);
+    });
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 });
 

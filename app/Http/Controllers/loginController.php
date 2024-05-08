@@ -23,6 +23,9 @@ class loginController extends Controller
         $pengumuman = Pengumumans::count();
         $ktp = ktp::count();
 
+        $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
+        $totalPengeluaran = iuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
+
         $breadcrumb = (object) [
             'title' => 'Dashboard',
             'list' => ['--', '--'],
@@ -44,7 +47,7 @@ class loginController extends Controller
                 return view('sekretaris.dashboardSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
                 break;
             case 'bendahara':
-                return view('bendahara.dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
+                return view('bendahara.dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'totalPemasukan' => $totalPemasukan, 'totalPengeluaran' => $totalPengeluaran]);
                 break;
         }
     }
