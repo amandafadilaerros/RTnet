@@ -124,9 +124,21 @@ Route::group(['prefix' => 'bendahara'], function () {
         Route::post('/update', [pemasukanController::class, 'update']);
         Route::delete('/destroy', [pemasukanController::class, 'destroy']);
     }); 
-    Route::get('/pengeluaran', [pengeluaranController::class, 'index']);
+    Route::group(['prefix' => 'pengeluaran'], function () { 
+        Route::get('/', [pengeluaranController::class, 'index']); 
+        Route::post('/list', [pengeluaranController::class, 'list']);
+        // Route::get('/create', [pengeluaranController::class, 'create']);
+        Route::post('/tambah', [pengeluaranController::class, 'store']);
+        // Route::get('/{id}', [pengeluaranController::class, 'show']);
+        Route::post('/edit', [pengeluaranController::class, 'edit']);
+        Route::post('/update', [pengeluaranController::class, 'update']);
+        Route::delete('/destroy', [pengeluaranController::class, 'destroy']);
+    }); 
     Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
     Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
+    Route::group(['prefix' => 'laporan'], function () { 
+        Route::post('/list', [bendaharaController::class, 'list']);
+    });
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
 });
 

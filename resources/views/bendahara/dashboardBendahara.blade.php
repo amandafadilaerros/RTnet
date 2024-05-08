@@ -13,7 +13,7 @@
             </div>
             <div class="col">
               {{-- // nanti tinggal ubah sesuai data di db --}}
-              <h2>Rp. 1.234.567</h2>
+              <h2>{{ $totalPemasukan }}</h2>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
               <i class="fas fa-money-bill-alt fa-3x"></i>
             </div>
             <div class="col">
-              <h2>Rp. 876.543</h2>
+              <h2>{{ $totalPengeluaran }}</h2>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
               <i class="fas fa-file-invoice-dollar fa-3x"></i>
             </div>
             <div class="col">
-              <h2>Rp. 358.024</h2>
+              <h2>{{ $laporan_keuangan }}</h2>
             </div>
           </div>
         </div>
