@@ -1,26 +1,37 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="card">
-    {{-- <div class="card-header">
-        <h3 class="card-title">Data Penduduk</h3>
-    </div> --}}
-    <div class="card-body">
-        <div class="row">
-            <div class="col-md-8">
-                <!-- Export PDF button -->
-                <button class="btn btn-secondary" type="button" style="border-radius: 20px; width: 120px; margin-bottom: 10px;">Export PDF</button>
-            </div>
-            <!-- Search -->
-            <div class="col-md-4">
-                <div class="row">
-                    <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-                    <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
-                </div>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;" data-toggle="modal" data-target="#tambahModal">Eksport PDF</a>
+    </div>
+    <div class="col-md-6">
+        <div class="input-group">
+            <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
+            <div class="input-group-append">
+                <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
             </div>
         </div>
+    </div>
+</div>
+<div class="card">
+    {{-- <div class="card-header">
+      <h3 class="card-title">
+        {{ $page->title }}
+    </h3>
+    <div class="card-tools">
+        <a href="{{url('user/create')}}" class="btn btn-sm btn-primary mt-1">Tambah</a>
+    </div>
+</div> --}}
+<div class="card-body">
+    @if (session('success'))
+    <div class="alert alert-success">{{session('success')}}</div>
+    @endif
+    @if (session('error'))
+    <div class="alert alert-danger">{{session('error')}}</div>
+    @endif
 
-        <table class="table table-hover table-striped" id="table_penduduk_tetap">
+        <table class="table table-hover table-striped" id="table_data_penduduk">
             <thead>
                 <tr>
                     <th scope="col">No</th>
@@ -37,44 +48,11 @@
                     <th scope="col">Status Keluarga</th>
                     <th scope="col">Status Anggota</th>
                     <th scope="col">Jenis Penduduk</th>
-                    <th scope="col">Status Perkawinan</th>
                     <th scope="col">Tgl Msuk</th>
                     <th scope="col">Tgl Keluar</th>
                     <th scope="col">Dokumen</th>
                 </tr>
             </thead>
-            <!-- <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>John Doe</td>
-                    <td>Laki-laki</td>
-                    <td>1234567890123456</td>
-                    <td>1234567890</td>
-                    <td>Dewasa</td>
-                    <td>A+</td>
-                    <td>Belum Menikah</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Jane Doe</td>
-                    <td>Perempuan</td>
-                    <td>9876543210987654</td>
-                    <td>0987654321</td>
-                    <td>Remaja</td>
-                    <td>B-</td>
-                    <td>Menikah</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Alice Smith</td>
-                    <td>Perempuan</td>
-                    <td>5678901234567890</td>
-                    <td>5678901234</td>
-                    <td>Bayi</td>
-                    <td>O-</td>
-                    <td>Belum Menikah</td>
-                </tr>
-            </tbody> -->
         </table>
     </div>
 </div>
@@ -84,10 +62,10 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            var dataPendudukTetap = $('#table_penduduk_tetap').DataTable({
+            var dataPenduduk = $('#table_data_penduduk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('ketuaRt/penduduk_tetap/list') }}",
+                    "url": "{{ url('ketuaRt/data_penduduk/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d) {
@@ -101,7 +79,7 @@
                         orderable: false,
                         searchable: false
                     }, {
-                        data: "NIK",
+                        data: "nik",
                         className: "",
                         orderable: true,        //jika ingin kolom bisa urut
                         searchable: true        // jika kolom bisa dicari
@@ -145,7 +123,7 @@
                         className: "",
                         orderable: false,       //true, jika ingin kolom diurutkan
                         searchable: false       //true, jika ingin kolom bisa dicari
-                    }{
+                    }, {
                         data: "pekerjaan",
                         className: "",
                         orderable: true,        //jika ingin kolom bisa diurutkan 
@@ -184,20 +162,14 @@
                 ]
             });
 
-            // $('#no_rumah').on('changes', function() {
-            //     dataRumah.ajax.reload();
-            // });
             $('#nik').on('input', function() {
-                dataRumah.ajax.reload();
+                dataPenduduk.ajax.reload();
             });
 
             $('#formSearch').on('submit', function(e) {
                 e.preventDefault(); // Menghentikan perilaku default dari tombol "Cari"
-                dataRumah.ajax.reload();
+                dataPenduduk.ajax.reload();
             });
         });
     </script>
-@endpush
-
-
 @endpush

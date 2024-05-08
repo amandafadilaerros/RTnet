@@ -9,10 +9,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class peminjaman_inventaris extends Model
 {
     protected $table = 'peminjaman_inventaris';
+    protected $primaryKey = 'id_peminjaman';
 
-    // Definisikan relasi belongsTo ke model Inventaris
-    public function inventaris(): BelongsTo
+    protected $fillable = [
+        'id_peminjaman',
+        'id_inventaris',
+        'id_peminjam',
+        'tanggal_peminjaman',
+        'tanggal_kembali'
+    ];
+
+    public function inventaris()
     {
-        return $this->belongsTo(Inventaris::class, 'id_inventaris');
+        return $this->belongsTo(inventaris::class, 'id_inventaris', 'id_inventaris');
     }
 }

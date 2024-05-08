@@ -52,7 +52,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="tambahRumahForm" action="{{url('/ketuaRt/data_rumah')}}" method="POST" enctype="multipart/form-data">
+                <form id="tambahRumahForm" action="{{url('/sekretaris/data_rumah')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No.Rumah</label>
@@ -88,7 +88,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editRumahForm" action="{{ url('/ketuaRt/data_rumah/update') }}" method="POST" enctype="multipart/form-data">
+                <form id="editRumahForm" action="{{ url('/sekretaris/data_rumah/update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="hidden" id="id" name="id">
@@ -128,7 +128,7 @@
           Apakah Anda yakin menghapus data ini?
         </div>
         <div class="modal-footer justifiy-content">
-          <form id="hapusForm" method="post" action="{{url('/ketuaRt/data_rumah/delete')}}">
+          <form id="hapusForm" method="post" action="{{url('/sekretaris/data_rumah/delete')}}">
             @csrf
             @method('DELETE')
             <input type="hidden" id="no_rumah" name="no_rumah">
@@ -151,7 +151,7 @@
             var dataRumah = $('#table_data_rumah').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('ketuaRt/data_rumah/list') }}",
+                    "url": "{{ url('sekretaris/data_rumah/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d){
@@ -193,7 +193,7 @@
         var ids = $(this).data('id');
         $(".modal-body #id").val( ids );
         $.ajax({
-            url: "{{ url('ketuaRt/data_rumah/edit') }}",
+            url: "{{ url('sekretaris/data_rumah/edit') }}",
             type: "POST",
             dataType: "json",
             data: {

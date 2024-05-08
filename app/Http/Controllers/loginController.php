@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\IuranModel;
 use App\Models\Inventaris;
+use App\Models\ktp;
 use App\Models\Pengumumans;
 use App\Models\ktp;
 
@@ -21,6 +22,10 @@ class loginController extends Controller
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
+        $ktp = ktp::count();
+
+        $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
+        $totalPengeluaran = iuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
 
         $data_grafik = [
             'penduduk_tetap' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
@@ -39,7 +44,7 @@ class loginController extends Controller
 
         switch ($role) {
             case 'ketua_rt':
-                return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
+                return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'ktp' => $ktp]);
                 break;
             case 'penduduk':
                 return view('penduduk.dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'data_grafik' => $data_grafik]);
@@ -48,7 +53,7 @@ class loginController extends Controller
                 return view('sekretaris.dashboardSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
                 break;
             case 'bendahara':
-                return view('bendahara.dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
+                return view('bendahara.dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'totalPemasukan' => $totalPemasukan, 'totalPengeluaran' => $totalPengeluaran]);
                 break;
         }
     }

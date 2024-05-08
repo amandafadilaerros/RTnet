@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\iuranModel;
+use Yajra\DataTables\Facades\DataTables;
 
 class bendaharaController extends Controller
 {
     public function index()
     {
+        // Mengambil total pemasukan dan pengeluaran
+        $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
+        $totalPengeluaran = iuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
+        $laporan_keuangan = IuranModel::count();
+
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'dashboard',
@@ -19,12 +25,9 @@ class bendaharaController extends Controller
         ];
         $activeMenu = 'dashboard';
 
-        return view('bendahara.dashboardBendahara', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-        ]);
+        return view('bendahara.dashboardBendahara', compact('breadcrumb', 'page', 'activeMenu', 'totalPemasukan', 'totalPengeluaran', 'laporan_keuangan'));
     }
+
 
     public function keuangan()
     {
@@ -64,5 +67,37 @@ class bendaharaController extends Controller
         ]);
     }
 
-    
+    public function list(Request $request)
+    {
+        $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+            ->with('kk')
+            ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at') // Group by kolom tertentu
+            ->orderBy('created_at', 'ASC'); // Urutkan berdasarkan created_at secara descending
+
+        // Filter data berdasarkan no_kk
+        if ($request->no_kk) {
+            $bendaharas->where('no_kk', $request->no_kk);
+        }
+
+        // Menggunakan DataTables untuk memformat data
+        return DataTables::of($bendaharas)
+            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+            ->addColumn('jumlah_uang_masuk', function ($row) {
+                return $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0;
+            })
+            ->addColumn('jumlah_uang_keluar', function ($row) {
+                return $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0;
+            })
+            ->addColumn('saldo', function ($row) use ($request) {
+                // Menghitung saldo dengan menjumlahkan jumlah uang masuk dan mengurangkan jumlah uang keluar
+                $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')
+                    ->where('created_at', '<=', $row->created_at) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->sum('nominal');
+                $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')
+                    ->where('created_at', '<=', $row->created_at) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->sum('nominal');
+                return $totalUangMasuk - $totalUangKeluar;
+            })
+            ->make(true);
+    }
 }

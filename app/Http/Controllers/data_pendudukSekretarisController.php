@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
 
-class data_pendudukRTController extends Controller
+class data_pendudukSekretarisController extends Controller
 {
     public function index(){
         // menampilkan halaman awal data penduduk
@@ -28,7 +28,7 @@ class data_pendudukRTController extends Controller
         $activeMenu = 'data_penduduk';
         $ktps = penduduk_tetapModel::all();
         // return view('data_penduduk.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kk' => $kk , 'activeMenu' => $activeMenu]);
-        return view('data_pendudukRT', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('data_pendudukSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request){
