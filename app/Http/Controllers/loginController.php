@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\IuranModel;
 use App\Models\Inventaris;
+use App\Models\ktp;
 use App\Models\Pengumumans;
 
 
@@ -20,6 +21,7 @@ class loginController extends Controller
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
+        $ktp = ktp::count();
 
         $breadcrumb = (object) [
             'title' => 'Dashboard',
@@ -33,7 +35,7 @@ class loginController extends Controller
 
         switch ($role) {
             case 'ketua_rt':
-                return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
+                return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'ktp' => $ktp]);
                 break;
             case 'penduduk':
                 return view('penduduk.dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);

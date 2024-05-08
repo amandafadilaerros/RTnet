@@ -13,7 +13,7 @@
             </div>
             <div class="col">
               {{-- // nanti tinggal ubah sesuai data di db --}}
-              <h2>3</h2>
+              <h2>{{$ktp}}</h2>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
                 <i class="fas fa-bullhorn fa-3x"></i>
             </div>
             <div class="col">
-              <h2>4</h2>
+              <h2>{{$pengumuman}}</h2>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
               <i class="fas fa-boxes fa-3x"></i>
             </div>
             <div class="col">
-              <h2>4</h2>
+              <h2>{{$inventaris}}</h2>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
               <i class="fas fa-user-plus fa-3x"></i>
             </div>
             <div class="col">
-              <h2>4</h2>
+              <h2>{{$ktp}}</h2>
             </div>
           </div>
         </div>
