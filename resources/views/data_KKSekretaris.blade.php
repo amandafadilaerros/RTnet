@@ -37,6 +37,7 @@
                 <th scope="col">Nama Kepala Keluarga</th>
                 <th scope="col">Jumlah Individu</th>
                 <th scope="col">Alamat</th>
+                <th scope="col">No Rumah</th>
                 <th scope="col">Dokumen</th>
                 <th scope="col">Aksi</th>
               </tr>
@@ -56,25 +57,29 @@
                 <form id="tambahKKForm" action="{{url('/sekretaris/data_kk')}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
-                <label for="no_kk">No KK</label>
-                <input type="text" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
-              </div>
-              <div class="form-group">
-                <label for="nama_kepala_keluarga">Nama Kepala Keluarga</label>
-                <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" placeholder="Masukkan Nama Kepala Keluarga">
-              </div>
-              <div class="form-group">
-                <label for="jumlah_individu">Jumlah Individu</label>
-                <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
-              </div>
-              <div class="form-group">
-                <label for="alamat">Alamat</label>
-                <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
-              </div>
-              <div class="form-group">
-                <label for="dokumen">Dokumen Kartu Keluarga</label>
-                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
-              </div>
+                  <label for="no_kk">No KK</label>
+                  <input type="text" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
+                </div>
+                <div class="form-group">
+                  <label for="nama_kepala_keluarga">Nama Kepala Keluarga</label>
+                  <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" placeholder="Masukkan Nama Kepala Keluarga">
+                </div>
+                <div class="form-group">
+                  <label for="jumlah_individu">Jumlah Individu</label>
+                  <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
+                </div>
+                <div class="form-group">
+                  <label for="alamat">Alamat</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
+                </div>
+                <div class="form-group">
+                  <label for="no_rumah">No Rumah</label>
+                  <input type="text" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah">
+                </div>
+                <div class="form-group">
+                  <label for="dokumen">Dokumen Kartu Keluarga</label>
+                  <input type="file" class="form-control-file" id="dokumen" name="dokumen">
+                </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; border: none; width: 200px;">Tambah</button>
                     </div>
@@ -102,19 +107,23 @@
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
                     <label for="no_kk">No KK</label>
-                    <input type="text" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
+                    <input type="number" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK"  required>
                   </div>
                   <div class="form-group">
                     <label for="nama_kepala_keluarga">Nama Kepala Keluarga</label>
-                    <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" placeholder="Masukkan  Nama Kepala Keluarga">
+                    <input type="text" class="form-control" id="nama_kepala_keluarga" name="nama_kepala_keluarga" placeholder="Masukkan  Nama Kepala Keluarga"  required>
                   </div>
                   <div class="form-group">
                     <label for="jumlah_individu">Jumlah Individu</label>
-                    <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
+                    <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu"  required>
                   </div>
                   <div class="form-group">
                     <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
+                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat"  required>
+                  </div>
+                  <div class="form-group">
+                  <label for="no_rumah">No Rumah</label>
+                  <input type="text" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah"  required>
                   </div>
                   <div class="form-group">
                     <label for="dokumen">Dokumen Kartu Keluarga</label>
@@ -201,6 +210,11 @@
                         orderable: true,        //jika ingin kolom bisa diurutkan 
                         searchable: true        // jika ingin kolom bisa dicari
                     }, {
+                      data: "no_rumah",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
                       data: "dokumen",
                         className: "",
                         orderable: true,        //jika ingin kolom bisa diurutkan 
@@ -236,6 +250,7 @@
                 $('.modal-body #nama_kepala_keluarga').val(response.nama_kepala_keluarga);
                 $('.modal-body #jumlah_individu').val(response.jumlah_individu);
                 $('.modal-body #alamat').val(response.alamat);
+                $('.modal-body #no_rumah').val(response.no_rumah);
                 $('.modal-body #dokumen').val(response.dokumen);
                 // Isi formulir lainnya sesuai kebutuhan Anda
             },

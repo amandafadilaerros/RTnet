@@ -65,7 +65,7 @@ class data_kkSekretarisController extends Controller
         ]);
     }
     public function list(Request $request){
-        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat', 'dokumen');
+        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat','no_rumah', 'dokumen');
     
         return DataTables::of($kks)
         ->addIndexColumn()
@@ -86,18 +86,19 @@ class data_kkSekretarisController extends Controller
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',
-            'dokumen'               => 'required|max:255', 
-
+            'no_rumah'              => 'required|max:255'
         ]);
+        // dd($request);
 
         kkModel::create([
             'no_kk'                 => $request->no_kk,
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $request->alamat,
+            'no_rumah'                => $request->no_rumah,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
+        return redirect('/sekretaris/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
 
     public function create()
@@ -159,7 +160,6 @@ class data_kkSekretarisController extends Controller
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',
-            'dokumen'               => 'required|max:255', 
         ]);
 
         kkModel::find($request->id)->update([
@@ -170,7 +170,7 @@ class data_kkSekretarisController extends Controller
             'dokumen'               => $request->dokumen,
         ]);
 
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data berhasil diubah');
+        return redirect('/sekretaris/data_kk')->with('success', 'Data berhasil diubah');
     }
 
    //Menghapus data rumah
@@ -179,16 +179,16 @@ class data_kkSekretarisController extends Controller
         $check = kkModel::find($request->no_kk); // Menggunakan $request->no_rumah dari parameter
 
         if (!$check) {      //untuk mengecek apakah data rumah dengan id yang dimaksud ada atau tidak
-        return redirect('/ketuaRt/data_kk')->with('error', 'Data Kartu Keluarga tidak ditemukan');
+        return redirect('/sekretaris/data_kk')->with('error', 'Data Kartu Keluarga tidak ditemukan');
         }
 
         try {
         kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
 
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
+        return redirect('/sekretaris/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
         //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
-        return redirect('/ketuaRt/data_kk')->with('error', 'Data Data Kartu Keluarga gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+        return redirect('/sekretaris/data_kk')->with('error', 'Data Data Kartu Keluarga gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
         }
     }
 
