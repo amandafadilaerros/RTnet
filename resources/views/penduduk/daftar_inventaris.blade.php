@@ -6,7 +6,7 @@
   
   <div class="col-md-3 mb-4"> <!-- Mengubah kelas col-md-8 menjadi col-md-3 -->
     <div class="input-group float-right">
-        <input type="text" class="form-control" id="searchInput" style="border-radius: 20px;" placeholder="Cari berdasarkan nama barang...">
+        <input type="text" class="form-control" id="searchInput" style="border-radius: 20px;" placeholder="Cari barang...">
     </div>
 </div>
 
@@ -34,7 +34,7 @@
     <table class="table table-hover table-striped" id="inventaris_table">
       <thead>
         <tr>
-            <th scope="col">ID Inventaris</th>
+            <th scope="col">No</th>
             <th scope="col">Gambar</th>
             <th scope="col">Nama Barang</th>
             <th scope="col">Aksi</th>
@@ -80,7 +80,7 @@
             // Kolom untuk menampilkan gambar
             {
                 data: "id_gambar",
-                className: "",
+                className:"text-center",
                 orderable: false,
                 searchable: false,
                 render: function (data, type, row) {
@@ -94,16 +94,16 @@
             {
                 // Kolom untuk nama barang
                 data: "nama_barang",
-                className: "",
+                className: "text-center",
                 orderable: true,
                 searchable: true
             },
             // Kolom untuk aksi (Dipinjam/Tersedia)
             {
               data: "aksi",
-                className: "text-center",
-                orderable: false,
-                searchable: false,
+                className:"text-center",
+                orderable: true,
+                searchable: true,
             }
         ]
     });
@@ -115,19 +115,21 @@
     });
     
 
-    // Fungsi untuk melakukan pencarian berdasarkan tanggal
-    $('#searchButton').click(function() {
-        var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
+    // Date search
+    $('#searchDate').on('change', function() {
+        var searchDate = $('#searchDate').val();
 
-        // Kirim permintaan AJAX ke server dengan parameter startDate dan endDate
+        // Perform date search
         $.ajax({
-            url: 'pencarian.php',
-            type: 'GET',
-            data: { startDate: startDate, endDate: endDate },
+            url: "{{ url('penduduk/daftar_inventaris/search-by-date') }}",
+            type: "POST",
+            data: { searchDate: searchDate },
             success: function(response) {
-                // Tampilkan hasil pencarian di sini
-                console.log(response);
+                // Clear previous search results
+                inventaris.clear().draw();
+
+                // Add new data to the table
+                inventaris.rows.add(response).draw();
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);

@@ -71,6 +71,10 @@
 
 @push('css')
 <style>
+
+    .card-title{
+        font-size: 30px;
+    }
     .dashboard {
         display: flex;
         flex-wrap: wrap;
@@ -162,5 +166,6 @@
             options: options
         });
     });
+    
 </script>
 @endpush

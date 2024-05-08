@@ -212,8 +212,8 @@ Route::group(['prefix' => 'penduduk'], function () {
     // Route::get('/inventaris', [inventarisController::class, 'list']);
 
     Route::group(['prefix' => 'laporan_keuangan'], function () {
-        Route::post('/search', [pendudukController::class, 'search']);
-        Route::post('/list', [pendudukController::class, 'laporan']);
+        // Route::post('/search', [pendudukController::class, 'search']);
+        Route::post('/list', [pendudukController::class, 'list']);
     });
 
     Route::group(['prefix' => 'daftar_inventaris'], function () {
@@ -239,6 +239,7 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::get('/', [inventarisController::class, 'index']);
         Route::post('/list', [inventarisController::class, 'list']);
         Route::get('/list', [inventarisController::class, 'list']);
+        Route::get('/list', [inventarisController::class, 'searchdate']);
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
     Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
