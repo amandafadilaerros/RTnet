@@ -240,6 +240,8 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::get('/list', [inventarisController::class, 'list']);
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
+    Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
+    Route::post('/peminjaman/update', [inventarisController::class, 'update_peminjaman']);
 
 });
 
