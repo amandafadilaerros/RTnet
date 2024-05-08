@@ -128,67 +128,6 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::put('/{id}', [data_rumahController::class, 'update']);
         Route::delete('/{id}', [data_rumahController::class, 'destroy']);
     });
-    //Data Penduduk
-    Route::group(['prefix' => 'data_penduduk'], function () {
-        Route::get('/', [pendudukController::class, 'index']);
-        Route::post('/list', [pendudukController::class, 'list']);
-        Route::get('/create', [pendudukController::class, 'create']);
-        Route::post('/', [pendudukController::class, 'store']);
-        Route::get('/{id}', [pendudukController::class, 'show']);
-        Route::get('/{id}/edit', [pendudukController::class, 'edit']);
-        Route::put('/{id}', [pendudukController::class, 'update']);
-        Route::delete('/{id}', [pendudukController::class, 'destroy']);
-    });
-    Route::get('/show', [data_rumahController::class, 'show']);
-    Route::post('/edit', [data_rumahController::class, 'edit']);
-    Route::put('/update', [data_rumahController::class, 'update']);
-    Route::delete('/delete', [data_rumahController::class, 'destroy']);
-Route::get('/data_penduduk', [ketuaController::class, 'dataPenduduk']);
-//Data KK
-Route::group(['prefix' => 'data_kk'], function () {
-    Route::get('/', [KKController::class, 'index']);
-    Route::post('/list', [KKController::class, 'list']);
-    Route::get('/create', [KKController::class, 'create']);
-    Route::post('/', [KKController::class, 'store']);
-    // Route::get('/{id}', [KKController::class, 'show']);
-    Route::post('/edit', [KKController::class, 'edit']);
-    Route::get('/edit', [KKController::class, 'edit']);
-    Route::put('/{id}', [KKController::class, 'update']);
-    Route::delete('/{id}', [KKController::class, 'destroy']);
-
-});
-Route::group(['prefix' => 'data_penduduk'], function () {
-    Route::get('/', [data_pendudukRTController::class, 'index']);
-    Route::post('/list', [data_pendudukRTController::class, 'list']);
-    Route::get('/create', [data_pendudukRTController::class, 'create']);
-    Route::post('/', [data_pendudukRTController::class, 'store']);
-    Route::get('/{id}', [data_pendudukRTController::class, 'show']);
-    Route::get('/{id}/edit', [data_pendudukRTController::class, 'edit']);
-    Route::put('/{id}', [data_pendudukRTController::class, 'update']);
-    Route::delete('/{id}', [data_pendudukRTController::class, 'destroy']);
-});
-
-Route::get('/detail_anggota', [KKController::class, 'detail']);
-Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
-Route::get('/kerja_bakti', [ketuaController::class, 'kegiatan']);
-Route::get('/peminjaman', [peminjamanController::class, 'index']);
-Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
-Route::post('/keuangan/list', [laporanKeuanganController::class, 'list']);
-Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
-Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
-Route::post('/inventaris/getData', [InventarisKetuaController::class, 'getData']);
-Route::post('/inventaris/edit', [InventarisKetuaController::class, 'update']);
-Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
-Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
-Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
-Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
-Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
-Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
-Route::post('/pengumuman/getData', [pengumumanKetuaController::class, 'getData']);
-Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
-Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
-Route::get('/akun', [ketuaController::class, 'akun']);
 
 
 Route::group(['prefix' => 'sekretaris'], function () {
