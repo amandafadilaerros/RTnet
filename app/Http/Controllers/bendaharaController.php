@@ -79,6 +79,16 @@ class bendaharaController extends Controller
             $bendaharas->where('no_kk', $request->no_kk);
         }
 
+        // Filter data berdasarkan pencarian
+        if ($request->search) {
+            $search = $request->search;
+            $bendaharas->where(function ($query) use ($search) {
+                $query->where('nominal', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('jenis_iuran', 'like', '%' . $search . '%');
+            });
+        }
+
         // Menggunakan DataTables untuk memformat data
         return DataTables::of($bendaharas)
             ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)

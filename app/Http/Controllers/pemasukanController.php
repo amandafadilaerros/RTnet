@@ -9,7 +9,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class pemasukanController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Pemasukan',
@@ -28,15 +29,37 @@ class pemasukanController extends Controller
 
     public function list(Request $request)
 {
-    $bendaharas = iuranModel::select('id_iuran','nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
-                ->with('kk')
-                ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
-                ->groupBy('id_iuran','nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at') // Group by kolom tertentu
-                ->orderBy('created_at', 'DESC'); // Urutkan berdasarkan created_at secara descending
+    // Validasi input dari form pencarian
+    $request->validate([
+        'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
+        'no_kk' => 'nullable|integer', // Validasi input no_kk
+    ]);
+
+    // Mengambil data berdasarkan input pencarian
+    $searchQuery = $request->input('search');
+    $no_kk = $request->input('no_kk');
+
+    $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+        ->with('kk')
+        ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
+        ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at') // Group by kolom tertentu
+        ->orderBy('created_at', 'DESC'); // Urutkan berdasarkan created_at secara descending
 
     // Filter data berdasarkan no_kk
-    if ($request->no_kk) {
-        $bendaharas->where('no_kk', $request->no_kk);
+    if ($no_kk) {
+        $bendaharas->where('no_kk', $no_kk);
+    }
+
+    // Filter data berdasarkan pencarian teks
+    if ($searchQuery) {
+        $bendaharas->where(function ($query) use ($searchQuery) {
+            $query->where('nominal', 'LIKE', "%$searchQuery%")
+                ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
+                ->orWhereHas('kk', function ($query) use ($searchQuery) {
+                    $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
+                })
+                ->orWhereDate('created_at', $searchQuery); // Pencarian berdasarkan tanggal
+        });
     }
 
     // Menggunakan DataTables untuk memformat data
@@ -50,38 +73,39 @@ class pemasukanController extends Controller
 }
 
 
-public function store(Request $request)
-{
-    $request->merge(['jenis_transaksi' => 'pemasukan']); // Pengisian manual jenis transaksi
 
-    $request->validate([
-        'nominal' => 'required|numeric',
-        'jenis_transaksi' => 'required|max:10',
-        'jenis_iuran' => 'required|max:50',
-        'no_kk' => 'required|integer'
-    ]);
+    public function store(Request $request)
+    {
+        $request->merge(['jenis_transaksi' => 'pemasukan']); // Pengisian manual jenis transaksi
 
-    // Periksa apakah data sudah ada pada bulan yang sama berdasarkan jenis iuran
-    $existingData = iuranModel::where('no_kk', $request->no_kk)
-        ->where('jenis_iuran', $request->jenis_iuran) // Filter berdasarkan jenis iuran
-        ->whereMonth('created_at', now()->month) // Filter berdasarkan bulan
-        ->whereYear('created_at', now()->year) // Filter berdasarkan tahun
-        ->first();
+        $request->validate([
+            'nominal' => 'required|numeric',
+            'jenis_transaksi' => 'required|max:10',
+            'jenis_iuran' => 'required|max:50',
+            'no_kk' => 'required|integer'
+        ]);
 
-    if ($existingData) {
-        return redirect('/bendahara/pemasukan')->with('error', 'Penduduk ini sudah membayar pada bulan ini');
+        // Periksa apakah data sudah ada pada bulan yang sama berdasarkan jenis iuran
+        $existingData = iuranModel::where('no_kk', $request->no_kk)
+            ->where('jenis_iuran', $request->jenis_iuran) // Filter berdasarkan jenis iuran
+            ->whereMonth('created_at', now()->month) // Filter berdasarkan bulan
+            ->whereYear('created_at', now()->year) // Filter berdasarkan tahun
+            ->first();
+
+        if ($existingData) {
+            return redirect('/bendahara/pemasukan')->with('error', 'Penduduk ini sudah membayar pada bulan ini');
+        }
+
+        // Jika data belum ada, simpan data baru
+        iuranModel::create([
+            'nominal' => $request->nominal,
+            'jenis_transaksi' => $request->jenis_transaksi,
+            'jenis_iuran' => $request->jenis_iuran,
+            'no_kk' => $request->no_kk,
+        ]);
+
+        return redirect('/bendahara/pemasukan')->with('success', 'Data berhasil disimpan');
     }
-
-    // Jika data belum ada, simpan data baru
-    iuranModel::create([
-        'nominal' => $request->nominal,
-        'jenis_transaksi' => $request->jenis_transaksi,
-        'jenis_iuran' => $request->jenis_iuran,
-        'no_kk' => $request->no_kk,
-    ]);
-
-    return redirect('/bendahara/pemasukan')->with('success', 'Data berhasil disimpan');
-}
 
 
 
@@ -122,14 +146,38 @@ public function store(Request $request)
             return redirect('/bendahara/pemasukan')->with('error', 'Data tidak ditemukan');
         }
 
-        try{
+        try {
             iuranModel::destroy($id);    //Hapus data
 
             return redirect('/bendahara/pemasukan')->with('success', 'Data berhasil dihapus');
-        }catch (\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
 
             //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
             return redirect('/bendahara/pemasukan')->with('error', 'Data gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
         }
+    }
+
+    public function search(Request $request)
+    {
+        // Validasi input dari form pencarian
+        $request->validate([
+            'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
+        ]);
+
+        // Mengambil data berdasarkan input pencarian
+        $searchQuery = $request->input('search');
+
+        // Query untuk mengambil data sesuai dengan input pencarian
+        $data = iuranModel::where(function ($query) use ($searchQuery) {
+            $query->where('nominal', 'LIKE', "%$searchQuery%")
+                ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
+                ->orWhereHas('kk', function ($query) use ($searchQuery) {
+                    $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
+                })
+                ->orWhereDate('created_at', $searchQuery); // Pencarian berdasarkan tanggal
+        })->paginate(10); // Ganti sesuai dengan jumlah data yang ingin ditampilkan per halaman
+
+        // Return data dalam bentuk JSON
+        return response()->json($data);
     }
 }

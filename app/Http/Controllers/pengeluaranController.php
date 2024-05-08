@@ -32,9 +32,16 @@ class PengeluaranController extends Controller
 
     public function list(Request $request)
     {
+        $search = $request->input('search'); // Ambil nilai pencarian dari request
+
         $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
             ->with('kk')
             ->where('jenis_transaksi', 'pengeluaran') // Hanya mengambil jenis transaksi "pengeluaran"
+            ->where(function ($query) use ($search) {
+                $query->where('nominal', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('jenis_iuran', 'like', '%' . $search . '%');
+            })
             ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at') // Group by kolom tertentu
             ->orderBy('created_at', 'DESC'); // Urutkan berdasarkan created_at secara descending
 
@@ -48,41 +55,42 @@ class PengeluaranController extends Controller
             ->make(true);
     }
 
+
     public function store(Request $request)
-{
-    // Menentukan jenis transaksi secara manual
-    $request->merge(['jenis_transaksi' => 'pengeluaran']);
+    {
+        // Menentukan jenis transaksi secara manual
+        $request->merge(['jenis_transaksi' => 'pengeluaran']);
 
-    // Validasi input
-    $request->validate([
-        'nominal' => 'required|numeric',
-        'jenis_transaksi' => 'required|in:pengeluaran',
-        'jenis_iuran' => 'required|max:50',
-        'keterangan' => 'required'
-    ]);
+        // Validasi input
+        $request->validate([
+            'nominal' => 'required|numeric',
+            'jenis_transaksi' => 'required|in:pengeluaran',
+            'jenis_iuran' => 'required|max:50',
+            'keterangan' => 'required'
+        ]);
 
-    // Menghitung saldo saat ini berdasarkan jenis iuran (kas atau paguyuban)
-    $jenisIuran = $request->jenis_iuran;
-    $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')->where('jenis_iuran', $jenisIuran)->sum('nominal');
-    $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')->where('jenis_iuran', $jenisIuran)->sum('nominal');
-    $saldo = $totalUangMasuk - $totalUangKeluar;
+        // Menghitung saldo saat ini berdasarkan jenis iuran (kas atau paguyuban)
+        $jenisIuran = $request->jenis_iuran;
+        $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')->where('jenis_iuran', $jenisIuran)->sum('nominal');
+        $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')->where('jenis_iuran', $jenisIuran)->sum('nominal');
+        $saldo = $totalUangMasuk - $totalUangKeluar;
 
-    // Memeriksa apakah saldo cukup
-    $pengeluaranDiminta = $request->nominal;
-    if ($saldo < $pengeluaranDiminta) {
-        return redirect('/bendahara/pengeluaran')->with('error', 'Saldo tidak mencukupi untuk melakukan pengeluaran '.$jenisIuran);
+        // Memeriksa apakah saldo cukup
+        $pengeluaranDiminta = $request->nominal;
+        if ($saldo < $pengeluaranDiminta) {
+            return redirect('/bendahara/pengeluaran')->with('error', 'Saldo tidak mencukupi untuk melakukan pengeluaran ' . $jenisIuran);
+        }
+
+        // Menyimpan data pengeluaran kas jika saldo cukup
+        iuranModel::create([
+            'nominal' => $request->nominal,
+            'jenis_transaksi' => $request->jenis_transaksi,
+            'jenis_iuran' => $request->jenis_iuran,
+            'keterangan' => $request->keterangan
+        ]);
+
+        return redirect('/bendahara/pengeluaran')->with('success', 'Data berhasil disimpan');
     }
-
-    // Menyimpan data pengeluaran kas jika saldo cukup
-    iuranModel::create([
-        'nominal' => $request->nominal,
-        'jenis_transaksi' => $request->jenis_transaksi,
-        'jenis_iuran' => $request->jenis_iuran,
-        'keterangan' => $request->keterangan
-    ]);
-
-    return redirect('/bendahara/pengeluaran')->with('success', 'Data berhasil disimpan');
-}
 
 
 

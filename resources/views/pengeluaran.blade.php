@@ -4,8 +4,15 @@
   <div class="col-md-6">
     <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
   </div>
-  <div class="col-md-6">
-    {{-- UNTUK SEARCH --}}
+  <div class="col-md-6" style="">
+    <div class="row">
+      <form id="searchForm" class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+        </div>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+      </form>
+    </div>
   </div>
 </div>
 <div class="card">
@@ -162,8 +169,7 @@
 
 @push('js')
 <script>
-
-$(document).on('click', '.btn-edit', function() {
+  $(document).on('click', '.btn-edit', function() {
     var ids = $(this).data('id');
     $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
     $.ajax({
@@ -197,6 +203,7 @@ $(document).on('click', '.btn-edit', function() {
         "type": "POST",
         "data": function(d) {
           d.no_kk = $('#no_kk').val();
+          d.search = $('#search').val();
         }
       },
       columns: [{
@@ -237,6 +244,11 @@ $(document).on('click', '.btn-edit', function() {
 
     $('#id_iuran').on('change', function() {
       dataPengeluaran.ajax.reload();
+    });
+
+    $('#searchForm').on('submit', function(e) {
+      e.preventDefault(); // Mencegah form untuk submit
+      dataPengeluaran.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
     });
 
     $(document).on("click", ".btn-delete", function() {

@@ -4,8 +4,15 @@
   <div class="col-md-6">
     <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
   </div>
-  <div class="col-md-6">
-    {{-- UNTUK SEARCH --}}
+  <div class="col-md-6" style="">
+    <div class="row">
+      <form id="searchForm" class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+        </div>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+      </form>
+    </div>
   </div>
 </div>
 <div class="card">
@@ -126,213 +133,219 @@
         <!-- Isi dengan formulir untuk memilih warga dan nominal -->
         <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
           <div class="form-group">
-          <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
-          <div class="form-group">
-            <label for="warga_kas">Pilih Warga:</label>
-            <select class="form-control" id="no_kk" name="no_kk" required>
-              <option value="">- Pilih Warga -</option>
-              @foreach($kk as $item)
-              @php
-              // Periksa apakah warga telah membayar kas pada bulan ini
-              $existingData = \App\Models\iuranModel::where('no_kk', $item->no_kk)
-              ->where('jenis_iuran', 'Paguyuban')
-              ->whereMonth('created_at', now()->month)
-              ->whereYear('created_at', now()->year)
-              ->exists();
-              @endphp
-              @if(!$existingData)
-              <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
-              @endif
-              @endforeach
-            </select>
-            @error('no_kk')
-            <small class="form-text text-danger">{{ $message }}</small>
-            @enderror
+            <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
+              <div class="form-group">
+                <label for="warga_kas">Pilih Warga:</label>
+                <select class="form-control" id="no_kk" name="no_kk" required>
+                  <option value="">- Pilih Warga -</option>
+                  @foreach($kk as $item)
+                  @php
+                  // Periksa apakah warga telah membayar kas pada bulan ini
+                  $existingData = \App\Models\iuranModel::where('no_kk', $item->no_kk)
+                  ->where('jenis_iuran', 'Paguyuban')
+                  ->whereMonth('created_at', now()->month)
+                  ->whereYear('created_at', now()->year)
+                  ->exists();
+                  @endphp
+                  @if(!$existingData)
+                  <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
+                  @endif
+                  @endforeach
+                </select>
+                @error('no_kk')
+                <small class="form-text text-danger">{{ $message }}</small>
+                @enderror
+              </div>
+              <div class="form-group">
+                <label for="nominal_kas">Nominal:</label>
+                <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
+                @error('nominal')
+                <small class="form-text text-danger">{{ $message }}</small> @enderror
+              </div>
+              <input type="hidden" id="jenis_iuran" name="jenis_iuran" value="Paguyuban">
+              <div class="text-center">
+                <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
+              </div>
+            </form>
           </div>
-          <div class="form-group">
-            <label for="nominal_kas">Nominal:</label>
-            <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
-            @error('nominal')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
-          </div>
-          <input type="hidden" id="jenis_iuran" name="jenis_iuran" value="Paguyuban">
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
-          </div>
-        </form>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Modal tambahan untuk Edit KAS -->
-<div class="modal fade editKasModal" id="editKasModal" tabindex="-1" role="dialog" aria-labelledby="editKasModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editKasModalLabel">Ubah Data</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Formulir untuk mengedit data KAS -->
-        <form id="editPengeluaranForm" action="{{ url('/bendahara/pemasukan/update') }}" method="POST" enctype="multipart/form-data">
-          @csrf
-          <input type="hidden" id="id_iuran" name="id_iuran">
-          <div class="form-group">
-            <label for="warga_kas">Pilih Warga:</label>
-            <select class="form-control" id="no_kk" name="no_kk" required>
-              <option value="">- Pilih Warga -</option> @foreach($kk as $item)
-              <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
-              @endforeach
-            </select> @error('no_kk')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
-          </div>
-          <div class="form-group">
-            <label for="nominal">Nominal:</label>
-            <input type="number" class="form-control" id="edit_nominal" name="nominal">
-          </div>
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Edit</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal untuk konfirmasi hapus data -->
-<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus Data</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        Apakah Anda yakin menghapus data ini?
-      </div>
-      <div class="modal-footer justifiy-content">
-        <form id="hapusForm" action="{{url('/bendahara/pemasukan/destroy')}}" method="post">
-          @csrf
-          @method('DELETE')
-          <input type="hidden" name="id_iuran" id="id_iuran">
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
-          </div>
-        </form>
+  <!-- Modal tambahan untuk Edit KAS -->
+  <div class="modal fade editKasModal" id="editKasModal" tabindex="-1" role="dialog" aria-labelledby="editKasModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editKasModalLabel">Ubah Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Formulir untuk mengedit data KAS -->
+          <form id="editPengeluaranForm" action="{{ url('/bendahara/pemasukan/update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" id="id_iuran" name="id_iuran">
+            <div class="form-group">
+              <label for="warga_kas">Pilih Warga:</label>
+              <select class="form-control" id="no_kk" name="no_kk" required>
+                <option value="">- Pilih Warga -</option> @foreach($kk as $item)
+                <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
+                @endforeach
+              </select> @error('no_kk')
+              <small class="form-text text-danger">{{ $message }}</small> @enderror
+            </div>
+            <div class="form-group">
+              <label for="nominal">Nominal:</label>
+              <input type="number" class="form-control" id="edit_nominal" name="nominal">
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Edit</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
-@endsection
-@push('css')
-@endpush
 
-@push('js')
-<script>
-  // Fungsi untuk menampilkan modal tambahan berdasarkan jenis pemasukan yang dipilih
-  document.getElementById('kasButton').addEventListener('click', function() {
-    $('#kasModal').modal('show');
-  });
+  <!-- Modal untuk konfirmasi hapus data -->
+  <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin menghapus data ini?
+        </div>
+        <div class="modal-footer justifiy-content">
+          <form id="hapusForm" action="{{url('/bendahara/pemasukan/destroy')}}" method="post">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="id_iuran" id="id_iuran">
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  @endsection
+  @push('css')
+  @endpush
 
-  document.getElementById('paguyubanButton').addEventListener('click', function() {
-    $('#paguyubanModal').modal('show');
-  });
-
-  $(document).on('click', '.btn-edit', function() {
-    var jenisPemasukan = $(this).data('jenis');
-    var ids = $(this).data('id');
-    $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
-    $.ajax({
-      url: "{{ url('/bendahara/pemasukan/edit') }}", // Ganti URL dengan URL yang sesuai
-      type: "POST",
-      dataType: "json",
-      data: {
-        id_iuran: ids
-      },
-      success: function(response) {
-        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-        $('.modal-body #no_kk').val(response.no_kk);
-        $('.modal-body #nominal').val(response.nominal);
-        // Isi formulir lainnya sesuai kebutuhan Anda
-      },
-      error: function(xhr, status, error) {
-        // Tangani kesalahan yang terjadi
-      }
-    });
-    $('#editKasModal').modal('show');
-  });
-
-  // Fungsi untuk menampilkan modal hapus data
-  document.querySelectorAll('.btn-delete').forEach(function(btnDelete) {
-    btnDelete.addEventListener('click', function() {
-      var form = btnDelete.closest('tr').querySelector('form#hapusForm');
-      $('#hapusModal').find('form#hapusForm').attr('action', form.action);
-      $('#hapusModal').modal('show');
-    });
-  });
-</script>
-
-<script>
-  $(document).ready(function() {
-    var dataPemasukan = $('#table_pemasukan').DataTable({
-      serverSide: true, //jika ingin menggunakan server side processing
-      ajax: {
-        "url": "{{ url('bendahara/pemasukan/list') }}",
-        "dataType": "json",
-        "type": "POST",
-        "data": function(d) {
-          d.no_kk = $('#no_kk').val();
-        }
-      },
-      columns: [{
-        data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColimn()
-        className: "text-center",
-        orderable: false,
-        searchable: false
-      }, {
-        data: "nominal",
-        className: "",
-        orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: "jenis_iuran",
-        className: "",
-        orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: "kk.nama_kepala_keluarga",
-        className: "",
-        orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: "created_at_formatted", // menggunakan kolom formatted yang telah ditambahkan pada controller
-        className: "",
-        orderable: true, // jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: null,
-        classname: "",
-        orderable: false, //orderable true jika ingin kolom bisa diurutkan
-        searchable: false, //searchable true jika ingin kolom bisa dicari
-        render: function(data, type, row) {
-          return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
-        }
-      }]
+  @push('js')
+  <script>
+    // Fungsi untuk menampilkan modal tambahan berdasarkan jenis pemasukan yang dipilih
+    document.getElementById('kasButton').addEventListener('click', function() {
+      $('#kasModal').modal('show');
     });
 
-    $('#id_iuran').on('change', function() {
-      dataPemasukan.ajax.reload();
+    document.getElementById('paguyubanButton').addEventListener('click', function() {
+      $('#paguyubanModal').modal('show');
     });
 
-    $(document).on("click", ".btn-delete", function() {
+    $(document).on('click', '.btn-edit', function() {
+      var jenisPemasukan = $(this).data('jenis');
       var ids = $(this).data('id');
-      $(".modal-footer #id_iuran").val(ids);
+      $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
+      $.ajax({
+        url: "{{ url('/bendahara/pemasukan/edit') }}", // Ganti URL dengan URL yang sesuai
+        type: "POST",
+        dataType: "json",
+        data: {
+          id_iuran: ids
+        },
+        success: function(response) {
+          // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+          $('.modal-body #no_kk').val(response.no_kk);
+          $('.modal-body #nominal').val(response.nominal);
+          // Isi formulir lainnya sesuai kebutuhan Anda
+        },
+        error: function(xhr, status, error) {
+          // Tangani kesalahan yang terjadi
+        }
+      });
+      $('#editKasModal').modal('show');
     });
-  });
-</script>
-@endpush
+
+    // Fungsi untuk menampilkan modal hapus data
+    document.querySelectorAll('.btn-delete').forEach(function(btnDelete) {
+      btnDelete.addEventListener('click', function() {
+        var form = btnDelete.closest('tr').querySelector('form#hapusForm');
+        $('#hapusModal').find('form#hapusForm').attr('action', form.action);
+        $('#hapusModal').modal('show');
+      });
+    });
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      var dataPemasukan = $('#table_pemasukan').DataTable({
+        serverSide: true, //jika ingin menggunakan server side processing
+        ajax: {
+          "url": "{{ url('bendahara/pemasukan/list') }}",
+          "dataType": "json",
+          "type": "POST",
+          "data": function(d) {
+            d.no_kk = $('#no_kk').val();
+            d.search = $('#search').val();
+          }
+        },
+        columns: [{
+          data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColimn()
+          className: "text-center",
+          orderable: false,
+          searchable: false
+        }, {
+          data: "nominal",
+          className: "",
+          orderable: true, //jika ingin kolom bisa urut
+          searchable: true // jika kolom bisa dicari
+        }, {
+          data: "jenis_iuran",
+          className: "",
+          orderable: true, //jika ingin kolom bisa urut
+          searchable: true // jika kolom bisa dicari
+        }, {
+          data: "kk.nama_kepala_keluarga",
+          className: "",
+          orderable: true, //jika ingin kolom bisa urut
+          searchable: true // jika kolom bisa dicari
+        }, {
+          data: "created_at_formatted", // menggunakan kolom formatted yang telah ditambahkan pada controller
+          className: "",
+          orderable: true, // jika ingin kolom bisa urut
+          searchable: true // jika kolom bisa dicari
+        }, {
+          data: null,
+          classname: "",
+          orderable: false, //orderable true jika ingin kolom bisa diurutkan
+          searchable: false, //searchable true jika ingin kolom bisa dicari
+          render: function(data, type, row) {
+            return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
+          }
+        }]
+      });
+
+      $('#id_iuran').on('change', function() {
+        dataPemasukan.ajax.reload();
+      });
+
+      $('#searchForm').on('submit', function(e) {
+        e.preventDefault(); // Mencegah form untuk submit
+        dataPemasukan.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
+      });
+
+      $(document).on("click", ".btn-delete", function() {
+        var ids = $(this).data('id');
+        $(".modal-footer #id_iuran").val(ids);
+      });
+    });
+  </script>
+  @endpush

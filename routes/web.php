@@ -177,6 +177,7 @@ Route::group(['prefix' => 'bendahara'], function () {
         // Route::get('/{id}', [pemasukanController::class, 'show']);
         Route::post('/edit', [pemasukanController::class, 'edit']);
         Route::post('/update', [pemasukanController::class, 'update']);
+        Route::post('/search', [pemasukanController::class, 'search']);
         Route::delete('/destroy', [pemasukanController::class, 'destroy']);
     }); 
     Route::group(['prefix' => 'pengeluaran'], function () { 
