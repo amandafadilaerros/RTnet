@@ -7,7 +7,7 @@ use App\Models\IuranModel;
 use App\Models\Inventaris;
 use App\Models\ktp;
 use App\Models\Pengumumans;
-use App\Models\ktp;
+
 
 
 class loginController extends Controller
