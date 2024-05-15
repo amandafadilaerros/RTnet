@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\kkModel;
-use App\Models\ktp;
 use App\Models\ktpModel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -103,7 +102,7 @@ class detail_dataKKRtController extends Controller
             
         ]);
        
-        penduduk_tetapModel::create([
+        ktpModel::create([
             'nik'                   => $request->nik,                         
             'no_kk'                 => $request->no_kk,
             'nama'                  => $request->nama,

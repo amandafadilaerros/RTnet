@@ -3,13 +3,12 @@
 @section('content')
 
 <div class="row">
-  
-  <div class="col-md-3 mb-4"> <!-- Mengubah kelas col-md-8 menjadi col-md-3 -->
+  <div class="col-md-3 mb-4">
     <div class="input-group float-right">
-        <input type="text" class="form-control" id="searchInput" style="border-radius: 20px;" placeholder="Cari berdasarkan nama barang...">
+        <input type="text" class="form-control" id="searchInput" style="border-radius: 20px;" placeholder="Cari barang...">
     </div>
-</div>
-
+  </div>
+  
   <div class="col-md-4">
     <div class="input-group">
       <input type="date" class="form-control" id="searchDate" style="border-radius: 20px;" placeholder="Cari berdasarkan tanggal...">
@@ -17,132 +16,158 @@
         <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; width: 100px;">Cari</button>
       </div>
     </div>
-    
   </div>
-  
 </div>
 
 <div class="card">
   <div class="card-body">
     @if (session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+      <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     @if (session('error'))
-    <div class="alert alert-danger">{{ session('error') }}</div>
+      <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
     <table class="table table-hover table-striped" id="inventaris_table">
       <thead>
         <tr>
-            <th scope="col">ID Inventaris</th>
-            <th scope="col">Gambar</th>
-            <th scope="col">Nama Barang</th>
-            <th scope="col">Aksi</th>
-            
+          <th scope="col">No</th>
+          <th scope="col">Gambar</th>
+          <th scope="col">Nama Barang</th>
+          <th scope="col">Aksi</th>
+          <th scope="col">Detail Peminjam</th>
         </tr>
-    </thead>
+      </thead>
+      <tbody>
+      </tbody>
     </table>
   </div>
 </div>
+<!-- Modal untuk melihat detail peminjam -->
+<div class="modal fade" id="viewModalAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalAnggotaLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="viewModalAnggotaLabel">Detail Peminjam</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Nama:</strong> <span id="nama"></span></p>
+          <p><strong>Jenis Kelamin:</strong> <span id="jenis_kelamin"></span></p>
+       
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
 @push('css')
 <style>
-  /* Menyembunyikan fitur pencarian di tabel */
   .dataTables_filter {
       display: none;
   }
 </style>
-
-    <!-- Tambahkan CSS tambahan jika diperlukan -->
 @endpush
-
 
 @endsection
 
 @push('js')
 <script>
-   $(document).ready(function() {
+$(document).ready(function() {
     var inventaris = $('#inventaris_table').DataTable({
-        serverSide: true,   // Jika ingin menggunakan server-side processing
-        searching: true,    // Mengaktifkan fitur pencarian
-        
+        serverSide: true,
+        processing: true,
         ajax: {
-            "url": "{{ url('penduduk/daftar_inventaris/list') }}", // Ganti URL dengan endpoint yang sesuai
-            "dataType": "json",
-            "type": "POST"
+            url: "{{ url('penduduk/daftar_inventaris/list') }}",
+            type: "POST"
         },
         columns: [
-            {
-                data: "DT_RowIndex",
-                className: "text-center",
-                orderable: false,
-                searchable: false
-            },
-            // Kolom untuk menampilkan gambar
-            {
-                data: "id_gambar",
-                className: "",
-                orderable: false,
+            { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
+            { 
+                data: "id_gambar", 
+                className: "text-center", 
+                orderable: false, 
                 searchable: false,
-                render: function (data, type, row) {
+                render: function(data, type, row) {
                     if (data) {
-                        return '<img data-id-gambar="' + row.id_inventaris + '" width="50" height="50">';
+                        return '<img src="path/to/images/' + data + '" width="50" height="50">';
                     } else {
-                        return '<img src="placeholder.png" width="50" height="50">'; // Replace with placeholder image path
+                        return '<img src="placeholder.png" width="50" height="50">'; 
                     }
                 }
             },
-            {
-                // Kolom untuk nama barang
-                data: "nama_barang",
-                className: "",
-                orderable: true,
-                searchable: true
-            },
-            // Kolom untuk aksi (Dipinjam/Tersedia)
-            {
-              data: "aksi",
-                className: "text-center",
-                orderable: false,
+            { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
+            { data: "aksi", className: "text-center", orderable: true, searchable: true },
+            { 
+                data: null, 
+                className: "text-center", 
+                orderable: false, 
                 searchable: false,
+                render: function(data, type, row) {
+                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-id-peminjam="' + row.id_peminjam + '"><i class="fas fa-eye"></i></a>';
+                }
             }
         ]
     });
+
+    $('#inventaris_table').on('click', '.btn-view', function() {
+    var idPeminjam = $(this).data('NIK');
     
-    // Fungsi untuk melakukan pencarian saat tombol "Cari" ditekan
+    $.ajax({
+        url: "{{ url('penduduk/daftar_inventaris/show') }}/" + idPeminjam,
+        type: "GET",
+        success: function(response) {
+            $('#nama').text(response.nama);
+            $('#jenis_kelamin').text(response.jenis_kelamin);
+         
+            $('#viewModalAnggota').modal('show');
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+        }
+    });
+});
+
+
+
+
+
+
     $('#searchButton').on('click', function() {
         var keyword = $('#searchInput').val().toLowerCase();
         inventaris.search(keyword).draw();
     });
-    
 
-    // Fungsi untuk melakukan pencarian berdasarkan tanggal
-    $('#searchButton').click(function() {
-        var startDate = $('#startDate').val();
-        var endDate = $('#endDate').val();
-
-        // Kirim permintaan AJAX ke server dengan parameter startDate dan endDate
+    $('#searchDate').on('change', function() {
+        var searchDate = $('#searchDate').val();
+        
         $.ajax({
-            url: 'pencarian.php',
-            type: 'GET',
-            data: { startDate: startDate, endDate: endDate },
+            url: "{{ url('penduduk/daftar_inventaris/search-by-date') }}",
+            type: "POST",
+            data: { searchDate: searchDate },
             success: function(response) {
-                // Tampilkan hasil pencarian di sini
-                console.log(response);
+                inventaris.clear().draw();
+                inventaris.rows.add(response).draw();
             },
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
             }
         });
     });
-    
-    // Menampilkan gambar inventaris
-    $('#table_inventaris').on('draw.dt', function() {
+
+    $('#inventaris_table').on('draw.dt', function() {
         $('img[data-id-gambar]').each(function() {
             var idInventaris = $(this).data('id-gambar');
-            var imgElement = $(this); // Simpan referensi objek gambar
+            var imgElement = $(this);
             
             $.ajax({
-                url: "http://localhost/RTnet/public/inventaris/image/" + idInventaris,
+                url: "{{ url('inventaris/image') }}/" + idInventaris,
                 type: 'GET',
                 success: function(response) {
                     var imageData = 'data:' + response.mimeType + ';base64,' + response.imageData;
@@ -154,10 +179,6 @@
             });
         });
     });
-    
-    
 });
-
-    
 </script>
 @endpush

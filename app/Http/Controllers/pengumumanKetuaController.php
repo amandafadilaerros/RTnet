@@ -13,7 +13,7 @@ class pengumumanKetuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Pengumuman',
-            'list' => ['--', '--'],
+            'list' => ['Ketua RT', 'Pengumuman'],
         ];
         $page = (object) [
             'title' => '-----',
