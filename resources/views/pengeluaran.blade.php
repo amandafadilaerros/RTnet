@@ -5,7 +5,14 @@
     <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
   </div>
   <div class="col-md-6">
-    {{-- UNTUK SEARCH --}}
+    <div class="row justify-content-end">
+      <form id="searchForm" class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
+        </div>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+      </form>
+    </div>
   </div>
 </div>
 <div class="card">
@@ -121,7 +128,7 @@
           </div>
           <div class="form-group">
             <label for="nominal">Nominal:</label>
-            <input type="number" class="form-control" id="edit_nominal" name="nominal">
+            <input type="number" class="form-control" id="nominal" name="nominal">
           </div>
           <div class="text-center">
             <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Simpan</button>
@@ -158,12 +165,19 @@
 </div>
 @endsection
 @push('css')
+<style>
+  /* Menyembunyikan fitur pencarian di tabel */
+  .dataTables_filter {
+      display: none;
+  }
+</style>
+
+    <!-- Tambahkan CSS tambahan jika diperlukan -->
 @endpush
 
 @push('js')
 <script>
-
-$(document).on('click', '.btn-edit', function() {
+  $(document).on('click', '.btn-edit', function() {
     var ids = $(this).data('id');
     $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
     $.ajax({
@@ -197,23 +211,21 @@ $(document).on('click', '.btn-edit', function() {
         "type": "POST",
         "data": function(d) {
           d.no_kk = $('#no_kk').val();
+          d.search = $('#search').val();
         }
       },
       columns: [{
         data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColimn()
         className: "text-center",
         orderable: false,
-        searchable: false
       }, {
         data: "nominal",
         className: "",
         orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
       }, {
         data: "jenis_iuran",
         className: "",
         orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
       }, {
         data: "created_at_formatted", // menggunakan kolom formatted yang telah ditambahkan pada controller
         className: "",
@@ -223,12 +235,10 @@ $(document).on('click', '.btn-edit', function() {
         data: "keterangan",
         className: "",
         orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
       }, {
         data: null,
         classname: "",
         orderable: false, //orderable true jika ingin kolom bisa diurutkan
-        searchable: false, //searchable true jika ingin kolom bisa dicari
         render: function(data, type, row) {
           return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + ' "><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
         }
@@ -237,6 +247,11 @@ $(document).on('click', '.btn-edit', function() {
 
     $('#id_iuran').on('change', function() {
       dataPengeluaran.ajax.reload();
+    });
+
+    $('#searchForm').on('submit', function(e) {
+      e.preventDefault(); // Mencegah form untuk submit
+      dataPengeluaran.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
     });
 
     $(document).on("click", ".btn-delete", function() {

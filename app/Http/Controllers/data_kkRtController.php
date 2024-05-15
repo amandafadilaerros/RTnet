@@ -58,7 +58,7 @@ class data_kkRtController extends Controller
         ];
         $activeMenu = 'data_kk';
 
-        return view('detailDataKK', [
+        return view('detail_dataKKRt', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -122,33 +122,30 @@ class data_kkRtController extends Controller
         ]);
     }
 
-    // Menampilkan detail rumah
-    public function show($no_kk)  // Update to accept $no_kk parameter
-    {
+      //Menampilkan detail rumah
+      public function show($no_kk)
+      {
+
         $data_kk = kkModel::find($no_kk);
 
-        if (!$data_kk) {
-            return redirect()->back()->with('error', 'Data Kartu Keluarga tidak ditemukan');
-        }
-
-        $breadcrumb = (object) [
-            'title' => 'Detail Data Kartu Keluarga',
-            'list'  => ['Home', 'Kartu Keluarga', 'Detail']
-        ];
-
-        $page = (object) [
-            'title' => 'Detail Kartu Keluarga'
-        ];
-
-        $activeMenu = 'data_kk';
-
-        return view('detailDataKK', [
-            'breadcrumb' => $breadcrumb,
-            'page'       => $page,
-            'activeMenu' => $activeMenu,
-            'data_kk'    => $data_kk,
-        ]);
-    }
+          $breadcrumb = (object) [
+              'title' => 'Detail Data Kartu Keluarga',
+              'list'  => ['Home', 'Kartu Keluarga', 'Detail']
+          ];
+  
+          $page = (object) [
+              'title' => 'Detail Kartu Keluarga'
+          ];
+  
+          $activeMenu = 'data_kk';       //set menu yang sedang aktif
+          return view('detail_dataKKRt', 
+          [
+              'breadcrumb' => $breadcrumb,
+              'page'       => $page,
+              'activeMenu' => $activeMenu,
+              'data_kk' => $data_kk,
+          ]);
+      }
 
     public function edit(Request $request)
     {
