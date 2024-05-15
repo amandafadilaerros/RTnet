@@ -65,7 +65,7 @@ class data_kkRtController extends Controller
         ]);
     }
     public function list(Request $request){
-        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat','no_rumah', 'dokumen');
+        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'no_rumah', 'alamat', 'dokumen');
     
         return DataTables::of($kks)
         ->addIndexColumn()
@@ -86,17 +86,16 @@ class data_kkRtController extends Controller
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',
-            'no_rumah'              => 'required|max:255',
-            // 'dokumen'              => 'required|max:255',
+            'no_rumah'              => 'required|max:255'
         ]);
-       
+        // dd($request);
 
         kkModel::create([
             'no_kk'                 => $request->no_kk,
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $request->alamat,
-            'no_rumah'              => $request->no_rumah,
+            'no_rumah'                => $request->no_rumah,
             'dokumen'               => $request->dokumen,
         ]);
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
@@ -123,30 +122,33 @@ class data_kkRtController extends Controller
         ]);
     }
 
-      //Menampilkan detail rumah
-      public function show(String $no_kk)
-      {
-
+    // Menampilkan detail rumah
+    public function show($no_kk)  // Update to accept $no_kk parameter
+    {
         $data_kk = kkModel::find($no_kk);
 
-          $breadcrumb = (object) [
-              'title' => 'Detail Data Kartu Keluarga',
-              'list'  => ['Home', 'Kartu Keluarga', 'Detail']
-          ];
-  
-          $page = (object) [
-              'title' => 'Detail Kartu Keluarga'
-          ];
-  
-          $activeMenu = 'data_kk';       //set menu yang sedang aktif
-          return view('data_kk.show', 
-          [
-              'breadcrumb' => $breadcrumb,
-              'page'       => $page,
-              'activeMenu' => $activeMenu,
-              'data_kk' => $data_kk,
-          ]);
-      }
+        if (!$data_kk) {
+            return redirect()->back()->with('error', 'Data Kartu Keluarga tidak ditemukan');
+        }
+
+        $breadcrumb = (object) [
+            'title' => 'Detail Data Kartu Keluarga',
+            'list'  => ['Home', 'Kartu Keluarga', 'Detail']
+        ];
+
+        $page = (object) [
+            'title' => 'Detail Kartu Keluarga'
+        ];
+
+        $activeMenu = 'data_kk';
+
+        return view('detailDataKK', [
+            'breadcrumb' => $breadcrumb,
+            'page'       => $page,
+            'activeMenu' => $activeMenu,
+            'data_kk'    => $data_kk,
+        ]);
+    }
 
     public function edit(Request $request)
     {
@@ -154,14 +156,14 @@ class data_kkRtController extends Controller
         return response()->json($data_kk);
     }
     
-    public function update(Request $request){
-        // dd($request);
-        // $request->validate([
-        //     // 'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
-        //     'nama_kepala_keluarga'  => 'required|max:255',
-        //     'jumlah_individu'       => 'required|max:255',
-        //     'alamat'                => 'required|max:255',
-        // ]);
+    public function update(Request $request)
+    {
+        $request->validate([
+            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
+            'nama_kepala_keluarga'  => 'required|max:255',
+            'jumlah_individu'       => 'required|max:255',
+            'alamat'                => 'required|max:255',
+        ]);
 
         kkModel::find($request->id)->update([
             'no_kk'                 => $request->no_kk,
@@ -170,7 +172,8 @@ class data_kkRtController extends Controller
             'alamat'                => $request->alamat,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
+
+        return redirect('/ketuaRt/data_kk')->with('success', 'Data berhasil diubah');
     }
 
    //Menghapus data rumah

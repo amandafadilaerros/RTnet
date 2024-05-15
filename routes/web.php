@@ -23,6 +23,7 @@ use App\Http\Controllers\pengumumanKetuaController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
+use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
 use App\Models\gambar;
 use App\Models\inventaris;
@@ -91,10 +92,20 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::post('/list', [data_kkRtController::class, 'list']);
         Route::get('/create', [data_kkRtController::class, 'create']);
         Route::post('/', [data_kkRtController::class, 'store']);
-        Route::get('/show', [data_kkRtController::class, 'show']);
+        Route::get('/show/{no_kk}', [data_kkRtController::class, 'show']);
         Route::post('/edit', [data_kkRtController::class, 'edit']);
         Route::put('/update', [data_kkRtController::class, 'update']);
         Route::delete('/delete', [data_kkRtController::class, 'destroy']);
+    }); 
+    Route::group(['prefix' => 'detail_kk'], function () {
+        Route::get('/', [detail_dataKKRtController::class, 'index']);
+        Route::post('/list', [detail_dataKKRtController::class, 'list']);
+        Route::get('/create', [detail_dataKKRtController::class, 'create']);
+        Route::post('/', [detail_dataKKRtController::class, 'store']);
+        Route::get('/show', [detail_dataKKRtController::class, 'show']);
+        Route::post('/edit', [detail_dataKKRtController::class, 'edit']);
+        Route::put('/update', [detail_dataKKRtController::class, 'update']);
+        Route::delete('/delete', [detail_dataKKRtController::class, 'destroy']);
     }); 
 
     // Route::get('/detail_anggota', [KKController::class, 'detail']);
