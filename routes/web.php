@@ -172,6 +172,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
 Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'pemasukan'], function () {
         Route::get('/', [pemasukanController::class, 'index']);
+        Route::get('/checkIuran', [pemasukanController::class, 'checkIuran']);
         Route::post('/list', [pemasukanController::class, 'list']);
         // Route::get('/create', [pemasukanController::class, 'create']);
         Route::post('/tambah', [pemasukanController::class, 'store']);

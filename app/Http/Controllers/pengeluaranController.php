@@ -72,8 +72,13 @@ class PengeluaranController extends Controller
         // Menghitung saldo saat ini berdasarkan jenis iuran (kas atau paguyuban)
         $jenisIuran = $request->jenis_iuran;
         $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')->where('jenis_iuran', $jenisIuran)->sum('nominal');
+        $totalUangTambahan = iuranModel::where('jenis_transaksi', 'pemasukan')->where('jenis_iuran', 'Tambahan')->sum('nominal');
         $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')->where('jenis_iuran', $jenisIuran)->sum('nominal');
-        $saldo = $totalUangMasuk - $totalUangKeluar;
+        if($jenisIuran === 'Kas'){
+            $saldo = $totalUangMasuk + $totalUangTambahan - $totalUangKeluar;
+        } else {
+            $saldo = $totalUangMasuk - $totalUangKeluar;
+        }
 
         // Memeriksa apakah saldo cukup
         $pengeluaranDiminta = $request->nominal;

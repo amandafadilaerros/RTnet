@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\iuranModel;
 use App\Models\kkModel;
+use App\Models\rumahModel;
+use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
 
 class pemasukanController extends Controller
@@ -28,50 +30,89 @@ class pemasukanController extends Controller
     }
 
     public function list(Request $request)
-{
-    // Validasi input dari form pencarian
-    $request->validate([
-        'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
-        'no_kk' => 'nullable|integer', // Validasi input no_kk
-    ]);
+    {
+        // Validasi input dari form pencarian
+        $request->validate([
+            'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
+            'no_kk' => 'nullable|integer', // Validasi input no_kk
+        ]);
 
-    // Mengambil data berdasarkan input pencarian
-    $searchQuery = $request->input('search');
-    $no_kk = $request->input('no_kk');
+        // Mengambil data berdasarkan input pencarian
+        $searchQuery = $request->input('search');
+        $no_kk = $request->input('no_kk');
 
-    $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
-        ->with('kk')
-        ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
-        ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at') // Group by kolom tertentu
-        ->orderBy('created_at', 'DESC'); // Urutkan berdasarkan created_at secara descending
+        $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'bulan')
+            ->with('kk')
+            ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
+            ->orderBy('bulan', 'DESC'); // Urutkan berdasarkan bulan secara descending
 
-    // Filter data berdasarkan no_kk
-    if ($no_kk) {
-        $bendaharas->where('no_kk', $no_kk);
+        // Filter data berdasarkan no_kk
+        if ($no_kk) {
+            $bendaharas->where('no_kk', $no_kk);
+        }
+
+        // Filter data berdasarkan pencarian teks
+        if ($searchQuery) {
+            $bendaharas->where(function ($query) use ($searchQuery) {
+                $query->where('nominal', 'LIKE', "%$searchQuery%")
+                    ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
+                    ->orWhereHas('kk', function ($query) use ($searchQuery) {
+                        $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
+                    })
+                    ->orWhereDate('bulan', $searchQuery); // Pencarian berdasarkan tanggal
+            });
+        }
+
+        // Logging untuk debug
+        $bendaharasData = $bendaharas->get();
+        \Log::info($bendaharasData);
+
+        // Menggunakan DataTables untuk memformat data
+        return DataTables::of($bendaharasData)
+            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+            ->addColumn('bulan_formatted', function ($row) {
+                return Carbon::parse($row->bulan)->format('d-m-Y'); // Format datetime sesuai kebutuhan
+            })
+            ->rawColumns(['bulan_formatted']) // memberitahu bahwa kolom bulan_formatted adalah HTML
+            ->make(true);
     }
 
-    // Filter data berdasarkan pencarian teks
-    if ($searchQuery) {
-        $bendaharas->where(function ($query) use ($searchQuery) {
-            $query->where('nominal', 'LIKE', "%$searchQuery%")
-                ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
-                ->orWhereHas('kk', function ($query) use ($searchQuery) {
-                    $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
-                })
-                ->orWhereDate('created_at', $searchQuery); // Pencarian berdasarkan tanggal
-        });
+
+    public function checkIuran(Request $request)
+    {
+        $no_kk = $request->input('no_kk');
+        $jenis_iuran = $request->input('jenis_iuran');
+        $response = [];
+
+        if ($jenis_iuran === 'Kas') {
+            $warga = kkModel::where('no_kk', $no_kk)->first();
+
+            if ($warga) {
+                $no_rumah = $warga->no_rumah;
+                $count_no_kk = kkModel::where('no_rumah', $no_rumah)->count();
+                $rumah = rumahModel::where('no_rumah', $no_rumah)->first();
+
+                $response['no_rumah'] = $no_rumah;
+                $response['count_no_kk'] = $count_no_kk;
+                $response['status_rumah'] = $rumah->status_rumah;
+            } else {
+                return response()->json(['error' => 'Warga tidak ditemukan'], 404);
+            }
+        }
+
+        // Pengecekan pembayaran terakhir berdasarkan no_kk yang dipilih dan jenis_iuran yang diberikan
+        $pembayaranTerakhir = iuranModel::where('no_kk', $no_kk)
+            ->where('jenis_iuran', $jenis_iuran)
+            ->orderBy('bulan', 'desc')
+            ->first();
+
+        $bulanPembayaranTerakhir = $pembayaranTerakhir ? Carbon::parse($pembayaranTerakhir->bulan)->format('Y-m') : Carbon::now()->format('Y-m');
+        $bulanSelanjutnya = Carbon::parse($bulanPembayaranTerakhir)->addMonth()->format('Y-m');
+
+        $response['bulanSelanjutnya'] = $bulanSelanjutnya;
+
+        return response()->json($response);
     }
-
-    // Menggunakan DataTables untuk memformat data
-    return DataTables::of($bendaharas)
-        ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-        ->addColumn('created_at_formatted', function ($row) {
-            return $row->created_at->format('d-m-Y'); // Format datetime sesuai kebutuhan
-        })
-        ->rawColumns(['created_at_formatted']) // memberitahu bahwa kolom created_at_formatted adalah HTML
-        ->make(true);
-}
-
 
 
     public function store(Request $request)
@@ -82,27 +123,78 @@ class pemasukanController extends Controller
             'nominal' => 'required|numeric',
             'jenis_transaksi' => 'required|max:10',
             'jenis_iuran' => 'required|max:50',
-            'no_kk' => 'required|integer'
+            'no_kk' => 'required|integer',
+            'bulan_mulai' => 'required|date', // Tambahkan validasi untuk bulan mulai
+            'bulan_selesai' => 'nullable|date', // Jadikan bulan selesai opsional
         ]);
 
-        // Periksa apakah data sudah ada pada bulan yang sama berdasarkan jenis iuran
-        $existingData = iuranModel::where('no_kk', $request->no_kk)
-            ->where('jenis_iuran', $request->jenis_iuran) // Filter berdasarkan jenis iuran
-            ->whereMonth('created_at', now()->month) // Filter berdasarkan bulan
-            ->whereYear('created_at', now()->year) // Filter berdasarkan tahun
-            ->first();
+        // Menghitung jumlah bulan antara bulan mulai dan bulan selesai
+        $start = Carbon::parse($request->bulan_mulai);
+        $end = $request->filled('bulan_selesai') ? Carbon::parse($request->bulan_selesai) : $start;
+        $diffInMonths = $end->diffInMonths($start) + 1;
 
-        if ($existingData) {
-            return redirect('/bendahara/pemasukan')->with('error', 'Penduduk ini sudah membayar pada bulan ini');
+        // Memastikan diffInMonths tidak bernilai negatif
+        $diffInMonths = max(1, $diffInMonths);
+
+        // Menghitung nominal per bulan
+        $nominal = $request->nominal;
+        $kasNominal = 0;
+        if ($request->jenis_iuran === 'Paguyuban') {
+            // Kurangi nominal sebesar 5000 per bulan untuk 'Paguyuban' dan tambahkan ke 'Kas'
+            $kasNominal = 5000 * $diffInMonths;
+            $nominal -= $kasNominal;
         }
 
-        // Jika data belum ada, simpan data baru
-        iuranModel::create([
-            'nominal' => $request->nominal,
-            'jenis_transaksi' => $request->jenis_transaksi,
-            'jenis_iuran' => $request->jenis_iuran,
-            'no_kk' => $request->no_kk,
-        ]);
+        $nominalPerBulan = $nominal / $diffInMonths;
+
+        // Jika bulan selesai tidak diisi, maka lakukan penyimpanan untuk bulan mulai saja
+        if (!$request->filled('bulan_selesai')) {
+            iuranModel::create([
+                'nominal' => $nominal,
+                'jenis_transaksi' => $request->jenis_transaksi,
+                'jenis_iuran' => $request->jenis_iuran,
+                'no_kk' => $request->no_kk,
+                'bulan' => $start->format('Y-m-d'), // Simpan bulan dalam format 'YYYY-MM'
+            ]);
+
+            if ($kasNominal > 0) {
+                iuranModel::create([
+                    'nominal' => $kasNominal,
+                    'jenis_transaksi' => $request->jenis_transaksi,
+                    'jenis_iuran' => 'Tambahan',
+                    'no_kk' => $request->no_kk,
+                    'bulan' => $start->format('Y-m-d'), // Simpan bulan dalam format 'YYYY-MM'
+                ]);
+            }
+        } else {
+            // Jika bulan selesai diisi, lakukan penyimpanan untuk setiap bulan di antara bulan mulai dan bulan selesai
+            $start = Carbon::parse($request->bulan_mulai);
+            $end = Carbon::parse($request->bulan_selesai);
+
+            // Lakukan iterasi dari bulan mulai hingga bulan selesai
+            while ($start <= $end) {
+                iuranModel::create([
+                    'nominal' => $nominalPerBulan,
+                    'jenis_transaksi' => $request->jenis_transaksi,
+                    'jenis_iuran' => $request->jenis_iuran,
+                    'no_kk' => $request->no_kk,
+                    'bulan' => $start->format('Y-m-d'), // Simpan bulan dalam format 'YYYY-MM'
+                ]);
+
+                if ($kasNominal > 0) {
+                    iuranModel::create([
+                        'nominal' => 5000,
+                        'jenis_transaksi' => $request->jenis_transaksi,
+                        'jenis_iuran' => 'Tambahan',
+                        'no_kk' => $request->no_kk,
+                        'bulan' => $start->format('Y-m-d'), // Simpan bulan dalam format 'YYYY-MM'
+                    ]);
+                }
+
+                // Pindah ke bulan berikutnya
+                $start->addMonth();
+            }
+        }
 
         return redirect('/bendahara/pemasukan')->with('success', 'Data berhasil disimpan');
     }
@@ -142,20 +234,49 @@ class pemasukanController extends Controller
     {
         $id = $request->id_iuran;
         $check = iuranModel::find($id);
-        if (!$check) {      //untuk mengecek apakah data level dengan id yang dimaksud ada atau tidak
+
+        if (!$check) {
             return redirect('/bendahara/pemasukan')->with('error', 'Data tidak ditemukan');
         }
 
         try {
-            iuranModel::destroy($id);    //Hapus data
+            // Dapatkan no_kk, bulan, dan jenis_iuran dari catatan yang akan dihapus
+            $no_kk = $check->no_kk;
+            $bulan = Carbon::parse($check->bulan);
+            $jenis_iuran = $check->jenis_iuran;
+
+            // Query dasar untuk mencari catatan yang akan dihapus
+            $query = iuranModel::where('no_kk', $no_kk)
+                ->where('bulan', '>=', $bulan->format('Y-m-d'));
+
+            // Jika jenis_iuran adalah paguyuban, tambahkan filter untuk jenis_iuran "Tambahan"
+            if ($jenis_iuran === 'Paguyuban') {
+                $query->where(function ($q) {
+                    $q->where('jenis_iuran', 'Paguyuban')
+                        ->orWhere('jenis_iuran', 'Tambahan');
+                });
+            } else {
+                // Jika jenis_iuran bukan paguyuban, filter hanya berdasarkan jenis_iuran yang sama
+                $query->where('jenis_iuran', $jenis_iuran);
+            }
+
+            // Dapatkan semua catatan yang sesuai dengan kriteria di atas
+            $catatanUntukDihapus = $query->get();
+
+            // Hapus semua catatan yang ditemukan
+            foreach ($catatanUntukDihapus as $catatan) {
+                $catatan->delete();
+            }
 
             return redirect('/bendahara/pemasukan')->with('success', 'Data berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) {
-
-            //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
-            return redirect('/bendahara/pemasukan')->with('error', 'Data gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+            return redirect('/bendahara/pemasukan')->with('error', 'Data gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
+
+
+
+
 
     public function search(Request $request)
     {
@@ -174,7 +295,7 @@ class pemasukanController extends Controller
                 ->orWhereHas('kk', function ($query) use ($searchQuery) {
                     $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
                 })
-                ->orWhereDate('created_at', $searchQuery); // Pencarian berdasarkan tanggal
+                ->orWhereDate('bulan', $searchQuery); // Pencarian berdasarkan tanggal
         })->paginate(10); // Ganti sesuai dengan jumlah data yang ingin ditampilkan per halaman
 
         // Return data dalam bentuk JSON

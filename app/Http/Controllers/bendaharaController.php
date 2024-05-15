@@ -101,10 +101,10 @@ class bendaharaController extends Controller
             ->addColumn('saldo', function ($row) use ($request) {
                 // Menghitung saldo dengan menjumlahkan jumlah uang masuk dan mengurangkan jumlah uang keluar
                 $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')
-                    ->where('created_at', '<=', $row->created_at) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->where('id_iuran', '<=', $row->id_iuran) // Hanya menghitung data sebelum atau pada tanggal saat ini
                     ->sum('nominal');
                 $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')
-                    ->where('created_at', '<=', $row->created_at) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->where('id_iuran', '<=', $row->id_iuran) // Hanya menghitung data sebelum atau pada tanggal saat ini
                     ->sum('nominal');
                 return $totalUangMasuk - $totalUangKeluar;
             })
