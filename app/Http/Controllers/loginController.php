@@ -64,8 +64,9 @@ class loginController extends Controller
     {
         // Find the user by family number (assuming family_number is a unique identifier)
         $role = akun::find($request->family_number);
-
+        // id akun harus sesuai dengan nkk
         $request->session()->put('id_akun', $role->id_akun);
+        // nama harus sesuai dengan kk (proses pembuatan akun dari inputan kk rt/sekretaris)
         $request->session()->put('nama', $role->nama);
 
 

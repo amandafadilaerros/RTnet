@@ -90,7 +90,8 @@ class ketuaController extends Controller
     }
     public function akun()
     {
-        $akuns = akun::find();
+        
+        // dd($akuns);
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
@@ -106,5 +107,17 @@ class ketuaController extends Controller
             'page' => $page,
             'activeMenu' => $activeMenu,
         ]);
+    }
+    public function update_password(Request $request){
+        $akun = akun::find(session()->get('id_akun'));
+        
+        // Validasi apakah password lama sesuai dengan yang tersimpan di database
+        if ($request->old_password !== $akun->password) {
+            return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
+        }
+        $akun->password = $request->password;
+        $akun->save();
+
+        return redirect('/ketuaRt/akun')->with('success', 'Password berhasil diubah.');
     }
 }
