@@ -5,12 +5,20 @@
     <div class="card-body">
         {{-- <h5 class="card-title">Ubah Kata Sandi</h5> --}}
         <div class="col-md-6">
+            @if(session('success'))
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            @endif
             <form action="{{url('/ketuaRt/akun')}}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="old_password" class="form-label">Password Lama</label>
                     <input type="password" class="form-control" id="old_password" name="old_password" required>
                     <input type="checkbox" onclick="myFunction1()">Tampilkan Password
+                    @error('old_password')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                     {{-- <span class="" onclick="myFunction1()">
                         <i class="fa fa-eye"></i>
                     </span> --}}

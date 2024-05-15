@@ -130,6 +130,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
+    Route::post('/akun', [ketuaController::class, 'update_password']);
 });
 
 
