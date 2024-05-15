@@ -2,19 +2,18 @@
 
 @section('content')
 <div class="row">
-    <div class="col-md-8">
-        <!-- Filter -->
-        <div class="col-md-4">
-            
+  <div class="col-md-6">
+  </div>
+  <div class="col-md-6">
+    <div class="row justify-content-end">
+      <form id="searchForm" class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
         </div>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+      </form>
     </div>
-    <!-- Search -->
-    <div class="col-md-4" style="">
-        <div class="row">
-            <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-            <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
-        </div>
-    </div>
+  </div>
 </div>
 <div class="card">
     {{-- <div class="card-header">
@@ -36,17 +35,27 @@
 </div>
 @endsection
 @push('css')
+<style>
+  /* Menyembunyikan fitur pencarian di tabel */
+  .dataTables_filter {
+      display: none;
+  }
+</style>
 
+    <!-- Tambahkan CSS tambahan jika diperlukan -->
 @endpush
 @push('js')
 <script>
     $(document).ready(function() {
-        var dataPemasukan = $('#laporan').DataTable({
+        var dataLaporan = $('#laporan').DataTable({
             serverSide: true, //jika ingin menggunakan server side processing
             ajax: {
                 "url": "{{ url('bendahara/laporan/list') }}",
                 "dataType": "json",
-                "type": "POST"
+                "type": "POST",
+                "data": function(d) {
+                    d.search = $('#search').val();
+                }
             },
             columns: [{
                 data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColimn()
@@ -76,7 +85,13 @@
             }]
         });
         $('#id_iuran').on('change', function() {
-            dataPemasukan.ajax.reload();
+            dataLaporan.ajax.reload();
+        });
+
+
+        $('#searchForm').on('submit', function(e) {
+            e.preventDefault(); // Mencegah form untuk submit
+            dataLaporan.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
         });
     });
 </script>

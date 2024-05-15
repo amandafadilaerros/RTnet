@@ -12,7 +12,7 @@ class iuranModel extends Model
     protected $table = 'iurans';
     protected $primaryKey = 'id_iuran';
 
-    protected $fillable = ['nominal','keterangan','jenis_transaksi','jenis_iuran','no_kk'];
+    protected $fillable = ['nominal','keterangan','jenis_transaksi','jenis_iuran','no_kk','bulan'];
 
     public function kk(): BelongsTo
     {
