@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\akun;
 use App\Models\inventaris;
 use App\Models\ktp;
 use App\Models\pengumumans;
@@ -89,6 +90,7 @@ class ketuaController extends Controller
     }
     public function akun()
     {
+        $akuns = akun::find();
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
@@ -99,7 +101,7 @@ class ketuaController extends Controller
         ];
         $activeMenu = 'akun';
 
-        return view('akunBendahara', [
+        return view('akunKetua', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,

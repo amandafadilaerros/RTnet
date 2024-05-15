@@ -47,7 +47,7 @@ Route::get('/', function () {
 
 });
 
-Route::post('/dashboard', [loginController::class, 'test']);
+Route::post('/dashboard', [loginController::class, 'login']);
 
 Route::get('/templates', [templateController::class, 'index']);
 
