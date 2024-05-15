@@ -91,7 +91,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::post('/list', [data_kkRtController::class, 'list']);
         Route::get('/create', [data_kkRtController::class, 'create']);
         Route::post('/', [data_kkRtController::class, 'store']);
-        Route::get('/show', [data_kkRtController::class, 'show']);
+        Route::get('/show/{no_kk}', [data_kkRtController::class, 'show']); // Update the route to accept no_kk parameter
         Route::post('/edit', [data_kkRtController::class, 'edit']);
         Route::put('/update', [data_kkRtController::class, 'update']);
         Route::delete('/delete', [data_kkRtController::class, 'destroy']);

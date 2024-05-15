@@ -3,12 +3,14 @@
 @section('content')
 <div class="card-body">
     <div class="header">
-        <p><strong>Kepala Keluarga &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> John Doe</p>
-        <p><strong>Nomor Kartu Keluarga &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> 123456789</p>
-        <p><strong>Alamat &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> Jalan Contoh No. 123</p>
-        <p><strong>Jumlah Individu &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :</strong> 2</p>
-        <p><strong>No. Rumah / Status Rumah &nbsp;&nbsp; :</strong> 123 / Hunian Tetap</p>
+        <p><strong>Nama Kepala Keluarga :</strong> {{ $data_kk->nama_kepala_keluarga }}</p>
+        <p><strong>Nomor Kartu Keluarga :</strong> {{ $data_kk->no_kk }}</p>
+        <p><strong>Alamat :</strong> {{ $data_kk->alamat }}</p>
+        <p><strong>Jumlah Individu :</strong> {{ $data_kk->jumlah_individu }}</p>
+        <p><strong>No. Rumah / Status Rumah :</strong> {{ $data_kk->no_rumah }} / {{ $data_kk->status_rumah }}</p>
     </div>
+
+<!-- DATA ANGGOTA KELUARGA -->
     <div class="card-body">
         @if (session('success'))
         <div class="alert alert-success">{{session('success')}}</div>
@@ -31,18 +33,30 @@
             </div>
         </div>
         <div class="header">
-            <table class="table table-hover table-striped" id="table_user">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">NIK</th>
-                        <th scope="col">Agama</th>
-                        <th scope="col">Status Keluarga</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <table class="table table-hover table-striped" id="table_detail_data_anggota_kk">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">NIK</th>
+                    <th scope="col">No. KK</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Tempat</th>
+                    <th scope="col">Tgl Lahir</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Gol. Darah</th>
+                    <th scope="col">Agama</th>
+                    <th scope="col">Status Perkawinan</th>
+                    <th scope="col">Pekerjaan</th>
+                    <th scope="col">Status Keluarga</th>
+                    <th scope="col">Status Anggota</th>
+                    <th scope="col">Jenis Penduduk</th>
+                    <th scope="col">Tgl Msuk</th>
+                    <th scope="col">Tgl Keluar</th>
+                    <th scope="col">Dokumen</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+                <!-- <tbody>
                     <tr>
                         <td>1</td>
                         <td>santi</td>
@@ -59,10 +73,12 @@
                             </form>
                         </td>
                     </tr>
-                </tbody>
+                </tbody> -->
             </table>
         </div>
     </div>
+
+<!-- DATA NON-ANGGOTA KELUARGA -->
     <div class="card-body">
         @if (session('success'))
         <div class="alert alert-success">{{session('success')}}</div>
@@ -85,24 +101,48 @@
             </div>
         </div>
         <div class="header">
-            <table class="table table-bordered table-hover table-sm" id="table_user">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">NIK</th>
-                        <th scope="col">Agama</th>
-                        <th scope="col">tanggal Masuk</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
+        <table class="table table-hover table-striped" id="table_detail_data_non_anggota_kk">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">NIK</th>
+                    <th scope="col">No. KK</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">Tempat</th>
+                    <th scope="col">Tgl Lahir</th>
+                    <th scope="col">Jenis Kelamin</th>
+                    <th scope="col">Gol. Darah</th>
+                    <th scope="col">Agama</th>
+                    <th scope="col">Status Perkawinan</th>
+                    <th scope="col">Pekerjaan</th>
+                    <th scope="col">Status Keluarga</th>
+                    <th scope="col">Status Anggota</th>
+                    <th scope="col">Jenis Penduduk</th>
+                    <th scope="col">Tgl Msuk</th>
+                    <th scope="col">Tgl Keluar</th>
+                    <th scope="col">Dokumen</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
                 <tbody>
                     <tr>
                         <td>1</td>
-                        <td>susan</td>
-                        <td>1234566776543</td>
+                        <td>35367895678004</td>
+                        <td>35367895678035</td>
+                        <td>Yayun Eldina</td>
+                        <td>Trenggalek</td>
+                        <td>11-02-2003</td>
+                        <td>Perempuan</td>
+                        <td>O</td>
                         <td>Islam</td>
+                        <td>Belum Kawin</td>
+                        <td>Mahasiswa</td>
+                        <td>Anggota</td>
+                        <td>Anak</td>
+                        <td>Penduduk tetap</td>
+                        <td>11-02-2003</td>
                         <td>12-02-2024</td>
+                        <td>Gambar</td>
                         <td>
                             <a href="#" class="btn btn-primary btn-sm" style="border-radius: 5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalNonAnggota"><i class="fas fa-eye"></i></a>
                             <a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#editModalNonAnggota"><i class="fas fa-pen"></i></a>
@@ -119,8 +159,8 @@
         </div>
     </div>
 </div>
-<!-- Modal Tambah Anggota -->
 
+<!-- Modal Tambah Anggota -->
 <div class="modal fade" id="tambahAnggotaModal" tabindex="-1" role="dialog" aria-labelledby="tambahAnggotaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -224,7 +264,6 @@
 </div>
 
 <!-- Modal Edit anggota -->
-
 <div class="modal fade" id="editModalAnggota" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -319,7 +358,7 @@
     </div>
 </div>
 
-{{-- view modal anggota --}}
+ <!-- Detail modal anggota  -->
 <div class="modal fade" id="viewModalAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalAnggota" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -519,7 +558,7 @@
 </div>
 
 
-<!-- Modal Edit non-->
+<!-- Modal Edit Non Anggota-->
 
 <div class="modal fade" id="editModalNonAnggota" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -615,9 +654,7 @@
     </div>
 </div>
 
-{{-- view modal non anggota --}}
-
-
+<!-- Detail modal non anggota  -->
 <div class="modal fade" id="viewModalNonAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalNonAnggota" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -733,5 +770,126 @@
     }
     </style>
 @endpush
-</body>
-</html>
+
+@push('js')
+    <script>
+        $(document).ready(function() {
+            var detailKK = $('#table_detail_data_anggota_kk').DataTable({
+                serverSide: true,   //jika ingin menggunakan server side processing
+                ajax: {
+                    "url": "{{ url('ketuaRt/detail_kk/list') }}",
+                    "dataType": "json",
+                    "type": "POST",
+                    "data": function (d) {
+                        d.nik = $('#nik').val();
+                    }
+                },
+                columns: [
+                    {
+                        data: "DT_RowIndex",    // nomor urut dari laravel datatable addIndexColimn()
+                        className: "text-center",
+                        orderable: false,
+                        searchable: false
+                    }, {
+                        data: "nik",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa urut
+                        searchable: true        // jika kolom bisa dicari
+                    }, {
+                        data: "no_kk",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                        data: "nama",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tempat",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tanggal_lahir",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "jenis_kelamin",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "golongan_darah",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "agama",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "status_perkawinan",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "pekerjaan",
+                        className: "",
+                        orderable: true,        //jika ingin kolom bisa diurutkan 
+                        searchable: true        // jika ingin kolom bisa dicari
+                    }, {
+                        data: "status_keluarga",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "status_anggota",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "jenis_penduduk",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tgl_masuk",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "tgl_keluar",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                        data: "dokumen",
+                        className: "",
+                        orderable: false,       //true, jika ingin kolom diurutkan
+                        searchable: false       //true, jika ingin kolom bisa dicari
+                    }, {
+                      data: null,
+                      classname: "",
+                      orderable: false, //orderable true jika ingin kolom bisa diurutkan
+                      searchable: false, //searchable true jika ingin kolom bisa dicari
+                      render: function (data, type, row) {
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
+                    }
+                }
+                ]
+            });
+
+            $('#nik').on('input', function() {
+                detailKK.ajax.reload();
+            });
+
+            $('#formSearch').on('submit', function(e) {
+                e.preventDefault(); // Menghentikan perilaku default dari tombol "Cari"
+                detailKK.ajax.reload();
+            });
+        });
+    </script>
+@endpush
