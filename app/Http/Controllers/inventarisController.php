@@ -6,6 +6,7 @@ use App\Models\Inventaris;
 use App\Models\peminjaman_inventaris;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class inventarisController extends Controller
@@ -114,12 +115,23 @@ class inventarisController extends Controller
     }
 
 
+    public function show($id)
+    {
+        // Eksekusi query untuk mendapatkan data peminjam
+        $peminjam = DB::table('peminjaman_inventaris')
+            ->join('ktps', 'peminjaman_inventaris.NIK', '=', 'ktps.NIK')
+            ->select('ktps.nama', 'ktps.jenis_kelamin')
+            ->where('peminjaman_inventaris.NIK', $id) // Filter berdasarkan $id
+            ->first(); // Menggunakan first() karena Anda hanya ingin satu baris data
 
+        // Mengembalikan data dalam bentuk JSON
+        return response()->json($peminjam);
+    }
 
 
 
     public function pk_peminjaman()
-    {   
+    {
         // $minjams = peminjaman_inventaris::select('tanggal_peminjaman','tanggal_kembali')->with('inventaris')->get();
         $inventaris = inventaris::all();
         $minjams = peminjaman_inventaris::all();
@@ -131,12 +143,12 @@ class inventarisController extends Controller
         $page = (object) [
             'title' => '-----',
         ];
-        
+
         $activeMenu = 'peminjaman';
 
         // $barang = BarangModel::all();
         // dd($minjams);
-        return view('inventaris_pk.peminjaman',[
+        return view('inventaris_pk.peminjaman', [
             'minjams' => $minjams,
             'inventaris' => $inventaris,
             'breadcrumb' => $breadcrumb,
@@ -144,11 +156,11 @@ class inventarisController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
-    
+
     public function store_peminjaman(string $id)
     {
         $minjams = peminjaman_inventaris::find($id);
-        
+
         $breadcrumb = (object) [
             'title' => 'Daftar Peminjaman',
             'list' => [date('j F Y')],
@@ -159,7 +171,7 @@ class inventarisController extends Controller
 
         $activeMenu = 'peminjaman';
 
-        return view('inventaris_pk.peminjaman',[
+        return view('inventaris_pk.peminjaman', [
             'minjams' => $minjams,
             'breadcrumb' => $breadcrumb,
             'page' => $page,

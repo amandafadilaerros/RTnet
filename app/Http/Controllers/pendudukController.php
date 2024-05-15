@@ -26,10 +26,10 @@ class pendudukController extends Controller
         $pengumuman = Pengumumans::count();
 
         // Ambil data untuk grafik garis dari kolom jenis_penduduk di dalam tabel ktps
-        // $data_grafik = [
-        //     'penduduk_tetap' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
-        //     'penduduk_kos' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
-        // ];
+        $data_grafik = [
+            'pendudukTetapCount' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
+            'pendudukKosCount' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
+        ];
 
         // Inisialisasi variabel breadcrumb
         $breadcrumb = (object) [
@@ -37,9 +37,28 @@ class pendudukController extends Controller
             'list' => ['Home', 'Dashboard']
         ];
 
-        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'breadcrumb'));
+        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'breadcrumb'));
     }
 
+
+    public function getData()
+    {
+        // Mengambil jumlah penduduk tetap
+        $pendudukTetapCount = ktp::where('jenis_penduduk', 'Penduduk Tetap')->count();
+
+        // Mengambil jumlah penduduk kos
+        $pendudukKosCount = ktp::where('jenis_penduduk', 'Penduduk Kos')->count();
+
+        // Mengambil jumlah total penduduk
+        $totalPendudukCount = ktp::count();
+
+        // Mengirimkan data dalam format JSON
+        return response()->json([
+            'penduduk_tetap' => $pendudukTetapCount,
+            'penduduk_kos' => $pendudukKosCount,
+            'total_penduduk' => $totalPendudukCount
+        ]);
+    }
 
 
 

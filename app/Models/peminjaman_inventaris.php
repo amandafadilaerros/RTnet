@@ -23,4 +23,9 @@ class peminjaman_inventaris extends Model
     {
         return $this->belongsTo(inventaris::class, 'id_inventaris', 'id_inventaris');
     }
+
+    // public function ktp()
+    // {
+    //     return $this->belongsTo(Ktp::class, 'id_peminjam', 'id'); // Assuming 'id' is the primary key in ktp table
+    // }
 }
