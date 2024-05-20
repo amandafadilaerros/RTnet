@@ -130,6 +130,15 @@
                 <a class="d-block">Sistem Informasi<br>RT Online</a>
             </div>
             <h2>Masuk</h2>
+            @if ($errors->any())
+                <div class="alert">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             <form action="{{url('dashboard')}}" method="POST">
                 @csrf
                 <input type="text" name="family_number" placeholder="Nomor Kartu Keluarga" required>

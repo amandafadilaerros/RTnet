@@ -47,7 +47,7 @@ Route::get('/', function () {
 
 });
 
-Route::post('/dashboard', [loginController::class, 'test']);
+Route::post('/dashboard', [loginController::class, 'login']);
 
 Route::get('/templates', [templateController::class, 'index']);
 
@@ -130,6 +130,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
+    Route::post('/akun', [ketuaController::class, 'update_password']);
 });
 
 
@@ -184,12 +185,14 @@ Route::group(['prefix' => 'sekretaris'], function () {
 Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'pemasukan'], function () {
         Route::get('/', [pemasukanController::class, 'index']);
+        Route::get('/checkIuran', [pemasukanController::class, 'checkIuran']);
         Route::post('/list', [pemasukanController::class, 'list']);
         // Route::get('/create', [pemasukanController::class, 'create']);
         Route::post('/tambah', [pemasukanController::class, 'store']);
         // Route::get('/{id}', [pemasukanController::class, 'show']);
         Route::post('/edit', [pemasukanController::class, 'edit']);
         Route::post('/update', [pemasukanController::class, 'update']);
+        Route::post('/search', [pemasukanController::class, 'search']);
         Route::delete('/destroy', [pemasukanController::class, 'destroy']);
     });
     Route::group(['prefix' => 'pengeluaran'], function () {

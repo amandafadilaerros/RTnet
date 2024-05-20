@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\akun;
 use App\Models\inventaris;
 use App\Models\ktp;
 use App\Models\pengumumans;
@@ -89,6 +90,8 @@ class ketuaController extends Controller
     }
     public function akun()
     {
+        
+        // dd($akuns);
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
@@ -99,10 +102,22 @@ class ketuaController extends Controller
         ];
         $activeMenu = 'akun';
 
-        return view('akunBendahara', [
+        return view('akunKetua', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
         ]);
+    }
+    public function update_password(Request $request){
+        $akun = akun::find(session()->get('id_akun'));
+        
+        // Validasi apakah password lama sesuai dengan yang tersimpan di database
+        if ($request->old_password !== $akun->password) {
+            return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
+        }
+        $akun->password = $request->password;
+        $akun->save();
+
+        return redirect('/ketuaRt/akun')->with('success', 'Password berhasil diubah.');
     }
 }
