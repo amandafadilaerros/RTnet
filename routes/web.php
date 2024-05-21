@@ -27,6 +27,7 @@ use App\Http\Controllers\datapendudukController;
 use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
 use App\Http\Controllers\MabacController;
+use App\Http\Controllers\MautController;
 use App\Models\gambar;
 use App\Models\inventaris;
 use Illuminate\Auth\Events\Login;
@@ -142,7 +143,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/alternatif/delete', [alternatifController::class, 'destroy']);
     Route::post('/alternatif/list', [alternatifController::class, 'list']);
     Route::post('/alternatif/getData', [alternatifController::class, 'getData']);
-    Route::get('/maut', [ketuaController::class, 'maut']);
+    Route::get('/maut', [mautController::class, 'index']);
     Route::get('/mabac', [ketuaController::class, 'mabac']);
     Route::get('/akun', [ketuaController::class, 'akun']);
     Route::post('/akun', [ketuaController::class, 'update_password']);
@@ -226,6 +227,7 @@ Route::group(['prefix' => 'bendahara'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
+    Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
 
 Route::group(['prefix' => 'penduduk'], function () {

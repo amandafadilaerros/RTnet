@@ -39,7 +39,7 @@
         <th scope="col">Nominal</th>
         <th scope="col">Jenis Pemasukan</th>
         <th scope="col">Nama Penduduk</th>
-        <th scope="col">Tanggal Pembayaran</th>
+        <th scope="col">Bulan Pembayaran</th>
         <th scope="col">Aksi</th>
       </tr>
     </thead>
@@ -287,12 +287,12 @@
             if (jenis_iuran === 'Kas') {
               if (response.count_no_kk > 1) {
                 baseNominal = 20000;
+              } else if (response.status_rumah === 'Kos Kecil') {
+                baseNominal = 10000;
+              } else if (response.status_rumah === 'Kos Besar') {
+                baseNominal = 15000;
               } else {
-                if (response.status_rumah === 'Kos Kecil') {
-                  baseNominal = 10000;
-                } else if (response.status_rumah === 'Kos Besar') {
-                  baseNominal = 15000;
-                }
+                baseNominal = 10000;
               }
             } else {
               baseNominal = 15000;
@@ -391,77 +391,76 @@
 
   $(document).ready(function() {
     $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
     });
 
     var dataPemasukan = $('#table_pemasukan').DataTable({
-        serverSide: true,
-        ajax: {
-            url: "{{ url('bendahara/pemasukan/list') }}",
-            type: "POST",
-            data: function(d) {
-                d.no_kk = $('#no_kk').val();
-                d.search = $('#search').val();
-            },
-            error: function(xhr, error, thrown) {
-                console.log('Error fetching data: ', error);
-                console.log('XHR: ', xhr);
-                console.log('Thrown: ', thrown);
-                alert('An error occurred while fetching data.');
-            }
+      serverSide: true,
+      ajax: {
+        url: "{{ url('bendahara/pemasukan/list') }}",
+        type: "POST",
+        data: function(d) {
+          d.no_kk = $('#no_kk').val();
+          d.search = $('#search').val();
         },
-        columns: [
-            {
-                data: "DT_RowIndex",
-                className: "text-center",
-                orderable: false,
-                searchable: false
-            },
-            {
-                data: "nominal",
-                className: "",
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: "jenis_iuran",
-                className: "",
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: "kk.nama_kepala_keluarga",
-                className: "",
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: "bulan_formatted",
-                className: "",
-                orderable: true,
-                searchable: true
-            },
-            {
-                data: null,
-                className: "",
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row) {
-                    return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
-                }
-            }
-        ],
-        initComplete: function() {
-            console.log('DataTable initialized');
+        error: function(xhr, error, thrown) {
+          console.log('Error fetching data: ', error);
+          console.log('XHR: ', xhr);
+          console.log('Thrown: ', thrown);
+          alert('An error occurred while fetching data.');
         }
+      },
+      columns: [{
+          data: "DT_RowIndex",
+          className: "text-center",
+          orderable: false,
+          searchable: false
+        },
+        {
+          data: "nominal",
+          className: "",
+          orderable: true,
+          searchable: true
+        },
+        {
+          data: "jenis_iuran",
+          className: "",
+          orderable: true,
+          searchable: true
+        },
+        {
+          data: "kk.nama_kepala_keluarga",
+          className: "",
+          orderable: true,
+          searchable: true
+        },
+        {
+          data: "bulan_formatted",
+          className: "",
+          orderable: true,
+          searchable: true
+        },
+        {
+          data: null,
+          className: "",
+          orderable: false,
+          searchable: false,
+          render: function(data, type, row) {
+            return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
+          }
+        }
+      ],
+      initComplete: function() {
+        console.log('DataTable initialized');
+      }
     });
 
     $('#search, #no_kk').on('input', function() {
-        dataPemasukan.ajax.reload();
+      dataPemasukan.ajax.reload();
     });
-});
+  });
 
 
 
@@ -475,8 +474,8 @@
   });
 
   $(document).on("click", ".btn-delete", function() {
-  var ids = $(this).data('id');
-  $(".modal-footer #id_iuran").val(ids);
+    var ids = $(this).data('id');
+    $(".modal-footer #id_iuran").val(ids);
   });
 </script>
 @endpush

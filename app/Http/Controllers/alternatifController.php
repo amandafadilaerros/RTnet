@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\alternatif;
+use App\Models\Matrik;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
 class alternatifController extends Controller
 {
-    public function list(Request $request){
+    public function list(Request $request)
+    {
         $alternatif = alternatif::select('id_alternatif', 'nama_alternatif');
 
         // if ($request->kategori_id){
@@ -16,41 +18,95 @@ class alternatifController extends Controller
         // }
 
         return DataTables::of($alternatif)
-        ->addIndexColumn()
-        // ->addColumn('aksi', function ($barang) {
-        //     $btn = '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $barang->id_alternatif .'"><i class="fas fa-pen"></i></a>';
-        //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal data-id="'. $barang->id_alternatif .'"><i class="fas fa-trash"></i></a>';
-        //     return $btn;
-        // })
-        // ->rawColumns(['aksi'])
-        ->make(true);
+            ->addIndexColumn()
+            // ->addColumn('aksi', function ($barang) {
+            //     $btn = '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $barang->id_alternatif .'"><i class="fas fa-pen"></i></a>';
+            //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal data-id="'. $barang->id_alternatif .'"><i class="fas fa-trash"></i></a>';
+            //     return $btn;
+            // })
+            // ->rawColumns(['aksi'])
+            ->make(true);
     }
-    public function store(Request $request){
-        $validated = $request->validate([
-            'nama_alternatif' => 'bail|required',
-        ]);
-        
-        alternatif::create([
-            'nama_alternatif' => $request->nama_alternatif,
+    public function store(Request $request)
+    {
+        // Validasi input
+        $validatedData = $request->validate([
+            'nama_alternatif' => 'required|string|max:255',
+            'kemudahan_pelaksanaan' => 'required|integer|between:1,5',
+            'jumlah_partisipan' => 'required|integer|between:1,5',
+            'tingkat_urgensi' => 'required|integer|between:1,5',
+            'dampak_sosial' => 'required|integer|between:1,5',
+            'tingkat_uang' => 'required|integer|between:1,5',
         ]);
 
-        return redirect('/ketuaRt/alternatif')->with('success', 'Data alternatif berhasil disimpan');
+        // Simpan data alternatif baru ke database
+        $alternatif = Alternatif::create([
+            'nama_alternatif' => $validatedData['nama_alternatif'],
+        ]);
+
+        // Simpan nilai kriteria ke model Matrik
+        Matrik::create([
+            'id_alternatif' => $alternatif->id_alternatif,
+            'id_kriteria' => 1, // ID Kriteria untuk kemudahan pelaksanaan
+            'nilai' => $validatedData['kemudahan_pelaksanaan'],
+        ]);
+        Matrik::create([
+            'id_alternatif' => $alternatif->id_alternatif,
+            'id_kriteria' => 2, // ID Kriteria untuk jumlah partisipan
+            'nilai' => $validatedData['jumlah_partisipan'],
+        ]);
+        Matrik::create([
+            'id_alternatif' => $alternatif->id_alternatif,
+            'id_kriteria' => 3, // ID Kriteria untuk tingkat urgensi
+            'nilai' => $validatedData['tingkat_urgensi'],
+        ]);
+        Matrik::create([
+            'id_alternatif' => $alternatif->id_alternatif,
+            'id_kriteria' => 4, // ID Kriteria untuk dampak sosial
+            'nilai' => $validatedData['dampak_sosial'],
+        ]);
+        Matrik::create([
+            'id_alternatif' => $alternatif->id_alternatif,
+            'id_kriteria' => 5, // ID Kriteria untuk dana yang dibutuhkan
+            'nilai' => $validatedData['tingkat_uang'],
+        ]);
+
+        // Redirect ke halaman yang sesuai
+        return redirect('/ketuaRt/alternatif')->with('success', 'Data alternatif berhasil ditambah');
     }
-    public function getData(Request $request){
+
+    public function getData(Request $request)
+    {
+        // Mengambil id_alternatif dari request
         $idAlternatif = $request->id_alternatif;
 
-        // Lakukan apa pun yang diperlukan dengan ID inventaris
-        // Di sini Anda dapat melakukan pencarian atau operasi lainnya
-        $alternatif = alternatif::find($idAlternatif);
+        // Mencari data alternatif berdasarkan ID
+        $alternatif = Alternatif::find($idAlternatif);
 
-        // Misalnya, mengembalikan data alternatif dalam format JSON
-        return response()->json($alternatif);
+        // Jika data tidak ditemukan, kembalikan respon not found
+        if (!$alternatif) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+
+        // Mengambil nilai-nilai matrik berdasarkan id_alternatif yang dipilih
+        $nilaiMatrik = Matrik::where('id_alternatif', $idAlternatif)->get();
+
+        // Menggabungkan data alternatif dengan nilai-nilai matrik
+        $data = [
+            'nama_alternatif' => $alternatif,
+            'nilai_matrik' => $nilaiMatrik
+        ];
+
+        // Mengembalikan data dalam format JSON
+        return response()->json($data);
     }
-    public function update(Request $request,){
+
+    public function update(Request $request,)
+    {
         $request->validate([
             'nama_alternatif' => 'bail|required',
         ]);
-    
+
         // Lakukan pembaruan
         alternatif::find($request->id_alternatif)->update([
             'nama_alternatif' => $request->nama_alternatif,
@@ -58,17 +114,18 @@ class alternatifController extends Controller
 
         return redirect('/ketuaRt/alternatif')->with('success', 'Data alternatif berhasil diubah');
     }
-    public function destroy(Request $request){
+    public function destroy(Request $request)
+    {
         $check = alternatif::find($request->id_alternatif);
-        if(!$check) {
+        if (!$check) {
             return redirect('/ketuaRt/alternatif')->with('error', 'Data alternatif tidak ditemukan');
         }
 
-        try{
+        try {
             alternatif::destroy($request->id_alternatif);
 
             return redirect('/ketuaRt/alternatif')->with('success', 'Data alternatif berhasil dihapus');
-        }catch (\illuminate\Database\QueryException $e){
+        } catch (\illuminate\Database\QueryException $e) {
             return redirect('/ketuaRt/alternatif')->with('error', 'Data alternatif gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
