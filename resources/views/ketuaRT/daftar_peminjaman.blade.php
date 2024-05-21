@@ -36,7 +36,6 @@
   </div>
 </div>
 
-
 @endsection
 
 @push('css')
@@ -94,7 +93,8 @@
                   searchable: false, //searchable true jika ingin kolom bisa dicari
                   render: function(data, type, row) {
                       if (row.tanggal_kembali === null) {
-                          return '<button class="btn btn-success btn-sm" style="border-radius: 20px; background-color: #747998; min-width: 170px; max-width: 70%;">Dipinjam</button>';
+                        var url = 'daftar_peminjaman/edit/'+ row.id_peminjaman;
+                          return '<a class="btn btn-success btn-sm" href="'+url+'" style="border-radius: 20px; background-color: #747998; min-width: 170px; max-width: 70%;">Kembalikan</a>';
                       } else {
                           return '<button class="btn btn-primary btn-sm" style="border-radius: 20px; background-color: #424874; min-width: 170px; max-width: 70%;">Selesai</button>';
                       }

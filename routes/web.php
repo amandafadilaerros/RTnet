@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\alternatifController;
 use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\data_PendudukRTController;
@@ -98,10 +99,12 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::delete('/delete', [data_kkRtController::class, 'destroy']);
     });
     Route::group(['prefix' => 'detail_kk'], function () {
-        Route::get('/', [detail_dataKKRtController::class, 'index']);
+        Route::get('/{no_kk}', [detail_dataKKRtController::class, 'show']);
         Route::post('/list', [detail_dataKKRtController::class, 'list']);
+        Route::post('/list2', [detail_dataKKRtController::class, 'list2']);
         Route::get('/create', [detail_dataKKRtController::class, 'create']);
-        Route::post('/', [detail_dataKKRtController::class, 'store']);
+        Route::post('/create', [detail_dataKKRtController::class, 'store']);
+        Route::post('/create2', [detail_dataKKRtController::class, 'store2']);
         Route::get('/show', [detail_dataKKRtController::class, 'show']);
         Route::post('/edit', [detail_dataKKRtController::class, 'edit']);
         Route::put('/update', [detail_dataKKRtController::class, 'update']);
@@ -123,12 +126,22 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
     Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
+    Route::get('/daftar_peminjaman/edit/{id}', [daftar_peminjamanController::class, 'update']);
     Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
     Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
     Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
     Route::post('/pengumuman/getData', [pengumumanKetuaController::class, 'getData']);
     Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
+    Route::get('/kriteria', [ketuaController::class, 'kriteria']);
+    Route::get('/alternatif', [ketuaController::class, 'alternatif']);
+    Route::post('/alternatif', [alternatifController::class, 'store']);
+    Route::post('/alternatif/edit', [alternatifController::class, 'update']);
+    Route::post('/alternatif/delete', [alternatifController::class, 'destroy']);
+    Route::post('/alternatif/list', [alternatifController::class, 'list']);
+    Route::post('/alternatif/getData', [alternatifController::class, 'getData']);
+    Route::get('/maut', [ketuaController::class, 'maut']);
+    Route::get('/mabac', [ketuaController::class, 'mabac']);
     Route::get('/akun', [ketuaController::class, 'akun']);
     Route::post('/akun', [ketuaController::class, 'update_password']);
 });
