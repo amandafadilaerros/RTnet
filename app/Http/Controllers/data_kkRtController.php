@@ -126,7 +126,8 @@ class data_kkRtController extends Controller
       public function show($no_kk)
       {
 
-        $data_kk = kkModel::find($no_kk);
+        $data_kk = kkModel::with('rumah')->find($no_kk);
+        // dd($data_kk->rumah->status_rumah);
 
           $breadcrumb = (object) [
               'title' => 'Detail Data Kartu Keluarga',

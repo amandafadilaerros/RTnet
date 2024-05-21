@@ -11,4 +11,8 @@ class ktp extends Model
     protected $primaryKey = 'NIK'; //mendefiniskan primary key dari tabel yang digunakan
 
     protected $fillable = ['no_kk','nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk', 'dokumen'];
+
+    public function peminjaman_inventaris(){
+        return $this->hasMany(peminjaman_inventaris::class, 'id_peminjam', 'NIK');
+    }
 }

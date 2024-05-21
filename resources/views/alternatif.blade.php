@@ -27,11 +27,11 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_pengumuman">
+      <table class="table table-hover table-striped" id="table_alternatif">
         <thead>
             <tr>
                 <th scope="col">No</th>
-                <th scope="col">Pengumuman</th>
+                <th scope="col">Alternatif</th>
                 <th scope="col">Aksi</th>
             </tr>
         </thead>
@@ -40,34 +40,22 @@
     </table>
   </div>
 </div>
-<!-- Modal tambah pengumuman -->
+<!-- Modal tambah alternatif -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tambahModalLabel">Tambah Pengumuman</h5>
+                <h5 class="modal-title" id="tambahModalLabel">Tambah Alternatif</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="tambahPengumumanForm" action="{{url('/ketuaRt/pengumuman')}}" method="POST">
+                <form id="tambahPengumumanForm" action="{{url('/ketuaRt/alternatif')}}" method="POST">
                     @csrf
                     <div class="form-group">
-                        <label for="judul">Judul:</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
-                    </div>
-                    <div class="form-group">
-                        <label for="kegiatan">Kegiatan:</label>
-                        <input type="text" class="form-control" id="kegiatan" name="kegiatan">
-                    </div>
-                    <div class="form-group">
-                        <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="date" class="form-control" id="jadwal" name="jadwal">
-                    </div>
-                    <div class="form-group">
-                        <label for="detail">Detail:</label>
-                        <input type="textarea" class="form-control" id="detail" name="detail" readonly>
+                        <label for="nama_alternatif">Nama:</label>
+                        <input type="text" class="form-control" id="nama_alternatif" name="nama_alternatif">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
@@ -82,26 +70,18 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Pengumuman</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Alternatif</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="editPengumumanForm" action="{{url('/ketuaRt/pengumuman/edit')}}" method="POST">
+                <form id="editPengumumanForm" action="{{url('/ketuaRt/alternatif/edit')}}" method="POST">
                     @csrf
-                    <input type="hidden" id="id_pengumuman" name="id_pengumuman" value="">
+                    <input type="hidden" id="id_alternatif_edit" name="id_alternatif" value="">
                     <div class="form-group">
-                        <label for="judul">Judul:</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
-                    </div>
-                    <div class="form-group">
-                        <label for="kegiatan">Kegiatan:</label>
-                        <input type="text" class="form-control" id="kegiatan" name="kegiatan">
-                    </div>
-                    <div class="form-group">
-                        <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="date" class="form-control" id="jadwal_pelaksanaan" name="jadwal">
+                        <label for="nama_alternatif">Nama:</label>
+                        <input type="text" class="form-control" id="nama_alternatif_edit" name="nama_alternatif">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Ubah</button>
@@ -111,37 +91,7 @@
         </div>
     </div>
 </div>
-{{-- Show Modal --}}
-<div class="modal fade" id="showModal" tabindex="-1" role="dialog" aria-labelledby="showModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="showModalLabel">Detail Pengumuman</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                    <div class="form-group">
-                        <label for="judul">Judul:</label>
-                        <input type="text" class="form-control" id="judul" name="judul" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="kegiatan">Kegiatan:</label>
-                        <input type="text" class="form-control" id="kegiatan" name="kegiatan" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label for="detail">Detail:</label>
-                        <input type="textarea" class="form-control" id="detail" name="detail" readonly>
-                    </div>
-            </div>
-        </div>
-    </div>
-</div>
+{{-- hapus modal --}}
 <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -155,10 +105,10 @@
           Apakah Anda yakin menghapus data ini?
         </div>
         <div class="modal-footer justifiy-content">
-          <form id="hapusForm" action="{{url('/ketuaRt/pengumuman/delete')}}" method="post">
+          <form id="hapusForm" action="{{url('/ketuaRt/alternatif/delete')}}" method="post">
             @csrf
             @method('DELETE')
-            <input type="hidden" name="id_pengumuman" id="id_pengumuman">
+            <input type="hidden" name="id_alternatif" id="id_alternatif">
             <div class="text-center">
               <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
             </div>
@@ -174,15 +124,15 @@
 @push('js')
   <script>
     $(document).ready(function(){
-      var dataBarang = $('#table_pengumuman').DataTable({
+      var dataBarang = $('#table_alternatif').DataTable({
           serverSide: true,
           searching: false,
           ajax: {
-              "url": "{{ url('ketuaRt/pengumuman/list') }}",
+              "url": "{{ url('ketuaRt/alternatif/list') }}",
               "dataType": "json",
               "type": "POST",
               "data": function (d){
-                  d.id_pengumuman = $('#id_pengumuman').val();
+                  d.id_alternatif = $('#id_alternatif').val();
               }
           },
           columns: [
@@ -192,20 +142,17 @@
                   orderable: false,
                   searchable: false
               },{
-                  data: "",
+                  data: "nama_alternatif",
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false, //searchable false jika ingin kolom bisa dicari
-                  render: function (data, type, row) {
-                        return row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan + ')';
-                    }
               },{
                   data: null,
                   classname: "",
                   orderable: false, //orderable true jika ingin kolom bisa diurutkan
                   searchable: false, //searchable true jika ingin kolom bisa dicari
                   render: function (data, type, row) {
-                      return '<a href="#" class="btn btn-primary btn-sm btn-show" data-toggle="modal" data-target="#showModal" data-id="' + row.id_pengumuman + '"><i class="fas fa-eye"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.id_pengumuman + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_pengumuman + '"><i class="fas fa-trash"></i></a>';
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.id_alternatif + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_alternatif + '"><i class="fas fa-trash"></i></a>';
                   }
               }
           ]
@@ -215,41 +162,17 @@
       });
       $(document).on("click", ".btn-edit", function () {
         var ids = $(this).data('id');
-        $(".modal-body #id_pengumuman").val( ids );
+        $(".modal-body #id_alternatif_edit").val( ids );
         $.ajax({
-            url: "{{ url('ketuaRt/pengumuman/getData') }}",
+            url: "{{ url('ketuaRt/alternatif/getData') }}",
             type: "POST",
             dataType: "json",
             data: {
-                id_pengumuman: ids
+                id_alternatif: ids
             },
             success: function(response) {
                 // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #judul').val(response.judul);
-                $('.modal-body #kegiatan').val(response.kegiatan);
-                $('.modal-body #jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
-                // Isi formulir lainnya sesuai kebutuhan Anda
-            },
-            error: function(xhr, status, error) {
-                // Tangani kesalahan yang terjadi
-            }
-        });
-      });
-      $(document).on("click", ".btn-show", function () {
-        var ids = $(this).data('id');
-        $(".modal-body #id_pengumuman").val( ids );
-        $.ajax({
-            url: "{{ url('ketuaRt/pengumuman/getData') }}",
-            type: "POST",
-            dataType: "json",
-            data: {
-                id_pengumuman: ids
-            },
-            success: function(response) {
-                // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #judul').val(response.judul);
-                $('.modal-body #kegiatan').val(response.kegiatan);
-                $('.modal-body #jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                $('.modal-body #nama_alternatif_edit').val(response.nama_alternatif);
                 // Isi formulir lainnya sesuai kebutuhan Anda
             },
             error: function(xhr, status, error) {
@@ -259,7 +182,7 @@
       });
       $(document).on("click", ".btn-delete", function () {
         var ids = $(this).data('id');
-        $(".modal-footer #id_pengumuman").val( ids );
+        $(".modal-footer #id_alternatif").val( ids );
       });
     });
   </script>

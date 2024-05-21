@@ -7,7 +7,7 @@
         <p><strong>Nomor Kartu Keluarga :</strong> {{ $data_kk->no_kk }}</p>
         <p><strong>Alamat :</strong> {{ $data_kk->alamat }}</p>
         <p><strong>Jumlah Individu :</strong> {{ $data_kk->jumlah_individu }}</p>
-        <p><strong>No. Rumah / Status Rumah :</strong> {{ $data_kk->no_rumah }} / {{ $data_kk->status_rumah }}</p>
+        <p><strong>No. Rumah / Status Rumah :</strong> {{ $data_kk->no_rumah }} / {{ $data_kk->rumah->status_rumah }}</p>
     </div>
 
 <!-- DATA ANGGOTA KELUARGA -->
@@ -127,8 +127,10 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="#" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/create')}}" method="POST">
                     @csrf
+                    <input type="hidden" name="no_kk" id="no_kkTambah" value="{{$data_kk->no_kk}}">
+                    <input type="hidden" name="jenis_penduduk" id="jenis_pendudukTambah" value="tetap">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -144,7 +146,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" style="border-radius: 25px;">
+                                    <input type="text" class="form-control" id="tempat_lahir" name="tempat" style="border-radius: 25px;">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="tanggal_lahir">Tanggal Lahir</label>
@@ -154,11 +156,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin[]" value="Laki-Laki">
+                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin[]" value="Perempuan">
+                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -231,7 +233,7 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;" data-toggle="modal" data-target="#tambahAnggotaModal">Tambah</a>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
                 </form>
             </div>
         </div>
@@ -350,105 +352,13 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;" data-toggle="modal" data-target="#editAnggotaModal">Tambah</a>
+                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
- <!-- Detail modal anggota  -->
-<div class="modal fade" id="viewModalAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalAnggota" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="border-bottom: none;">
-                <h5 class="modal-title text-center w-100" id="viewModalAnggota" style="color: #424874">Lihat Data Anggota Keluarga </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="#" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="view_nik">NIK</label>
-                                <input type="text" class="form-control" id="view_nik" name="view_nik" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_nama">Nama</label>
-                                <input type="text" class="form-control" id="view_nama" name="view_nama" value="" disabled>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label for="view_tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="view_tempat_lahir" name="view_tempat_lahir" placeholder="Tempat" value="" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="view_tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="view_tanggal_lahir" name="view_tanggal_lahir" value="" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_jenis_kelamin">Jenis Kelamin</label>
-                                <select class="form-control" id="view_jenis_kelamin" name="view_jenis_kelamin" disabled>
-                                    <option>Laki-Laki</option>
-                                    <option>Perempuan</option>
-                                </select>
-                            </div>
-                            <!-- Sisipkan nilai yang ada saat ini untuk input jenis kelamin -->
-                            <div class="form-group">
-                                <label for="view_golongan_darah">Golongan Darah</label>
-                                <select class="form-control" id="view_golongan_darah" name="view_golongan_darah" disabled>
-                                    <option>A</option>
-                                    <option>B</option>
-                                    <option>AB</option>
-                                    <option>O</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_agama">Agama</label>
-                                <input type="text" class="form-control" id="view_agama" name="view_agama" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="view_file_upload" name="view_file_upload" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="view_status_perkawinan">Status Perkawinan</label>
-                                <input type="text" class="form-control" id="view_status_perkawinan" name="view_status_perkawinan" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_pekerjaan">Pekerjaan</label>
-                                <input type="text" class="form-control" id="view_pekerjaan" name="view_pekerjaan" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_status_keluarga">Status Keluarga</label>
-                                <input type="text" class="form-control" id="view_status_keluarga" name="view_status_keluarga" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="view_status_anggota" name="view_status_anggota" value="" disabled>
-                            </div>
-                                <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
-                            <div class="col-md-6">
-                                    <label for="view_tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="view_tgl_masuk" name="view_tgl_masuk" value="" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                    <label for="view_tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="view_tgl_keluar" name="view_tgl_keluar" value="" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Modal Tambah Non Anggota -->
@@ -462,10 +372,12 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="#" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/create2')}}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6">  
+                            <input type="hidden" name="no_kk" id="no_kkTambah" value="{{$data_kk->no_kk}}">
+                            <input type="hidden" name="jenis_penduduk2" id="nonPenduduk" value="kos">
                             <div class="form-group">
                                 <label for="nik">NIK</label>
                                 <input type="text" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
@@ -477,7 +389,7 @@
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" style="border-radius: 25px;">
+                                    <input type="text" class="form-control" id="tempat_lahir" name="tempat" style="border-radius: 25px;">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="tanggal_lahir">Tanggal Lahir</label>
@@ -487,11 +399,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin[]" value="Laki-Laki">
+                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin[]" value="Perempuan">
+                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -564,7 +476,7 @@
                         </div>
                     </div>
                     <!-- Tambahkan bagian lainnya sesuai kebutuhan -->
-                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;" data-toggle="modal" data-target="#tambahAnggotaModal">Tambah</a>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
                 </form>
             </div>
         </div>
@@ -657,103 +569,12 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;" data-toggle="modal" data-target="#editAnggotaModal">Tambah</a>
+                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</a>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
- <!-- Detail modal non anggota  -->
-<div class="modal fade" id="viewModalNonAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalNonAnggota" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header" style="border-bottom: none;">
-                <h5 class="modal-title text-center w-100" id="viewModalNonAnggota" style="color: #424874">Lihat Data Anggota Keluarga </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form action="#" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="view_nik">NIK</label>
-                                <input type="text" class="form-control" id="view_nik" name="view_nik" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_nama">Nama</label>
-                                <input type="text" class="form-control" id="view_nama" name="view_nama" value="" disabled>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-6">
-                                    <label for="view_tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="view_tempat_lahir" name="view_tempat_lahir" placeholder="Tempat" value="" disabled>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="view_tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="view_tanggal_lahir" name="view_tanggal_lahir" value="" disabled>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_jenis_kelamin">Jenis Kelamin</label>
-                                <select class="form-control" id="view_jenis_kelamin" name="view_jenis_kelamin" disabled>
-                                    <option>Laki-Laki</option>
-                                    <option>Perempuan</option>
-                                </select>
-                            </div>
-                            <!-- Sisipkan nilai yang ada saat ini untuk input jenis kelamin -->
-                            <div class="form-group">
-                                <label for="view_golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="view_golongan_darah" name="view_golongan_darah" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_agama">Agama</label>
-                                <input type="text" class="form-control" id="view_agama" name="view_agama" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="view_file_upload" name="view_file_upload" disabled>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="view_status_perkawinan">Status Perkawinan</label>
-                                <input type="text" class="form-control" id="view_status_perkawinan" name="view_status_perkawinan" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_pekerjaan">Pekerjaan</label>
-                                <input type="text" class="form-control" id="view_pekerjaan" name="view_pekerjaan" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_status_keluarga">Status Keluarga</label>
-                                <input type="text" class="form-control" id="view_status_keluarga" name="view_status_keluarga" value="" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="view_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="view_status_anggota" name="view_status_anggota" value="" disabled>
-                            </div>
-                                <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
-                            <div class="col-md-6">
-                                    <label for="view_tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="view_tgl_masuk" name="view_tgl_masuk" value="" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                    <label for="view_tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="view_tgl_keluar" name="view_tgl_keluar" value="" disabled>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 
 @endsection
 @push('css')
@@ -902,7 +723,7 @@
             var detailKK = $('#table_detail_data_non_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('ketuaRt/detail_kk/list') }}",
+                    "url": "{{ url('ketuaRt/detail_kk/list2') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d) {
