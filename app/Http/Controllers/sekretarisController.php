@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\akun;
 
 class sekretarisController extends Controller
 {
@@ -54,10 +55,23 @@ class sekretarisController extends Controller
         ];
         $activeMenu = 'akun';
 
-        return view('akunBendahara', [
+        return view('akunSekretaris', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
         ]);
+    }
+
+    public function update_password(Request $request){
+        $akun = akun::find(session()->get('id_akun'));
+        
+        // Validasi apakah password lama sesuai dengan yang tersimpan di database
+        if ($request->old_password !== $akun->password) {
+            return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
+        }
+        $akun->password = $request->password;
+        $akun->save();
+
+        return redirect('/sekretaris/akun')->with('success', 'Password berhasil diubah.');
     }
 }
