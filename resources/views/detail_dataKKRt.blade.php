@@ -451,9 +451,6 @@
 </div>
 
 
-
-
-
 <!-- Modal Tambah Non Anggota -->
 <div class="modal fade" id="tambahNonAnggotaModal" tabindex="-1" role="dialog" aria-labelledby="tambahNonAnggotaModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -500,11 +497,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="golongan_darah" name="golongan_darah" style="border-radius: 25px;">
+                                <select class="form-control" id="golongan_darah" name="golongan_darah" disabled>
+                                    <option>A</option>
+                                    <option>B</option>
+                                    <option>AB</option>
+                                    <option>O</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="agama">Agama</label>
-                                <input type="text" class="form-control" id="agama" name="agama" style="border-radius: 25px;">
+                                <select class="form-control" id="agama" name="agama" style="border-radius: 25px;">
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Konghucu">Konghucu</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
@@ -515,7 +524,12 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="status_perkawinan">Status Perkawinan</label>
-                                <input type="text" class="form-control" id="status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
+                                <select class="form-control" id="status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
+                                    <option value="Kawin">Kawin</option>
+                                    <option value="Belum Kawin">Belum Kawin</option>
+                                    <option value="Cerai Hidup">Cerai Hidup</option>
+                                    <option value="Cerai Mati">Cerai Mati</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="pekerjaan">Pekerjaan</label>
@@ -523,7 +537,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="status_keluarga">Status Keluarga</label>
-                                <input type="text" class="form-control" id="status_keluarga" name="status_keluarga" style="border-radius: 25px;">
+                                <select class="form-control" id="status_keluarga" name="status_keluarga" style="border-radius: 25px;">
+                                    <option value="Suami">Suami</option>
+                                    <option value="Istri">Istri</option>
+                                    <option value="Anak">Anak</option>
+                                    <option value="Menantu">Menantu</option>
+                                    <option value="Cucu">Cucu</option>
+                                    <option value="Keponakan">Keponakan</option>
+                                    <option value="Orang tua">Orang tua</option>
+                                    <option value="Mertua">Mertua</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="status_anggota">Status Anggota</label>
