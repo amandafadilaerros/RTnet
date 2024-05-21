@@ -25,7 +25,7 @@ class daftar_peminjamanController extends Controller
         return view('ketuaRT.daftar_peminjaman', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request){
-        $peminjamans = peminjaman_inventaris::select('id_inventaris', 'id_peminjam', 'jumlah_peminjaman', 'tanggal_peminjaman', 'tanggal_kembali')->with('inventaris');
+        $peminjamans = peminjaman_inventaris::select('id_peminjaman', 'id_inventaris', 'id_peminjam', 'jumlah_peminjaman', 'tanggal_peminjaman', 'tanggal_kembali')->with('inventaris');
 
         // if ($request->kategori_id){
         //     $barangs->where('kategori_id', $request->kategori_id);
@@ -40,5 +40,11 @@ class daftar_peminjamanController extends Controller
         // })
         // ->rawColumns(['aksi'])
         ->make(true);
+    }
+    public function update($id){
+        peminjaman_inventaris::find($id)->update([
+            'tanggal_kembali' => now()
+        ]);
+        return redirect('/ketuaRt/daftar_peminjaman')->with('success', 'Inventaris telah dikembalikan');
     }
 }

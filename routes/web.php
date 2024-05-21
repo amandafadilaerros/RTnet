@@ -123,6 +123,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
     Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
+    Route::get('/daftar_peminjaman/edit/{id}', [daftar_peminjamanController::class, 'update']);
     Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
     Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
     Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
