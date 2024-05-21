@@ -145,12 +145,22 @@
             </select>
           </div>
           <div class="form-group">
+            <label for="jadwal_pelaksanaan" style="color: #424874;">Dampak Sosial</label>
+            <select class="form-control" id="dampak_sosial" name="dampak_sosial">
+              <option value="1">Sangat Rendah</option>
+              <option value="2">Rendah</option>
+              <option value="3">Cukup</option>
+              <option value="4">Tinggi</option>
+              <option value="5">Sangat Tinggi</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="jadwal_pelaksanaan" style="color: #424874;">Dana Yang Dibutuhkan</label>
             <select class="form-control" id="tingkat_uang" name="tingkat_uang">
                 <option value="1">&lt; 200.000</option>
-                <option value="2">200.000 &le; uang &lt; 400.000</option>
-                <option value="3">400.000 &le; uang &lt; 600.000</option>
-                <option value="4">600.000 &le; uang &lt; 800.000</option>
+                <option value="2">200.000 &le; - &lt; 400.000</option>
+                <option value="3">400.000 &le; - &lt; 600.000</option>
+                <option value="4">600.000 &le; - &lt; 800.000</option>
                 <option value="5">&ge; 800.000</option>
             </select>
           </div>
