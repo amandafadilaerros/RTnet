@@ -6,6 +6,8 @@ use App\Models\akun;
 use Illuminate\Http\Request;
 use App\Models\IuranModel;
 use App\Models\Inventaris;
+use App\Models\alternatif;
+use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\Pengumumans;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +19,13 @@ class loginController extends Controller
 {
     public function test(Request $request)
     {
+        // Fetch data
+        $alternatifs = Alternatif::all();
+        $kriterias = Kriteria::all(); // Fetch all criteria
+
+        // Debugging
+        dd($kriterias, $alternatifs);
+
         // Pengaturan role
         $role = $request->family_number;
         $request->session()->put('role', $role);
@@ -46,7 +55,7 @@ class loginController extends Controller
         // Mengembalikan view sesuai dengan role
         switch ($role) {
             case 'ketua_rt':
-                return view('ketuaRT.dashboardKetuaRt', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'ktp'));
+                return view('ketuaRT.dashboardKetuaRt', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'alternatifs', 'kriterias', 'mabac', 'pengumuman', 'ktp'));
             case 'penduduk':
                 return view('penduduk.dashboard', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik'));
             case 'sekretaris':

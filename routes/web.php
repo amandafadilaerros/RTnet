@@ -26,6 +26,7 @@ use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
 use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
+use App\Http\Controllers\MabacController;
 use App\Models\gambar;
 use App\Models\inventaris;
 use Illuminate\Auth\Events\Login;
@@ -66,6 +67,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     //Data Rumah
     Route::group(['prefix' => 'data_rumah'], function () {
         Route::get('/', [data_rumahRTController::class, 'index']);
+        Route::get('/mabac', [MabacController::class, 'calculateMabac']);
         Route::post('/list', [data_rumahRTController::class, 'list']);
         Route::get('/create', [data_rumahRTController::class, 'create']);
         Route::post('/', [data_rumahRTController::class, 'store']);
