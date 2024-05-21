@@ -35,7 +35,9 @@ class inventarisController extends Controller
     public function list()
     {
         // Mengambil semua inventaris
-        $inventaris = Inventaris::all();
+        $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
+            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam')
+            ->get();
 
         // Mengambil id inventaris yang sedang dipinjam dan menghitung jumlah barang yang sedang dipinjam
         $barang_dipinjam = peminjaman_inventaris::select('id_inventaris', DB::raw('count(*) as total_dipinjam'))
@@ -49,20 +51,22 @@ class inventarisController extends Controller
                 $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
                 $tersedia = $row->jumlah - $dipinjam;
                 if ($tersedia > 0) {
-                    $action = '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia = ' . $tersedia . '</button>';
+                    return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia = ' . $tersedia . '</button>';
                 } else {
-                    $action = '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
+                    return '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
                 }
-                return $action;
             })
-            ->addColumn('status', function ($row) use ($barang_dipinjam) {
-                $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
-                $tersedia = $row->jumlah - $dipinjam;
-                return $tersedia > 0 ? 'Tersedia (' . $tersedia . ')' : 'Dipinjam';
+            ->addColumn('detail_peminjam', function ($row) {
+                if ($row->id_peminjam) {
+                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '"><i class="fas fa-eye"></i></a>';
+                }
+                return '';
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['aksi', 'detail_peminjam'])
             ->make(true);
     }
+
+
 
     public function searchdate(Request $request)
     {
@@ -88,23 +92,9 @@ class inventarisController extends Controller
 
 
 
-    // public function show(Request $request)
-    // {
-    //     $peminjamanId = $request->input('peminjaman');
-
-    //     // Mengambil data peminjaman inventaris berdasarkan ID
-    //     $peminjaman = DB::table('peminjaman_inventaris')
-    //         ->join('kks', 'peminjaman_inventaris.no_kk', '=', 'kks.no_kk')
-    //         ->select('kks.nama_kepala_keluarga', 'kks.alamat', 'kks.no_rumah')
-    //         ->where('peminjaman_inventaris.id_peminjaman', $peminjamanId)
-    //         ->first();
-
-    //     // Mengembalikan data dalam format JSON
-    //     return response()->json($peminjaman);
-    // }
     public function show(Request $request)
     {
-        $no_kk = $request->input('no_kk');
+        $no_kk = $request->no_kk;
 
         // Log input value for debugging
         Log::info('no_kk: ' . $no_kk);
@@ -116,30 +106,36 @@ class inventarisController extends Controller
         }
 
         try {
-            // Query to join peminjaman_inventaris with kks table
-            $peminjam = DB::table('peminjaman_inventaris')
-                ->join('kks', 'peminjaman_inventaris.no_kk', '=', 'kks.no_kk')
-                ->select('kks.nama_kepala_keluarga', 'kks.alamat', 'kks.no_rumah', 'peminjaman_inventaris.*')
-                ->where('peminjaman_inventaris.no_kk', $no_kk)
+            // Query to join peminjaman_inventaris with ktps table
+            $detail = DB::table('peminjaman_inventaris')
+                ->leftJoin('ktps', 'peminjaman_inventaris.id_peminjam', '=', 'ktps.NIK')
+                ->select('ktps.*', 'peminjaman_inventaris.id_peminjaman', 'peminjaman_inventaris.tanggal_peminjaman')
+                ->where('peminjaman_inventaris.id_peminjam', $no_kk)
                 ->first();
 
-            // Log the result of the query for debugging
-            Log::info('Query result: ' . json_encode($peminjam));
+            if ($detail) {
+                // Data peminjam ditemukan
+                $peminjam = kkModel::where('no_kk', $detail->no_kk)->first();
 
-            if ($peminjam) {
-                return response()->json([
-                    'nama_kepala_keluarga' => $peminjam->nama_kepala_keluarga,
-                    'alamat' => $peminjam->alamat,
-                    'no_rumah' => $peminjam->no_rumah,
-                    'data_peminjaman' => [
-                        'id' => $peminjam->id,
-                        'tanggal_peminjaman' => $peminjam->tanggal_peminjaman,
-                        // Add other columns from the peminjaman_inventaris table as needed
-                    ]
-                ]);
+                if ($peminjam) {
+                    // Return response with peminjam and peminjaman inventaris data
+                    return response()->json([
+                        'nama_kepala_keluarga' => $peminjam->nama_kepala_keluarga,
+                        'alamat' => $peminjam->alamat,
+                        'no_rumah' => $peminjam->no_rumah,
+                        'data_peminjaman' => [
+                            'id' => $detail->id_peminjaman,
+                            'tanggal_peminjaman' => $detail->tanggal_peminjaman,
+                            // Add other columns from the peminjaman_inventaris table as needed
+                        ]
+                    ]);
+                } else {
+                    Log::error('Data not found for no_kk: ' . $no_kk);
+                    return response()->json(['error' => 'Data peminjam not found'], 404);
+                }
             } else {
                 Log::error('Data not found for no_kk: ' . $no_kk);
-                return response()->json(['error' => 'Data not found'], 404);
+                return response()->json(['error' => 'Data peminjaman inventaris not found'], 404);
             }
         } catch (\Exception $e) {
             Log::error('Error in querying data: ' . $e->getMessage());

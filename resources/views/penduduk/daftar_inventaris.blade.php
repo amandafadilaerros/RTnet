@@ -14,15 +14,6 @@
         </div>
     </div>
   </div>
-  
-  <div class="col-md-4">
-    <div class="input-group">
-      <input type="date" class="form-control" id="searchDateInput" style="border-radius: 20px;" placeholder="Cari berdasarkan tanggal...">
-      <div class="input-group-append">
-        <button class="btn btn-sm btn-primary mt-1" id="searchDateButton" style="border-radius: 20px; background-color: #424874; width: 100px;">Cari</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <div class="card">
@@ -40,7 +31,7 @@
           <th scope="col">No</th>
           <th scope="col">Gambar</th>
           <th scope="col">Nama Barang</th>
-          <th scope="col">Aksi</th>
+          <th scope="col">Status</th>
           <th scope="col">Detail Peminjam</th>
         </tr>
       </thead>
@@ -65,7 +56,6 @@
         <p>Alamat: <span id="alamat"></span></p>
         <p>No Rumah: <span id="no_rumah"></span></p>
       </div>
-    
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
@@ -114,55 +104,47 @@ $(document).ready(function() {
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: true, searchable: true },
-            { 
-                data: null, 
-                className: "text-center", 
-                orderable: false, 
-                searchable: false,
-                render: function(data, type, row) {
-                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' + row.no_kk + '"><i class="fas fa-eye"></i></a>';
-                }
-            }
+            { data: "detail_peminjam", className: "text-center", orderable: false, searchable: false }
         ]
     });
 
     $(document).on("click", ".btn-view", function () {
-        var noKK = $(this).data('no-kk');
-        console.log("Fetching data for no_kk: " + noKK); // Debugging
+    var noKK = $(this).data('no-kk');
+    console.log("Fetching data for no_kk: " + noKK); // Debugging
 
-        if (noKK === undefined) {
-            console.error("no_kk is undefined");
-            return;
-        }
+    if (noKK === undefined) {
+        console.error("no_kk is undefined");
+        return;
+    }
 
-        $.ajax({
-            url: "{{ url('penduduk/daftar_inventaris/show/{no_kk}') }}",
-            type: "GET",
-            dataType: "json",
-            data: { no_kk: noKK },
-            success: function(response) {
-                console.log(response); // Log the response for debugging
+    $.ajax({
+        url: "{{ url('penduduk/daftar_inventaris/show/{request}') }}",
+        type: "POST",
+        dataType: "json",
+        data: { no_kk: noKK },
+        success: function(response) {
+            console.log(response); // Log the response for debugging
 
-                if (response.error) {
-                    console.error("Error: " + response.error);
-                    alert("Data tidak ditemukan.");
-                } else {
-                    // Set data peminjam ke dalam modal
-                    $('#nama_kepala_keluarga').text(response.nama_kepala_keluarga);
-                    $('#alamat').text(response.alamat);
-                    $('#no_rumah').text(response.no_rumah);
+            if (response.error) {
+                console.error("Error: " + response.error);
+                alert("Data tidak ditemukan.");
+            } else {
+                // Set data peminjam ke dalam modal
+                $('#nama_kepala_keluarga').text(response.nama_kepala_keluarga || 'Data tidak tersedia');
+                $('#alamat').text(response.alamat || 'Data tidak tersedia');
+                $('#no_rumah').text(response.no_rumah || 'Data tidak tersedia');
 
-                    // Tampilkan modal
-                    $('#viewModalAnggota').modal('show');
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Error:", xhr.responseText); // Log the error for debugging
-                alert("Terjadi kesalahan saat mengambil data.");
+                // Tampilkan modal
+                $('#viewModalAnggota').modal('show');
             }
-            
-        });
+        },
+        error: function(xhr, status, error) {
+            console.error("Error:", xhr.responseText); // Log the error for debugging
+            alert("Terjadi kesalahan saat mengambil data.");
+        }
+        
     });
+});
 
     // Search barang
     $('#searchButton').on('click', function() {

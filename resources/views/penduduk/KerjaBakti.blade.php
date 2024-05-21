@@ -2,15 +2,7 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-md-6">
-        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%">Tambah</a>
-    </div>
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 20px;" placeholder="search">
-            <div class="input-group-append">
-                <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
-            </div>
-        </div>
+     
     </div>
 </div>
 <div class="card">
