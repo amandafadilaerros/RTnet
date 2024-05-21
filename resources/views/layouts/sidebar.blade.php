@@ -38,7 +38,7 @@
       </li>
       <li class="nav-header">Kegiatan Warga</li>
       <li class="nav-item">
-        <a href="{{ url('/penduduk/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-users"></i>
+        <a href="{{ url('/penduduk/KerjaBakti') }}" class="nav-link {{ ($activeMenu == 'KerjaBakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'KerjaBakti')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
           <p>Kerja Bakti</p>
         </a>
       </li>
@@ -148,7 +148,7 @@
       </li>
       @break
       {{-- SEKRETASRIS --}}
-      @case('sekretaris')
+      @case('sekretaris') 
       <li class="nav-header">Dashboard</li>
       <li class="nav-item">
         <a href="{{ url('/sekretaris/dashboard') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'dashboard')? 'background-color: #424874;' : '' }}">
