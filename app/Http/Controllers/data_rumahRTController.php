@@ -31,36 +31,55 @@ class data_rumahRTController extends Controller
         return view('data_rumahRT', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
 
-    public function list(Request $request){
-        $rumahs = rumahModel::select('no_rumah', 'status_rumah');
 
+    // public function list(Request $request)
+    // {
+    //     $request->validate([
+    //         'search' => 'nullable|string|max:255',
+    //         'status_rumah' => 'nullable|string|max:255',
+    //     ]);
+    
+    //     try {
+    //         $searchQuery = $request->input('search');
+    //         $status_rumah = $request->input('status_rumah');
+    
+    //         $rumahs = rumahModel::select('no_rumah', 'status_rumah')
+    //             ->orderBy('no_rumah', 'ASC');
+    
+    //         if ($status_rumah) {
+    //             $rumahs->where('status_rumah', $status_rumah);
+    //         }
+    
+    //         if ($searchQuery) {
+    //             $rumahs->where(function ($query) use ($searchQuery) {
+    //                 $query->where('no_rumah', 'LIKE', "%$searchQuery%")
+    //                     ->orWhere('status_rumah', 'LIKE', "%$searchQuery%");
+    //             });
+    //         }
+    
+    //         $rumahs= $rumahs->get();
+    //         \Log::info('Fetched data: ', $rumahs->toArray());
+    
+    //         return DataTables::of($rumahs)
+    //             ->addIndexColumn()
+    //             ->make(true)
+    //             ->toJson();
+    
+    //     } catch (\Exception $e) {
+    //         \Log::error('Error fetching data: ' . $e->getMessage());
+    //         return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+    //     }
+    // }
+
+    public function list(Request $request)
+    {
+        $rumahs = rumahModel::select('no_rumah', 'status_rumah');
         return DataTables::of($rumahs)
         ->addIndexColumn()
-        // ->addColumn('aksi', function ($data_rumah) {
-        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
-        // //     Detail
-        // // </button>';
-        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
-        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
-        // //             '<button type="submit" class="btn btn-danger btn-sm"
-        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
-        //     // return $btn;
-        // })
-        // ->rawColumns(['aksi'])
-        // ->addColumn('aksi', function ($data_rumah) {
-        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
-        // //     Detail
-        // // </button>';
-        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
-        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
-        // //             '<button type="submit" class="btn btn-danger btn-sm"
-        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
-        //     // return $btn;
-        // })
-        // ->rawColumns(['aksi'])
         ->make(true);
     }
 
+    
     public function store(Request $request)
     {
         $request->validate([
