@@ -32,6 +32,7 @@
                     <label for="password_confirmation" class="form-label">Konfirmasi Password Baru</label>
                     {{-- <div class="col-md-6"> --}}
                         <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Kata sandi harus terdiri dari setidaknya satu angka, satu huruf kecil, satu huruf besar, dan setidaknya 8 karakter" oninput="checkPasswordMatch()">
+                        <input type="checkbox" onclick="myFunction3()">Tampilkan Password
                         <div id="passwordMismatch" class="text-danger" style="display: none;">
                             Konfirmasi kata sandi tidak cocok dengan kata sandi baru.
                         </div>
@@ -69,6 +70,14 @@
     }
     function myFunction2() {
         var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+    function myFunction3() {
+        var x = document.getElementById("password_confirmation");
         if (x.type === "password") {
             x.type = "text";
         } else {
