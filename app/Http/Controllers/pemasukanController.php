@@ -30,13 +30,14 @@ class pemasukanController extends Controller
     }
 
     public function list(Request $request)
-    {
-        // Validasi input dari form pencarian
-        $request->validate([
-            'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
-            'no_kk' => 'nullable|integer', // Validasi input no_kk
-        ]);
+{
+    // Validasi input dari form pencarian
+    $request->validate([
+        'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
+        'no_kk' => 'nullable|integer', // Validasi input no_kk
+    ]);
 
+    try {
         // Mengambil data berdasarkan input pencarian
         $searchQuery = $request->input('search');
         $no_kk = $request->input('no_kk');
@@ -58,12 +59,16 @@ class pemasukanController extends Controller
                     ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
                     ->orWhereHas('kk', function ($query) use ($searchQuery) {
                         $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
-                    })
-                    ->orWhereDate('bulan', $searchQuery); // Pencarian berdasarkan tanggal
+                    });
+
+                // Check if searchQuery is a valid date
+                if (strtotime($searchQuery)) {
+                    $query->orWhereDate('bulan', $searchQuery); // Pencarian berdasarkan tanggal
+                }
             });
         }
 
-        // Logging untuk debug
+        // Fetch the data
         $bendaharasData = $bendaharas->get();
         \Log::info($bendaharasData);
 
@@ -75,7 +80,13 @@ class pemasukanController extends Controller
             })
             ->rawColumns(['bulan_formatted']) // memberitahu bahwa kolom bulan_formatted adalah HTML
             ->make(true);
+
+    } catch (\Exception $e) {
+        \Log::error('Error fetching data: ' . $e->getMessage());
+        return response()->json(['error' => 'An error occurred while fetching data.'], 500);
     }
+}
+
 
 
     public function checkIuran(Request $request)

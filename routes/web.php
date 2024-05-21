@@ -211,6 +211,7 @@ Route::group(['prefix' => 'bendahara'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
+    Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
 
 Route::group(['prefix' => 'penduduk'], function () {

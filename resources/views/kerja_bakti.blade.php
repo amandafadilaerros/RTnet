@@ -68,11 +68,11 @@
 </div>
 
 <!-- Modal Tambah-->
-<div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content" style="border-radius: 25px;">
       <div class="modal-header d-flex justify-content-between align-items-center">
-        <h5 class="modal-title text-center" id="tambahModalLabel" style="font-weight: bold; color: #424874; margin: 0 auto;">Penjadwalan Kerja Bakti</h5>
+        <h5 class="modal-title text-center" id="editModalLabel" style="font-weight: bold; color: #424874; margin: 0 auto;">Penjadwalan Kerja Bakti</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 20px; right: 20px;">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -98,11 +98,11 @@
 </div>
 
 <!-- Modal Edit/Jadwalkan-->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content" style="border-radius: 25px;">
       <div class="modal-header d-flex justify-content-between align-items-center">
-        <h5 class="modal-title text-center" id="editModalLabel" style="font-weight: bold; color: #424874; margin: 0 auto;">Penjadwalan Kerja Bakti</h5>
+        <h5 class="modal-title text-center" id="tambahModalLabel" style="font-weight: bold; color: #424874; margin: 0 auto;">Penjadwalan Kerja Bakti</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="position: absolute; top: 20px; right: 20px;">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -115,15 +115,15 @@
                 <input type="text" class="form-control" id="nama_kegiatan" name="nama_kegiatan">
             </div>
             <div class="form-group">
-                <label for="jadwal_pelaksanaan" style="color: #424874;">Nilai Kriteria 1</label>
+                <label for="jadwal_pelaksanaan" style="color: #424874;">Kemudahan Pelaksanaan</label>
                 <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal_pelaksanaan">
             </div>
             <div class="form-group">
-                <label for="jadwal_pelaksanaan" style="color: #424874;">Nilai Kriteria 2</label>
+                <label for="jadwal_pelaksanaan" style="color: #424874;">Jumlah Partisipan</label>
                 <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal_pelaksanaan">
             </div>
             <div class="form-group">
-                <label for="jadwal_pelaksanaan" style="color: #424874;">Nilai Kriteria 3</label>
+                <label for="jadwal_pelaksanaan" style="color: #424874;">Tingkat Kepentingan</label>
                 <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal_pelaksanaan">
             </div>
             <div class="form-group">
