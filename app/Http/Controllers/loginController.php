@@ -121,6 +121,7 @@ class loginController extends Controller
         $activeMenu = 'dashboard';
 
         // Switch based on the session role
+        // dd();
         switch ($sessionRole) {
             case 'ketua_rt':
                 return view('ketuaRT.dashboardKetuaRt', [
