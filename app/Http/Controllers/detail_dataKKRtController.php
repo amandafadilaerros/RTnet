@@ -67,7 +67,25 @@ class detail_dataKKRtController extends Controller
     public function list(Request $request){
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
-              'tgl_masuk', 'tgl_keluar', 'dokumen');
+              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')
+              ->get();
+    
+        return DataTables::of($ktps)
+        ->addIndexColumn()
+        // ->addColumn('aksi', function ($kk) {
+        //     $btn = '<a href="#" class="btn btn-primary btn-sm btn-detail" data-toggle="modal" data-target="#detailModal" data-id="'. $kk->no_kk .'"><i class="fas fa-info-circle"></i></a>  '; // Tombol detail
+        //     $btn .= '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $kk->no_kk .'"><i class="fas fa-pen"></i></a>  ';
+        //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="'. $kk->no_kk .'"><i class="fas fa-trash"></i></a>  ';
+        //     return $btn;
+        // })
+        // ->rawColumns(['aksi'])
+        ->make(true);
+    }
+    public function list2(Request $request){
+            $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
+             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
+              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')
+              ->get();
     
         return DataTables::of($ktps)
         ->addIndexColumn()
@@ -83,24 +101,25 @@ class detail_dataKKRtController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nik'                   => 'required|max:255',                         
-            'no_kk'                 => 'required|max:255',
-            'nama'                  => 'required|max:255',
-            'tempat'                => 'required|max:255',
-            'tanggal_lahir'         => 'required|max:255',
-            'jenis_kelamin'         => 'required|max:255',
-            'golongan_darah'        => 'required|max:255',
-            'agama'                 => 'required|max:255',
-            'status_perkawinan'     => 'required|max:255',
-            'pekerjaan'             => 'required|max:255',
-            'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
-            'jenis_penduduk'        => 'required|max:255',
-            'tgl_masuk'             => 'required|max:255',
-            'tgl_keluar'            => 'required|max:255',
+        dd($request);
+        // $request->validate([
+        //     'nik'                   => 'required|max:255',                         
+        //     'no_kk'                 => 'required|max:255',
+        //     'nama'                  => 'required|max:255',
+        //     'tempat'                => 'required|max:255',
+        //     'tanggal_lahir'         => 'required|max:255',
+        //     'jenis_kelamin'         => 'required|max:255',
+        //     'golongan_darah'        => 'required|max:255',
+        //     'agama'                 => 'required|max:255',
+        //     'status_perkawinan'     => 'required|max:255',
+        //     'pekerjaan'             => 'required|max:255',
+        //     'status_keluarga'       => 'required|max:255',
+        //     'status_anggota'        => 'required|max:255',
+        //     'jenis_penduduk'        => 'required|max:255',
+            // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
+            // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
-        ]);
+        // ]);
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -120,7 +139,49 @@ class detail_dataKKRtController extends Controller
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/detail_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
+    }
+    public function store2(Request $request)
+    {
+        // dd($request);
+        $request->validate([
+            'nik'                   => 'required|max:255',                         
+            'no_kk'                 => 'required|max:255',
+            'nama'                  => 'required|max:255',
+            'tempat'                => 'required|max:255',
+            'tanggal_lahir'         => 'required|max:255',
+            'jenis_kelamin'         => 'required|max:255',
+            'golongan_darah'        => 'required|max:255',
+            'agama'                 => 'required|max:255',
+            'status_perkawinan'     => 'required|max:255',
+            'pekerjaan'             => 'required|max:255',
+            'status_keluarga'       => 'required|max:255',
+            'status_anggota'        => 'required|max:255',
+            'jenis_penduduk2'        => 'required|max:255',
+            // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
+            // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
+            
+        ]);
+       
+        ktpModel::create([
+            'nik'                   => $request->nik,                         
+            'no_kk'                 => $request->no_kk,
+            'nama'                  => $request->nama,
+            'tempat'                => $request->tempat,
+            'tanggal_lahir'         => $request->tanggal_lahir,
+            'jenis_kelamin'         => $request->jenis_kelamin,
+            'golongan_darah'        => $request->golongan_darah,
+            'agama'                 => $request->agama,
+            'status_perkawinan'     => $request->status_perkawinan,
+            'pekerjaan'             => $request->pekerjaan,
+            'status_keluarga'       => $request->status_keluarga,
+            'status_anggota'        => $request->status_anggota,
+            'jenis_penduduk'        => $request->jenis_penduduk2,
+            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_keluar'            => $request->tgl_keluar,
+            'dokumen'               => $request->dokumen,
+        ]);
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
 
     public function create()
@@ -148,7 +209,8 @@ class detail_dataKKRtController extends Controller
       public function show($no_kk)
       {
 
-        $data_kk = kkModel::find($no_kk);
+        $data_kk = kkModel::with('rumah')->find($no_kk);
+        // dd($data_kk);
 
           $breadcrumb = (object) [
               'title' => 'Detail Data Kartu Keluarga',
@@ -160,7 +222,7 @@ class detail_dataKKRtController extends Controller
           ];
   
           $activeMenu = 'data_kk';       //set menu yang sedang aktif
-          return view('detailDataKK', 
+          return view('detail_dataKKRt', 
           [
               'breadcrumb' => $breadcrumb,
               'page'       => $page,
