@@ -179,6 +179,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
     // Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/akun', [sekretarisController::class, 'akun']);
+    Route::post('/akun', [sekretarisController::class, 'update_password']);
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
