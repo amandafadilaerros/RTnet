@@ -23,6 +23,7 @@ use App\Http\Controllers\pengumumanKetuaController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
+use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
 use App\Models\gambar;
 use App\Models\inventaris;
@@ -46,7 +47,7 @@ Route::get('/', function () {
 
 });
 
-Route::post('/dashboard', [loginController::class, 'test']);
+Route::post('/dashboard', [loginController::class, 'login']);
 
 Route::get('/templates', [templateController::class, 'index']);
 
@@ -91,10 +92,20 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::post('/list', [data_kkRtController::class, 'list']);
         Route::get('/create', [data_kkRtController::class, 'create']);
         Route::post('/', [data_kkRtController::class, 'store']);
-        Route::get('/show', [data_kkRtController::class, 'show']);
+        Route::get('/show/{no_kk}', [data_kkRtController::class, 'show']); // Update the route to accept no_kk parameter
         Route::post('/edit', [data_kkRtController::class, 'edit']);
         Route::put('/update', [data_kkRtController::class, 'update']);
         Route::delete('/delete', [data_kkRtController::class, 'destroy']);
+    }); 
+    Route::group(['prefix' => 'detail_kk'], function () {
+        Route::get('/', [detail_dataKKRtController::class, 'index']);
+        Route::post('/list', [detail_dataKKRtController::class, 'list']);
+        Route::get('/create', [detail_dataKKRtController::class, 'create']);
+        Route::post('/', [detail_dataKKRtController::class, 'store']);
+        Route::get('/show', [detail_dataKKRtController::class, 'show']);
+        Route::post('/edit', [detail_dataKKRtController::class, 'edit']);
+        Route::put('/update', [detail_dataKKRtController::class, 'update']);
+        Route::delete('/delete', [detail_dataKKRtController::class, 'destroy']);
     });
 
     // Route::get('/detail_anggota', [KKController::class, 'detail']);
@@ -111,6 +122,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
+    Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
     Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
     Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
     Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
@@ -118,6 +130,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
     Route::get('/akun', [ketuaController::class, 'akun']);
+    Route::post('/akun', [ketuaController::class, 'update_password']);
 });
 
 
@@ -166,17 +179,20 @@ Route::group(['prefix' => 'sekretaris'], function () {
     // Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/akun', [sekretarisController::class, 'akun']);
+    Route::post('/akun', [sekretarisController::class, 'update_password']);
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'pemasukan'], function () {
         Route::get('/', [pemasukanController::class, 'index']);
+        Route::get('/checkIuran', [pemasukanController::class, 'checkIuran']);
         Route::post('/list', [pemasukanController::class, 'list']);
         // Route::get('/create', [pemasukanController::class, 'create']);
         Route::post('/tambah', [pemasukanController::class, 'store']);
         // Route::get('/{id}', [pemasukanController::class, 'show']);
         Route::post('/edit', [pemasukanController::class, 'edit']);
         Route::post('/update', [pemasukanController::class, 'update']);
+        Route::post('/search', [pemasukanController::class, 'search']);
         Route::delete('/destroy', [pemasukanController::class, 'destroy']);
     });
     Route::group(['prefix' => 'pengeluaran'], function () {

@@ -5,9 +5,17 @@
     <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
   </div>
   <div class="col-md-6">
-    {{-- UNTUK SEARCH --}}
+    <div class="row justify-content-end">
+      <form id="searchForm" class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
+        </div>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+      </form>
+    </div>
   </div>
 </div>
+
 <div class="card">
   {{-- <div class="card-header">
       <h3 class="card-title">
@@ -31,7 +39,7 @@
         <th scope="col">Nominal</th>
         <th scope="col">Jenis Pemasukan</th>
         <th scope="col">Nama Penduduk</th>
-        <th scope="col">Tanggal</th>
+        <th scope="col">Tanggal Pembayaran</th>
         <th scope="col">Aksi</th>
       </tr>
     </thead>
@@ -61,7 +69,6 @@
     </div>
   </div>
 </div>
-<!-- Modal tambahan untuk KAS -->
 <div class="modal fade" id="kasModal" tabindex="-1" role="dialog" aria-labelledby="kasModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -73,21 +80,40 @@
       </div>
       <div class="modal-body">
         <!-- Isi dengan formulir untuk memilih warga dan nominal -->
-        <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
+        <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal">
+          @csrf
           <div class="form-group">
             <label for="warga_kas">Pilih Warga:</label>
             <select class="form-control" id="no_kk" name="no_kk" required>
-              <option value="">- Pilih Warga -</option> @foreach($kk as $item)
+              <option value="">- Pilih Warga -</option>
+              @foreach($kk as $item)
               <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
               @endforeach
-            </select> @error('no_kk')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
+            </select>
+            @error('no_kk')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+          <div class="form-group">
+            <label for="bulan_mulai">Bulan Mulai:</label>
+            <input type="month" class="form-control" id="bulan_mulai" name="bulan_mulai" required>
+            @error('bulan_mulai')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+          <div class="form-group">
+            <label for="bulan_selesai">Bulan Selesai:</label>
+            <input type="month" class="form-control" id="bulan_selesai" name="bulan_selesai">
+            @error('bulan_selesai')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
           </div>
           <div class="form-group">
             <label for="nominal_kas">Nominal:</label>
-            <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
+            <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" readonly>
             @error('nominal')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
           </div>
           <input type="hidden" id="jenis_iuran" name="jenis_iuran" value="Kas">
           <div class="text-center">
@@ -99,35 +125,53 @@
   </div>
 </div>
 
-<!-- Modal tambahan untuk PAGUYUBAN -->
+<!-- Modal tambahan untuk Paguyuban -->
 <div class="modal fade" id="paguyubanModal" tabindex="-1" role="dialog" aria-labelledby="paguyubanModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="paguyubanModalLabel">Tambah Data PAGUYUBAN</h5>
+        <h5 class="modal-title" id="paguyubanModalLabel">Tambah Data Paguyuban</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <!-- Isi dengan formulir untuk memilih warga dan nominal -->
-        <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal"> @csrf
+        <form method="POST" action="{{ url('bendahara/pemasukan/tambah') }}" class="form-horizontal">
+          @csrf
           <div class="form-group">
-            <label for="warga_kas">Pilih Warga:</label>
-            <select class="form-control" id="no_kk" name="no_kk" required>
-              <option value="">- Pilih Warga -</option> @foreach($kk as $item)
+            <label for="warga_paguyuban">Pilih Warga:</label>
+            <select class="form-control" id="no_kk_paguyuban" name="no_kk" required>
+              <option value="">- Pilih Warga -</option>
+              @foreach($kk as $item)
               <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
               @endforeach
-            </select> @error('no_kk')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
+            </select>
+            @error('no_kk')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
           </div>
           <div class="form-group">
-            <label for="nominal_kas">Nominal:</label>
-            <input type="number" class="form-control" id="nominal" name="nominal" value="{{ old('nominal') }}" required>
-            @error('nominal')
-            <small class="form-text text-danger">{{ $message }}</small> @enderror
+            <label for="bulan_mulai_paguyuban">Bulan Mulai:</label>
+            <input type="month" class="form-control" id="bulan_mulai_paguyuban" name="bulan_mulai" required>
+            @error('bulan_mulai')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
           </div>
-          <input type="hidden" id="jenis_iuran" name="jenis_iuran" value="Paguyuban">
+          <div class="form-group">
+            <label for="bulan_selesai_paguyuban">Bulan Selesai:</label>
+            <input type="month" class="form-control" id="bulan_selesai_paguyuban" name="bulan_selesai">
+            @error('bulan_selesai')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+          <div class="form-group">
+            <label for="nominal_paguyuban">Nominal:</label>
+            <input type="number" class="form-control" id="nominal_paguyuban" name="nominal" value="{{ old('nominal') }}" readonly>
+            @error('nominal')
+            <small class="form-text text-danger">{{ $message }}</small>
+            @enderror
+          </div>
+          <input type="hidden" id="jenis_iuran_paguyuban" name="jenis_iuran" value="Paguyuban">
           <div class="text-center">
             <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
           </div>
@@ -163,7 +207,7 @@
           </div>
           <div class="form-group">
             <label for="nominal">Nominal:</label>
-            <input type="number" class="form-control" id="edit_nominal" name="nominal">
+            <input type="number" class="form-control" id="nominal" name="nominal">
           </div>
           <div class="text-center">
             <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Edit</button>
@@ -202,109 +246,237 @@
 </div>
 @endsection
 @push('css')
+<style>
+  /* Menyembunyikan fitur pencarian di tabel */
+  .dataTables_filter {
+    display: none;
+  }
+</style>
+
+<!-- Tambahkan CSS tambahan jika diperlukan -->
 @endpush
 
 @push('js')
 <script>
-  // Fungsi untuk menampilkan modal tambahan berdasarkan jenis pemasukan yang dipilih
   document.getElementById('kasButton').addEventListener('click', function() {
     $('#kasModal').modal('show');
+    setupModalEvents('Kas', 20000, 'no_kk', 'bulan_mulai', 'bulan_selesai', 'nominal');
   });
 
   document.getElementById('paguyubanButton').addEventListener('click', function() {
     $('#paguyubanModal').modal('show');
+    setupModalEvents('Paguyuban', 15000, 'no_kk_paguyuban', 'bulan_mulai_paguyuban', 'bulan_selesai_paguyuban', 'nominal_paguyuban');
   });
 
-  $(document).on('click', '.btn-edit', function() {
-    var jenisPemasukan = $(this).data('jenis');
-    var ids = $(this).data('id');
-    $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
-    $.ajax({
-      url: "{{ url('/bendahara/pemasukan/edit') }}", // Ganti URL dengan URL yang sesuai
-      type: "POST",
-      dataType: "json",
-      data: {
-        id_iuran: ids
-      },
-      success: function(response) {
-        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-        $('.modal-body #no_kk').val(response.no_kk);
-        $('.modal-body #nominal').val(response.nominal);
-        // Isi formulir lainnya sesuai kebutuhan Anda
-      },
-      error: function(xhr, status, error) {
-        // Tangani kesalahan yang terjadi
+  function setupModalEvents(jenis_iuran, defaultNominal, noKkId, bulanMulaiId, bulanSelesaiId, nominalId) {
+    $('#' + noKkId).off('change').on('change', function() {
+      var no_kk = $(this).val();
+
+      if (no_kk) {
+        $.ajax({
+          url: "{{ url('/bendahara/pemasukan/checkIuran') }}",
+          type: 'GET',
+          data: {
+            no_kk: no_kk,
+            jenis_iuran: jenis_iuran
+          },
+          success: function(response) {
+            var baseNominal = defaultNominal;
+            var bulanMulai = response.bulanSelanjutnya;
+
+            if (jenis_iuran === 'Kas') {
+              if (response.count_no_kk > 1) {
+                baseNominal = 20000;
+              } else {
+                if (response.status_rumah === 'Kos Kecil') {
+                  baseNominal = 10000;
+                } else if (response.status_rumah === 'Kos Besar') {
+                  baseNominal = 15000;
+                }
+              }
+            } else {
+              baseNominal = 15000;
+            }
+
+            $('#' + bulanMulaiId).val(bulanMulai);
+            $('#' + nominalId).val(baseNominal);
+
+            updateNominalBasedOnMonths(baseNominal, bulanMulaiId, bulanSelesaiId, nominalId);
+          }
+        });
       }
     });
-    $('#editKasModal').modal('show');
-  });
 
-  // Fungsi untuk menampilkan modal hapus data
-  document.querySelectorAll('.btn-delete').forEach(function(btnDelete) {
-    btnDelete.addEventListener('click', function() {
-      var form = btnDelete.closest('tr').querySelector('form#hapusForm');
-      $('#hapusModal').find('form#hapusForm').attr('action', form.action);
-      $('#hapusModal').modal('show');
+    $('#' + bulanMulaiId + ', #' + bulanSelesaiId).off('change').on('change', function() {
+      updateNominalBasedOnMonths(defaultNominal, bulanMulaiId, bulanSelesaiId, nominalId);
+    });
+
+    // Validasi bulan mulai dan bulan selesai
+    $('#' + bulanMulaiId + ', #' + bulanSelesaiId).change(function() {
+      var bulanMulai = $('#' + bulanMulaiId).val();
+      var bulanSelesai = $('#' + bulanSelesaiId).val();
+
+      if (bulanMulai && bulanSelesai) {
+        if (bulanSelesai < bulanMulai) {
+          alert('Bulan selesai tidak boleh sebelum bulan mulai.');
+          $('#' + bulanSelesaiId).val(''); // Kosongkan input bulan selesai
+        }
+      }
+    });
+  }
+
+  function updateNominalBasedOnMonths(baseNominal, bulanMulaiId, bulanSelesaiId, nominalId) {
+    var bulanMulai = $('#' + bulanMulaiId).val();
+    var bulanSelesai = $('#' + bulanSelesaiId).val();
+    var nominal = baseNominal; // Nilai default
+
+    if (bulanMulai && !bulanSelesai) {
+      $('#' + nominalId).val(nominal);
+    } else if (bulanMulai && bulanSelesai) {
+      var startDate = new Date(bulanMulai);
+      var endDate = new Date(bulanSelesai);
+      var diffInMonths = (endDate.getFullYear() - startDate.getFullYear()) * 12 + endDate.getMonth() - startDate.getMonth() + 1;
+
+      if (diffInMonths === 1) {
+        $('#' + nominalId).val(nominal);
+      } else {
+        nominal = nominal * diffInMonths;
+        $('#' + nominalId).val(nominal);
+      }
+    }
+  }
+
+
+  $(document).ready(function() {
+    // Event listener untuk tombol edit
+    $(document).on('click', '.btn-edit', function() {
+      var jenisPemasukan = $(this).data('jenis');
+      var ids = $(this).data('id');
+      $('.modal-body #id_iuran').val(ids); // Atur nilai input dengan ID yang didapat dari tombol
+      $.ajax({
+        url: "{{ url('/bendahara/pemasukan/edit') }}", // Ganti URL dengan URL yang sesuai
+        type: "POST",
+        dataType: "json",
+        data: {
+          id_iuran: ids
+        },
+        success: function(response) {
+          // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+          $('.modal-body #no_kk').val(response.no_kk);
+          $('.modal-body #nominal').val(response.nominal);
+          // Isi formulir lainnya sesuai kebutuhan Anda
+        },
+        error: function(xhr, status, error) {
+          // Tangani kesalahan yang terjadi
+        }
+      });
+      $('#editKasModal').modal('show');
+    });
+
+    // Event listener untuk tombol hapus
+    $(document).on('click', '.btn-delete', function() {
+      var ids = $(this).data('id');
+      $(".modal-footer #id_iuran").val(ids);
+      $('#hapusModal').modal('show'); // Tampilkan modal hapus
     });
   });
 </script>
 
 <script>
+  $.ajaxSetup({
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+  });
+
   $(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
     var dataPemasukan = $('#table_pemasukan').DataTable({
-      serverSide: true, //jika ingin menggunakan server side processing
-      ajax: {
-        "url": "{{ url('bendahara/pemasukan/list') }}",
-        "dataType": "json",
-        "type": "POST",
-        "data": function(d) {
-          d.no_kk = $('#no_kk').val();
+        serverSide: true,
+        ajax: {
+            url: "{{ url('bendahara/pemasukan/list') }}",
+            type: "POST",
+            data: function(d) {
+                d.no_kk = $('#no_kk').val();
+                d.search = $('#search').val();
+            },
+            error: function(xhr, error, thrown) {
+                console.log('Error fetching data: ', error);
+                console.log('XHR: ', xhr);
+                console.log('Thrown: ', thrown);
+                alert('An error occurred while fetching data.');
+            }
+        },
+        columns: [
+            {
+                data: "DT_RowIndex",
+                className: "text-center",
+                orderable: false,
+                searchable: false
+            },
+            {
+                data: "nominal",
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "jenis_iuran",
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "kk.nama_kepala_keluarga",
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: "bulan_formatted",
+                className: "",
+                orderable: true,
+                searchable: true
+            },
+            {
+                data: null,
+                className: "",
+                orderable: false,
+                searchable: false,
+                render: function(data, type, row) {
+                    return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
+                }
+            }
+        ],
+        initComplete: function() {
+            console.log('DataTable initialized');
         }
-      },
-      columns: [{
-        data: "DT_RowIndex", // nomor urut dari laravel datatable addIndexColimn()
-        className: "text-center",
-        orderable: false,
-        searchable: false
-      }, {
-        data: "nominal",
-        className: "",
-        orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: "jenis_iuran",
-        className: "",
-        orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: "kk.nama_kepala_keluarga",
-        className: "",
-        orderable: true, //jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: "created_at_formatted", // menggunakan kolom formatted yang telah ditambahkan pada controller
-        className: "",
-        orderable: true, // jika ingin kolom bisa urut
-        searchable: true // jika kolom bisa dicari
-      }, {
-        data: null,
-        classname: "",
-        orderable: false, //orderable true jika ingin kolom bisa diurutkan
-        searchable: false, //searchable true jika ingin kolom bisa dicari
-        render: function(data, type, row) {
-          return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
-        }
-      }]
     });
 
-    $('#id_iuran').on('change', function() {
-      dataPemasukan.ajax.reload();
+    $('#search, #no_kk').on('input', function() {
+        dataPemasukan.ajax.reload();
     });
+});
 
-    $(document).on("click", ".btn-delete", function() {
-      var ids = $(this).data('id');
-      $(".modal-footer #id_iuran").val(ids);
-    });
+
+
+  $('#id_iuran').on('change', function() {
+    dataPemasukan.ajax.reload();
+  });
+
+  $('#searchForm').on('submit', function(e) {
+    e.preventDefault(); // Mencegah form untuk submit
+    dataPemasukan.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
+  });
+
+  $(document).on("click", ".btn-delete", function() {
+  var ids = $(this).data('id');
+  $(".modal-footer #id_iuran").val(ids);
   });
 </script>
 @endpush

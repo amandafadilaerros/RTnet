@@ -4,48 +4,48 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\kkModel;
-use App\Models\ktp;
 use App\Models\ktpModel;
 use Yajra\DataTables\Facades\DataTables;
 
-class data_kkRtController extends Controller
+class detail_dataKKRtController extends Controller
 {
-    public function index()
-    {
-        // ini hanya TEST
-        $breadcrumb = (object) [
-            'title' => 'Data Kartu Keluarga',
-            'list' => ['--', '--'],
-        ];
-        $page = (object) [
-            'title' => '-----',
-        ];
-        $activeMenu = 'data_kk';
+    // public function index()
+    // {
+    //     // ini hanya TEST
+    //     $breadcrumb = (object) [
+    //         'title' => 'Data Kartu Keluarga',
+    //         'list' => ['--', '--'],
+    //     ];
+    //     $page = (object) [
+    //         'title' => '-----',
+    //     ];
+    //     $activeMenu = 'data_kk';
 
-        return view('data_KKrt', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-        ]);
-    }
-    public function index1()
-    {
-        // ini hanya TEST
-        $breadcrumb = (object) [
-            'title' => 'Data Kartu Keluarga',
-            'list' => ['--', '--'],
-        ];
-        $page = (object) [
-            'title' => '-----',
-        ];
-        $activeMenu = 'data_kk';
+    //     return view('data_KKrt', [
+    //         'breadcrumb' => $breadcrumb,
+    //         'page' => $page,
+    //         'activeMenu' => $activeMenu,
+    //     ]);
+    // }
+    // public function index1()
+    // {
+    //     // ini hanya TEST
+    //     $breadcrumb = (object) [
+    //         'title' => 'Data Kartu Keluarga',
+    //         'list' => ['--', '--'],
+    //     ];
+    //     $page = (object) [
+    //         'title' => '-----',
+    //     ];
+    //     $activeMenu = 'data_kk';
 
-        return view('data_KKSekretaris', [
-            'breadcrumb' => $breadcrumb,
-            'page' => $page,
-            'activeMenu' => $activeMenu,
-        ]);
-    }
+    //     return view('data_KKSekretaris', [
+    //         'breadcrumb' => $breadcrumb,
+    //         'page' => $page,
+    //         'activeMenu' => $activeMenu,
+    //     ]);
+    // }
+
     public function detail()
     {
         // ini hanya TEST
@@ -65,9 +65,11 @@ class data_kkRtController extends Controller
         ]);
     }
     public function list(Request $request){
-        $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'no_rumah', 'alamat', 'dokumen');
+            $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
+             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
+              'tgl_masuk', 'tgl_keluar', 'dokumen');
     
-        return DataTables::of($kks)
+        return DataTables::of($ktps)
         ->addIndexColumn()
         // ->addColumn('aksi', function ($kk) {
         //     $btn = '<a href="#" class="btn btn-primary btn-sm btn-detail" data-toggle="modal" data-target="#detailModal" data-id="'. $kk->no_kk .'"><i class="fas fa-info-circle"></i></a>  '; // Tombol detail
@@ -82,23 +84,43 @@ class data_kkRtController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'no_kk'                 => 'required|max:255',                         
-            'nama_kepala_keluarga'  => 'required|max:255',
-            'jumlah_individu'       => 'required|max:255',
-            'alamat'                => 'required|max:255',
-            'no_rumah'              => 'required|max:255'
+            'nik'                   => 'required|max:255',                         
+            'no_kk'                 => 'required|max:255',
+            'nama'                  => 'required|max:255',
+            'tempat'                => 'required|max:255',
+            'tanggal_lahir'         => 'required|max:255',
+            'jenis_kelamin'         => 'required|max:255',
+            'golongan_darah'        => 'required|max:255',
+            'agama'                 => 'required|max:255',
+            'status_perkawinan'     => 'required|max:255',
+            'pekerjaan'             => 'required|max:255',
+            'status_keluarga'       => 'required|max:255',
+            'status_anggota'        => 'required|max:255',
+            'jenis_penduduk'        => 'required|max:255',
+            'tgl_masuk'             => 'required|max:255',
+            'tgl_keluar'            => 'required|max:255',
+            
         ]);
-        // dd($request);
-
-        kkModel::create([
+       
+        ktpModel::create([
+            'nik'                   => $request->nik,                         
             'no_kk'                 => $request->no_kk,
-            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
-            'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
-            'no_rumah'                => $request->no_rumah,
+            'nama'                  => $request->nama,
+            'tempat'                => $request->tempat,
+            'tanggal_lahir'         => $request->tanggal_lahir,
+            'jenis_kelamin'         => $request->jenis_kelamin,
+            'golongan_darah'        => $request->golongan_darah,
+            'agama'                 => $request->agama,
+            'status_perkawinan'     => $request->status_perkawinan,
+            'pekerjaan'             => $request->pekerjaan,
+            'status_keluarga'       => $request->status_keluarga,
+            'status_anggota'        => $request->status_anggota,
+            'jenis_penduduk'        => $request->jenis_penduduk,
+            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
+        return redirect('/ketuaRt/detail_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
 
     public function create()
@@ -138,7 +160,7 @@ class data_kkRtController extends Controller
           ];
   
           $activeMenu = 'data_kk';       //set menu yang sedang aktif
-          return view('detail_dataKKRt', 
+          return view('detailDataKK', 
           [
               'breadcrumb' => $breadcrumb,
               'page'       => $page,
@@ -153,14 +175,14 @@ class data_kkRtController extends Controller
         return response()->json($data_kk);
     }
     
-    public function update(Request $request)
-    {
-        $request->validate([
-            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
-            'nama_kepala_keluarga'  => 'required|max:255',
-            'jumlah_individu'       => 'required|max:255',
-            'alamat'                => 'required|max:255',
-        ]);
+    public function update(Request $request){
+        // dd($request);
+        // $request->validate([
+        //     // 'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
+        //     'nama_kepala_keluarga'  => 'required|max:255',
+        //     'jumlah_individu'       => 'required|max:255',
+        //     'alamat'                => 'required|max:255',
+        // ]);
 
         kkModel::find($request->id)->update([
             'no_kk'                 => $request->no_kk,
@@ -169,8 +191,7 @@ class data_kkRtController extends Controller
             'alamat'                => $request->alamat,
             'dokumen'               => $request->dokumen,
         ]);
-
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data berhasil diubah');
+        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
     }
 
    //Menghapus data rumah
