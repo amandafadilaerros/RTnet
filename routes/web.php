@@ -138,7 +138,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/alternatif', [ketuaController::class, 'alternatif']);
     Route::post('/alternatif', [alternatifController::class, 'store']);
     Route::post('/alternatif/edit', [alternatifController::class, 'update']);
-    Route::post('/alternatif/delete', [alternatifController::class, 'destroy']);
+    Route::delete('/alternatif/delete', [alternatifController::class, 'destroy']);
     Route::post('/alternatif/list', [alternatifController::class, 'list']);
     Route::post('/alternatif/getData', [alternatifController::class, 'getData']);
     Route::get('/maut', [mautController::class, 'index']);
