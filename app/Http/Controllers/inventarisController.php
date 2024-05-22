@@ -50,21 +50,21 @@ class inventarisController extends Controller
             ->addColumn('aksi', function ($row) use ($barang_dipinjam) {
                 $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
                 $tersedia = $row->jumlah - $dipinjam;
+
                 if ($tersedia > 0) {
                     return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia = ' . $tersedia . '</button>';
                 } else {
-                    return '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
+                    $buttonDetailPeminjam = '';
+                    if ($row->id_peminjam) {
+                        $buttonDetailPeminjam = '<a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;  data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '">Dipinjam</a>';
+                    }
+                    return $buttonDetailPeminjam;
                 }
             })
-            ->addColumn('detail_peminjam', function ($row) {
-                if ($row->id_peminjam) {
-                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '"><i class="fas fa-eye"></i></a>';
-                }
-                return '';
-            })
-            ->rawColumns(['aksi', 'detail_peminjam'])
+            ->rawColumns(['aksi'])
             ->make(true);
     }
+
 
 
 

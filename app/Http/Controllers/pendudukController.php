@@ -19,6 +19,8 @@ use App\Models\peminjaman_inventaris;
 class pendudukController extends Controller
 {
 
+
+
     public function index()
     {
         $laporan_keuangan = IuranModel::count();
@@ -31,14 +33,33 @@ class pendudukController extends Controller
             'pendudukKosCount' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
         ];
 
+        // Ambil jumlah penduduk berdasarkan bulan
+        $pendudukData = Ktp::select(
+            DB::raw('MONTH(tgl_masuk) as bulan'),
+            DB::raw('count(*) as total_penduduk')
+        )
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+
+        // Mengubah data menjadi format yang lebih mudah digunakan di JavaScript
+        $data_bulan = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $data_bulan[$i] = 0; // Inisialisasi setiap bulan dengan nilai 0
+        }
+        foreach ($pendudukData as $item) {
+            $data_bulan[$item->bulan] = $item->total_penduduk;
+        }
+
         // Inisialisasi variabel breadcrumb
         $breadcrumb = (object) [
             'title' => 'Dashboard',
             'list' => ['Home', 'Dashboard']
         ];
 
-        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'breadcrumb'));
+        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'breadcrumb'));
     }
+
 
 
     public function getData()
