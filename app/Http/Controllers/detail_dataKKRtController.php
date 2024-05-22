@@ -101,7 +101,7 @@ class detail_dataKKRtController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
         // $request->validate([
         //     'nik'                   => 'required|max:255',                         
         //     'no_kk'                 => 'required|max:255',

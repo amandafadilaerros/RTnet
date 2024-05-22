@@ -6,6 +6,7 @@ use App\Models\gambar;
 use App\Models\inventaris;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Yajra\DataTables\Facades\DataTables;
 
 class InventarisKetuaController extends Controller
@@ -27,7 +28,7 @@ class InventarisKetuaController extends Controller
         return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request){
-        $barangs = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'id_gambar')->with('gambar');
+        $barangs = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'gambar');
 
         // if ($request->kategori_id){
         //     $barangs->where('kategori_id', $request->kategori_id);
@@ -47,26 +48,21 @@ class InventarisKetuaController extends Controller
         $validated = $request->validate([
             'nama_barang' => 'bail|required',
             'jumlah' => 'required|integer',
+            'gambar' => 'image|max:5000'
         ]);
-        $id_gambar = null;
         if ($request->hasFile('gambar')) {
-            $image = $request->file('gambar');
-            $filename = $image->getClientOriginalName();
-            $mimeType = $image->getMimeType();
-            $imageData = file_get_contents($image->getRealPath());
-    
-            $newImage = new gambar;
-            $newImage->nama_file = $filename;
-            $newImage->mime_type = $mimeType;
-            $newImage->data_gambar = $imageData;
-            $newImage->save();
+            $extFile = $request->gambar->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
 
-            $id_gambar = $newImage->id_gambar;
+            $path = $request->gambar->move('gambar', $namaFile);
+            $path = str_replace("\\","//",$path);
+            
+            $pathBaru = asset('gambar/'. $namaFile);
         }
         inventaris::create([
             'nama_barang' => $request->nama_barang,
             'jumlah' => $request->jumlah,
-            'id_gambar' => $id_gambar,
+            'gambar' => $pathBaru,
         ]);
 
         return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil disimpan');
@@ -86,29 +82,22 @@ class InventarisKetuaController extends Controller
             'id_inventaris' => 'required',
             'nama_barang' => 'bail|required',
             'jumlah' => 'required|integer',
+            'gambar' => 'image|max:5000'
         ]);
-        $gambar = inventaris::find($request->id_inventaris);
-
-        $id_gambar = $gambar->id_gambar;
         if ($request->hasFile('gambar')) {
-            $image = $request->file('gambar');
-            $filename = $image->getClientOriginalName();
-            $mimeType = $image->getMimeType();
-            $imageData = file_get_contents($image->getRealPath());
-    
-            $newImage = new gambar;
-            $newImage->nama_file = $filename;
-            $newImage->mime_type = $mimeType;
-            $newImage->data_gambar = $imageData;
-            $newImage->save();
+            $extFile = $request->gambar->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
 
-            $id_gambar = $newImage->id;
+            $path = $request->gambar->move('gambar', $namaFile);
+            $path = str_replace("\\","//",$path);
+            
+            $pathBaru = asset('gambar/'. $namaFile);
         }
 
         inventaris::find($request->id_inventaris)->update([
             'nama_barang' => $request->nama_barang,
             'jumlah' => $request->jumlah,
-            'id_gambar' => $id_gambar,
+            'gambar' => $pathBaru,
         ]);
 
         return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil diubah');
@@ -121,6 +110,10 @@ class InventarisKetuaController extends Controller
 
         try{
             inventaris::destroy($request->id_inventaris);
+            $gambarPath = public_path($check->gambar); // Mendapatkan path lengkap dari gambar
+            if (File::exists($gambarPath)) {
+                File::delete($gambarPath); // Hapus gambar dari sistem file
+            }
 
             return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil dihapus');
         }catch (\illuminate\Database\QueryException $e){
