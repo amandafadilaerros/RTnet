@@ -1,54 +1,70 @@
 @extends('layouts.template')
 
 @section('content')
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                Kriteria dan Rentang Nilai
-            </div>
-            <div class="card-body">
-                @foreach($rentangNilai as $item)
-                    <h5>{{ $item['nama'] }}</h5>
-                    <ul>
-                        @foreach($item['rentang'] as $key => $value)
-                            <li>{{ $key }} = {{ $value }}</li>
-                        @endforeach
-                    </ul>
-                @endforeach
-            </div>
+<div class="container">
+    <!-- Tabel Kriteria dan Rentang Nilai -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4">Kriteria dan Rentang Nilai</h2>
+        </div>
+        <div class="card-body">
+            @foreach($rentangNilai as $item)
+                @if(in_array($item['nama'], ['Kemudahan Pelaksanaan', 'Jumlah Partisipan', 'Tingkat Urgensi', 'Dampak Sosial', 'Dana']))
+                    <div class="mb-4">
+                        <h5 class="h4">{{ $item['nama'] }}</h5>
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nilai</th>
+                                    <th>Deskripsi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($item['rentang'] as $key => $value)
+                                    <tr>
+                                        <td>{{ $key }}</td>
+                                        <td>{{ $value }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
+            @endforeach
         </div>
     </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                Tabel Kriteria
-            </div>
-            <div class="card-body">
-                <table class="table">
-                    <thead>
+
+    <!-- Tabel Kriteria -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="h4">Tabel Kriteria</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Bobot (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($kriteria as $item)
                         <tr>
-                            <th>Nama</th>
-                            <th>Bobot</th>
+                            <td>{{ $item->nama_kriteria }}</td>
+                            <td>{{ $item->bobot }}</td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($kriteria as $item)
-                            <tr>
-                                <td>{{ $item->nama_kriteria }}</td>
-                                <td>{{ $item->bobot }}</td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 @endsection
-@push('css')
-    
-@endpush
-@push('js')
 
+@push('css')
+<!-- Custom CSS here if needed -->
+@endpush
+
+@push('js')
+<!-- Custom JS here if needed -->
 @endpush
