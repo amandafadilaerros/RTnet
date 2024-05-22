@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('id_inventaris')->references('id_inventaris')->on('inventaris');
-            $table->foreign('id_peminjam')->references('NIK')->on('ktps');
+            $table->foreign('id_peminjam')->references('NIK')->on('ktps2');
         });
     }
 
