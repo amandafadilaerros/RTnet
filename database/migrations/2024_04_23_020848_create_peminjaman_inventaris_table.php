@@ -16,10 +16,12 @@ return new class extends Migration
             $table->unsignedBigInteger('id_inventaris')->index();
             $table->unsignedBigInteger('id_peminjam')->index();
             $table->date('tanggal_peminjaman');
+            $table->int('jumlah_peminjaman');
             $table->date('tanggal_kembali');
             $table->timestamps();
 
             $table->foreign('id_inventaris')->references('id_inventaris')->on('inventaris');
+            $table->foreign('id_peminjam')->references('NIK')->on('ktps');
         });
     }
 
