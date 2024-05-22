@@ -28,6 +28,7 @@ use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
 use App\Http\Controllers\MabacController;
 use App\Http\Controllers\MautController;
+use App\Http\Controllers\paguyubanController;
 use App\Models\gambar;
 use App\Models\inventaris;
 use Illuminate\Auth\Events\Login;
@@ -140,7 +141,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/alternatif', [ketuaController::class, 'alternatif']);
     Route::post('/alternatif', [alternatifController::class, 'store']);
     Route::post('/alternatif/edit', [alternatifController::class, 'update']);
-    Route::post('/alternatif/delete', [alternatifController::class, 'destroy']);
+    Route::delete('/alternatif/delete', [alternatifController::class, 'destroy']);
     Route::post('/alternatif/list', [alternatifController::class, 'list']);
     Route::post('/alternatif/getData', [alternatifController::class, 'getData']);
     Route::get('/maut', [mautController::class, 'index']);
@@ -226,6 +227,7 @@ Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'laporan'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
+    Route::get('/paguyuban', [paguyubanController::class, 'index']);
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
     Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
@@ -236,7 +238,8 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
-
+    Route::get('/maut', [mautController::class, 'index']);
+    Route::get('/mabac', [MabacController::class, 'index']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::post('/pengumuman', [pendudukController::class, 'list_pengumuman']);
     Route::get('/showPengumumanPenduduk/{id_pengumuman}', [pendudukController::class, 'show_pengumuman']);
