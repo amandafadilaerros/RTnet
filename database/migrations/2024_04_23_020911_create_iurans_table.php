@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('iurans', function (Blueprint $table) {
             $table->id('id_iuran');
-            $table->int('nominal');
+            $table->integer('nominal');
             $table->string('keterangan', 255);
             $table->string('jenis_transaksi', 255);
             $table->string('jenis_iuran');
