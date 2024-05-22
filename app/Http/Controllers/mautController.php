@@ -21,7 +21,10 @@ class mautController extends Controller
         $bobot = $this->hitungBobot($kriteriaList);
 
         // // 2. Tabel matriks keputusan
-        $matriksKeputusan = $this->matriksKeputusan($alternatifs, $kriteriaList);
+        $matriksData = $this->matriksKeputusan($alternatifs, $kriteriaList);
+        $matriksKeputusan = $matriksData['matriksKeputusan'];
+        $min = $matriksData['min'];
+        $max = $matriksData['max'];
 
         // // 3. Tabel Normalisasi
         $normalisasi = $this->normalisasi($matriksKeputusan, $kriteriaList);
@@ -47,10 +50,15 @@ class mautController extends Controller
             'preferensi',
             'breadcrumb',
             'page',
-            'activeMenu'
+
+            'activeMenu',
+            'min',
+            'max'
         )
         );
+
     }
+
 
     // Hitung bobot kriteria
     private function hitungBobot($kriteriaList)
@@ -63,9 +71,12 @@ class mautController extends Controller
     }
 
     // Hitung matriks keputusan
+    // Hitung matriks keputusan
     private function matriksKeputusan($alternatifs, $kriteriaList)
     {
         $matriksKeputusan = [];
+        $min = []; // Tambahkan variabel min untuk menyimpan nilai minimum
+        $max = []; // Tambahkan variabel max untuk menyimpan nilai maksimum
 
         foreach ($alternatifs as $alternatif) {
             foreach ($kriteriaList as $kriteria) {
@@ -74,11 +85,25 @@ class mautController extends Controller
                     ->value('nilai');
 
                 $matriksKeputusan[$alternatif->nama_alternatif][$kriteria->id_kriteria] = $nilai ?? 0;
+
+                // Hitung nilai maksimum dan minimum
+                if (!isset($min[$kriteria->id_kriteria]) || $nilai < $min[$kriteria->id_kriteria]) {
+                    $min[$kriteria->id_kriteria] = $nilai;
+                }
+                if (!isset($max[$kriteria->id_kriteria]) || $nilai > $max[$kriteria->id_kriteria]) {
+                    $max[$kriteria->id_kriteria] = $nilai;
+                }
             }
         }
 
-        return $matriksKeputusan;
+        // Kembalikan matriks keputusan, min, dan max
+        return [
+            'matriksKeputusan' => $matriksKeputusan,
+            'min' => $min,
+            'max' => $max,
+        ];
     }
+
 
 
     // Normalisasi data
