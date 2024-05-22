@@ -232,6 +232,7 @@ Route::group(['prefix' => 'bendahara'], function () {
 
 Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/dashboard', [PendudukController::class, 'index'])->name('penduduk.dashboard');
+
     Route::get('/', [PendudukController::class, 'getData'])->name('penduduk.dashboard');
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
