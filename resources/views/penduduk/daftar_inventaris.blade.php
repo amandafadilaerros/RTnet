@@ -32,7 +32,7 @@
           <th scope="col">Gambar</th>
           <th scope="col">Nama Barang</th>
           <th scope="col">Status</th>
-          <th scope="col">Detail Peminjam</th>
+      
         </tr>
       </thead>
       <tbody>
@@ -104,11 +104,11 @@ $(document).ready(function() {
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: true, searchable: true },
-            { data: "detail_peminjam", className: "text-center", orderable: false, searchable: false }
+           
         ]
     });
 
-    $(document).on("click", ".btn-view", function () {
+    $(document).on("click", ".btn-danger", function () {
     var noKK = $(this).data('no-kk');
     console.log("Fetching data for no_kk: " + noKK); // Debugging
 
