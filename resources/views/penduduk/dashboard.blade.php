@@ -170,6 +170,7 @@
     success: function(response) {
         // Isi data jumlah total penduduk dari response ke dalam grafik
         // Misalnya, response.total_penduduk adalah jumlah penduduk dan response.tanggal_masuk adalah tanggal masuknya
+        
         lineChart.data.labels.push(response.tgl_masuk); // Menambahkan tanggal masuk sebagai label sumbu x
         lineChart.data.datasets[0].data.push(response.total_penduduk); // Menambahkan total penduduk sebagai data pada dataset
         lineChart.update(); // Update grafik setelah mengubah data

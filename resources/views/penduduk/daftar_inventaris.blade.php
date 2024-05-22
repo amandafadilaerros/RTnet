@@ -1,20 +1,17 @@
 @extends('layouts.template')
 
 @section('content')
-
 <div class="row">
   <div class="col-md-3 mb-4">
     <div class="input-group float-right">
-        <input type="text" class="form-control" id="searchInput" style="border-radius: 20px;" placeholder="Cari barang...">
-    </div>
-  </div>
-  
-  <div class="col-md-4">
-    <div class="input-group">
-      <input type="date" class="form-control" id="searchDate" style="border-radius: 20px;" placeholder="Cari berdasarkan tanggal...">
-      <div class="input-group-append">
-        <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; width: 100px;">Cari</button>
-      </div>
+        <select class="form-control" id="searchOption" style="border-radius: 20px;">
+            <option value="" selected disabled>Cari Barang....</option>
+            <option value="tersedia">Tersedia</option>
+            <option value="dipinjam">Dipinjam</option>
+        </select>
+        <div class="input-group-append">
+            <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; width: 100px;">Cari</button>
+        </div>
     </div>
   </div>
 </div>
@@ -34,7 +31,7 @@
           <th scope="col">No</th>
           <th scope="col">Gambar</th>
           <th scope="col">Nama Barang</th>
-          <th scope="col">Aksi</th>
+          <th scope="col">Status</th>
           <th scope="col">Detail Peminjam</th>
         </tr>
       </thead>
@@ -43,39 +40,42 @@
     </table>
   </div>
 </div>
+
 <!-- Modal untuk melihat detail peminjam -->
 <div class="modal fade" id="viewModalAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalAnggotaLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="viewModalAnggotaLabel">Detail Peminjam</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <p><strong>Nama:</strong> <span id="nama"></span></p>
-          <p><strong>Jenis Kelamin:</strong> <span id="jenis_kelamin"></span></p>
-       
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewModalAnggotaLabel">Detail Peminjam</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Nama Kepala Keluarga: <span id="nama_kepala_keluarga"></span></p>
+        <p>Alamat: <span id="alamat"></span></p>
+        <p>No Rumah: <span id="no_rumah"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-  
-  
+</div>
+@endsection
 
 @push('css')
 <style>
   .dataTables_filter {
       display: none;
   }
+  #searchOption option:hover {
+    outline: none; /* Remove default focus outline */
+    border-color: #424874; /* Change border color to match the desired color */
+    box-shadow: 0 0 0 0.2rem rgba(66, 72, 116, 0.25); /* Add a box shadow to simulate focus effect */
+  }
 </style>
 @endpush
-
-@endsection
 
 @push('js')
 <script>
@@ -96,56 +96,65 @@ $(document).ready(function() {
                 searchable: false,
                 render: function(data, type, row) {
                     if (data) {
-                        return '<img src="path/to/images/' + data + '" width="50" height="50">';
+                        return '<img src="{{ url('path/to/images') }}/' + data + '" width="50" height="50">';
                     } else {
-                        return '<img src="placeholder.png" width="50" height="50">'; 
+                        return '<img src="{{ url('placeholder.png') }}" width="50" height="50">'; 
                     }
                 }
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: true, searchable: true },
-            { 
-                data: null, 
-                className: "text-center", 
-                orderable: false, 
-                searchable: false,
-                render: function(data, type, row) {
-                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-id-peminjam="' + row.id_peminjam + '"><i class="fas fa-eye"></i></a>';
-                }
-            }
+            { data: "detail_peminjam", className: "text-center", orderable: false, searchable: false }
         ]
     });
 
-    $('#inventaris_table').on('click', '.btn-view', function() {
-    var idPeminjam = $(this).data('NIK');
-    
+    $(document).on("click", ".btn-view", function () {
+    var noKK = $(this).data('no-kk');
+    console.log("Fetching data for no_kk: " + noKK); // Debugging
+
+    if (noKK === undefined) {
+        console.error("no_kk is undefined");
+        return;
+    }
+
     $.ajax({
-        url: "{{ url('penduduk/daftar_inventaris/show') }}/" + idPeminjam,
-        type: "GET",
+        url: "{{ url('penduduk/daftar_inventaris/show/{request}') }}",
+        type: "POST",
+        dataType: "json",
+        data: { no_kk: noKK },
         success: function(response) {
-            $('#nama').text(response.nama);
-            $('#jenis_kelamin').text(response.jenis_kelamin);
-         
-            $('#viewModalAnggota').modal('show');
+            console.log(response); // Log the response for debugging
+
+            if (response.error) {
+                console.error("Error: " + response.error);
+                alert("Data tidak ditemukan.");
+            } else {
+                // Set data peminjam ke dalam modal
+                $('#nama_kepala_keluarga').text(response.nama_kepala_keluarga || 'Data tidak tersedia');
+                $('#alamat').text(response.alamat || 'Data tidak tersedia');
+                $('#no_rumah').text(response.no_rumah || 'Data tidak tersedia');
+
+                // Tampilkan modal
+                $('#viewModalAnggota').modal('show');
+            }
         },
         error: function(xhr, status, error) {
-            console.error(xhr.responseText);
+            console.error("Error:", xhr.responseText); // Log the error for debugging
+            alert("Terjadi kesalahan saat mengambil data.");
         }
+        
     });
 });
 
-
-
-
-
-
+    // Search barang
     $('#searchButton').on('click', function() {
-        var keyword = $('#searchInput').val().toLowerCase();
+        var keyword = $('#searchOption').val().toLowerCase();
         inventaris.search(keyword).draw();
     });
 
-    $('#searchDate').on('change', function() {
-        var searchDate = $('#searchDate').val();
+    // Search by date
+    $('#searchDateButton').on('click', function() {
+        var searchDate = $('#searchDateInput').val();
         
         $.ajax({
             url: "{{ url('penduduk/daftar_inventaris/search-by-date') }}",
@@ -174,7 +183,7 @@ $(document).ready(function() {
                     imgElement.attr('src', imageData);
                 },
                 error: function() {
-                    imgElement.attr('src', 'placeholder.png');
+                    imgElement.attr('src', '{{ url('placeholder.png') }}');
                 }
             });
         });
