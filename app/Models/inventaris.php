@@ -15,13 +15,9 @@ class inventaris extends Model
     protected $primaryKey = 'id_inventaris';
 
     // @var array
-    protected $fillable = ['nama_barang', 'jumlah', 'id_gambar'];
+    protected $fillable = ['nama_barang', 'jumlah', 'gambar'];
     // protected $fillable = ['level_id', 'username', 'nama'];
 
-    public function gambar(): BelongsTo
-    {
-        return $this->belongsTo(gambar::class, 'id_gambar', 'id_gambar');
-    }
 
     public function peminjaman_inventaris(): HasMany
     {
