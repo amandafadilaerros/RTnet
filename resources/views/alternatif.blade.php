@@ -21,11 +21,6 @@
     </div>
 </div> --}}
 <div class="card-body">
-    <form action="{{ url('ketuaRt/alternatif/getData') }}" method="POST">
-        @csrf
-        <input type="text" name="id_alternatif">
-        <button>submit</button>
-    </form>
     @if (session('success'))
     <div class="alert alert-success">{{session('success')}}</div>
     @endif
