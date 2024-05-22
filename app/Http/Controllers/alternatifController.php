@@ -104,13 +104,38 @@ class alternatifController extends Controller
     public function update(Request $request,)
     {
         $request->validate([
-            'nama_alternatif' => 'bail|required',
+            'nama_alternatif' => 'required|string|max:255',
+            'kemudahan_pelaksanaan' => 'required|integer|between:1,5',
+            'jumlah_partisipan' => 'required|integer|between:1,5',
+            'tingkat_urgensi' => 'required|integer|between:1,5',
+            'dampak_sosial' => 'required|integer|between:1,5',
+            'tingkat_uang' => 'required|integer|between:1,5',
         ]);
 
         // Lakukan pembaruan
         alternatif::find($request->id_alternatif)->update([
             'nama_alternatif' => $request->nama_alternatif,
         ]);
+
+        Matrik::where('id_alternatif', $request->id_alternatif)
+        ->where('id_kriteria', 1) // ID Kriteria untuk kemudahan pelaksanaan
+        ->update(['nilai' => $request->kemudahan_pelaksanaan]);
+
+        Matrik::where('id_alternatif', $request->id_alternatif)
+        ->where('id_kriteria', 2) // ID Kriteria untuk jumlah partisipan
+        ->update(['nilai' => $request->jumlah_partisipan]);
+
+        Matrik::where('id_alternatif', $request->id_alternatif)
+        ->where('id_kriteria', 3) // ID Kriteria untuk tingkat urgensi
+        ->update(['nilai' => $request->tingkat_urgensi]);
+
+        Matrik::where('id_alternatif', $request->id_alternatif)
+        ->where('id_kriteria', 4) // ID Kriteria untuk dampak sosial
+        ->update(['nilai' => $request->dampak_sosial]);
+
+        Matrik::where('id_alternatif', $request->id_alternatif)
+        ->where('id_kriteria', 5) // ID Kriteria untuk dana yang dibutuhkan
+        ->update(['nilai' => $request->tingkat_uang]);
 
         return redirect('/ketuaRt/alternatif')->with('success', 'Data alternatif berhasil diubah');
     }
