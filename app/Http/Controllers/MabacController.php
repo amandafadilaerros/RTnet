@@ -2,133 +2,200 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\alternatif;
-use App\Models\kriteria;
 use Illuminate\Http\Request;
+use App\Models\Alternatif;
+use App\Models\Matrik;
+use App\Models\Kriteria;
 
 class MabacController extends Controller
 {
-    public function calculateMabac()
+    public function index()
     {
-        // Fetch data
-        $alternatifs = alternatif::all();
-        $kriterias = kriteria::all(); // Fetch all criteria
-        // dd($kriterias, $alternatifs);
-        // Step 1: Normalize decision matrix
-        $normalizedMatrix = $this->normalizeMatrix($alternatifs, $kriterias);
+        // Mendapatkan data alternatif
+        $alternatifs = Alternatif::all();
 
-        // Step 2: Calculate weighted normalized decision matrix
-        $weightedNormalizedMatrix = $this->weightedNormalizedMatrix($normalizedMatrix, $kriterias);
+        // Mendapatkan data kriteria
+        $kriteriaList = Kriteria::all();
 
-        // Step 3: Determine the border approximation area matrix
-        $borderApproximationMatrix = $this->borderApproximationMatrix($weightedNormalizedMatrix);
+        // 1. Tabel perhitungan bobot dengan rumus bobot/100
+        $bobot = $this->hitungBobot($kriteriaList);
 
-        // Step 4: Calculate the distance to the border approximation area
-        $distances = $this->calculateDistances($borderApproximationMatrix, $weightedNormalizedMatrix);
+        // 2. Tabel matriks keputusan
+        $matriksKeputusan = $this->matriksKeputusan($alternatifs, $kriteriaList);
 
-        // Step 5: Rank the alternatives
-        $rankings = $this->rankAlternatives($distances);
+        // 3. Tabel Normalisasi
+        $normalisasi = $this->normalisasi($matriksKeputusan, $kriteriaList);
 
-        // Pass all necessary data to the view
-        return view('ketuaRt/mabac', compact('alternatifs', 'kriterias', 'weightedNormalizedMatrix', 'borderApproximationMatrix', 'rankings'));
+        // 4. Tabel Perhitungan Elemen Matrik Pertimbangan (V)
+        $matrikPertimbangan = $this->matrikPertimbangan($normalisasi, $bobot);
+
+        // 5. Tabel Matriks Area Perkiraan Batas (G)
+        $areaPerkiraanBatas = $this->areaPerkiraanBatas($matrikPertimbangan, count($alternatifs));
+
+        // 6. Tabel Perhitungan Matriks Jarak Elemen Alternatif dari Batas Perkiraan Daerah (Q)
+        $jarakElemen = $this->jarakElemen($matrikPertimbangan, $areaPerkiraanBatas);
+
+        // 7. Tabel Perankingan
+        $preferensi = $this->preferensi($jarakElemen);
+        // Di dalam method index() MabacController
+
+        // Ambil nilai minimum dan maksimum dari matriks keputusan
+        $minValues = [];
+        $maxValues = [];
+        foreach ($kriteriaList as $kriteria) {
+            $nilaiKriteria = array_column($matriksKeputusan, $kriteria->id_kriteria);
+            $minValues[$kriteria->id_kriteria] = min($nilaiKriteria);
+            $maxValues[$kriteria->id_kriteria] = max($nilaiKriteria);
+        }
+
+        // Lanjutkan ke tahap-tahap perhitungan berikutnya
+
+
+        $breadcrumb = (object) [
+            'title' => 'MABAC',
+            'list' => ['--', '--'],
+        ];
+        $page = (object) [
+            'title' => '-----',
+        ];
+        $activeMenu = 'mabac';
+
+        return view(
+            'mabac',
+            compact(
+                'alternatifs',
+                'kriteriaList',
+                'bobot',
+                'matriksKeputusan',
+                'matrikPertimbangan',
+                'areaPerkiraanBatas',
+                'jarakElemen',
+                'normalisasi',
+                'preferensi',
+                'breadcrumb',
+                'page',
+                'activeMenu',
+                'minValues',
+                'maxValues'
+            )
+        );
     }
 
-    // Step 1: Normalize decision matrix
-    private function normalizeMatrix($alternatifs, $kriterias)
+    // Hitung bobot kriteria
+    private function hitungBobot($kriteriaList)
     {
-        $normalizedMatrix = [];
+        $bobot = [];
+        foreach ($kriteriaList as $kriteria) {
+            $bobot[$kriteria->id_kriteria] = $kriteria->bobot / 100;
+        }
+        return $bobot;
+    }
 
-        // Benefit
-        // Implement your logic to normalize the decision matrix (for example, using min-max normalization)
+    // Hitung matriks keputusan
+    private function matriksKeputusan($alternatifs, $kriteriaList)
+    {
+        $matriksKeputusan = [];
+
         foreach ($alternatifs as $alternatif) {
-            foreach ($kriterias as $kriteria) {
-                // Normalize each value based on the criteria's range
-                // Example logic, replace with your actual normalization method
-                $normalizedValue = ($alternatif->{$kriteria->nama_kriteria} - $kriteria->min_value) / ($kriteria->max_value - $kriteria->min_value);
-                $normalizedMatrix[$alternatif->id][$kriteria->id] = $normalizedValue;
+            foreach ($kriteriaList as $kriteria) {
+                $nilai = Matrik::where('id_alternatif', $alternatif->id_alternatif)
+                    ->where('id_kriteria', $kriteria->id_kriteria)
+                    ->value('nilai');
+
+                $matriksKeputusan[$alternatif->nama_alternatif][$kriteria->id_kriteria] = $nilai ?? 0;
             }
         }
 
-        // Cost
-        // Implement your logic to normalize the decision matrix (for example, using min-max normalization)
-        foreach ($alternatifs as $alternatif) {
-            foreach ($kriterias as $kriteria) {
-                // Normalize each value based on the criteria's range
-                // Example logic, replace with your actual normalization method
-                $normalizedValue = ($alternatif->{$kriteria->nama_kriteria} - $kriteria->max_value) / ($kriteria->min_value - $kriteria->max_value);
-                $normalizedMatrix[$alternatif->id][$kriteria->id] = $normalizedValue;
-            }
-        }
-
-        return $normalizedMatrix;
+        return $matriksKeputusan;
     }
 
-    // Step 2: Calculate weighted normalized decision matrix
-    private function weightedNormalizedMatrix($normalizedMatrix, $kriterias)
+    // Normalisasi data
+    private function normalisasi($matriksKeputusan, $kriteriaList)
     {
-        $weightedNormalizedMatrix = [];
+        $normalisasi = [];
 
-        // Implement your logic to calculate the weighted normalized matrix
-        foreach ($normalizedMatrix as $alternatifId => $criteriaValues) {
-            foreach ($kriterias as $kriteria) {
-                // Example logic: multiply normalized value by criteria weight
-                $weightedNormalizedValue = $criteriaValues[$kriteria->id] * $kriteria->bobot;
-                $weightedNormalizedMatrix[$alternatifId][$kriteria->id] = $weightedNormalizedValue;
-            }
-        }
+        foreach ($kriteriaList as $kriteria) {
+            $idKriteria = $kriteria->id_kriteria;
+            $jenisKriteria = $kriteria->jenis_kriteria;
 
-        return $weightedNormalizedMatrix;
-    }
+            $nilaiKriteria = array_column($matriksKeputusan, $idKriteria);
 
-    // Step 3: Determine the border approximation area matrix
-    private function borderApproximationMatrix($weightedNormalizedMatrix)
-    {
-        $borderApproximationMatrix = [];
+            $min = min($nilaiKriteria);
+            $max = max($nilaiKriteria);
 
-        // Implement your logic to calculate the border approximation matrix
-        foreach ($weightedNormalizedMatrix as $alternatifId => $criteriaValues) {
-            // Example logic: find the maximum value for each criteria
-            foreach ($criteriaValues as $kriteriaId => $value) {
-                if (!isset($borderApproximationMatrix[$kriteriaId]) || $value > $borderApproximationMatrix[$kriteriaId]) {
-                    $borderApproximationMatrix[$kriteriaId] = $value;
+            foreach ($matriksKeputusan as $namaAlternatif => $nilaiAlternatif) {
+                $nilai = $nilaiAlternatif[$idKriteria];
+
+                if ($max - $min == 0) {
+                    $normalisasi[$namaAlternatif][$idKriteria] = $jenisKriteria == 'Cost' ? 1 : 0;
+                } else {
+                    if ($jenisKriteria == 'Cost') {
+                        $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $max) / ($min - $max);
+                    } else {
+                        $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $min) / ($max - $min);
+                    }
                 }
             }
         }
-
-        return $borderApproximationMatrix;
+        return $normalisasi;
     }
 
-    // Step 4: Calculate the distance to the border approximation area
-    private function calculateDistances($borderApproximationMatrix, $weightedNormalizedMatrix)
+    // Perhitungan Elemen Matrik Pertimbangan (V)
+    private function matrikPertimbangan($normalisasi, $bobot)
     {
-        $distances = [];
-
-        // Implement your logic to calculate distances
-        foreach ($weightedNormalizedMatrix as $alternatifId => $criteriaValues) {
-            $distance = 0;
-            foreach ($criteriaValues as $kriteriaId => $value) {
-                // Example Euclidean distance calculation
-                $distance += pow($value - $borderApproximationMatrix[$kriteriaId], 2);
+        $matrikPertimbangan = [];
+        foreach ($normalisasi as $namaAlternatif => $nilaiKriteria) {
+            foreach ($nilaiKriteria as $idKriteria => $nilai) {
+                $matrikPertimbangan[$namaAlternatif][$idKriteria] = $bobot[$idKriteria] * $nilai + $bobot[$idKriteria];
             }
-            $distances[$alternatifId] = sqrt($distance);
         }
-
-        return $distances;
+        return $matrikPertimbangan;
     }
 
-    // Step 5: Rank the alternatives
-    private function rankAlternatives($distances)
+    // Matriks Area Perkiraan Batas (G)
+    private function areaPerkiraanBatas($matrikPertimbangan, $jumlahAlternatif)
     {
-        // Sort distances to determine rankings
-        arsort($distances);
+        $areaPerkiraanBatas = [];
 
-        // Assign ranks
-        $rankings = [];
-        $rank = 1;
-        foreach ($distances as $alternatifId => $distance) {
-            $rankings[$alternatifId] = $rank++;
+        foreach ($matrikPertimbangan as $namaAlternatif => $nilaiKriteria) {
+            foreach ($nilaiKriteria as $idKriteria => $nilai) {
+                if (!isset($areaPerkiraanBatas[$idKriteria])) {
+                    $areaPerkiraanBatas[$idKriteria] = 1;
+                }
+                $areaPerkiraanBatas[$idKriteria] *= $nilai;
+            }
         }
 
-        return $rankings;
+        // Hitung akar pangkat ke jumlah alternatif dari hasil perkalian
+        foreach ($areaPerkiraanBatas as $idKriteria => $nilai) {
+            $areaPerkiraanBatas[$idKriteria] = pow($nilai, 1 / $jumlahAlternatif);
+        }
+
+        return $areaPerkiraanBatas;
+    }
+
+
+    // Perhitungan Matriks Jarak Elemen Alternatif dari Batas Perkiraan Daerah (Q)
+    private function jarakElemen($matrikPertimbangan, $areaPerkiraanBatas)
+    {
+        $jarakElemen = [];
+        foreach ($matrikPertimbangan as $namaAlternatif => $nilaiKriteria) {
+            foreach ($nilaiKriteria as $idKriteria => $nilai) {
+                $jarakElemen[$namaAlternatif][$idKriteria] = $nilai - $areaPerkiraanBatas[$idKriteria];
+            }
+        }
+        return $jarakElemen;
+    }
+
+    // Perhitungan nilai preferensi
+    private function preferensi($jarakElemen)
+    {
+        $preferensi = [];
+        foreach ($jarakElemen as $namaAlternatif => $nilaiKriteria) {
+            $total = array_sum($nilaiKriteria);
+            $preferensi[$namaAlternatif] = $total;
+        }
+        arsort($preferensi);
+        return $preferensi;
     }
 }

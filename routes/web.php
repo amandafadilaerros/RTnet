@@ -144,7 +144,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::post('/alternatif/list', [alternatifController::class, 'list']);
     Route::post('/alternatif/getData', [alternatifController::class, 'getData']);
     Route::get('/maut', [mautController::class, 'index']);
-    Route::get('/mabac', [ketuaController::class, 'mabac']);
+    Route::get('/mabac', [MabacController::class, 'index']);
     Route::get('/akun', [ketuaController::class, 'akun']);
     Route::post('/akun', [ketuaController::class, 'update_password']);
 });

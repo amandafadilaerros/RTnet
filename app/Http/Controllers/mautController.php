@@ -48,7 +48,8 @@ class mautController extends Controller
             'breadcrumb',
             'page',
             'activeMenu'
-        ));
+        )
+        );
     }
 
     // Hitung bobot kriteria
@@ -82,34 +83,34 @@ class mautController extends Controller
 
     // Normalisasi data
     private function normalisasi($matriksKeputusan, $kriteriaList)
-{
-    $normalisasi = [];
+    {
+        $normalisasi = [];
 
-    foreach ($kriteriaList as $kriteria) {
-        $idKriteria = $kriteria->id_kriteria;
-        $jenisKriteria = $kriteria->jenis_kriteria;
+        foreach ($kriteriaList as $kriteria) {
+            $idKriteria = $kriteria->id_kriteria;
+            $jenisKriteria = $kriteria->jenis_kriteria;
 
-        $nilaiKriteria = array_column($matriksKeputusan, $idKriteria);
+            $nilaiKriteria = array_column($matriksKeputusan, $idKriteria);
 
-        $min = min($nilaiKriteria);
-        $max = max($nilaiKriteria);
+            $min = min($nilaiKriteria);
+            $max = max($nilaiKriteria);
 
-        foreach ($matriksKeputusan as $namaAlternatif => $nilaiAlternatif) {
-            $nilai = $nilaiAlternatif[$idKriteria];
+            foreach ($matriksKeputusan as $namaAlternatif => $nilaiAlternatif) {
+                $nilai = $nilaiAlternatif[$idKriteria];
 
-            if ($max - $min == 0) {
-                $normalisasi[$namaAlternatif][$idKriteria] = $jenisKriteria == 'Cost' ? 1 : 0;
-            } else {
-                if ($jenisKriteria == 'Cost') {
-                    $normalisasi[$namaAlternatif][$idKriteria] = 1 + (($min - $nilai) / ($max - $min));
+                if ($max - $min == 0) {
+                    $normalisasi[$namaAlternatif][$idKriteria] = $jenisKriteria == 'Cost' ? 1 : 0;
                 } else {
-                    $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $min) / ($max - $min);
+                    if ($jenisKriteria == 'Cost') {
+                        $normalisasi[$namaAlternatif][$idKriteria] = 1 + (($min - $nilai) / ($max - $min));
+                    } else {
+                        $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $min) / ($max - $min);
+                    }
                 }
             }
         }
+        return $normalisasi;
     }
-    return $normalisasi;
-}
 
 
 
