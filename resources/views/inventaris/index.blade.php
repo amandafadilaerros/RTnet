@@ -8,8 +8,8 @@
       {{-- UNTUK SEARCH --}}
       <div class="col-md-4" style="">
         <div class="row">
-            <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-            <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+            <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+            <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
         </div>
       </div>
     {{-- </div> --}}
@@ -207,6 +207,7 @@
               "type": "POST",
               "data": function (d){
                   d.kategori_id = $('#kategori_id').val();
+                  d.customSearch = $('#customSearchBox').val();
               }
           },
           columns: [
@@ -247,6 +248,14 @@
       $('#kategori_id').on('change', function(){
           dataBarang.ajax.reload();
       });
+      $('#customSearchButton').on('click', function() {
+            dataBarang.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+        });
+      $('#customSearchBox').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                dataBarang.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
+        });
       $(document).on("click", ".btn-edit", function () {
         var ids = $(this).data('id');
         $(".modal-body #id_inventaris").val( ids );
