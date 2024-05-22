@@ -62,6 +62,28 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Konfirmasi Pinjam -->
+<div class="modal fade" id="konfirmasiModal" tabindex="-1" role="dialog" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Peminjaman Barang</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Anda ingin meminjam barang ini?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+        <button type="button" class="btn btn-primary" id="btnModalPinjam">Pinjam</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('css')
@@ -145,6 +167,33 @@ $(document).ready(function() {
         
     });
 });
+
+$(document).on("click", ".btn-pinjam", function () {
+    var idInventaris = $(this).data('id');
+    
+    // Tampilkan modal konfirmasi
+    $('#konfirmasiModal').modal('show');
+
+    // Tombol "Pinjam" di modal konfirmasi
+    $('#btnModalPinjam').click(function() {
+        $.ajax({
+            url: "{{ url('pinjam/barang') }}",
+            type: "POST",
+            data: { id_inventaris: idInventaris },
+            success: function(response) {
+                // Handle success (if any)
+                alert(response.success);
+                $('#konfirmasiModal').modal('hide');
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+                alert("Terjadi kesalahan saat meminjam barang.");
+                $('#konfirmasiModal').modal('hide');
+            }
+        });
+    });
+});
+
 
     // Search barang
     $('#searchButton').on('click', function() {

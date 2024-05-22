@@ -52,7 +52,7 @@ class inventarisController extends Controller
                 $tersedia = $row->jumlah - $dipinjam;
 
                 if ($tersedia > 0) {
-                    return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia = ' . $tersedia . '</button>';
+                    return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" data-toggle="modal" data-target="#konfirmasiModal">Tersedia = ' . $tersedia . '</button>';
                 } else {
                     $buttonDetailPeminjam = '';
                     if ($row->id_peminjam) {

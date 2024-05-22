@@ -122,36 +122,50 @@ class pendudukController extends Controller
             ->where('jenis_transaksi', 'pengeluaran')
             ->sum('nominal');
 
-        // Menghitung saldo dari total pemasukan dan total pengeluaran
+        // Inisialisasi saldo awal
         $saldo = 0;
 
         // Mengambil semua data iuran
-        $iuran = DB::table('iurans')->get();
+        $iurans = DB::table('iurans')->get();
 
-        // Inisialisasi struktur data yang sesuai untuk DataTables
+        // Inisialisasi array untuk menyimpan data yang akan dikirim ke DataTables
         $data = [];
 
-        // Menambahkan setiap baris data iuran ke dalam struktur data
-        foreach ($iuran as $row) {
+        // Looping untuk menyiapkan data sesuai format DataTables
+        foreach ($iurans as $index => $row) {
+            // Menghitung saldo berdasarkan jenis transaksi
             if ($row->jenis_transaksi === 'pemasukan') {
                 $saldo += $row->nominal;
             } elseif ($row->jenis_transaksi === 'pengeluaran') {
                 $saldo -= $row->nominal;
             }
 
+            // Mengambil keterangan dari tabel inventaris jika jenis_iuran ada
+            $keterangan = ''; // Inisialisasi keterangan
+
+            // Cek apakah jenis_iuran ada, lalu ambil nilainya
+            if (!empty($row->keterangan)) {
+                // Misalnya, jika jenis_iuran adalah nama kolom di tabel iurans
+                $keterangan = $row->keterangan;
+            }
+
+            // Menyiapkan baris data untuk DataTables
             $data[] = [
-                'jenis_transaksi' => $row->jenis_transaksi,
+                'DT_RowIndex' => $index + 1, // Nomor urut
                 'jenis_iuran' => $row->jenis_iuran,
                 'pemasukan' => $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0,
                 'pengeluaran' => $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0,
-                'saldo' => $saldo, // Set saldo pada setiap baris data
+                'saldo' => $saldo,
+                'keterangan' => $keterangan, // Kolom keterangan
             ];
         }
 
+
+        // Mengirimkan data menggunakan DataTables
         return DataTables::of($data)
-            ->addIndexColumn()
             ->make(true);
     }
+
 
 
 
@@ -218,27 +232,30 @@ class pendudukController extends Controller
     public function getInfoPeminjaman($id_inventaris)
     {
         // Menggunakan Eloquent untuk mengambil informasi peminjaman berdasarkan ID inventaris
-        $inventaris = Inventaris::with('peminjaman')->find($id_inventaris);
+        $inventaris = Inventaris::find($id_inventaris);
 
         // Jika inventaris dengan ID yang diberikan tidak ditemukan, kembalikan respons dengan pesan kesalahan
         if (!$inventaris) {
             return response()->json(['error' => 'Inventaris not found'], 404);
         }
 
-        // Jika inventaris ditemukan, ambil informasi peminjamannya
+        // Ambil informasi peminjaman terbaru untuk inventaris ini
+        $latest_peminjaman = $inventaris->peminjaman()->latest()->first();
+
+        // Jika tidak ada data peminjaman, statusnya 'Tersedia'
         $info_peminjaman = [
             'tanggal_peminjaman' => null,
             'tanggal_pengembalian' => null,
-            'status_peminjaman' => 'Tersedia' // Status default jika tidak ada peminjaman
+            'status_peminjaman' => 'Tersedia'
         ];
 
         // Jika ada data peminjaman, atur informasi peminjaman sesuai
-        if ($inventaris->peminjaman) {
-            $info_peminjaman['tanggal_peminjaman'] = $inventaris->peminjaman->tanggal_peminjaman;
-            $info_peminjaman['tanggal_pengembalian'] = $inventaris->peminjaman->tanggal_kembali;
+        if ($latest_peminjaman) {
+            $info_peminjaman['tanggal_peminjaman'] = $latest_peminjaman->tanggal_peminjaman;
+            $info_peminjaman['tanggal_pengembalian'] = $latest_peminjaman->tanggal_kembali;
 
             // Jika tanggal pengembalian belum lewat, ubah status peminjaman menjadi 'Dipinjam'
-            if ($inventaris->peminjaman->tanggal_kembali >= now()->toDateString()) {
+            if ($latest_peminjaman->tanggal_kembali >= now()->toDateString()) {
                 $info_peminjaman['status_peminjaman'] = 'Dipinjam';
             }
         }
@@ -246,6 +263,8 @@ class pendudukController extends Controller
         // Kembalikan informasi peminjaman sebagai respons JSON
         return response()->json($info_peminjaman);
     }
+
+
     public function kegiatan()
     {
         // ini hanya TEST

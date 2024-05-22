@@ -28,7 +28,6 @@ use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
 use App\Http\Controllers\MabacController;
 use App\Http\Controllers\MautController;
-use App\Http\Controllers\paguyubanController;
 use App\Models\gambar;
 use App\Models\inventaris;
 use Illuminate\Auth\Events\Login;
@@ -227,7 +226,6 @@ Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'laporan'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
-    Route::get('/paguyuban', [paguyubanController::class, 'index']);
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
     Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
