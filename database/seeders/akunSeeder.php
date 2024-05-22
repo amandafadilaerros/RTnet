@@ -14,11 +14,11 @@ class akunSeeder extends Seeder
     public function run(): void
     {
         $data =[
-            ['id_akun'=>12345678,'id_level'=>1,'nama'=>'Yoga'],
-            ['id_akun'=>22345678,'id_level'=>2,'nama'=>'Doni'],
-            ['id_akun'=>32345678,'id_level'=>3,'nama'=>'Rafli'],
-            ['id_akun'=>42345678,'id_level'=>4,'nama'=>'Haris'],
-            ['id_akun'=>52345678,'id_level'=>4,'nama'=>'Ari'],
+            ['id_akun'=>12345678,'id_level'=>1,'nama'=>'Yoga','password'=>'12345'],
+            ['id_akun'=>22345678,'id_level'=>2,'nama'=>'Doni','password'=>'12345'],
+            ['id_akun'=>32345678,'id_level'=>3,'nama'=>'Rafli','password'=>'12345'],
+            ['id_akun'=>42345678,'id_level'=>4,'nama'=>'Haris','password'=>'12345'],
+            ['id_akun'=>52345678,'id_level'=>4,'nama'=>'Ari','password'=>'12345'],
         ];
         DB::table('akuns')->insert($data);
     }
