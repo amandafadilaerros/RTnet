@@ -199,8 +199,16 @@ Route::group(['prefix' => 'bendahara'], function () {
 
 Route::group(['prefix' => 'penduduk'], function () {
     Route::get('/dashboard', [pendudukController::class, 'index']);
-
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::post('/tambah_daftaranggota',[DaftarAnggotaController::class, 'store']);
+    Route::post('/DaftarAnggota', [DaftarAnggotaController::class, 'show']);
+    Route::post('/DaftarAnggota/Update',[DaftarAnggotaController::class, 'update']);
+    Route::delete('/DaftarAnggota/delete', [DaftarAnggotaController::class, 'destroy']);
+    Route::post('/tambah_daftaranggota_kos',[DaftarAnggotaController::class, 'store_kos']);
+    // Route::post('/DaftarAnggota_kos', [DaftarAnggotaController::class, 'show_kos']);
+    // Route::post('/DaftarAnggota/Update_kos',[DaftarAnggotaController::class, 'update_kos']);
+    // Route::delete('/DaftarAnggota/delete_kos', [DaftarAnggotaController::class, 'destroy_kos']);
+    // Route::get('/data_penduduk/{id}', [pendudukController::class, 'show']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);

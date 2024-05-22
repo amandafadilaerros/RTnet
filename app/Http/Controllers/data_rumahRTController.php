@@ -158,7 +158,7 @@ class data_rumahRTController extends Controller
         return redirect('/ketuaRt/data_rumah')->with('success', 'Data rumah berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
         //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
-        return redirect('/ketuaRt/data_rumah')->with('error', 'Data rumah gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+        return redirect('/ketuaRt/data_rumah')->with('error', 'Data rumah gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
 
