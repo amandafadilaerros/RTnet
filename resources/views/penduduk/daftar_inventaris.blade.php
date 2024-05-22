@@ -43,11 +43,11 @@
 
 <!-- Modal untuk melihat detail peminjam -->
 <div class="modal fade" id="viewModalAnggota" tabindex="-1" role="dialog" aria-labelledby="viewModalAnggotaLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 25px;">
+      <div class="modal-header" style="background-color: #424874; color: white; border-radius: 25px 25px 0 0;">
         <h5 class="modal-title" id="viewModalAnggotaLabel">Detail Peminjam</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -56,29 +56,29 @@
         <p>Alamat: <span id="alamat"></span></p>
         <p>No Rumah: <span id="no_rumah"></span></p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      <div class="modal-footer" style="border-radius: 0 0 25px 25px;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px;">Close</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal Konfirmasi Pinjam -->
+<!-- Modal Konfirmasi Peminjaman Barang -->
 <div class="modal fade" id="konfirmasiModal" tabindex="-1" role="dialog" aria-labelledby="konfirmasiModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content" style="border-radius: 25px;">
+      <div class="modal-header" style="background-color: #424874; color: white; border-radius: 25px 25px 0 0;">
         <h5 class="modal-title" id="konfirmasiModalLabel">Konfirmasi Peminjaman Barang</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: white;">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <p>Anda ingin meminjam barang ini?</p>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-        <button type="button" class="btn btn-primary" id="btnModalPinjam">Pinjam</button>
+      <div class="modal-footer" style="border-radius: 0 0 25px 25px;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px;">Batal</button>
+        <button type="button" class="btn btn-primary" id="btnModalPinjam" style="border-radius: 20px; background-color: #424874; width: 200px;">Pinjam</button>
       </div>
     </div>
   </div>
