@@ -69,6 +69,7 @@ class mautController extends Controller
 
     // Hitung matriks keputusan
   // Hitung matriks keputusan
+// Hitung matriks keputusan
 private function matriksKeputusan($alternatifs, $kriteriaList)
 {
     $matriksKeputusan = [];
@@ -100,6 +101,7 @@ private function matriksKeputusan($alternatifs, $kriteriaList)
         'max' => $max,
     ];
 }
+
 
 
 
