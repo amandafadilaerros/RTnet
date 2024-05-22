@@ -20,6 +20,6 @@ class rumahSeeder extends Seeder
             ['no_rumah'=>4,'status_rumah'=>'Rumah Pribadi'],
             ['no_rumah'=>5,'status_rumah'=>'Rumah Pribadi'],
         ];
-        DB::table('rumah')->insert($data);
+        DB::table('rumahs')->insert($data);
     }
 }

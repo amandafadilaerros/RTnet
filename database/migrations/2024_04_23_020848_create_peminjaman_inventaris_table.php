@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_inventaris')->index();
             $table->unsignedBigInteger('id_peminjam')->index();
             $table->date('tanggal_peminjaman');
-            $table->int('jumlah_peminjaman');
+            $table->integer('jumlah_peminjaman');
             $table->date('tanggal_kembali');
             $table->timestamps();
 
