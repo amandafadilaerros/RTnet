@@ -36,10 +36,13 @@
           <p>Daftar Anggota</p>
         </a>
       </li>
-      <li class="nav-header">Kegiatan Warga</li>
+      <li class="nav-header">Kerja Bakti</li>
       <li class="nav-item">
-        <a href="{{ url('/penduduk/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-users"></i>
-          <p>Kerja Bakti</p>
+        <a href="{{ url('/penduduk/mabac') }}" class="nav-link {{ ($activeMenu == 'mabac')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'mabac')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
+          <p>Metode Mabac</p>
+        </a>
+        <a href="{{ url('/penduduk/maut') }}" class="nav-link {{ ($activeMenu == 'maut')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'maut')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
+          <p>Metode Maut</p>
         </a>
       </li>
       <li class="nav-header">Keuangan</li>
@@ -172,7 +175,7 @@
       </li>
       @break
       {{-- SEKRETASRIS --}}
-      @case('sekretaris')
+      @case('sekretaris') 
       <li class="nav-header">Dashboard</li>
       <li class="nav-item">
         <a href="{{ url('/sekretaris/dashboard') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'dashboard')? 'background-color: #424874;' : '' }}">

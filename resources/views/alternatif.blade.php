@@ -131,11 +131,11 @@
                     <input type="hidden" id="id_alternatif_edit" name="id_alternatif" value="">
                     <div class="form-group">
                         <label for="nama_alternatif" style="color: #424874;">Kegiatan</label>
-                        <input type="text" class="form-control" id="nama_alternatif" name="nama_alternatif" required>
+                        <input type="text" class="form-control" id="nama_alternatif_edit" name="nama_alternatif" required>
                     </div>
                     <div class="form-group">
                         <label for="jadwal_pelaksanaan" style="color: #424874;">Kemudahan Pelaksanaan</label>
-                        <select class="form-control" id="kemudahan_pelaksanaan" name="kemudahan_pelaksanaan">
+                        <select class="form-control" id="kemudahan_pelaksanaan_edit" name="kemudahan_pelaksanaan">
                             <option value="1">Sangat Rendah</option>
                             <option value="2">Rendah</option>
                             <option value="3">Cukup</option>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal_pelaksanaan" style="color: #424874;">Jumlah Partisipan</label>
-                        <select class="form-control" id="jumlah_partisipan" name="jumlah_partisipan">
+                        <select class="form-control" id="jumlah_partisipan_edit" name="jumlah_partisipan">
                             <option value="1">1 - 5 Orang</option>
                             <option value="2">6 - 10 Orang</option>
                             <option value="3">11 - 15 Orang</option>
@@ -155,7 +155,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal_pelaksanaan" style="color: #424874;">Tingkat Urgensi</label>
-                        <select class="form-control" id="tingkat_urgensi" name="tingkat_urgensi">
+                        <select class="form-control" id="tingkat_urgensi_edit" name="tingkat_urgensi">
                             <option value="1">Sangat Rendah</option>
                             <option value="2">Rendah</option>
                             <option value="3">Cukup</option>
@@ -165,7 +165,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal_pelaksanaan" style="color: #424874;">Dampak Sosial</label>
-                        <select class="form-control" id="dampak_sosial" name="dampak_sosial">
+                        <select class="form-control" id="dampak_sosial_edit" name="dampak_sosial">
                             <option value="1">Sangat Rendah</option>
                             <option value="2">Rendah</option>
                             <option value="3">Cukup</option>
@@ -175,7 +175,7 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal_pelaksanaan" style="color: #424874;">Dana Yang Dibutuhkan</label>
-                        <select class="form-control" id="tingkat_uang" name="tingkat_uang">
+                        <select class="form-control" id="tingkat_uang_edit" name="tingkat_uang">
                             <option value="1">&lt; 200.000</option>
                             <option value="2">200.000 &le; - &lt; 400.000</option>
                             <option value="3">400.000 &le; - &lt; 600.000</option>
@@ -272,12 +272,24 @@
                 },
                 success: function(response) {
                     // Mengisi nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                    $('#nama_alternatif').val(response.nama_alternatif);
-                    $('#kemudahan_pelaksanaan').val(response.kemudahan_pelaksanaan);
-                    $('#jumlah_partisipan').val(response.jumlah_partisipan);
-                    $('#tingkat_urgensi').val(response.tingkat_urgensi);
-                    $('#dampak_sosial').val(response.dampak_sosial);
-                    $('#tingkat_uang').val(response.tingkat_uang);
+                    $('#nama_alternatif_edit').val(response.nama_alternatif.nama_alternatif);
+                    for (let i = 0; i < response.nilai_matrik.length; i++) {
+                        const nilaiMatrik = response.nilai_matrik[i];
+
+                        // Kemudahan Pelaksanaan
+                        if (nilaiMatrik.id_kriteria === 1) {
+                        $('#kemudahan_pelaksanaan_edit').val(nilaiMatrik.nilai);
+                        } else if (nilaiMatrik.id_kriteria === 2) {
+                            $('#jumlah_partisipan_edit').val(nilaiMatrik.nilai);
+                        } else if (nilaiMatrik.id_kriteria === 3) {
+                            $('#tingkat_urgensi_edit').val(nilaiMatrik.nilai);
+                        } else if (nilaiMatrik.id_kriteria === 4) {
+                            $('#dampak_sosial_edit').val(nilaiMatrik.nilai);
+                        } else if (nilaiMatrik.id_kriteria === 5) {
+                            $('#tingkat_uang_edit').val(nilaiMatrik.nilai);
+                        }
+                        // console.log(nilaiMatrik.nilai);
+                    }
                 },
                 error: function(xhr, status, error) {
                     // Tangani kesalahan yang terjadi

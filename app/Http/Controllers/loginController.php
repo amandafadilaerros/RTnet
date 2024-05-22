@@ -6,6 +6,8 @@ use App\Models\akun;
 use Illuminate\Http\Request;
 use App\Models\IuranModel;
 use App\Models\Inventaris;
+use App\Models\alternatif;
+use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\Pengumumans;
 use Illuminate\Support\Facades\DB;
@@ -17,11 +19,18 @@ class loginController extends Controller
 {
     public function test(Request $request)
     {
-        // ini hanya TEST
-        // PENENTU ROLE
+        // Fetch data
+        $alternatifs = Alternatif::all();
+        $kriterias = Kriteria::all(); // Fetch all criteria
+
+        // Debugging
+        dd($kriterias, $alternatifs);
+
+        // Pengaturan role
         $role = $request->family_number;
         $request->session()->put('role', $role);
 
+        // Mengambil data untuk dashboard
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
@@ -35,29 +44,24 @@ class loginController extends Controller
             'penduduk_kos' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
         ];
 
+        // Variabel breadcrumb
         $breadcrumb = (object) [
             'title' => 'Dashboard',
             'list' => ['--', '--'],
         ];
-        $page = (object) [
-            'title' => '-----',
-        ];
 
         $activeMenu = 'dashboard';
 
+        // Mengembalikan view sesuai dengan role
         switch ($role) {
             case 'ketua_rt':
-                return view('ketuaRT.dashboardKetuaRt', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'ktp' => $ktp]);
-                break;
+                return view('ketuaRT.dashboardKetuaRt', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'alternatifs', 'kriterias', 'mabac', 'pengumuman', 'ktp'));
             case 'penduduk':
-                return view('penduduk.dashboard', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'data_grafik' => $data_grafik]);
-                break;
+                return view('penduduk.dashboard', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik'));
             case 'sekretaris':
-                return view('sekretaris.dashboardSekretaris', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman]);
-                break;
+                return view('sekretaris.dashboardSekretaris', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman'));
             case 'bendahara':
-                return view('bendahara.dashboardBendahara', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'role' => $role, 'laporan_keuangan' => $laporan_keuangan, 'inventaris' => $inventaris, 'pengumuman' => $pengumuman, 'totalPemasukan' => $totalPemasukan, 'totalPengeluaran' => $totalPengeluaran]);
-                break;
+                return view('bendahara.dashboardBendahara', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'totalPemasukan', 'totalPengeluaran'));
         }
     }
     public function login(Request $request)
