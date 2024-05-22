@@ -216,17 +216,13 @@
                   orderable: false,
                   searchable: false
               },{
-                  data: "id_gambar",
+                  data: "gambar",
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false, //searchable false jika ingin kolom bisa dicari
-                  render: function (data, type, row) {
-                      if (data) {
-                          return '<img data-id-gambar="' + row.id_inventaris + '" width="50" height="50">';
-                      } else {
-                          return '<img src="placeholder.png" width="50" height="50">'; // Replace with placeholder image path
-                      }
-                  }
+                  render: function(data, type, full, meta) {
+                    return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
+                }
               },{
                   data: "nama_barang",
                   classname: "",
@@ -250,24 +246,6 @@
       });
       $('#kategori_id').on('change', function(){
           dataBarang.ajax.reload();
-      });
-      $('#table_inventaris').on('draw.dt', function(){
-        $('img[data-id-gambar]').each(function(){
-            var idInventaris = $(this).data('id-gambar');
-            var imgElement = $(this); // Simpan referensi objek gambar
-
-            $.ajax({
-                url: "http://localhost/RTnet/public/inventaris/image/" + idInventaris,
-                type: 'GET',
-                success: function(response){
-                  var imageData = 'data:' + response.mimeType + ';base64,' + response.imageData;
-                  imgElement.attr('src', imageData);
-                },
-                error: function(){
-                    imgElement.attr('src', 'placeholder.png');
-                }
-            });
-          });
       });
       $(document).on("click", ".btn-edit", function () {
         var ids = $(this).data('id');
