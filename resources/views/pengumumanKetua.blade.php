@@ -6,8 +6,8 @@
     </div>
     <div class="col-md-4" style="">
       <div class="row">
-          <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-          <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+          <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+          <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
       </div>
   </div>
 </div>
@@ -183,6 +183,7 @@
               "type": "POST",
               "data": function (d){
                   d.id_pengumuman = $('#id_pengumuman').val();
+                  d.customSearch = $('#customSearchBox').val();
               }
           },
           columns: [
@@ -195,7 +196,7 @@
                   data: "",
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
-                  searchable: false, //searchable false jika ingin kolom bisa dicari
+                  searchable: true, //searchable false jika ingin kolom bisa dicari
                   render: function (data, type, row) {
                         return row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan + ')';
                     }
@@ -213,6 +214,14 @@
       $('#kategori_id').on('change', function(){
           dataBarang.ajax.reload();
       });
+      $('#customSearchButton').on('click', function() {
+            dataBarang.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+        });
+      $('#customSearchBox').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                dataBarang.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
+        });
       $(document).on("click", ".btn-edit", function () {
         var ids = $(this).data('id');
         $(".modal-body #id_pengumuman").val( ids );
