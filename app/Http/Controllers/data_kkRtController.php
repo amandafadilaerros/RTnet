@@ -95,7 +95,7 @@ class data_kkRtController extends Controller
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $request->alamat,
-            'no_rumah'                => $request->no_rumah,
+            'no_rumah'              => $request->no_rumah,
             'dokumen'               => $request->dokumen,
         ]);
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
