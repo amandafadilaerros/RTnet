@@ -5,13 +5,15 @@
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
     </div>
     <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
-            <div class="input-group-append">
-                <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
-            </div>
+    <div class="row justify-content-end">
+      <form id="searchForm" class="form-inline">
+        <div class="form-group">
+          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
         </div>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+      </form>
     </div>
+  </div>
 </div>
 <div class="card">
     {{-- <div class="card-header">
@@ -149,72 +151,88 @@
     <script>
         $(document).ready(function() {
             var dataRumah = $('#table_data_rumah').DataTable({
-                serverSide: true,   //jika ingin menggunakan server side processing
+                serverSide: true,
                 ajax: {
-                    "url": "{{ url('ketuaRt/data_rumah/list') }}",
-                    "dataType": "json",
-                    "type": "POST",
-                    "data": function (d){
-                  d.no_rumah = $('#no_rumah').val();
-              }
+                    url: "{{ url('ketuaRt/data_rumah/list') }}",
+                    dataType: "json",
+                    type: "POST",
+                    data: function(d) {
+                        d.no_rumah = $('#no_rumah').val();
+                    }
                 },
                 columns: [
                     {
-                        data: "DT_RowIndex",    // nomor urut dari laravel datatable addIndexColimn()
+                        data: "DT_RowIndex",
                         className: "text-center",
                         orderable: false,
                         searchable: false
-                    }, {
+                    },
+                    {
                         data: "no_rumah",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa urut
-                        searchable: true        // jika kolom bisa dicari
-                    }, {
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
                         data: "status_rumah",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
-                        //true, jika ingin kolom bisa dicari
-                    }, {
-                  data: null,
-                  classname: "",
-                  orderable: false, //orderable true jika ingin kolom bisa diurutkan
-                  searchable: false, //searchable true jika ingin kolom bisa dicari
-                  render: function (data, type, row) {
-                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.no_rumah + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.no_rumah + '"><i class="fas fa-trash"></i></a>';
-                  }
-              }
-          ]
-      });
-      $('#no_rumah').on('change', function(){
-          dataRumah.ajax.reload();
-      });
-        $(document).on("click", ".btn-edit", function () {
-        var ids = $(this).data('id');
-        $(".modal-body #id").val( ids );
-        $.ajax({
-            url: "{{ url('ketuaRt/data_rumah/edit') }}",
-            type: "POST",
-            dataType: "json",
-            data: {
-                no_rumah: ids
-            },
-            success: function(response) {
-                // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #no_rumah').val(response.no_rumah);
-                $('.modal-body #status_rumah').val(response.status_rumah);
-                // Isi formulir lainnya sesuai kebutuhan Anda
-            },
-            error: function(xhr, status, error) {
-                // Tangani kesalahan yang terjadi
-            }
-        });
-    });
-    $(document).on("click", ".btn-delete", function () {
-        var no_rumah = $(this).data('id');
-        $(".modal-footer #no_rumah").val( no_rumah );
-    });
-});
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        data: null,
+                        className: "",
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row) {
+                            return `
+                                <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="${row.no_rumah}">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+                                <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="${row.no_rumah}">
+                                    <i class="fas fa-trash"></i>
+                                </a>`;
+                        }
+                    }
+                ]
+            });
 
-   </script>
+            $('#no_rumah').on('change', function() {
+                dataRumah.ajax.reload();
+            });
+
+            $(document).on("click", ".btn-edit", function() {
+                var ids = $(this).data('id');
+                $(".modal-body #id").val(ids);
+                $.ajax({
+                    url: "{{ url('ketuaRt/data_rumah/edit') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: { no_rumah: ids },
+                    success: function(response) {
+                        $('.modal-body #no_rumah').val(response.no_rumah);
+                        $('.modal-body #status_rumah').val(response.status_rumah);
+                        // Isi formulir lainnya sesuai kebutuhan Anda
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
+            });
+
+            $(document).on("click", ".btn-delete", function() {
+                var no_rumah = $(this).data('id');
+                $(".modal-footer #no_rumah").val(no_rumah);
+            });
+
+            $('#search, #status_rumah').on('input', function() {
+                dataRumah.ajax.reload();
+            });
+
+            $('#searchForm').on('submit', function(e) {
+                e.preventDefault(); // Mencegah form untuk submit
+                dataRumah.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
+            });
+        });
+    </script>
 @endpush

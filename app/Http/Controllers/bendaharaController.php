@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\iuranModel;
 use Yajra\DataTables\Facades\DataTables;
+use App\Models\akun;
+
 
 class bendaharaController extends Controller
 {
@@ -67,6 +69,19 @@ class bendaharaController extends Controller
         ]);
     }
 
+    public function update_password(Request $request){
+        $akun = akun::find(session()->get('id_akun'));
+        
+        // Validasi apakah password lama sesuai dengan yang tersimpan di database
+        if ($request->old_password !== $akun->password) {
+            return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
+        }
+        $akun->password = $request->password;
+        $akun->save();
+
+        return redirect('/bendahara/akunBendahara')->with('success', 'Password berhasil diubah.');
+    }
+
     public function list(Request $request)
     {
         $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
@@ -77,6 +92,16 @@ class bendaharaController extends Controller
         // Filter data berdasarkan no_kk
         if ($request->no_kk) {
             $bendaharas->where('no_kk', $request->no_kk);
+        }
+
+        // Filter data berdasarkan pencarian
+        if ($request->search) {
+            $search = $request->search;
+            $bendaharas->where(function ($query) use ($search) {
+                $query->where('nominal', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('jenis_iuran', 'like', '%' . $search . '%');
+            });
         }
 
         // Menggunakan DataTables untuk memformat data
@@ -91,10 +116,10 @@ class bendaharaController extends Controller
             ->addColumn('saldo', function ($row) use ($request) {
                 // Menghitung saldo dengan menjumlahkan jumlah uang masuk dan mengurangkan jumlah uang keluar
                 $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')
-                    ->where('created_at', '<=', $row->created_at) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->where('id_iuran', '<=', $row->id_iuran) // Hanya menghitung data sebelum atau pada tanggal saat ini
                     ->sum('nominal');
                 $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')
-                    ->where('created_at', '<=', $row->created_at) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->where('id_iuran', '<=', $row->id_iuran) // Hanya menghitung data sebelum atau pada tanggal saat ini
                     ->sum('nominal');
                 return $totalUangMasuk - $totalUangKeluar;
             })

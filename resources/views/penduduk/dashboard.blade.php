@@ -71,6 +71,10 @@
 
 @push('css')
 <style>
+
+    .card-title{
+        font-size: 30px;
+    }
     .dashboard {
         display: flex;
         flex-wrap: wrap;
@@ -118,49 +122,67 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Data pertambahan warga tiap bulan
-        var data = {
-        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni','Juli','Agustus', 'September','Oktober', 'November','Desember'],
+   $(document).ready(function() {
+    // Data pertambahan warga tiap bulan
+    var data = {
+        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
         datasets: [{
-            label: 'Penduduk Tetap',
-            data: [], // Contoh data penduduk tetap
+            label: 'Penduduk',
+            data: [], // Data jumlah penduduk akan diisi melalui AJAX
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1
-        }, {
-            label: 'Penduduk Kos',
-            data: [], // Contoh data penduduk kos
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
         }]
     };
-        var options = {
-            responsive: true,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
-                },
-                title: {
-                    display: false,
-                    text: 'Pertambahan Warga Tiap Bulan'
-                }
+
+    var options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: true,
+                position: 'top'
             },
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            title: {
+                display: false,
+                text: 'Pertambahan Warga Tiap Bulan'
             }
-        };
-        // Inisialisasi grafik menggunakan Chart.js
-        var ctx = document.getElementById('line-chart').getContext('2d');
-        var lineChart = new Chart(ctx, {
-            type: 'line',
-            data: data,
-            options: options
-        });
+        },
+        scales: {
+            y: {
+                stepSize: 1 // Menetapkan langkah interval antara setiap nilai pada sumbu Y
+            }
+        }
+    };
+
+    // Inisialisasi grafik menggunakan Chart.js
+    var ctx = document.getElementById('line-chart').getContext('2d');
+    var lineChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: options
     });
+
+    // Permintaan AJAX untuk mendapatkan jumlah total data di tabel ktp
+    $.ajax({
+    url: "{{ route('penduduk.dashboard') }}",
+    type: "GET",
+    dataType: "json",
+    success: function(response) {
+        // Isi data jumlah total penduduk dari response ke dalam grafik
+        // Misalnya, response.total_penduduk adalah jumlah penduduk dan response.tanggal_masuk adalah tanggal masuknya
+        
+        lineChart.data.labels.push(response.tgl_masuk); // Menambahkan tanggal masuk sebagai label sumbu x
+        lineChart.data.datasets[0].data.push(response.total_penduduk); // Menambahkan total penduduk sebagai data pada dataset
+        lineChart.update(); // Update grafik setelah mengubah data
+    },
+    error: function(xhr, status, error) {
+        console.error(xhr.responseText);
+    }
+});
+
+});
+
+
+    
 </script>
 @endpush

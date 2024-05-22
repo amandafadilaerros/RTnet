@@ -37,8 +37,17 @@
       </li>
       <li class="nav-header">Kegiatan Warga</li>
       <li class="nav-item">
-        <a href="{{ url('/penduduk/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-users"></i>
-          <p>Kerja Bakti</p>
+        <a href="{{ url('/penduduk/DaftarAnggota') }}" class="nav-link {{ ($activeMenu == 'DaftarAnggota')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'DaftarAnggota')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-users"></i>
+          <p>Daftar Anggota</p>
+        </a>
+      </li>
+      <li class="nav-header">Kerja Bakti</li>
+      <li class="nav-item">
+        <a href="{{ url('/penduduk/mabac') }}" class="nav-link {{ ($activeMenu == 'mabac')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'mabac')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
+          <p>Metode Mabac</p>
+        </a>
+        <a href="{{ url('/penduduk/maut') }}" class="nav-link {{ ($activeMenu == 'maut')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'maut')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
+          <p>Metode Maut</p>
         </a>
       </li>
       <li class="nav-header">Keuangan</li>
@@ -102,12 +111,36 @@
           <p>Data Penduduk</p>
         </a>
       </li>
-      <li class="nav-header">Kegiatan Warga</li>
+      <li class="nav-header">Kerja Bakti</li>
 
       <li class="nav-item">
         <a href="{{ url('/ketuaRt/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-users"></i>
           <p>Kerja Bakti</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url('/ketuaRt/kriteria') }}" class="nav-link {{ ($activeMenu == 'kriteria')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kriteria')? 'background-color: #424874;' : '' }}">
+          <i class="nav-icon fas fa-users"></i>
+          <p>Kriteria</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url('/ketuaRt/alternatif') }}" class="nav-link {{ ($activeMenu == 'alternatif')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'alternatif')? 'background-color: #424874;' : '' }}">
+          <i class="nav-icon fas fa-users"></i>
+          <p>Alternatif</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url('/ketuaRt/maut') }}" class="nav-link {{ ($activeMenu == 'maut')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'maut')? 'background-color: #424874;' : '' }}">
+          <i class="nav-icon fas fa-users"></i>
+          <p>MAUT</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ url('/ketuaRt/mabac') }}" class="nav-link {{ ($activeMenu == 'mabac')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'mabac')? 'background-color: #424874;' : '' }}">
+          <i class="nav-icon fas fa-users"></i>
+          <p>MABAC</p>
         </a>
       </li>
       <li class="nav-header">Keuangan</li>
@@ -147,7 +180,7 @@
       </li>
       @break
       {{-- SEKRETASRIS --}}
-      @case('sekretaris')
+      @case('sekretaris') 
       <li class="nav-header">Dashboard</li>
       <li class="nav-item">
         <a href="{{ url('/sekretaris/dashboard') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'dashboard')? 'background-color: #424874;' : '' }}">
@@ -208,6 +241,13 @@
         <a href="{{ url('bendahara/keuanganBendahara') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-file-invoice"></i>
           <p>Laporan Keuangan</p>
+        </a>
+      </li>
+      <li class="nav-header">Paguyuban</li>
+      <li class="nav-item">
+        <a href="{{ url('bendahara/paguyuban') }}" class="nav-link {{ ($activeMenu == 'paguyuban')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'paguyuban')? 'background-color: #424874;' : '' }}">
+          <i class="nav-icon fas fa-file-invoice"></i>
+          <p>Paguyuban</p>
         </a>
       </li>
       <li class="nav-header">Informasi Akun</li>

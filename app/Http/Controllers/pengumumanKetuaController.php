@@ -13,7 +13,7 @@ class pengumumanKetuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Pengumuman',
-            'list' => ['--', '--'],
+            'list' => ['Ketua RT', 'Pengumuman'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -29,6 +29,14 @@ class pengumumanKetuaController extends Controller
     public function list(Request $request){
         $pengumumans = pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
 
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $pengumumans->where(function($query) use ($search) {
+                $query->where('judul', 'like', "%{$search}%")
+                      ->orWhere('kegiatan', 'like', "%{$search}%")
+                      ->orWhere('jadwal_pelaksanaan', 'like', "%{$search}%");
+            });
+        }
         // if ($request->kategori_id){
         //     $pengumumans->where('kategori_id', $request->kategori_id);
         // }
@@ -54,6 +62,7 @@ class pengumumanKetuaController extends Controller
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
+            'deskripsi' => $request->deskripsi,
         ]);
 
         return redirect('/ketuaRt/kelola_pengumuman')->with('success', 'Data pengumuman berhasil disimpan');
@@ -79,6 +88,7 @@ class pengumumanKetuaController extends Controller
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
+            'deskripsi' => $request->deskripsi,
         ]);
 
         return redirect('/ketuaRt/kelola_pengumuman')->with('success', 'Data pengumuman berhasil diubah');

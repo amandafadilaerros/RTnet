@@ -10,7 +10,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <form action="{{url('/bendahara/akun')}}" method="POST">
+            <form action="{{url('/sekretaris/akun')}}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="old_password" class="form-label">Password Lama</label>

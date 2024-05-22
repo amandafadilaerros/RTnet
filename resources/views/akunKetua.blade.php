@@ -10,7 +10,7 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <form action="{{url('/bendahara/akun')}}" method="POST">
+            <form action="{{url('/ketuaRt/akun')}}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label for="old_password" class="form-label">Password Lama</label>
@@ -25,7 +25,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password Baru</label>
-                    <input type="password" class="form-control" id="password" name="password" required oninput="checkPasswordMatch()">
+                    <input type="password" class="form-control" id="password" name="password" required>
                     <input type="checkbox" onclick="myFunction2()">Tampilkan Password
                 </div>
                 <div class="mb-3">
@@ -38,7 +38,7 @@
                         </div>
                     {{-- </div> --}}
                 </div>
-                <button type="submit" class="btn btn-primary" id="submitButton" style="border-radius: 20px; width: 90px; margin-bottom: 10px; background-color: #424874;">Simpan</button>
+                <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 90px; margin-bottom: 10px; background-color: #424874;">Simpan</button>
             </form>
         </div>
     </div>
@@ -52,7 +52,7 @@
         var mismatchDiv = document.getElementById("passwordMismatch");
         var submitButton = document.getElementById("submitButton");
 
-        if (password !== confirmPassword) {
+        if (password != confirmPassword) {
             mismatchDiv.style.display = "block";
             submitButton.disabled = true;
         } else {
@@ -60,7 +60,6 @@
             submitButton.disabled = false;
         }
     }
-
     function myFunction1() {
         var x = document.getElementById("old_password");
         if (x.type === "password") {
@@ -69,7 +68,6 @@
             x.type = "password";
         }
     }
-
     function myFunction2() {
         var x = document.getElementById("password");
         if (x.type === "password") {
@@ -78,7 +76,6 @@
             x.type = "password";
         }
     }
-
     function myFunction3() {
         var x = document.getElementById("password_confirmation");
         if (x.type === "password") {

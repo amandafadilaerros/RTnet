@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\alternatifController;
 use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
 use App\Http\Controllers\data_PendudukRTController;
@@ -23,7 +24,11 @@ use App\Http\Controllers\pengumumanKetuaController;
 use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
+use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
+use App\Http\Controllers\MabacController;
+use App\Http\Controllers\MautController;
+use App\Http\Controllers\paguyubanController;
 use App\Models\gambar;
 use App\Models\inventaris;
 use Illuminate\Auth\Events\Login;
@@ -46,7 +51,7 @@ Route::get('/', function () {
 
 });
 
-Route::post('/dashboard', [loginController::class, 'test']);
+Route::post('/dashboard', [loginController::class, 'login']);
 
 Route::get('/templates', [templateController::class, 'index']);
 
@@ -64,6 +69,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     //Data Rumah
     Route::group(['prefix' => 'data_rumah'], function () {
         Route::get('/', [data_rumahRTController::class, 'index']);
+        Route::get('/mabac', [MabacController::class, 'calculateMabac']);
         Route::post('/list', [data_rumahRTController::class, 'list']);
         Route::get('/create', [data_rumahRTController::class, 'create']);
         Route::post('/', [data_rumahRTController::class, 'store']);
@@ -74,8 +80,8 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     });
 
     //Data Penduduk
-    Route::group(['prefix' => 'data_penduduk'], function () { 
-        Route::get('/', [data_pendudukRTController::class, 'index']); 
+    Route::group(['prefix' => 'data_penduduk'], function () {
+        Route::get('/', [data_pendudukRTController::class, 'index']);
         Route::post('/list', [data_pendudukRTController::class, 'list']);
         Route::get('/create', [data_pendudukRTController::class, 'create']);
         Route::post('/', [data_pendudukRTController::class, 'store']);
@@ -83,19 +89,31 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::get('/{id}/edit', [data_pendudukRTController::class, 'edit']);
         Route::put('/{id}', [data_pendudukRTController::class, 'update']);
         Route::delete('/{id}', [data_pendudukRTController::class, 'destroy']);
-    }); 
-   
+    });
+
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
         Route::get('/', [data_kkRtController::class, 'index']);
         Route::post('/list', [data_kkRtController::class, 'list']);
         Route::get('/create', [data_kkRtController::class, 'create']);
         Route::post('/', [data_kkRtController::class, 'store']);
-        Route::get('/show', [data_kkRtController::class, 'show']);
+        Route::get('/show/{no_kk}', [data_kkRtController::class, 'show']); // Update the route to accept no_kk parameter
         Route::post('/edit', [data_kkRtController::class, 'edit']);
         Route::put('/update', [data_kkRtController::class, 'update']);
         Route::delete('/delete', [data_kkRtController::class, 'destroy']);
-    }); 
+    });
+    Route::group(['prefix' => 'detail_kk'], function () {
+        Route::get('/{no_kk}', [detail_dataKKRtController::class, 'show']);
+        Route::post('/list', [detail_dataKKRtController::class, 'list']);
+        Route::post('/list2', [detail_dataKKRtController::class, 'list2']);
+        Route::get('/create', [detail_dataKKRtController::class, 'create']);
+        Route::post('/create', [detail_dataKKRtController::class, 'store']);
+        Route::post('/create2', [detail_dataKKRtController::class, 'store2']);
+        Route::get('/show', [detail_dataKKRtController::class, 'show']);
+        Route::post('/edit', [detail_dataKKRtController::class, 'edit']);
+        Route::put('/update', [detail_dataKKRtController::class, 'update']);
+        Route::delete('/delete', [detail_dataKKRtController::class, 'destroy']);
+    });
 
     // Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/laporan_keuangan', [ketuaController::class, 'keuangan']);
@@ -111,14 +129,26 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
+    Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
+    Route::get('/daftar_peminjaman/edit/{id}', [daftar_peminjamanController::class, 'update']);
     Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
     Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);
     Route::post('/pengumuman', [pengumumanKetuaController::class, 'store']);
     Route::post('/pengumuman/getData', [pengumumanKetuaController::class, 'getData']);
     Route::post('/pengumuman/edit', [pengumumanKetuaController::class, 'update']);
     Route::delete('/pengumuman/delete', [pengumumanKetuaController::class, 'destroy']);
+    Route::get('/kriteria', [ketuaController::class, 'kriteria']);
+    Route::get('/alternatif', [ketuaController::class, 'alternatif']);
+    Route::post('/alternatif', [alternatifController::class, 'store']);
+    Route::post('/alternatif/edit', [alternatifController::class, 'update']);
+    Route::delete('/alternatif/delete', [alternatifController::class, 'destroy']);
+    Route::post('/alternatif/list', [alternatifController::class, 'list']);
+    Route::post('/alternatif/getData', [alternatifController::class, 'getData']);
+    Route::get('/maut', [mautController::class, 'index']);
+    Route::get('/mabac', [MabacController::class, 'index']);
     Route::get('/akun', [ketuaController::class, 'akun']);
-    });
+    Route::post('/akun', [ketuaController::class, 'update_password']);
+});
 
 
 Route::group(['prefix' => 'sekretaris'], function () {
@@ -136,8 +166,8 @@ Route::group(['prefix' => 'sekretaris'], function () {
     });
 
     //Data Penduduk
-    Route::group(['prefix' => 'data_penduduk'], function () { 
-        Route::get('/', [data_pendudukSekretarisController::class, 'index']); 
+    Route::group(['prefix' => 'data_penduduk'], function () {
+        Route::get('/', [data_pendudukSekretarisController::class, 'index']);
         Route::post('/list', [data_pendudukSekretarisController::class, 'list']);
         Route::get('/create', [data_pendudukSekretarisController::class, 'create']);
         Route::post('/', [data_pendudukSekretarisController::class, 'store']);
@@ -145,8 +175,8 @@ Route::group(['prefix' => 'sekretaris'], function () {
         Route::get('/{id}/edit', [data_pendudukSekretarisController::class, 'edit']);
         Route::put('/{id}', [data_pendudukSekretarisController::class, 'update']);
         Route::delete('/{id}', [data_pendudukSekretarisController::class, 'destroy']);
-    }); 
-   
+    });
+
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
         Route::get('/', [data_kkSekretarisController::class, 'index']);
@@ -157,7 +187,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
         Route::post('/edit', [data_kkSekretarisController::class, 'edit']);
         Route::put('/update', [data_kkSekretarisController::class, 'update']);
         Route::delete('/delete', [data_kkSekretarisController::class, 'destroy']);
-    }); 
+    });
 
     Route::get('/peminjaman', [peminjamanController::class, 'index']);
     // Route::get('/data_rumah', [data_rumahController::class, 'index']);
@@ -166,21 +196,24 @@ Route::group(['prefix' => 'sekretaris'], function () {
     // Route::get('/detail_anggota', [KKController::class, 'detail']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::get('/akun', [sekretarisController::class, 'akun']);
+    Route::post('/akun', [sekretarisController::class, 'update_password']);
 });
 
 Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'pemasukan'], function () {
         Route::get('/', [pemasukanController::class, 'index']);
+        Route::get('/checkIuran', [pemasukanController::class, 'checkIuran']);
         Route::post('/list', [pemasukanController::class, 'list']);
         // Route::get('/create', [pemasukanController::class, 'create']);
         Route::post('/tambah', [pemasukanController::class, 'store']);
         // Route::get('/{id}', [pemasukanController::class, 'show']);
         Route::post('/edit', [pemasukanController::class, 'edit']);
         Route::post('/update', [pemasukanController::class, 'update']);
+        Route::post('/search', [pemasukanController::class, 'search']);
         Route::delete('/destroy', [pemasukanController::class, 'destroy']);
-    }); 
-    Route::group(['prefix' => 'pengeluaran'], function () { 
-        Route::get('/', [pengeluaranController::class, 'index']); 
+    });
+    Route::group(['prefix' => 'pengeluaran'], function () {
+        Route::get('/', [pengeluaranController::class, 'index']);
         Route::post('/list', [pengeluaranController::class, 'list']);
         // Route::get('/create', [pengeluaranController::class, 'create']);
         Route::post('/tambah', [pengeluaranController::class, 'store']);
@@ -188,17 +221,20 @@ Route::group(['prefix' => 'bendahara'], function () {
         Route::post('/edit', [pengeluaranController::class, 'edit']);
         Route::post('/update', [pengeluaranController::class, 'update']);
         Route::delete('/destroy', [pengeluaranController::class, 'destroy']);
-    }); 
+    });
     Route::get('/dashboardBendahara', [bendaharaController::class, 'index']);
     Route::get('/keuanganBendahara', [bendaharaController::class, 'keuangan']);
-    Route::group(['prefix' => 'laporan'], function () { 
+    Route::group(['prefix' => 'laporan'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
+    Route::get('/paguyuban', [paguyubanController::class, 'index']);
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
+    Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
 
 Route::group(['prefix' => 'penduduk'], function () {
-    Route::get('/dashboard', [pendudukController::class, 'index']);
+    Route::get('/dashboard', [PendudukController::class, 'index'])->name('penduduk.dashboard');
+    Route::get('/', [PendudukController::class, 'getData'])->name('penduduk.dashboard');
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
     Route::post('/tambah_daftaranggota',[DaftarAnggotaController::class, 'store']);
     Route::post('/DaftarAnggota', [DaftarAnggotaController::class, 'show']);
@@ -211,16 +247,14 @@ Route::group(['prefix' => 'penduduk'], function () {
     // Route::get('/data_penduduk/{id}', [pendudukController::class, 'show']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
-    Route::get('/kerja_bakti', [pendudukController::class, 'kegiatan']);
+    Route::get('/maut', [mautController::class, 'index']);
+    Route::get('/mabac', [MabacController::class, 'index']);
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::post('/pengumuman', [pendudukController::class, 'list_pengumuman']);
     Route::get('/showPengumumanPenduduk/{id_pengumuman}', [pendudukController::class, 'show_pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
-    // Route::get('/inventaris', [inventarisController::class, 'list']);
-
     Route::group(['prefix' => 'laporan_keuangan'], function () {
-        Route::post('/search', [pendudukController::class, 'search']);
-        Route::post('/list', [pendudukController::class, 'laporan']);
+        Route::post('/list', [pendudukController::class, 'list']);
     });
 
     Route::group(['prefix' => 'daftar_inventaris'], function () {
@@ -245,7 +279,8 @@ Route::group(['prefix' => 'penduduk'], function () {
         });
         Route::get('/', [inventarisController::class, 'index']);
         Route::post('/list', [inventarisController::class, 'list']);
-        Route::get('/list', [inventarisController::class, 'list']);
+        Route::post('/show/{request}', [inventarisController::class, 'show']);
+        Route::get('/searchdate', [inventarisController::class, 'searchdate']);
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
     Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);

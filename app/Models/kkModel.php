@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\penduduk_tetapModel;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class kkModel extends Model
 {
@@ -17,5 +17,8 @@ class kkModel extends Model
     public function level(): HasMany
     {
         return $this->hasMany(level::class, 'id_level', 'id_level');
+    }
+    public function rumah(): BelongsTo {
+        return $this->belongsTo(rumahModel::class, 'no_rumah', 'no_rumah');
     }
 }
