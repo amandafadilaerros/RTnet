@@ -92,14 +92,17 @@ class InventarisKetuaController extends Controller
             $path = str_replace("\\","//",$path);
             
             $pathBaru = asset('gambar/'. $namaFile);
+            inventaris::find($request->id_inventaris)->update([
+                'nama_barang' => $request->nama_barang,
+                'jumlah' => $request->jumlah,
+                'gambar' => $pathBaru,
+            ]);
+        } else {
+            inventaris::find($request->id_inventaris)->update([
+                'nama_barang' => $request->nama_barang,
+                'jumlah' => $request->jumlah,
+            ]);
         }
-
-        inventaris::find($request->id_inventaris)->update([
-            'nama_barang' => $request->nama_barang,
-            'jumlah' => $request->jumlah,
-            'gambar' => $pathBaru,
-        ]);
-
         return redirect('/ketuaRt/daftar_inventaris')->with('success', 'Data inventaris berhasil diubah');
     }
     public function destroy(Request $request){
