@@ -36,10 +36,13 @@
           <p>Daftar Anggota</p>
         </a>
       </li>
-      <li class="nav-header">Kegiatan Warga</li>
+      <li class="nav-header">Kerja Bakti</li>
       <li class="nav-item">
-        <a href="{{ url('/penduduk/KerjaBakti') }}" class="nav-link {{ ($activeMenu == 'KerjaBakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'KerjaBakti')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
-          <p>Kerja Bakti</p>
+        <a href="{{ url('/penduduk/mabac') }}" class="nav-link {{ ($activeMenu == 'mabac')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'mabac')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
+          <p>Metode Mabac</p>
+        </a>
+        <a href="{{ url('/penduduk/maut') }}" class="nav-link {{ ($activeMenu == 'maut')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'maut')? 'background-color: #424874;' : '' }}">  <i class="nav-icon fas fa-people-carry"></i> 
+          <p>Metode Maut</p>
         </a>
       </li>
       <li class="nav-header">Keuangan</li>
