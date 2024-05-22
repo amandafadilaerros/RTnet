@@ -142,7 +142,7 @@
             <label for="warga_paguyuban">Pilih Warga:</label>
             <select class="form-control" id="no_kk_paguyuban" name="no_kk" required>
               <option value="">- Pilih Warga -</option>
-              @foreach($kk as $item)
+              @foreach($kkPaguyuban as $item)
               <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
               @endforeach
             </select>
@@ -448,7 +448,7 @@
           orderable: false,
           searchable: false,
           render: function(data, type, row) {
-            return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
+            return '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
           }
         }
       ],
