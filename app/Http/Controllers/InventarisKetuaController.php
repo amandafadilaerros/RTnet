@@ -30,6 +30,12 @@ class InventarisKetuaController extends Controller
     public function list(Request $request){
         $barangs = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'gambar');
 
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $barangs->where(function($query) use ($search) {
+                $query->where('nama_barang', 'like', "%{$search}%");
+            });
+        }
         // if ($request->kategori_id){
         //     $barangs->where('kategori_id', $request->kategori_id);
         // }
@@ -50,6 +56,7 @@ class InventarisKetuaController extends Controller
             'jumlah' => 'required|integer',
             'gambar' => 'image|max:5000'
         ]);
+        $pathBaru = null;
         if ($request->hasFile('gambar')) {
             $extFile = $request->gambar->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;

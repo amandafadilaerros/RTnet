@@ -19,18 +19,18 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-            rumahSeeder::class,
-            pengumumanSeeder::class,
-            kriteriaSeeder::class,
-            alternatifSeeder::class,
-            matrikSeeder::class,
+            // rumahSeeder::class,
+            // pengumumanSeeder::class,
+            // kriteriaSeeder::class,
+            // alternatifSeeder::class,
+            // matrikSeeder::class,
             levelSeeder::class,
             akunSeeder::class,
-            kkSeeder::class,
-            ktpSeeder::class,
-            iuranSeeder::class,
-            inventarisSeeder::class,
-            peminjaman_inventarisSeeder::class
+            // kkSeeder::class,
+            // ktpSeeder::class,
+            // iuranSeeder::class,
+            // inventarisSeeder::class,
+            // peminjaman_inventarisSeeder::class
         ]);
     }
 }
