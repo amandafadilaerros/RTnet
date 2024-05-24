@@ -243,6 +243,7 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::post('/pengumuman', [pendudukController::class, 'list_pengumuman']);
     Route::get('/showPengumumanPenduduk/{id_pengumuman}', [pendudukController::class, 'show_pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
+    Route::post('/akun', [pendudukController::class, 'update_password']);
     Route::group(['prefix' => 'laporan_keuangan'], function () {
         Route::post('/list', [pendudukController::class, 'list']);
     });

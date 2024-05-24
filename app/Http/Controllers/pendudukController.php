@@ -15,6 +15,7 @@ use App\Models\Inventaris;
 use App\Models\level;
 use App\Models\Pengumumans;
 use App\Models\peminjaman_inventaris;
+use Illuminate\Support\Facades\Auth;
 
 class pendudukController extends Controller
 {
@@ -335,9 +336,13 @@ class pendudukController extends Controller
     }
     public function akun()
     {
-        $akun = akun::find(4);
-        $level = level::all();
-        // ini hanya TEST
+        // Assuming you want to fetch the authenticated user's account
+        $akun = Auth::user();
+
+        // Fetch all levels from the database
+        $levels = level::all();
+
+        // Breadcrumb and page information
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
             'list' => [date('j F Y')],
@@ -347,14 +352,16 @@ class pendudukController extends Controller
         ];
         $activeMenu = 'akun';
 
+        // Pass the data to the view
         return view('akunPenduduk', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
             'akun' => $akun,
-            'level' => $level
+            'levels' => $levels,
         ]);
     }
+
 
     public function edit_akun()
     {
@@ -370,7 +377,7 @@ class pendudukController extends Controller
         ];
         $activeMenu = 'akun';
 
-        return view('akunPenduduk', [
+        return view('penduduk', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -379,19 +386,18 @@ class pendudukController extends Controller
         ]);
     }
 
-    public function update_akun(Request $request)
+    public function update_password(Request $request)
     {
-        $request->validate([
-            'password' => 'required',
+        $akun = akun::find(session()->get('id_akun'));
 
-        ]);
+        // Validasi apakah password lama sesuai dengan yang tersimpan di database
+        if ($request->old_password !== $akun->password) {
+            return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
+        }
+        $akun->password = $request->password;
+        $akun->save();
 
-        akun::where('id_akun', 4)->update([
-            'password' => $request->password,
-
-        ]);
-
-        return redirect('/penduduk/akun')->with('success', 'Akun berhasil diubah');
+        return redirect('/penduduk/akun')->with('success', 'Password berhasil diubah.');
     }
 
 }
