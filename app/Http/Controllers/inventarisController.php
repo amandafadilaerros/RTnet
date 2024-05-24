@@ -66,6 +66,26 @@ class inventarisController extends Controller
     }
 
 
+    public function pinjamBarang(Request $request)
+    {
+        try {
+            $idInventaris = $request->input('id_inventaris');
+            $idPeminjam = $request->input('id_peminjam');
+            $tanggalPinjam = $request->input('tanggal_peminjaman'); // Ambil tanggal pinjam dari request
+
+            // Lakukan proses untuk menambahkan data ke peminjaman_inventaris
+            peminjaman_inventaris::create([
+                'id_inventaris' => $idInventaris,
+                'id_peminjam' => $idPeminjam,
+                'tanggal_peminjaman' => $tanggalPinjam,
+
+            ]);
+
+            return response()->json(['success' => 'Barang berhasil dipinjam.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal meminjam barang. ' . $e->getMessage()], 500);
+        }
+    }
 
 
     public function searchdate(Request $request)
@@ -142,6 +162,7 @@ class inventarisController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
     public function pk_peminjaman()
     {

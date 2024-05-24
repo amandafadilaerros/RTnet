@@ -167,32 +167,42 @@ $(document).ready(function() {
         
     });
 });
-
 $(document).on("click", ".btn-pinjam", function () {
     var idInventaris = $(this).data('id');
     
     // Tampilkan modal konfirmasi
     $('#konfirmasiModal').modal('show');
+});
 
-    // Tombol "Pinjam" di modal konfirmasi
-    $('#btnModalPinjam').click(function() {
-        $.ajax({
-            url: "{{ url('pinjam/barang') }}",
-            type: "POST",
-            data: { id_inventaris: idInventaris },
-            success: function(response) {
-                // Handle success (if any)
-                alert(response.success);
-                $('#konfirmasiModal').modal('hide');
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert("Terjadi kesalahan saat meminjam barang.");
-                $('#konfirmasiModal').modal('hide');
-            }
-        });
+// Delegasi event untuk tombol "Pinjam" di dalam modal konfirmasi
+$(document).on('click', '#btnModalPinjam', function() {
+    var idInventaris = $(this).data('id_inventaris'); // Ambil idInventaris dari tempat yang sesuai
+    var idPeminjam = $(this).data('id_peminjam'); // Ambil idPeminjam dari tempat yang sesuai
+    var tanggalPinjam = $('#tanggal_pinjam').val(); // Ambil tanggal_pinjam dari input form yang sesuai
+
+    $.ajax({
+        url: "{{ route('pinjam.barang') }}",
+        type: "POST",
+        data: {
+            id_inventaris: idInventaris,
+            id_peminjam: idPeminjam,
+            tanggal_peminjaman: tanggalPinjam,
+            _token: '{{ csrf_token() }}' // Perhatikan cara penggunaan CSRF token untuk Laravel
+        },
+        success: function(response) {
+            // Handle success
+            alert(response.success);
+            $('#konfirmasiModal').modal('hide');
+            // Reload DataTable or update UI as needed
+        },
+        error: function(xhr, status, error) {
+            console.error(xhr.responseText);
+            alert("Terjadi kesalahan saat meminjam barang.");
+            $('#konfirmasiModal').modal('hide');
+        }
     });
 });
+
 
 
     // Search barang
