@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('inventaris', function (Blueprint $table) {
             $table->id('id_inventaris');
             $table->string('nama_barang', 255);
+            $table->integer('jumlah');
+            $table->string('gambar',255)->nullable();
             $table->timestamps();
         });
     }

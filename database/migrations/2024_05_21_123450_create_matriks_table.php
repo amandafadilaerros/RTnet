@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('matriks', function (Blueprint $table) {
             $table->unsignedBigInteger('id_kriteria');
             $table->unsignedBigInteger('id_alternatif');
-            $table->float('nilai');
+            $table->integer('nilai');
             $table->timestamps();
 
             $table->foreign('id_kriteria')->references('id_kriteria')->on('kriterias')->onDelete('cascade');
