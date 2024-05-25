@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\akun;
 use Illuminate\Http\Request;
-use App\Models\IuranModel;
+use app\Models\iuranModel;
 use App\Models\Inventaris;
 use App\Models\alternatif;
 use App\Models\kriteria;
