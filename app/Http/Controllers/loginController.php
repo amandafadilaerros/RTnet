@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\akun;
 use Illuminate\Http\Request;
-use App\Models\IuranModel;
-use App\Models\Inventaris;
+use App\Models\iuranModel;
+use App\Models\inventaris;
 use App\Models\alternatif;
 use App\Models\kriteria;
 use App\Models\ktp;
-use App\Models\Pengumumans;
+use App\Models\pengumumans;
 use Illuminate\Support\Facades\DB;
 
 // use App\Models\ktp;
@@ -31,9 +31,9 @@ class loginController extends Controller
         $request->session()->put('role', $role);
 
         // Mengambil data untuk dashboard
-        $laporan_keuangan = IuranModel::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        $laporan_keuangan = iuranModel::count();
+        $inventaris = inventaris::count();
+        $pengumuman = pengumumans::count();
         $ktp = ktp::count();
 
         $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
@@ -101,9 +101,9 @@ class loginController extends Controller
         // dd($sessionRole);
 
         // Prepare common variables
-        $laporan_keuangan = IuranModel::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        $laporan_keuangan = iuranModel::count();
+        $inventaris = inventaris::count();
+        $pengumuman = pengumumans::count();
         $ktp = ktp::count();
 
         $pendudukData = Ktp::select(
