@@ -6,6 +6,7 @@ use App\Models\Inventaris;
 use App\Models\kkModel;
 use App\Models\peminjaman_inventaris;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -69,16 +70,22 @@ class inventarisController extends Controller
     public function pinjamBarang(Request $request)
     {
         try {
+            // Validasi input
+            $request->validate([
+                'id_inventaris' => 'required|integer',
+                'id_peminjam' => 'required|integer',
+            ]);
+
+            // Ambil data dari request
             $idInventaris = $request->input('id_inventaris');
             $idPeminjam = $request->input('id_peminjam');
-            $tanggalPinjam = $request->input('tanggal_peminjaman'); // Ambil tanggal pinjam dari request
+            $tanggalPinjam = now(); // Tanggal pinjam diambil saat ini
 
-            // Lakukan proses untuk menambahkan data ke peminjaman_inventaris
+            // Simpan data ke database
             peminjaman_inventaris::create([
                 'id_inventaris' => $idInventaris,
                 'id_peminjam' => $idPeminjam,
                 'tanggal_peminjaman' => $tanggalPinjam,
-
             ]);
 
             return response()->json(['success' => 'Barang berhasil dipinjam.']);
