@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\kkModel;
+use App\Models\ktp;
 use App\Models\ktpModel;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -65,9 +66,11 @@ class detail_dataKKRtController extends Controller
         ]);
     }
     public function list(Request $request){
+
+        $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
-              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')
+              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
               ->get();
     
         return DataTables::of($ktps)
@@ -82,9 +85,10 @@ class detail_dataKKRtController extends Controller
         ->make(true);
     }
     public function list2(Request $request){
+        $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
-              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')
+              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
               ->get();
     
         return DataTables::of($ktps)
@@ -158,7 +162,7 @@ class detail_dataKKRtController extends Controller
             'status_keluarga'       => 'required|max:255',
             'status_anggota'        => 'required|max:255',
             'jenis_penduduk2'        => 'required|max:255',
-            // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
+            'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
         ]);
@@ -233,45 +237,101 @@ class detail_dataKKRtController extends Controller
 
     public function edit(Request $request)
     {
-        $data_kk = kkModel::find($request->no_kk);
-        return response()->json($data_kk);
+        $data_ktp = ktpModel::find($request->nik);
+        return response()->json($data_ktp);
     }
     
     public function update(Request $request){
-        // dd($request);
-        // $request->validate([
-        //     // 'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
-        //     'nama_kepala_keluarga'  => 'required|max:255',
-        //     'jumlah_individu'       => 'required|max:255',
-        //     'alamat'                => 'required|max:255',
-        // ]);
+        // dd($request->nik_awal);
+        $request->validate([
+            'nik'                   => 'required|max:255',
+            'nama'                  => 'required|max:255',
+            'tempat'                => 'required|max:255',
+            'tanggal_lahir'         => 'required|max:255',
+            'jenis_kelamin'         => 'required|max:255',
+            'golongan_darah'        => 'required|max:255',
+            'agama'                 => 'required|max:255',
+            'status_perkawinan'     => 'required|max:255',
+            'pekerjaan'             => 'required|max:255',
+            'status_keluarga'       => 'required|max:255',
+            'status_anggota'        => 'required|max:255',
+            // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
+            // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
+            
+        ]);
 
-        kkModel::find($request->id)->update([
-            'no_kk'                 => $request->no_kk,
-            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
-            'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
+        ktp::find($request->nik_awal)->update([
+            'nik'                   => $request->nik,
+            'nama'                  => $request->nama,
+            'tempat'                => $request->tempat,
+            'tanggal_lahir'         => $request->tanggal_lahir,
+            'jenis_kelamin'         => $request->jenis_kelamin,
+            'golongan_darah'        => $request->golongan_darah,
+            'agama'                 => $request->agama,
+            'status_perkawinan'     => $request->status_perkawinan,
+            'pekerjaan'             => $request->pekerjaan,
+            'status_keluarga'       => $request->status_keluarga,
+            'status_anggota'        => $request->status_anggota,
+            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data kk berhasil disimpan');
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil disimpan');
+    }
+    public function update2(Request $request){
+        // dd($request);
+        $request->validate([
+            'nik'                   => 'required|max:255',
+            'nama'                  => 'required|max:255',
+            'tempat'                => 'required|max:255',
+            'tanggal_lahir'         => 'required|max:255',
+            'jenis_kelamin'         => 'required|max:255',
+            'golongan_darah'        => 'required|max:255',
+            'agama'                 => 'required|max:255',
+            'status_perkawinan'     => 'required|max:255',
+            'pekerjaan'             => 'required|max:255',
+            'status_keluarga'       => 'required|max:255',
+            'status_anggota'        => 'required|max:255',
+            'tgl_masuk'             => 'required|max:255',
+            // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
+            
+        ]);
+
+        ktp::find($request->nik_awal)->update([
+            'nik'                   => $request->nik,
+            'nama'                  => $request->nama,
+            'tempat'                => $request->tempat,
+            'tanggal_lahir'         => $request->tanggal_lahir,
+            'jenis_kelamin'         => $request->jenis_kelamin,
+            'golongan_darah'        => $request->golongan_darah,
+            'agama'                 => $request->agama,
+            'status_perkawinan'     => $request->status_perkawinan,
+            'pekerjaan'             => $request->pekerjaan,
+            'status_keluarga'       => $request->status_keluarga,
+            'status_anggota'        => $request->status_anggota,
+            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_keluar'            => $request->tgl_keluar,
+            'dokumen'               => $request->dokumen,
+        ]);
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success2', 'Data ktp berhasil disimpan');
     }
 
    //Menghapus data rumah
     public function destroy(Request $request)
     {
-        $check = kkModel::find($request->no_kk); // Menggunakan $request->no_rumah dari parameter
+        $check = ktp::find($request->nik); // Menggunakan $request->no_rumah dari parameter
 
         if (!$check) {      //untuk mengecek apakah data rumah dengan id yang dimaksud ada atau tidak
-        return redirect('/ketuaRt/data_kk')->with('error', 'Data Kartu Keluarga tidak ditemukan');
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Data ktp tidak ditemukan');
         }
 
         try {
-        kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
+        ktp::destroy($request->nik);    //Hapus data rumah dengan $request->no_rumah dari parameter
 
-        return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
         //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
-        return redirect('/ketuaRt/data_kk')->with('error', 'Data Data Kartu Keluarga gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Data Data ktp gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
         }
     }
 
