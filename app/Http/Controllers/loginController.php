@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\akun;
 use Illuminate\Http\Request;
 use App\Models\iuranModel;
-use App\Models\Inventaris;
+use App\Models\inventaris;
 use App\Models\alternatif;
 use App\Models\kriteria;
 use App\Models\ktp;
-use App\Models\Pengumumans;
+use App\Models\pengumumans;
 use Illuminate\Support\Facades\DB;
 
 // use App\Models\ktp;
