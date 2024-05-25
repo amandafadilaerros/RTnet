@@ -31,9 +31,9 @@ class loginController extends Controller
         $request->session()->put('role', $role);
 
         // Mengambil data untuk dashboard
-        $laporan_keuangan = IuranModel::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        $laporan_keuangan = iuranModel::count();
+        $inventaris = inventaris::count();
+        $pengumuman = pengumumans::count();
         $ktp = ktp::count();
 
         $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
@@ -101,13 +101,13 @@ class loginController extends Controller
         // dd($sessionRole);
 
         // Prepare common variables
-        $laporan_keuangan = IuranModel::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        $laporan_keuangan = iuranModel::count();
+        $inventaris = inventaris::count();
+        $pengumuman = pengumumans::count();
         $ktp = ktp::count();
 
-        $totalPemasukan = IuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
-        $totalPengeluaran = IuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
+        $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
+        $totalPengeluaran = iuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
 
         $data_grafik = [
             'penduduk_tetap' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
