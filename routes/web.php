@@ -25,7 +25,7 @@ use App\Http\Controllers\laporanKeuanganController;
 use App\Http\Controllers\sekretarisController;
 use App\Http\Controllers\datapendudukController;
 use App\Http\Controllers\detail_dataKKRtController;
-use App\Http\Controllers\InventarisKetuaController;
+use App\Http\Controllers\inventarisKetuaController;
 use App\Http\Controllers\MabacController;
 use App\Http\Controllers\mautController;
 use App\Http\Controllers\paguyubanController;

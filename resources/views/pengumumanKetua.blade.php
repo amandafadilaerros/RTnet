@@ -66,8 +66,8 @@
                         <input type="date" class="form-control" id="jadwal" name="jadwal">
                     </div>
                     <div class="form-group">
-                        <label for="detail">Detail:</label>
-                        <input type="textarea" class="form-control" id="detail" name="detail" readonly>
+                        <label for="detail">Deskripsi:</label>
+                        <input type="textarea" class="form-control" id="detail" name="deskripsi">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Tambah</button>
@@ -103,6 +103,10 @@
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
                         <input type="date" class="form-control" id="jadwal_pelaksanaan" name="jadwal">
                     </div>
+                    <div class="form-group">
+                        <label for="detail">Deskripsi:</label>
+                        <input type="textarea" class="form-control" id="detail" name="deskripsi">
+                    </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Ubah</button>
                     </div>
@@ -135,8 +139,8 @@
                         <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="detail">Detail:</label>
-                        <input type="textarea" class="form-control" id="detail" name="detail" readonly>
+                        <label for="detail">Deskripsi:</label>
+                        <input type="textarea" class="form-control" id="detail" name="deskripsi" readonly>
                     </div>
             </div>
         </div>
