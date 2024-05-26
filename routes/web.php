@@ -27,7 +27,7 @@ use App\Http\Controllers\datapendudukController;
 use App\Http\Controllers\detail_dataKKRtController;
 use App\Http\Controllers\InventarisKetuaController;
 use App\Http\Controllers\MabacController;
-use App\Http\Controllers\MautController;
+use App\Http\Controllers\mautController;
 use App\Http\Controllers\paguyubanController;
 use App\Models\gambar;
 use App\Models\inventaris;
