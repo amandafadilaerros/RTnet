@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\alternatif;
-use App\Models\Matrik;
+use App\Models\matrik;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -44,28 +44,28 @@ class alternatifController extends Controller
             'nama_alternatif' => $validatedData['nama_alternatif'],
         ]);
 
-        // Simpan nilai kriteria ke model Matrik
-        Matrik::create([
+        // Simpan nilai kriteria ke model matrik
+        matrik::create([
             'id_alternatif' => $alternatif->id_alternatif,
             'id_kriteria' => 1, // ID Kriteria untuk kemudahan pelaksanaan
             'nilai' => $validatedData['kemudahan_pelaksanaan'],
         ]);
-        Matrik::create([
+        matrik::create([
             'id_alternatif' => $alternatif->id_alternatif,
             'id_kriteria' => 2, // ID Kriteria untuk jumlah partisipan
             'nilai' => $validatedData['jumlah_partisipan'],
         ]);
-        Matrik::create([
+        matrik::create([
             'id_alternatif' => $alternatif->id_alternatif,
             'id_kriteria' => 3, // ID Kriteria untuk tingkat urgensi
             'nilai' => $validatedData['tingkat_urgensi'],
         ]);
-        Matrik::create([
+        matrik::create([
             'id_alternatif' => $alternatif->id_alternatif,
             'id_kriteria' => 4, // ID Kriteria untuk dampak sosial
             'nilai' => $validatedData['dampak_sosial'],
         ]);
-        Matrik::create([
+        matrik::create([
             'id_alternatif' => $alternatif->id_alternatif,
             'id_kriteria' => 5, // ID Kriteria untuk dana yang dibutuhkan
             'nilai' => $validatedData['tingkat_uang'],
@@ -89,7 +89,7 @@ class alternatifController extends Controller
         }
 
         // Mengambil nilai-nilai matrik berdasarkan id_alternatif yang dipilih
-        $nilaiMatrik = Matrik::where('id_alternatif', $idAlternatif)->get();
+        $nilaiMatrik = matrik::where('id_alternatif', $idAlternatif)->get();
 
         // Menggabungkan data alternatif dengan nilai-nilai matrik
         $data = [
@@ -117,23 +117,23 @@ class alternatifController extends Controller
             'nama_alternatif' => $request->nama_alternatif,
         ]);
 
-        Matrik::where('id_alternatif', $request->id_alternatif)
+        matrik::where('id_alternatif', $request->id_alternatif)
         ->where('id_kriteria', 1) // ID Kriteria untuk kemudahan pelaksanaan
         ->update(['nilai' => $request->kemudahan_pelaksanaan]);
 
-        Matrik::where('id_alternatif', $request->id_alternatif)
+        matrik::where('id_alternatif', $request->id_alternatif)
         ->where('id_kriteria', 2) // ID Kriteria untuk jumlah partisipan
         ->update(['nilai' => $request->jumlah_partisipan]);
 
-        Matrik::where('id_alternatif', $request->id_alternatif)
+        matrik::where('id_alternatif', $request->id_alternatif)
         ->where('id_kriteria', 3) // ID Kriteria untuk tingkat urgensi
         ->update(['nilai' => $request->tingkat_urgensi]);
 
-        Matrik::where('id_alternatif', $request->id_alternatif)
+        matrik::where('id_alternatif', $request->id_alternatif)
         ->where('id_kriteria', 4) // ID Kriteria untuk dampak sosial
         ->update(['nilai' => $request->dampak_sosial]);
 
-        Matrik::where('id_alternatif', $request->id_alternatif)
+        matrik::where('id_alternatif', $request->id_alternatif)
         ->where('id_kriteria', 5) // ID Kriteria untuk dana yang dibutuhkan
         ->update(['nilai' => $request->tingkat_uang]);
 
