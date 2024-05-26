@@ -3,8 +3,8 @@
 use App\Http\Controllers\alternatifController;
 use App\Http\Controllers\kerja_baktiController;
 use App\Http\Controllers\bendaharaController;
-use App\Http\Controllers\data_PendudukRTController;
-use App\Http\Controllers\data_PendudukSekretarisController;
+use App\Http\Controllers\data_pendudukRTController;
+use App\Http\Controllers\data_pendudukSekretarisController;
 use App\Http\Controllers\DaftarAnggotaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\inventarisController;
