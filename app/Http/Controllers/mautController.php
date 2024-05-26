@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Alternatif;
-use App\Models\Matrik;
+use App\Models\alternatif;
+use App\Models\matrik;
 use App\Models\Kriteria;
 
 class mautController extends Controller
