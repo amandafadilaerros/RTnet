@@ -106,12 +106,13 @@ Route::group(['prefix' => 'ketuaRt'], function () {
         Route::get('/{no_kk}', [detail_dataKKRtController::class, 'show']);
         Route::post('/list', [detail_dataKKRtController::class, 'list']);
         Route::post('/list2', [detail_dataKKRtController::class, 'list2']);
-        Route::get('/create', [detail_dataKKRtController::class, 'create']);
+        // Route::get('/create', [detail_dataKKRtController::class, 'create']);
         Route::post('/create', [detail_dataKKRtController::class, 'store']);
         Route::post('/create2', [detail_dataKKRtController::class, 'store2']);
         Route::get('/show', [detail_dataKKRtController::class, 'show']);
         Route::post('/edit', [detail_dataKKRtController::class, 'edit']);
-        Route::put('/update', [detail_dataKKRtController::class, 'update']);
+        Route::post('/update', [detail_dataKKRtController::class, 'update']);
+        Route::post('/update2', [detail_dataKKRtController::class, 'update2']);
         Route::delete('/delete', [detail_dataKKRtController::class, 'destroy']);
     });
 
