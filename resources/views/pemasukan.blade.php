@@ -286,13 +286,13 @@
 
             if (jenis_iuran === 'Kas') {
               if (response.count_no_kk > 1) {
-                baseNominal = 20000;
+                baseNominal = 10000;
               } else if (response.status_rumah === 'Kos Kecil') {
-                baseNominal = 10000;
-              } else if (response.status_rumah === 'Kos Besar') {
                 baseNominal = 15000;
+              } else if (response.status_rumah === 'Kos Besar') {
+                baseNominal = 20000;
               } else {
-                baseNominal = 10000;
+                baseNominal = 12000;
               }
             } else {
               baseNominal = 15000;
