@@ -33,6 +33,14 @@ class data_pendudukRTController extends Controller
 
     public function list(Request $request){
         $ktps = penduduk_tetapModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk', 'tgl_masuk', 'tgl_keluar', 'dokumen');
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $ktps->where(function($query) use ($search) {
+                $query->where('nama', 'like', "%{$search}%");
+                    //   ->orWhere('no_kk', 'like', "%{$search}%")
+                    //   ->orWhere('nik', 'like', "%{$search}%");
+                    });
+    }
 
         return DataTables::of($ktps)
         ->addIndexColumn()

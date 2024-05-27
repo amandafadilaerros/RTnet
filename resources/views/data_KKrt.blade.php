@@ -1,17 +1,15 @@
 @extends('layouts.template')
 @section('content')
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-9">
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
     </div>
-    <div class="col-md-6">
-        <div class="input-group">
-            <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
-            <div class="input-group-append">
-                <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
-            </div>
+    <div class="col-md-3" style="">
+      <div class="row">
+          <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+          <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
         </div>
-    </div>
+      </div>
 </div>
 <div class="card">
   {{-- <div class="card-header">
@@ -180,7 +178,9 @@
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d){
-                  d.no_kk = $('#no_kk').val();
+                      d.no_kk = $('#no_kk').val();
+                      d.customSearch = $('#customSearchBox').val();
+
               }
                 },
                 columns: [
@@ -235,6 +235,16 @@
       $('#no_kk').on('change', function(){
           dataKK.ajax.reload();
       });
+
+      $('#customSearchButton').on('click', function() {
+            dataKK.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+        });
+      $('#customSearchBox').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                dataKK.ajax.reload(); // Reload tabel saat menekan tombol Enter
+              }
+            });
+
         $(document).on("click", ".btn-edit", function () {
         var ids = $(this).data('id');
         $(".modal-body #id").val( ids );
