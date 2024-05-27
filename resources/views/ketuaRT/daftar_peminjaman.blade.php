@@ -103,6 +103,14 @@
               }
           ]
       });
+      $('#customSearchButton').on('click', function() {
+            dataBarang.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+        });
+      $('#customSearchBox').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                dataBarang.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
+        });
     });
 </script>
 @endpush
