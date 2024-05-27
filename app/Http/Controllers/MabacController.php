@@ -19,7 +19,31 @@ class MabacController extends Controller
 
         // 1. Tabel perhitungan bobot dengan rumus bobot/100
         $bobot = $this->hitungBobot($kriteriaList);
-
+        
+        // Jika tidak ada data alternatif, berikan respon yang sesuai
+        if ($alternatifs->isEmpty()) {
+            return view('mabac', [
+                'alternatifs' => $alternatifs,
+                'kriteriaList' => $kriteriaList,
+                'bobot' => $bobot,
+                'matriksKeputusan' => [],
+                'matrikPertimbangan' => [],
+                'areaPerkiraanBatas' => [],
+                'jarakElemen' => [],
+                'normalisasi' => [],
+                'preferensi' => [],
+                'breadcrumb' => (object)[
+                    'title' => 'MABAC',
+                    'list' => ['--', '--'],
+                ],
+                'page' => (object)[
+                    'title' => '-----',
+                ],
+                'activeMenu' => 'mabac',
+                'minValues' => [],
+                'maxValues' => [],
+            ]);
+        }
         // 2. Tabel matriks keputusan
         $matriksKeputusan = $this->matriksKeputusan($alternatifs, $kriteriaList);
 

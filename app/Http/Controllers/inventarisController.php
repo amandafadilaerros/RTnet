@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventaris;
+use App\Models\inventaris;
 use App\Models\kkModel;
 use App\Models\peminjaman_inventaris;
 use Carbon\Carbon;

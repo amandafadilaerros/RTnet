@@ -20,6 +20,27 @@ class mautController extends Controller
         // 1. Tabel perhitungan bobot dengan rumus bobot/100
         $bobot = $this->hitungBobot($kriteriaList);
 
+        if ($alternatifs->isEmpty()) {
+            return view('maut', [
+                'alternatifs' => $alternatifs,
+                'kriteriaList' => $kriteriaList,
+                'bobot' => $bobot,
+                'matriksKeputusan' => [],
+                'normalisasi' => [],
+                'preferensi' => [],
+                'breadcrumb' => (object)[
+                    'title' => 'MAUT',
+                    'list' => ['--', '--'],
+                ],
+                'page' => (object)[
+                    'title' => '-----',
+                ],
+                'activeMenu' => 'maut',
+                'min' => [],
+                'max' => [],
+            ]);
+        }
+
         // // 2. Tabel matriks keputusan
         $matriksData = $this->matriksKeputusan($alternatifs, $kriteriaList);
         $matriksKeputusan = $matriksData['matriksKeputusan'];
