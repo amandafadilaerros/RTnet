@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id_pengumuman');
             $table->string('judul', 100);
             $table->string('kegiatan', 255);
-            $table->string('deskripsi', 500);
+            $table->string('deskripsi', 500)->nullable();
             $table->date('jadwal_pelaksanaan');
             $table->date('jadwal_berakhir')->nullable();
             $table->timestamps();
