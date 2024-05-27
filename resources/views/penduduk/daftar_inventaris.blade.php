@@ -112,16 +112,12 @@ $(document).ready(function() {
         columns: [
             { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
             { 
-                data: "id_gambar", 
+                data: "gambar", 
                 className: "text-center", 
                 orderable: false, 
                 searchable: false,
                 render: function(data, type, row) {
-                    if (data) {
-                        return '<img src="{{ url('path/to/images') }}/' + data + '" width="50" height="50">';
-                    } else {
-                        return '<img src="{{ url('placeholder.png') }}" width="50" height="50">'; 
-                    }
+                  return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
                 }
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
@@ -216,25 +212,6 @@ $(document).on("click", ".btn-pinjam", function () {
             error: function(xhr, status, error) {
                 console.error(xhr.responseText);
             }
-        });
-    });
-
-    $('#inventaris_table').on('draw.dt', function() {
-        $('img[data-id-gambar]').each(function() {
-            var idInventaris = $(this).data('id-gambar');
-            var imgElement = $(this);
-            
-            $.ajax({
-                url: "{{ url('inventaris/image') }}/" + idInventaris,
-                type: 'GET',
-                success: function(response) {
-                    var imageData = 'data:' + response.mimeType + ';base64,' + response.imageData;
-                    imgElement.attr('src', imageData);
-                },
-                error: function() {
-                    imgElement.attr('src', '{{ url('placeholder.png') }}');
-                }
-            });
         });
     });
 });

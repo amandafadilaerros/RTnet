@@ -55,13 +55,13 @@
                     <tr>
                         <th>Nilai Min</th>
                         @foreach($kriteriaList as $kriteria)
-                        <td>{{ $minValues[$kriteria->id_kriteria] }}</td>
+                        <td>{{ $minValues[$kriteria->id_kriteria] ?? 'N/A' }}</td>
                         @endforeach
                     </tr>
                     <tr>
                         <th>Nilai Max</th>
                         @foreach($kriteriaList as $kriteria)
-                        <td>{{ $maxValues[$kriteria->id_kriteria] }}</td>
+                        <td>{{ $maxValues[$kriteria->id_kriteria] ?? 'N/A' }}</td>
                         @endforeach
                     </tr>
                 </tbody>
@@ -144,7 +144,7 @@
                 <tbody>
                     <tr>
                         @foreach($kriteriaList as $kriteria)
-                        <td>{{ $areaPerkiraanBatas[$kriteria->id_kriteria] }}</td>
+                        <td>{{ $areaPerkiraanBatas[$kriteria->id_kriteria] ?? 'N/A' }}</td>
                         @endforeach
                     </tr>
                 </tbody>
@@ -172,7 +172,7 @@
                     <tr>
                         <td>{{ $alternatif->nama_alternatif }}</td>
                         @foreach($kriteriaList as $kriteria)
-                        <td>{{ $jarakElemen[$alternatif->nama_alternatif][$kriteria->id_kriteria] }}</td>
+                        <td>{{ $jarakElemen[$alternatif->nama_alternatif][$kriteria->id_kriteria] ?? 'N/A' }}</td>
                         @endforeach
                     </tr>
                     @endforeach

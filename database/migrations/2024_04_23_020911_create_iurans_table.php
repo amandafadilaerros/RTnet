@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('jenis_transaksi', 255)->nullable();
             $table->string('jenis_iuran');
             $table->dateTime('bulan')->nullable();
-            $table->unsignedBigInteger('no_kk')->index();
+            $table->unsignedBigInteger('no_kk')->index()->nullable();
             $table->timestamps();
 
             $table->foreign('no_kk')->references('no_kk')->on('kks');

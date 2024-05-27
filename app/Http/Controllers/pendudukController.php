@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\akun;
-use App\Models\IuranModel;
+use App\Models\iuranModel;
 use App\Models\ktp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,9 +11,9 @@ use JeroenNoten\LaravelAdminLte\View\Components\Tool\Datatable;
 use Yajra\DataTables\Facades\DataTables;
 use Yajra\DataTables\Html\Columns\Action;
 use App\Models\LaporanKeuangan;
-use App\Models\Inventaris;
+use App\Models\inventaris;
 use App\Models\level;
-use App\Models\Pengumumans;
+use App\Models\pengumumans;
 use App\Models\peminjaman_inventaris;
 use Illuminate\Support\Facades\Auth;
 
