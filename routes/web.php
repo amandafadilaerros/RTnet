@@ -228,6 +228,12 @@ Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'laporan'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
+    Route::get('/paguyuban', [paguyubanController::class, 'index']);
+    Route::post('/paguyuban/list', [paguyubanController::class, 'list']);
+    Route::post('/paguyuban/tambah', [paguyubanController::class, 'store']);
+    Route::get('/paguyuban/edit', [paguyubanController::class, 'edit']);
+    Route::post('/paguyuban/update', [paguyubanController::class, 'update']);
+    Route::post('/paguyuban/destroy', [paguyubanController::class, 'destroy']);
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
     Route::post('/akun', [bendaharaController::class, 'update_password']);
 });

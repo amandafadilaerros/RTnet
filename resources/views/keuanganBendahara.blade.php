@@ -25,6 +25,7 @@
                 <tr>
                     <th scope="col">No</th>
                     <th scope="col">Jenis</th>
+                    <th scope="col">Keterangan</th>
                     <th scope="col">Keuangan Masuk</th>
                     <th scope="col">Keuangan Keluar</th>
                     <th scope="col">Saldo</th>
@@ -68,6 +69,11 @@
                 orderable: true, //jika ingin kolom bisa urut
                 searchable: true // jika kolom bisa dicari
             }, {
+                data: "keterangan",
+                className: "",
+                orderable: true, //jika ingin kolom bisa urut
+                searchable: true // jika kolom bisa dicari
+            },{
                 data: "jumlah_uang_masuk",
                 className: "",
                 orderable: true, //jika ingin kolom bisa urut
