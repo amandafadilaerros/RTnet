@@ -196,22 +196,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#searchDateButton').on('click', function() {
-        var searchDate = $('#searchDateInput').val();
-        
-        $.ajax({
-            url: "{{ url('penduduk/daftar_inventaris/search-by-date') }}",
-            type: "POST",
-            data: { searchDate: searchDate },
-            success: function(response) {
-                inventaris.clear().draw();
-                inventaris.rows.add(response).draw();
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    });
+   
 });
 </script>
 @endpush

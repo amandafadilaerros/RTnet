@@ -25,8 +25,9 @@ class pemasukanController extends Controller
         $activeMenu = 'pemasukan';
 
         $kk = kkModel::all(); // Mengambil semua data KK dari model
+        $kkPaguyuban = KkModel::where('paguyuban', true)->get(); // Mengambil semua data KK dari model
 
-        return view('pemasukan', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kk' => $kk, 'activeMenu' => $activeMenu]);
+        return view('pemasukan', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kk' => $kk, 'kkPaguyuban' => $kkPaguyuban, 'activeMenu' => $activeMenu]);
     }
 
     public function list(Request $request)

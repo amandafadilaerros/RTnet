@@ -19,9 +19,9 @@ return new class extends Migration
             $table->date('tanggal_lahir');
             $table->enum('jenis_kelamin', ['l', 'p']);
             $table->string('golongan_darah',2);
-            $table->string('agama');
-            $table->string('status_perkawinan');
-            $table->string('pekerjaan', 255);
+            $table->string('agama')->nullable();
+            $table->string('status_perkawinan')->nullable();
+            $table->string('pekerjaan', 255)->nullable();
             $table->string('status_keluarga',100)->nullable();
             $table->string('status_anggota', 100)->nullable();
             $table->string('jenis_penduduk', 100)->nullable();

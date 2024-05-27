@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Alternatif;
-use App\Models\Matrik;
-use App\Models\Kriteria;
+use App\Models\alternatif;
+use App\Models\matrik;
+use App\Models\kriteria;
 
 class mautController extends Controller
 {
@@ -19,6 +19,27 @@ class mautController extends Controller
 
         // 1. Tabel perhitungan bobot dengan rumus bobot/100
         $bobot = $this->hitungBobot($kriteriaList);
+
+        if ($alternatifs->isEmpty()) {
+            return view('maut', [
+                'alternatifs' => $alternatifs,
+                'kriteriaList' => $kriteriaList,
+                'bobot' => $bobot,
+                'matriksKeputusan' => [],
+                'normalisasi' => [],
+                'preferensi' => [],
+                'breadcrumb' => (object)[
+                    'title' => 'MAUT',
+                    'list' => ['--', '--'],
+                ],
+                'page' => (object)[
+                    'title' => '-----',
+                ],
+                'activeMenu' => 'maut',
+                'min' => [],
+                'max' => [],
+            ]);
+        }
 
         // // 2. Tabel matriks keputusan
         $matriksData = $this->matriksKeputusan($alternatifs, $kriteriaList);
