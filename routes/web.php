@@ -186,7 +186,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
         Route::post('/list', [data_kkSekretarisController::class, 'list']);
         Route::get('/create', [data_kkSekretarisController::class, 'create']);
         Route::post('/', [data_kkSekretarisController::class, 'store']);
-        Route::get('/show', [data_kkSekretarisController::class, 'show']);
+        Route::get('/show/{no_kk}', [data_kkSekretarisController::class, 'show']);
         Route::post('/edit', [data_kkSekretarisController::class, 'edit']);
         Route::put('/update', [data_kkSekretarisController::class, 'update']);
         Route::delete('/delete', [data_kkSekretarisController::class, 'destroy']);
@@ -197,12 +197,13 @@ Route::group(['prefix' => 'sekretaris'], function () {
         Route::get('/{no_kk}', [detail_dataKKSekretarisController::class, 'show']);
         Route::post('/list', [detail_dataKKSekretarisController::class, 'list']);
         Route::post('/list2', [detail_dataKKSekretarisController::class, 'list2']);
+        // Route::get('/create', [detail_dataKKSekretarisController::class, 'create']);
         Route::post('/create', [detail_dataKKSekretarisController::class, 'store']);
         Route::post('/create2', [detail_dataKKSekretarisController::class, 'store2']);
         Route::get('/show', [detail_dataKKSekretarisController::class, 'show']);
         Route::post('/edit', [detail_dataKKSekretarisController::class, 'edit']);
         Route::post('/update', [detail_dataKKSekretarisController::class, 'update']);
-        Route::post('/update2', [detail_dataKKSekretarisController::class,'update2']);
+        Route::post('/update2', [detail_dataKKSekretarisController::class, 'update2']);
         Route::delete('/delete', [detail_dataKKSekretarisController::class, 'destroy']);
     });
 

@@ -278,11 +278,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="Laki-Laki">
+                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="Perempuan">
+                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -410,11 +410,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="golongan_darah">Golongan Darah</label>
-                                <select class="form-control" id="golongan_darah" name="golongan_darah" style="border-radius: 25px;">
-                                    <option value="A">A</option>
-                                    <option value="B">B</option>
-                                    <option value="AB">AB</option>
-                                    <option value="O">O</option>
+                                <select class="form-control" id="golongan_darah" name="golongan_darah">
+                                    <option>A</option>
+                                    <option>B</option>
+                                    <option>AB</option>
+                                    <option>O</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -463,10 +463,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="status_anggota">Status Anggota</label>
-                                <select class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
-                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
-                                    <option value="Anggota">Anggota</option>
-                                </select>
+                                <input type="text" class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
                             </div>
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
                             <div class="col-md-6">
@@ -525,11 +522,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="Laki-Laki">
+                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="Perempuan">
+                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -580,8 +577,6 @@
         </div>
     </div>
 </div>
-
-<!-- Form Hapus -->
 <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -887,8 +882,11 @@
                         $('.modal-body #edit_nama').val(response.nama);
                         $('.modal-body #edit_tempat_lahir').val(response.tempat);
                         $('.modal-body #edit_tanggal_lahir').val(response.tanggal_lahir);
-                        $('.modal-body #edit_laki_laki').val(response.jenis_kelamin);
-                        $('.modal-body #edit_perempuan').val(response.jenis_kelamin);
+                        if (response.jenis_kelamin === 'l') {
+                            $('#edit_laki_laki').prop('checked', true);
+                        } else if (response.jenis_kelamin === 'p') {
+                            $('#edit_perempuan').prop('checked', true);
+                        }
                         $('.modal-body #edit_golongan_darah').val(response.golongan_darah);
                         $('.modal-body #edit_agama').val(response.agama);
                         $('.modal-body #edit_status_perkawinan').val(response.status_perkawinan);

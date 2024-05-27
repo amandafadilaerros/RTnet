@@ -138,7 +138,7 @@ class data_kkSekretarisController extends Controller
           ];
   
           $activeMenu = 'data_kk';       //set menu yang sedang aktif
-          return view('data_kk.show', 
+          return view('detail_dataKKSekretaris', 
           [
               'breadcrumb' => $breadcrumb,
               'page'       => $page,
