@@ -38,12 +38,13 @@ class inventarisController extends Controller
     {
         // Mengambil semua inventaris
         $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
-            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam')
-            // ->groupBy('inventaris.id_inventaris')
+            ->select('inventaris.*', DB::raw('MAX(peminjaman_inventaris.id_peminjam) as id_peminjam'))
+            ->groupBy('inventaris.id_inventaris')
             ->get();
 
         // Mengambil id inventaris yang sedang dipinjam dan menghitung jumlah barang yang sedang dipinjam
         $barang_dipinjam = peminjaman_inventaris::select('id_inventaris', DB::raw('count(*) as total_dipinjam'))
+            ->whereNull('tanggal_kembali')
             ->groupBy('id_inventaris')
             ->get()
             ->keyBy('id_inventaris');
