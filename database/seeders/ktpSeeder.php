@@ -13,6 +13,7 @@ class ktpSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('ktps')->truncate();
         $data =[
             ['NIK'=>1213,'no_kk'=>12345678,'nama'=>'Yoga', 'tempat'=>'Malang', 'tanggal_lahir'=>'2024-05-21', 'jenis_kelamin'=>'l', 'golongan_darah'=>'A', 'agama'=>'Islam', 'status_perkawinan'=>'belum kawin','pekerjaan'=>'mahasiswa', 'status_keluarga'=>'Anak', 'status_anggota'=>'keluarga', 'jenis_penduduk'=>'Tetap'],
             ['NIK'=>2122,'no_kk'=>32345678,'nama'=>'Rafli', 'tempat'=>'Malang', 'tanggal_lahir'=>'2024-05-21', 'jenis_kelamin'=>'l', 'golongan_darah'=>'A', 'agama'=>'Islam', 'status_perkawinan'=>'belum kawin','pekerjaan'=>'mahasiswa', 'status_keluarga'=>'Anak', 'status_anggota'=>'keluarga', 'jenis_penduduk'=>'Tetap'],
