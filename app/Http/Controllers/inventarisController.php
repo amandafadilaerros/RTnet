@@ -6,6 +6,7 @@ use App\Models\Inventaris;
 use App\Models\kkModel;
 use App\Models\peminjaman_inventaris;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -50,22 +51,48 @@ class inventarisController extends Controller
             ->addColumn('aksi', function ($row) use ($barang_dipinjam) {
                 $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
                 $tersedia = $row->jumlah - $dipinjam;
+
                 if ($tersedia > 0) {
-                    return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia = ' . $tersedia . '</button>';
+                    return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" data-toggle="modal" data-target="#konfirmasiModal">Tersedia = ' . $tersedia . '</button>';
                 } else {
-                    return '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
+                    $buttonDetailPeminjam = '';
+                    if ($row->id_peminjam) {
+                        $buttonDetailPeminjam = '<a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;  data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '">Dipinjam</a>';
+                    }
+                    return $buttonDetailPeminjam;
                 }
             })
-            ->addColumn('detail_peminjam', function ($row) {
-                if ($row->id_peminjam) {
-                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '"><i class="fas fa-eye"></i></a>';
-                }
-                return '';
-            })
-            ->rawColumns(['aksi', 'detail_peminjam'])
+            ->rawColumns(['aksi'])
             ->make(true);
     }
 
+
+    public function pinjamBarang(Request $request)
+    {
+        try {
+            // Validasi input
+            $request->validate([
+                'id_inventaris' => 'required|integer',
+                'id_peminjam' => 'required|integer',
+            ]);
+
+            // Ambil data dari request
+            $idInventaris = $request->input('id_inventaris');
+            $idPeminjam = $request->input('id_peminjam');
+            $tanggalPinjam = now(); // Tanggal pinjam diambil saat ini
+
+            // Simpan data ke database
+            peminjaman_inventaris::create([
+                'id_inventaris' => $idInventaris,
+                'id_peminjam' => $idPeminjam,
+                'tanggal_peminjaman' => $tanggalPinjam,
+            ]);
+
+            return response()->json(['success' => 'Barang berhasil dipinjam.']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Gagal meminjam barang. ' . $e->getMessage()], 500);
+        }
+    }
 
 
     public function searchdate(Request $request)
@@ -142,6 +169,7 @@ class inventarisController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
     public function pk_peminjaman()
     {

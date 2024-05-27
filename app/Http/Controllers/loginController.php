@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\akun;
 use Illuminate\Http\Request;
-use App\Models\IuranModel;
-use App\Models\Inventaris;
+use App\Models\iuranModel;
+use App\Models\inventaris;
 use App\Models\alternatif;
 use App\Models\kriteria;
 use App\Models\ktp;
-use App\Models\Pengumumans;
+use App\Models\pengumumans;
 use Illuminate\Support\Facades\DB;
 
 // use App\Models\ktp;
@@ -31,9 +31,9 @@ class loginController extends Controller
         $request->session()->put('role', $role);
 
         // Mengambil data untuk dashboard
-        $laporan_keuangan = IuranModel::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        $laporan_keuangan = iuranModel::count();
+        $inventaris = inventaris::count();
+        $pengumuman = pengumumans::count();
         $ktp = ktp::count();
 
         $totalPemasukan = iuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
@@ -57,7 +57,7 @@ class loginController extends Controller
             case 'ketua_rt':
                 return view('ketuaRT.dashboardKetuaRt', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'alternatifs', 'kriterias', 'mabac', 'pengumuman', 'ktp'));
             case 'penduduk':
-                return view('penduduk.dashboard', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik'));
+                return view('penduduk.dashboard', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan'));
             case 'sekretaris':
                 return view('sekretaris.dashboardSekretaris', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman'));
             case 'bendahara':
@@ -101,11 +101,25 @@ class loginController extends Controller
         // dd($sessionRole);
 
         // Prepare common variables
-        $laporan_keuangan = IuranModel::count();
-        $inventaris = Inventaris::count();
-        $pengumuman = Pengumumans::count();
+        $laporan_keuangan = iuranModel::count();
+        $inventaris = inventaris::count();
+        $pengumuman = pengumumans::count();
         $ktp = ktp::count();
 
+        $pendudukData = Ktp::select(
+            DB::raw('MONTH(tgl_masuk) as bulan'),
+            DB::raw('count(*) as total_penduduk')
+        )
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+        $data_bulan = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $data_bulan[$i] = 0; // Inisialisasi setiap bulan dengan nilai 0
+        }
+        foreach ($pendudukData as $item) {
+            $data_bulan[$item->bulan] = $item->total_penduduk;
+        }
         $totalPemasukan = IuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
         $totalPengeluaran = IuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
 
@@ -147,7 +161,8 @@ class loginController extends Controller
                     'laporan_keuangan' => $laporan_keuangan,
                     'inventaris' => $inventaris,
                     'pengumuman' => $pengumuman,
-                    'data_grafik' => $data_grafik
+                    'data_grafik' => $data_grafik,
+                    'data_bulan' => $data_bulan,
                 ]);
             case 'sekretaris':
                 return view('sekretaris.dashboardSekretaris', [
