@@ -66,6 +66,14 @@ class data_kkSekretarisController extends Controller
     }
     public function list(Request $request){
         $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat','no_rumah', 'dokumen');
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $kks->where(function($query) use ($search) {
+                $query->where('nama_kepala_keluarga', 'like', "%{$search}%");
+                    //   ->orWhere('kegiatan', 'like', "%{$search}%")
+                    //   ->orWhere('jadwal_pelaksanaan', 'like', "%{$search}%");
+                    });
+                }
     
         return DataTables::of($kks)
         ->addIndexColumn()

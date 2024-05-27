@@ -874,6 +874,7 @@
             $('#customSearchButton2').on('click', function() {
                 detailKK.ajax.reload(); // Reload tabel dengan parameter pencarian baru
             });
+            
             $('#customSearchBox2').on('keyup', function(e) {
             if (e.key === 'Enter' || e.keyCode === 13) {
                detailKK.ajax.reload(); // Reload tabel saat menekan tombol Enter
