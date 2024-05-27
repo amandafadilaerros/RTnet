@@ -58,13 +58,13 @@
                         <tr>
                             <th>Nilai Min</th>
                             @foreach($kriteriaList as $kriteria)
-                            <td>{{ $min[$kriteria->id_kriteria] }}</td> <!-- Menampilkan nilai min -->
+                            <td>{{ $min[$kriteria->id_kriteria] ?? 'N/A' }}</td> <!-- Menampilkan nilai min -->
                             @endforeach
                         </tr>
                         <tr>
                             <th>Nilai Max</th>
                             @foreach($kriteriaList as $kriteria)
-                            <td>{{ $max[$kriteria->id_kriteria] }}</td> <!-- Menampilkan nilai max -->
+                            <td>{{ $max[$kriteria->id_kriteria] ?? 'N/A' }}</td> <!-- Menampilkan nilai max -->
                             @endforeach
                         </tr>
                     </tbody>

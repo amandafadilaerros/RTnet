@@ -142,7 +142,7 @@
             <label for="warga_paguyuban">Pilih Warga:</label>
             <select class="form-control" id="no_kk_paguyuban" name="no_kk" required>
               <option value="">- Pilih Warga -</option>
-              @foreach($kk as $item)
+              @foreach($kkPaguyuban as $item)
               <option value="{{ $item->no_kk }}">{{ $item->nama_kepala_keluarga }}</option>
               @endforeach
             </select>
@@ -286,13 +286,13 @@
 
             if (jenis_iuran === 'Kas') {
               if (response.count_no_kk > 1) {
-                baseNominal = 20000;
+                baseNominal = 10000;
               } else if (response.status_rumah === 'Kos Kecil') {
-                baseNominal = 10000;
-              } else if (response.status_rumah === 'Kos Besar') {
                 baseNominal = 15000;
+              } else if (response.status_rumah === 'Kos Besar') {
+                baseNominal = 20000;
               } else {
-                baseNominal = 10000;
+                baseNominal = 12000;
               }
             } else {
               baseNominal = 15000;
@@ -448,7 +448,7 @@
           orderable: false,
           searchable: false,
           render: function(data, type, row) {
-            return '<a href="#" class="btn btn-success btn-sm btn-edit" data-id="' + row.id_iuran + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
+            return '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.id_iuran + '"><i class="fas fa-trash"></i></a>';
           }
         }
       ],

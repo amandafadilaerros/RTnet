@@ -18,6 +18,7 @@
         @if (session('error'))
         <div class="alert alert-danger">{{session('error')}}</div>
         @endif
+        <input type="hidden" id="NKK" value="{{$data_kk->no_kk}}">
         <div class="row">
             <div class="col-md-6">
                 <h2>Data Anggota Keluarga</h2>
@@ -65,8 +66,8 @@
 
 <!-- DATA NON-ANGGOTA KELUARGA -->
     <div class="card-body">
-        @if (session('success'))
-        <div class="alert alert-success">{{session('success')}}</div>
+        @if (session('success2'))
+        <div class="alert alert-success">{{session('success2')}}</div>
         @endif
         @if (session('error'))
         <div class="alert alert-danger">{{session('error')}}</div>
@@ -251,42 +252,44 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="#" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/update')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
+                            <input type="hidden" name="nik_awal" id="edit_nik">
+                            <input type="hidden" name="no_kk" id="edit_no_kk">
                             <div class="form-group">
                                 <label for="edit_nik">NIK</label>
-                                <input type="text" class="form-control" id="edit_nik" name="edit_nik" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_nama">Nama</label>
-                                <input type="text" class="form-control" id="edit_nama" name="edit_nama" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_nama" name="nama" style="border-radius: 25px;">
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="edit_tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="edit_tempat_lahir" name="edit_tempat_lahir" style="border-radius: 25px;">
+                                    <input type="text" class="form-control" id="edit_tempat_lahir" name="tempat" style="border-radius: 25px;">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="edit_tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="edit_tanggal_lahir" name="edit_tanggal_lahir" style="border-radius: 25px;">
+                                    <input type="date" class="form-control" id="edit_tanggal_lahir" name="tanggal_lahir" style="border-radius: 25px;">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="edit_jenis_kelamin[]" value="Laki-Laki">
+                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="edit_jenis_kelamin[]" value="Perempuan">
+                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan">Perempuan</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_golongan_darah">Golongan Darah</label>
-                                <select class="form-control" id="edit_golongan_darah" name="edit_golongan_darah" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_golongan_darah" name="golongan_darah" style="border-radius: 25px;">
                                     <option value="A">A</option>
                                     <option value="B">B</option>
                                     <option value="AB">AB</option>
@@ -295,7 +298,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_agama">Agama</label>
-                                <select class="form-control" id="edit_agama" name="edit_agama" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
                                     <option value="Islam">Islam</option>
                                     <option value="Kristen">Kristen</option>
                                     <option value="Katolik">Katolik</option>
@@ -306,14 +309,14 @@
                             </div>
                             <div class="form-group">
                                 <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="edit_file_upload" name="edit_file_upload">
+                                <input type="file" class="form-control-file" id="edit_file_upload" name="file_upload">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                         <div class="form-group">
                                 <label for="edit_status_perkawinan">Status Perkawinan</label>
-                                <select class="form-control" id="edit_status_perkawinan" name="edit_status_perkawinan" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
                                     <option value="Kawin">Kawin</option>
                                     <option value="Belum Kawin">Belum Kawin</option>
                                     <option value="Cerai Hidup">Cerai Hidup</option>
@@ -322,11 +325,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_pekerjaan">Pekerjaan</label>
-                                <input type="text" class="form-control" id="edit_pekerjaan" name="edit_pekerjaan" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_pekerjaan" name="pekerjaan" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_keluarga">Status Keluarga</label>
-                                <select class="form-control" id="edit_status_keluarga" name="edit_status_keluarga" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_keluarga" name="status_keluarga" style="border-radius: 25px;">
                                     <option value="Suami">Suami</option>
                                     <option value="Istri">Istri</option>
                                     <option value="Anak">Anak</option>
@@ -339,20 +342,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="edit_status_anggota" name="edit_status_anggota" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
                             </div>
-                                <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
                             <div class="col-md-6">
                                     <label for="edit_tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="edit_tgl_masuk" name="edit_tgl_masuk" style="border-radius: 25px;">
+                                    <input type="date" class="form-control" id="edit_tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
                             </div>
                             <div class="col-md-6">
                                     <label for="edit_tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="edit_tgl_keluar" name="edit_tgl_keluar" style="border-radius: 25px;">
+                                    <input type="date" class="form-control" id="edit_tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</a>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
                 </form>
             </div>
         </div>
@@ -409,7 +411,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="golongan_darah">Golongan Darah</label>
-                                <select class="form-control" id="golongan_darah" name="golongan_darah" disabled>
+                                <select class="form-control" id="golongan_darah" name="golongan_darah">
                                     <option>A</option>
                                     <option>B</option>
                                     <option>AB</option>
@@ -484,7 +486,7 @@
 </div>
 
 <!-- Modal Edit anggota -->
-<div class="modal fade" id="editNonModalAnggota" tabindex="-1" role="dialog" aria-labelledby="editNonModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModalNonAnggota" tabindex="-1" role="dialog" aria-labelledby="editNonModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: none;">
@@ -494,88 +496,114 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="#" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/update2')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
+                            <input type="hidden" name="nik_awal" id="edit_nik">
+                            <input type="hidden" name="no_kk" id="edit_no_kk">
                             <div class="form-group">
                                 <label for="edit_nik">NIK</label>
-                                <input type="text" class="form-control" id="edit_nik" name="edit_nik" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_nama">Nama</label>
-                                <input type="text" class="form-control" id="edit_nama" name="edit_nama" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_nama" name="nama" style="border-radius: 25px;">
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="edit_tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="edit_tempat_lahir" name="edit_tempat_lahir" style="border-radius: 25px;">
+                                    <input type="text" class="form-control" id="edit_tempat_lahir" name="tempat" style="border-radius: 25px;">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="edit_tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="edit_tanggal_lahir" name="edit_tanggal_lahir" style="border-radius: 25px;">
+                                    <input type="date" class="form-control" id="edit_tanggal_lahir" name="tanggal_lahir" style="border-radius: 25px;">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="edit_jenis_kelamin[]" value="Laki-Laki">
+                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="edit_jenis_kelamin[]" value="Perempuan">
+                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan">Perempuan</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="edit_golongan_darah" name="edit_golongan_darah" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_golongan_darah" name="golongan_darah" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_agama">Agama</label>
-                                <input type="text" class="form-control" id="edit_agama" name="edit_agama" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="edit_file_upload" name="edit_file_upload">
+                                <input type="file" class="form-control-file" id="edit_file_upload" name="file_upload">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="edit_status_perkawinan">Status Perkawinan</label>
-                                <input type="text" class="form-control" id="edit_status_perkawinan" name="edit_status_perkawinan" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_pekerjaan">Pekerjaan</label>
-                                <input type="text" class="form-control" id="edit_pekerjaan" name="edit_pekerjaan" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_pekerjaan" name="pekerjaan" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_keluarga">Status Keluarga</label>
-                                <input type="text" class="form-control" id="edit_status_keluarga" name="edit_status_keluarga" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_status_keluarga" name="status_keluarga" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="edit_status_anggota" name="edit_status_anggota" style="border-radius: 25px;">
+                                <input type="text" class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
                             </div>
-                                <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
                             <div class="col-md-6">
                                     <label for="edit_tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="edit_tgl_masuk" name="edit_tgl_masuk" style="border-radius: 25px;">
+                                    <input type="date" class="form-control" id="edit_tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
                             </div>
                             <div class="col-md-6">
                                     <label for="edit_tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="edit_tgl_keluar" name="edit_tgl_keluar" style="border-radius: 25px;">
+                                    <input type="date" class="form-control" id="edit_tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</a>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin menghapus data ini?
+        </div>
+        <div class="modal-footer justifiy-content">
+          <form id="hapusForm" action="{{url('/ketuaRt/detail_kk/delete')}}" method="post">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="nik" id="delete_nik">
+            <input type="hidden" name="no_kk" id="delete_no_kk">
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection
 @push('css')
 <style>
@@ -608,6 +636,7 @@
                     "type": "POST",
                     "data": function (d) {
                         d.nik = $('#nik').val();
+                        d.no_kk = $('#NKK').val();
                     }
                 },
                 columns: [
@@ -702,7 +731,7 @@
                       orderable: false, //orderable true jika ingin kolom bisa diurutkan
                       searchable: false, //searchable true jika ingin kolom bisa dicari
                       render: function (data, type, row) {
-                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModalAnggota" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
                     }
                 }
                 ]
@@ -728,6 +757,7 @@
                     "type": "POST",
                     "data": function (d) {
                         d.nik = $('#nik').val();
+                        d.no_kk = $('#NKK').val();
                     }
                 },
                 columns: [
@@ -822,7 +852,7 @@
                       orderable: false, //orderable true jika ingin kolom bisa diurutkan
                       searchable: false, //searchable true jika ingin kolom bisa dicari
                       render: function (data, type, row) {
-                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModalNonAnggota" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
                     }
                 }
                 ]
@@ -835,6 +865,63 @@
             $('#formSearch').on('submit', function(e) {
                 e.preventDefault(); // Menghentikan perilaku default dari tombol "Cari"
                 detailKK.ajax.reload();
+            });
+            $(document).on("click", ".btn-edit", function () {
+                var ids = $(this).data('id');
+                // $(".modal-body #id_pengumuman").val( ids );
+                $.ajax({
+                    url: "{{ url('ketuaRt/detail_kk/edit') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        nik: ids
+                    },
+                    success: function(response) {
+                        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                        $('.modal-body #edit_nik').val(response.NIK);
+                        $('.modal-body #edit_no_kk').val(response.no_kk);
+                        $('.modal-body #edit_nama').val(response.nama);
+                        $('.modal-body #edit_tempat_lahir').val(response.tempat);
+                        $('.modal-body #edit_tanggal_lahir').val(response.tanggal_lahir);
+                        if (response.jenis_kelamin === 'l') {
+                            $('#edit_laki_laki').prop('checked', true);
+                        } else if (response.jenis_kelamin === 'p') {
+                            $('#edit_perempuan').prop('checked', true);
+                        }
+                        $('.modal-body #edit_golongan_darah').val(response.golongan_darah);
+                        $('.modal-body #edit_agama').val(response.agama);
+                        $('.modal-body #edit_status_perkawinan').val(response.status_perkawinan);
+                        $('.modal-body #edit_pekerjaan').val(response.pekerjaan);
+                        $('.modal-body #edit_status_keluarga').val(response.status_keluarga);
+                        $('.modal-body #edit_status_anggota').val(response.status_anggota);
+                        $('.modal-body #edit_tgl_masuk').val(response.tgl_masuk);
+                        $('.modal-body #edit_tgl_keluar').val(response.tgl_keluar);
+                        // Isi formulir lainnya sesuai kebutuhan Anda
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
+            });
+            $(document).on("click", ".btn-delete", function () {
+                var ids = $(this).data('id');
+                $(".modal-footer #delete_nik").val( ids );
+                $.ajax({
+                    url: "{{ url('ketuaRt/detail_kk/edit') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        nik: ids
+                    },
+                    success: function(response) {
+                        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                        $('.modal-footer #delete_no_kk').val(response.no_kk);
+                        // Isi formulir lainnya sesuai kebutuhan Anda
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
             });
         });
     </script>
