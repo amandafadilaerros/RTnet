@@ -228,7 +228,6 @@ Route::group(['prefix' => 'bendahara'], function () {
     Route::group(['prefix' => 'laporan'], function () {
         Route::post('/list', [bendaharaController::class, 'list']);
     });
-    Route::get('/paguyuban', [paguyubanController::class, 'index']);
     Route::get('/akunBendahara', [bendaharaController::class, 'akun']);
     Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
@@ -246,6 +245,7 @@ Route::group(['prefix' => 'penduduk'], function () {
     Route::post('/pengumuman', [pendudukController::class, 'list_pengumuman']);
     Route::get('/showPengumumanPenduduk/{id_pengumuman}', [pendudukController::class, 'show_pengumuman']);
     Route::get('/akun', [pendudukController::class, 'akun']);
+    Route::post('/akun', [pendudukController::class, 'update_password']);
     Route::group(['prefix' => 'laporan_keuangan'], function () {
         Route::post('/list', [pendudukController::class, 'list']);
     });
@@ -274,12 +274,22 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::post('/list', [inventarisController::class, 'list']);
         Route::post('/show/{request}', [inventarisController::class, 'show']);
         Route::get('/searchdate', [inventarisController::class, 'searchdate']);
+
+        Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
+        Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
+        Route::post('/peminjaman/update', [inventarisController::class, 'update_peminjaman']);
+        Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);
     });
-    Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
-    Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
-    Route::post('/peminjaman/update', [inventarisController::class, 'update_peminjaman']);
+
+
+
 
 });
+// Route::middleware(['auth'])->group(function () {
+//     Route::post('penduduk/daftar_inventaris/pinjam/barang', [InventarisController::class, 'pinjamBarang']);
+//     // Rute lainnya
+// });
+
 
 // Route::get('/inventaris/image/{id}', function ($id) {
 //     $inventaris = inventaris::with('gambar')->find($id);
