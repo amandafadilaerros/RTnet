@@ -14,7 +14,6 @@ class kkModel extends Model
 
 
     protected $fillable = ['no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat', 'no_rumah', 'dokumen','paguyuban'];
->>>>>>> db9780005fa6860aea7fa666bd0a63b3bc12fc1c
 
     public function level(): HasMany
     {
