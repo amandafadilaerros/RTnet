@@ -38,8 +38,10 @@ class inventarisController extends Controller
     {
         // Mengambil semua inventaris
         $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
-            ->select('inventaris.*', DB::raw('MAX(peminjaman_inventaris.id_peminjam) as id_peminjam'))
-            ->groupBy('inventaris.id_inventaris')
+
+            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam')
+            ->distinct()
+
             ->get();
 
         // Mengambil id inventaris yang sedang dipinjam dan menghitung jumlah barang yang sedang dipinjam
@@ -95,11 +97,7 @@ class inventarisController extends Controller
     public function pinjamBarang(Request $request)
     {
         try {
-            // Ambil no_kk dari user yang sedang login
-            // $noKK = Auth::user()->no_kk;
-
-            // Ambil id_peminjam dari tabel kks berdasarkan no_kk
-            // $idPeminjam = kkModel::where('no_kk', $noKK);
+            // Ambil id_peminjam dari sesi
             $idPeminjam = $request->session()->get('id_akun');
 
             // Ambil id_inventaris dari request
@@ -109,7 +107,17 @@ class inventarisController extends Controller
             $tanggalPeminjaman = now();
             $jumlahPeminjaman = 1;
 
-            // Insert ke dalam tabel peminjaman_inventaris
+            // Cek ketersediaan barang
+            $inventaris = Inventaris::find($idInventaris);
+            $dipinjam = peminjaman_inventaris::where('id_inventaris', $idInventaris)->count();
+            $tersedia = $inventaris->jumlah - $dipinjam;
+
+            // Jika barang tidak tersedia atau hanya tersedia satu, kembalikan dengan pesan error
+            if ($tersedia <= 0) {
+                return redirect()->back()->with('error', 'Gagal meminjam barang. Semua barang sudah dipinjam atau hanya tersisa satu.');
+            }
+
+            // Insert ke dalam tabel peminjaman_inventaris jika barang tersedia
             DB::table('peminjaman_inventaris')->insert([
                 'id_inventaris' => $idInventaris,
                 'id_peminjam' => $idPeminjam,
@@ -125,6 +133,9 @@ class inventarisController extends Controller
             return redirect()->back()->with('error', 'Gagal meminjam barang. ' . $e->getMessage());
         }
     }
+
+
+
 
 
 

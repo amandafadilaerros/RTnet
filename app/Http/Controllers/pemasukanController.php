@@ -31,62 +31,66 @@ class pemasukanController extends Controller
     }
 
     public function list(Request $request)
-{
-    // Validasi input dari form pencarian
-    $request->validate([
-        'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
-        'no_kk' => 'nullable|integer', // Validasi input no_kk
-    ]);
+    {
+        // Validasi input dari form pencarian
+        $request->validate([
+            'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
+            'no_kk' => 'nullable|integer', // Validasi input no_kk
+        ]);
 
-    try {
-        // Mengambil data berdasarkan input pencarian
-        $searchQuery = $request->input('search');
-        $no_kk = $request->input('no_kk');
+        try {
+            // Mengambil data berdasarkan input pencarian
+            $searchQuery = $request->input('search');
+            $no_kk = $request->input('no_kk');
 
-        $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'bulan')
-            ->with('kk')
-            ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
-            ->orderBy('bulan', 'DESC'); // Urutkan berdasarkan bulan secara descending
+            $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'bulan', 'created_at')
+                ->with('kk')
+                ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
+                ->orderBy('created_at', 'DESC'); // Urutkan berdasarkan bulan secara descending
 
-        // Filter data berdasarkan no_kk
-        if ($no_kk) {
-            $bendaharas->where('no_kk', $no_kk);
+            // Filter data berdasarkan no_kk
+            if ($no_kk) {
+                $bendaharas->where('no_kk', $no_kk);
+            }
+
+            // Filter data berdasarkan pencarian teks
+            if ($searchQuery) {
+                $bendaharas->where(function ($query) use ($searchQuery) {
+                    $query->where('nominal', 'LIKE', "%$searchQuery%")
+                        ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
+                        ->orWhereHas('kk', function ($query) use ($searchQuery) {
+                            $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
+                        });
+
+                    // Check if searchQuery is a valid date
+                    if (strtotime($searchQuery)) {
+                        $query->orWhereDate('bulan', $searchQuery); // Pencarian berdasarkan tanggal
+                    }
+                });
+            }
+
+            // Fetch the data
+            $bendaharasData = $bendaharas->get();
+            \Log::info($bendaharasData);
+
+            // Menggunakan DataTables untuk memformat data
+            return DataTables::of($bendaharasData)
+                ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+                ->addColumn('bulan_formatted', function ($row) {
+                    return Carbon::parse($row->bulan)->format('m'); // Format datetime sesuai kebutuhan
+                })
+                ->addColumn('transaksi_formatted', function ($row) {
+                    return Carbon::parse($row->created_at)->format('d-m-Y'); // Format datetime sesuai kebutuhan
+                })
+                ->rawColumns(['bulan_formatted']) // memberitahu bahwa kolom bulan_formatted adalah HTML
+                ->rawColumns(['transaksi_formatted']) // memberitahu bahwa kolom bulan_formatted adalah HTML
+                ->make(true);
+
+        } catch (\Exception $e) {
+            \Log::error('Error fetching data: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
         }
-
-        // Filter data berdasarkan pencarian teks
-        if ($searchQuery) {
-            $bendaharas->where(function ($query) use ($searchQuery) {
-                $query->where('nominal', 'LIKE', "%$searchQuery%")
-                    ->orWhere('jenis_iuran', 'LIKE', "%$searchQuery%")
-                    ->orWhereHas('kk', function ($query) use ($searchQuery) {
-                        $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%");
-                    });
-
-                // Check if searchQuery is a valid date
-                if (strtotime($searchQuery)) {
-                    $query->orWhereDate('bulan', $searchQuery); // Pencarian berdasarkan tanggal
-                }
-            });
-        }
-
-        // Fetch the data
-        $bendaharasData = $bendaharas->get();
-        \Log::info($bendaharasData);
-
-        // Menggunakan DataTables untuk memformat data
-        return DataTables::of($bendaharasData)
-            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
-            ->addColumn('bulan_formatted', function ($row) {
-                return Carbon::parse($row->bulan)->format('d-m-Y'); // Format datetime sesuai kebutuhan
-            })
-            ->rawColumns(['bulan_formatted']) // memberitahu bahwa kolom bulan_formatted adalah HTML
-            ->make(true);
-
-    } catch (\Exception $e) {
-        \Log::error('Error fetching data: ' . $e->getMessage());
-        return response()->json(['error' => 'An error occurred while fetching data.'], 500);
     }
-}
 
 
 

@@ -69,9 +69,10 @@ class bendaharaController extends Controller
         ]);
     }
 
-    public function update_password(Request $request){
+    public function update_password(Request $request)
+    {
         $akun = akun::find(session()->get('id_akun'));
-        
+
         // Validasi apakah password lama sesuai dengan yang tersimpan di database
         if ($request->old_password !== $akun->password) {
             return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
@@ -86,8 +87,8 @@ class bendaharaController extends Controller
     {
         $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
             ->with('kk')
-            ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at') // Group by kolom tertentu
-            ->orderBy('created_at', 'ASC'); // Urutkan berdasarkan created_at secara descending
+            ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+            ->orderBy('created_at', 'ASC');
 
         // Filter data berdasarkan no_kk
         if ($request->no_kk) {
@@ -104,9 +105,21 @@ class bendaharaController extends Controller
             });
         }
 
-        // Menggunakan DataTables untuk memformat data
+        // Filter data berdasarkan filter yang dipilih
+        if ($request->filter) {
+            $filter = $request->filter;
+            $bendaharas->where(function ($query) use ($filter) {
+                if (strtolower($filter) === 'kas') {
+                    $query->where('jenis_iuran', 'Kas')
+                        ->orWhere('jenis_iuran', 'Tambahan'); // Contoh tambahan kondisi lainnya
+                } else {
+                    $query->where('jenis_iuran', $filter);
+                }
+            });
+        }
+
         return DataTables::of($bendaharas)
-            ->addIndexColumn() // menambahkan kolom index / no urut (default nama kolom: DT_RowIndex)
+            ->addIndexColumn()
             ->addColumn('jumlah_uang_masuk', function ($row) {
                 return $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0;
             })
@@ -114,15 +127,15 @@ class bendaharaController extends Controller
                 return $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0;
             })
             ->addColumn('saldo', function ($row) use ($request) {
-                // Menghitung saldo dengan menjumlahkan jumlah uang masuk dan mengurangkan jumlah uang keluar
                 $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')
-                    ->where('id_iuran', '<=', $row->id_iuran) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->where('id_iuran', '<=', $row->id_iuran)
                     ->sum('nominal');
                 $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')
-                    ->where('id_iuran', '<=', $row->id_iuran) // Hanya menghitung data sebelum atau pada tanggal saat ini
+                    ->where('id_iuran', '<=', $row->id_iuran)
                     ->sum('nominal');
                 return $totalUangMasuk - $totalUangKeluar;
             })
             ->make(true);
     }
+
 }
