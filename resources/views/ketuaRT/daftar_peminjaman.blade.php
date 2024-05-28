@@ -2,9 +2,9 @@
 @section('content')
 <div class="col-md-6 offset-md-6 mb-4">
   <div class="input-group">
-    <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
+    <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Cari...">
     <div class="input-group-append">
-      <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
+      <a class="btn btn-sm btn-primary mt-1" id="customSearchButton" style="border-radius: 20px; background-color: #424874; margin-left:10px; width:100px;">Cari</a>
     </div>
   </div>
 </div>
@@ -53,6 +53,7 @@
               "type": "POST",
               "data": function (d){
                   d.kategori_id = $('#kategori_id').val();
+                  d.customSearch = $('#customSearchBox').val();
               }
           },
           columns: [
@@ -102,6 +103,14 @@
               }
           ]
       });
+      $('#customSearchButton').on('click', function() {
+            dataBarang.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+        });
+      $('#customSearchBox').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                dataBarang.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
+        });
     });
 </script>
 @endpush

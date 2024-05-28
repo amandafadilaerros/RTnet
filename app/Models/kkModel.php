@@ -12,7 +12,9 @@ class kkModel extends Model
     protected $table = 'kks'; //mendefiniskan nama tabel yang digunakan oleh model ini
     protected $primaryKey = 'no_kk'; //mendefiniskan primary key dari tabel yang digunakan
 
-    protected $fillable = ['no_kk','nama_kepala_keluarga','id_level', 'jumlah_individu','alamat','dokumen' ];
+
+    protected $fillable = ['no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat', 'no_rumah', 'dokumen','paguyuban'];
+>>>>>>> db9780005fa6860aea7fa666bd0a63b3bc12fc1c
 
     public function level(): HasMany
     {

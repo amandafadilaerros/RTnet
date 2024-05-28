@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Inventaris;
+use App\Models\inventaris;
 use App\Models\kkModel;
 use App\Models\peminjaman_inventaris;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Yajra\DataTables\Facades\DataTables;
@@ -36,11 +38,13 @@ class inventarisController extends Controller
     {
         // Mengambil semua inventaris
         $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
-            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam')
+            ->select('inventaris.*', DB::raw('MAX(peminjaman_inventaris.id_peminjam) as id_peminjam'))
+            ->groupBy('inventaris.id_inventaris')
             ->get();
 
         // Mengambil id inventaris yang sedang dipinjam dan menghitung jumlah barang yang sedang dipinjam
         $barang_dipinjam = peminjaman_inventaris::select('id_inventaris', DB::raw('count(*) as total_dipinjam'))
+            ->whereNull('tanggal_kembali')
             ->groupBy('id_inventaris')
             ->get()
             ->keyBy('id_inventaris');
@@ -50,45 +54,78 @@ class inventarisController extends Controller
             ->addColumn('aksi', function ($row) use ($barang_dipinjam) {
                 $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
                 $tersedia = $row->jumlah - $dipinjam;
+
                 if ($tersedia > 0) {
-                    return '<button class="btn btn-sm btn-success" style="border-radius: 20px;" disabled>Tersedia = ' . $tersedia . '</button>';
+                    return '<button class="btn btn-sm btn-success pinjam-btn" style="border-radius: 20px;" data-id="' . $row->id_inventaris . '" data-nama-barang="' . $row->nama_barang . '" data-toggle="modal" data-target="#konfirmasiModal">Tersedia = ' . $tersedia . '</button>';
                 } else {
-                    return '<button class="btn btn-sm btn-danger" style="border-radius: 20px;" disabled>Dipinjam</button>';
+                    $buttonDetailPeminjam = '';
+                    if ($row->id_peminjam) {
+                        $buttonDetailPeminjam = '<a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '">Dipinjam</a>';
+                    }
+                    return $buttonDetailPeminjam;
                 }
             })
-            ->addColumn('detail_peminjam', function ($row) {
-                if ($row->id_peminjam) {
-                    return '<a href="#" class="btn btn-primary btn-sm btn-view" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '"><i class="fas fa-eye"></i></a>';
+            ->editColumn('status', function ($row) use ($barang_dipinjam) {
+                $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
+                $tersedia = $row->jumlah - $dipinjam;
+
+                if ($tersedia > 0) {
+                    return 'Tersedia = ' . $tersedia;
+                } else {
+                    return 'Dipinjam';
                 }
-                return '';
             })
-            ->rawColumns(['aksi', 'detail_peminjam'])
+            ->rawColumns(['aksi'])
             ->make(true);
     }
 
 
-
-    public function searchdate(Request $request)
+    public function pinjam(Request $request)
     {
-        $searchDate = $request->input('searchDate');
+        $ids = $request->id_inventaris;
 
-        // Query untuk mengambil inventaris yang tersedia pada tanggal tertentu
-        $availableItems = DB::table('inventaris')
-            ->leftJoin('peminjaman_inventaris', function ($join) use ($searchDate) {
-                $join->on('inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
-                    ->whereDate('tanggal_peminjaman', '<=', $searchDate)
-                    ->where(function ($query) use ($searchDate) {
-                        $query->whereNull('tanggal_kembali')
-                            ->orWhereDate('tanggal_kembali', '>', $searchDate);
-                    });
-            })
-            ->select('inventaris.*')
-            ->whereNull('peminjaman_inventaris.id_inventaris')
-            ->get();
+        // Lakukan apa pun yang diperlukan dengan ID inventaris
+        // Di sini Anda dapat melakukan pencarian atau operasi lainnya
+        $inventaris = Inventaris::find($ids);
 
-        // Mengembalikan data dalam bentuk respons JSON
-        return response()->json($availableItems);
+        // Misalnya, mengembalikan data inventaris dalam format JSON
+        return response()->json($inventaris);
     }
+    // Controller Method
+    public function pinjamBarang(Request $request)
+    {
+        try {
+            // Ambil no_kk dari user yang sedang login
+            // $noKK = Auth::user()->no_kk;
+
+            // Ambil id_peminjam dari tabel kks berdasarkan no_kk
+            // $idPeminjam = kkModel::where('no_kk', $noKK);
+            $idPeminjam = $request->session()->get('id_akun');
+
+            // Ambil id_inventaris dari request
+            $idInventaris = $request->input('id_inventaris');
+
+            // Dapatkan tanggal peminjaman saat ini
+            $tanggalPeminjaman = now();
+            $jumlahPeminjaman = 1;
+
+            // Insert ke dalam tabel peminjaman_inventaris
+            DB::table('peminjaman_inventaris')->insert([
+                'id_inventaris' => $idInventaris,
+                'id_peminjam' => $idPeminjam,
+                'jumlah_peminjaman' => $jumlahPeminjaman,
+                'tanggal_peminjaman' => $tanggalPeminjaman,
+                'created_at' => $tanggalPeminjaman,
+                'updated_at' => $tanggalPeminjaman
+            ]);
+
+            return redirect()->back()->with('success', 'Berhasil meminjam barang.');
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal meminjam barang. ' . $e->getMessage());
+        }
+    }
+
 
 
 
@@ -108,8 +145,8 @@ class inventarisController extends Controller
         try {
             // Query to join peminjaman_inventaris with ktps table
             $detail = DB::table('peminjaman_inventaris')
-                ->leftJoin('ktps', 'peminjaman_inventaris.id_peminjam', '=', 'ktps.NIK')
-                ->select('ktps.*', 'peminjaman_inventaris.id_peminjaman', 'peminjaman_inventaris.tanggal_peminjaman')
+                ->leftJoin('kks', 'peminjaman_inventaris.id_peminjam', '=', 'kks.no_kk')
+                ->select('kks.*', 'peminjaman_inventaris.id_peminjaman', 'peminjaman_inventaris.tanggal_peminjaman')
                 ->where('peminjaman_inventaris.id_peminjam', $no_kk)
                 ->first();
 
@@ -143,6 +180,7 @@ class inventarisController extends Controller
         }
     }
 
+
     public function pk_peminjaman()
     {
         $inventaris = inventaris::all();
@@ -165,6 +203,7 @@ class inventarisController extends Controller
             'activeMenu' => $activeMenu,
         ]);
     }
+
 
     public function store_peminjaman(string $id)
     {
@@ -198,4 +237,40 @@ class inventarisController extends Controller
 
         return redirect('penduduk/peminjaman')->with('success', 'Terimakasih Sudah Mengembalikan Barangnya');
     }
+
+    public function getInfoPeminjaman($id_inventaris)
+    {
+        // Menggunakan Eloquent untuk mengambil informasi peminjaman berdasarkan ID inventaris
+        $inventaris = Inventaris::find($id_inventaris);
+
+        // Jika inventaris dengan ID yang diberikan tidak ditemukan, kembalikan respons dengan pesan kesalahan
+        if (!$inventaris) {
+            return response()->json(['error' => 'Inventaris not found'], 404);
+        }
+
+        // Ambil informasi peminjaman terbaru untuk inventaris ini
+        $latest_peminjaman = $inventaris->peminjaman()->latest()->first();
+
+        // Jika tidak ada data peminjaman, statusnya 'Tersedia'
+        $info_peminjaman = [
+            'tanggal_peminjaman' => null,
+            'tanggal_pengembalian' => null,
+            'status_peminjaman' => 'Tersedia'
+        ];
+
+        // Jika ada data peminjaman, atur informasi peminjaman sesuai
+        if ($latest_peminjaman) {
+            $info_peminjaman['tanggal_peminjaman'] = $latest_peminjaman->tanggal_peminjaman;
+            $info_peminjaman['tanggal_pengembalian'] = $latest_peminjaman->tanggal_kembali;
+
+            // Jika tanggal pengembalian belum lewat, ubah status peminjaman menjadi 'Dipinjam'
+            if ($latest_peminjaman->tanggal_kembali >= now()->toDateString()) {
+                $info_peminjaman['status_peminjaman'] = 'Dipinjam';
+            }
+        }
+
+        // Kembalikan informasi peminjaman sebagai respons JSON
+        return response()->json($info_peminjaman);
+    }
+
 }

@@ -109,12 +109,6 @@
       <li class="nav-header">Kerja Bakti</li>
 
       <li class="nav-item">
-        <a href="{{ url('/ketuaRt/kerja_bakti') }}" class="nav-link {{ ($activeMenu == 'kerja_bakti')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kerja_bakti')? 'background-color: #424874;' : '' }}">
-          <i class="nav-icon fas fa-users"></i>
-          <p>Kerja Bakti</p>
-        </a>
-      </li>
-      <li class="nav-item">
         <a href="{{ url('/ketuaRt/kriteria') }}" class="nav-link {{ ($activeMenu == 'kriteria')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'kriteria')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-users"></i>
           <p>Kriteria</p>

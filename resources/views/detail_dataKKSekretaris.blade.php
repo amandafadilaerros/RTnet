@@ -1,4 +1,3 @@
-
 @extends('layouts.template')
 @section('content')
 <div class="card-body">
@@ -128,7 +127,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/create')}}" method="POST">
+                <form action="{{url('/sekretaris/detail_kk/create')}}" method="POST">
                     @csrf
                     <input type="hidden" name="no_kk" id="no_kkTambah" value="{{$data_kk->no_kk}}">
                     <input type="hidden" name="jenis_penduduk" id="jenis_pendudukTambah" value="tetap">
@@ -252,7 +251,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/update')}}" method="POST">
+                <form action="{{url('/sekretaris/detail_kk/update')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -374,7 +373,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/create2')}}" method="POST">
+                <form action="{{url('/sekretaris/detail_kk/create2')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">  
@@ -496,7 +495,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/update2')}}" method="POST">
+                <form action="{{url('/sekretaris/detail_kk/update2')}}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -591,7 +590,7 @@
           Apakah Anda yakin menghapus data ini?
         </div>
         <div class="modal-footer justifiy-content">
-          <form id="hapusForm" action="{{url('/ketuaRt/detail_kk/delete')}}" method="post">
+          <form id="hapusForm" action="{{url('/sekretaris/detail_kk/delete')}}" method="post">
             @csrf
             @method('DELETE')
             <input type="hidden" name="nik" id="delete_nik">
@@ -631,7 +630,7 @@
             var detailKK = $('#table_detail_data_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('ketuaRt/detail_kk/list') }}",
+                    "url": "{{ url('sekretaris/detail_kk/list') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d) {
@@ -752,7 +751,7 @@
             var detailKK = $('#table_detail_data_non_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
                 ajax: {
-                    "url": "{{ url('ketuaRt/detail_kk/list2') }}",
+                    "url": "{{ url('sekretaris/detail_kk/list2') }}",
                     "dataType": "json",
                     "type": "POST",
                     "data": function (d) {
@@ -870,7 +869,7 @@
                 var ids = $(this).data('id');
                 // $(".modal-body #id_pengumuman").val( ids );
                 $.ajax({
-                    url: "{{ url('ketuaRt/detail_kk/edit') }}",
+                    url: "{{ url('sekretaris/detail_kk/edit') }}",
                     type: "POST",
                     dataType: "json",
                     data: {
@@ -907,7 +906,7 @@
                 var ids = $(this).data('id');
                 $(".modal-footer #delete_nik").val( ids );
                 $.ajax({
-                    url: "{{ url('ketuaRt/detail_kk/edit') }}",
+                    url: "{{ url('sekretaris/detail_kk/edit') }}",
                     type: "POST",
                     dataType: "json",
                     data: {
