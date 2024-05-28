@@ -46,7 +46,6 @@
         $(document).ready(function() {
             var table = $('#table_pengumuman').DataTable({
                 serverSide: true,
-                searchable:true
                 ajax: {
                     url: "{{ url('penduduk/pengumuman') }}",
                     type: "POST",
