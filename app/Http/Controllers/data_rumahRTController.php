@@ -74,6 +74,12 @@ class data_rumahRTController extends Controller
     public function list(Request $request)
     {
         $rumahs = rumahModel::select('no_rumah', 'status_rumah');
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $rumahs->where(function($query) use ($search) {
+                $query->where('status_rumah', 'like', "%{$search}%");
+                    });
+        }
         return DataTables::of($rumahs)
         ->addIndexColumn()
         ->make(true);
