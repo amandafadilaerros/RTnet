@@ -101,6 +101,7 @@ class data_kkSekretarisController extends Controller
             'dokumen'               => $request->dokumen,
         ]);
         $level = level::where('nama_level', 'penduduk')->firstOrFail();
+        dd($level);
         akun::create([
             'id_akun' => $request->no_kk,
             'id_level' => $level->id_level,
