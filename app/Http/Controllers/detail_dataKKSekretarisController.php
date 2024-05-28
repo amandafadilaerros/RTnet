@@ -8,7 +8,7 @@ use App\Models\ktp;
 use App\Models\ktpModel;
 use Yajra\DataTables\Facades\DataTables;
 
-class detail_dataKKRtController extends Controller
+class detail_dataKKSekretarisController extends Controller
 {
     // public function index()
     // {
@@ -59,7 +59,7 @@ class detail_dataKKRtController extends Controller
         ];
         $activeMenu = 'data_kk';
 
-        return view('detail_dataKKRt', [
+        return view('detail_dataKKSekretaris', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
             'activeMenu' => $activeMenu,
@@ -143,7 +143,7 @@ class detail_dataKKRtController extends Controller
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
     public function store2(Request $request)
     {
@@ -185,7 +185,7 @@ class detail_dataKKRtController extends Controller
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
 
     public function create()
@@ -226,7 +226,7 @@ class detail_dataKKRtController extends Controller
           ];
   
           $activeMenu = 'data_kk';       //set menu yang sedang aktif
-          return view('detail_dataKKRt', 
+          return view('detail_dataKKSekretaris', 
           [
               'breadcrumb' => $breadcrumb,
               'page'       => $page,
@@ -276,7 +276,7 @@ class detail_dataKKRtController extends Controller
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil disimpan');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil disimpan');
     }
     public function update2(Request $request){
         // dd($request);
@@ -313,7 +313,7 @@ class detail_dataKKRtController extends Controller
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $request->dokumen,
         ]);
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success2', 'Data ktp berhasil disimpan');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success2', 'Data ktp berhasil disimpan');
     }
 
    //Menghapus data rumah
@@ -322,19 +322,17 @@ class detail_dataKKRtController extends Controller
         $check = ktp::find($request->nik); // Menggunakan $request->no_rumah dari parameter
 
         if (!$check) {      //untuk mengecek apakah data rumah dengan id yang dimaksud ada atau tidak
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Data ktp tidak ditemukan');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('error', 'Data ktp tidak ditemukan');
         }
 
         try {
         ktp::destroy($request->nik);    //Hapus data rumah dengan $request->no_rumah dari parameter
 
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil dihapus');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
         //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
-        return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Data Data ktp gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+        return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('error', 'Data Data ktp gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
         }
     }
 
 }
-
-

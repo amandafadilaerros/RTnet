@@ -14,12 +14,14 @@ return new class extends Migration
         Schema::create('peminjaman_inventaris', function (Blueprint $table) {
             $table->id('id_peminjaman');
             $table->unsignedBigInteger('id_inventaris')->index();
-            $table->unsignedBigInteger('id_peminjam')->index();
-            $table->date('tanggal_peminjaman');
-            $table->date('tanggal_kembali');
+            $table->unsignedBigInteger('id_peminjam')->index()->nullable();
+            $table->date('tanggal_peminjaman')->nullable();
+            $table->integer('jumlah_peminjaman')->nullable();
+            $table->date('tanggal_kembali')->nullable();
             $table->timestamps();
 
             $table->foreign('id_inventaris')->references('id_inventaris')->on('inventaris');
+            $table->foreign('id_peminjam')->references('no_kk')->on('kks');
         });
     }
 

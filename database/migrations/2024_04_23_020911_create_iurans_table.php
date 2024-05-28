@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('iurans', function (Blueprint $table) {
             $table->id('id_iuran');
-            $table->decimal('nominal', 10, 2);
-            $table->string('keterangan', 255);
-            $table->string('jenis_transaksi', 255);
+            $table->integer('nominal')->nullable();
+            $table->string('keterangan', 255)->nullable();
+            $table->string('jenis_transaksi', 255)->nullable();
             $table->string('jenis_iuran');
-            $table->unsignedBigInteger('no_kk')->index();
+            $table->dateTime('bulan')->nullable();
+            $table->unsignedBigInteger('no_kk')->index()->nullable();
             $table->timestamps();
 
             $table->foreign('no_kk')->references('no_kk')->on('kks');
