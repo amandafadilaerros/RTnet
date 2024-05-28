@@ -39,7 +39,8 @@
         <th scope="col">Nominal</th>
         <th scope="col">Jenis Pemasukan</th>
         <th scope="col">Nama Penduduk</th>
-        <th scope="col">Bulan Pembayaran</th>
+        <th scope="col">Pembayaran Bulan Ke</th>
+        <th scope="col">Tanggal Pembayaran</th>
         <th scope="col">Aksi</th>
       </tr>
     </thead>
@@ -438,6 +439,12 @@
         },
         {
           data: "bulan_formatted",
+          className: "",
+          orderable: true,
+          searchable: true
+        },
+        {
+          data: "transaksi_formatted",
           className: "",
           orderable: true,
           searchable: true

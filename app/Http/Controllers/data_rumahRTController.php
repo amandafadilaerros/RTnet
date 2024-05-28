@@ -74,6 +74,12 @@ class data_rumahRTController extends Controller
     public function list(Request $request)
     {
         $rumahs = rumahModel::select('no_rumah', 'status_rumah');
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $rumahs->where(function($query) use ($search) {
+                $query->where('status_rumah', 'like', "%{$search}%");
+                    });
+        }
         return DataTables::of($rumahs)
         ->addIndexColumn()
         ->make(true);
@@ -177,7 +183,7 @@ class data_rumahRTController extends Controller
         return redirect('/ketuaRt/data_rumah')->with('success', 'Data rumah berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
         //Jika terjadi error ketika menghapus data, redirect kembali ke halaman dengan membawa pesan error
-        return redirect('/ketuaRt/data_rumah')->with('error', 'Data rumah gagal dihapus karena masih terdapat tabel lain yang terkai dengan data ini');
+        return redirect('/ketuaRt/data_rumah')->with('error', 'Data rumah gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
 

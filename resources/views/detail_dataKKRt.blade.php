@@ -20,18 +20,16 @@
         @endif
         <input type="hidden" id="NKK" value="{{$data_kk->no_kk}}">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <h2>Data Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Search...">
-                    <div class="input-group-append">
-                        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px;">Search</a>
-                    </div>
-                </div>
+            <div class="col-md-3" style="">
+            <div class="row">
+                <input type="text" id="customSearchBox1" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+                <button class="btn btn-primary" id="customSearchButton1" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
             </div>
+        </div>
         </div>
         <div class="header">
             <!-- // <div class="table-responsive"> -->
@@ -73,18 +71,16 @@
         <div class="alert alert-danger">{{session('error')}}</div>
         @endif
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <h2>Data Non-Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahNonAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-6">
-                <div class="input-group">
-                    <input type="text" class="form-control" style="border-radius: 20px ;margin-left : 200px;" placeholder="Search...">
-                    <div class="input-group-append">
-                        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-left:10px;">Search</a>
-                    </div>
-                </div>
+            <div class="col-md-3" style="">
+            <div class="row">
+                <input type="text" id="customSearchBox2" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+                <button class="btn btn-primary" id="customSearchButton2" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
             </div>
+        </div>
         </div>
         <div class="header">
         <!-- <div class="table-responsive"> -->
@@ -637,6 +633,8 @@
                     "data": function (d) {
                         d.nik = $('#nik').val();
                         d.no_kk = $('#NKK').val();
+                        d.customSearch = $('#customSearchBox1').val();
+
                     }
                 },
                 columns: [
@@ -741,6 +739,15 @@
                 detailKK.ajax.reload();
             });
 
+            $('#customSearchButton1').on('click', function() {
+                detailKK.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+            });
+            $('#customSearchBox1').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+               detailKK.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
+            });
+
             $('#formSearch').on('submit', function(e) {
                 e.preventDefault(); // Menghentikan perilaku default dari tombol "Cari"
                 detailKK.ajax.reload();
@@ -758,6 +765,8 @@
                     "data": function (d) {
                         d.nik = $('#nik').val();
                         d.no_kk = $('#NKK').val();
+                        d.customSearch = $('#customSearchBox2').val();
+
                     }
                 },
                 columns: [
@@ -860,6 +869,16 @@
 
             $('#nik').on('input', function() {
                 detailKK.ajax.reload();
+            });
+
+            $('#customSearchButton2').on('click', function() {
+                detailKK.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+            });
+            
+            $('#customSearchBox2').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+               detailKK.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
             });
 
             $('#formSearch').on('submit', function(e) {

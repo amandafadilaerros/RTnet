@@ -1,19 +1,15 @@
 @extends('layouts.template')
 @section('content')
 <div class="row mb-4">
-    <div class="col-md-6">
+    <div class="col-md-9">
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
     </div>
-    <div class="col-md-6">
-    <div class="row justify-content-end">
-      <form id="searchForm" class="form-inline">
-        <div class="form-group">
-          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
+    <div class="col-md-3" style="">
+      <div class="row">
+          <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+          <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
         </div>
-        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
-      </form>
     </div>
-  </div>
 </div>
 <div class="card">
     {{-- <div class="card-header">
@@ -158,6 +154,8 @@
                     type: "POST",
                     data: function(d) {
                         d.no_rumah = $('#no_rumah').val();
+                        d.customSearch = $('#customSearchBox').val();
+
                     }
                 },
                 columns: [
@@ -201,6 +199,15 @@
                 dataRumah.ajax.reload();
             });
 
+            $('#customSearchButton').on('click', function() {
+            dataRumah.ajax.reload(); // Reload tabel dengan parameter pencarian baru
+            });
+            $('#customSearchBox').on('keyup', function(e) {
+            if (e.key === 'Enter' || e.keyCode === 13) {
+                dataRumah.ajax.reload(); // Reload tabel saat menekan tombol Enter
+            }
+            });
+
             $(document).on("click", ".btn-edit", function() {
                 var ids = $(this).data('id');
                 $(".modal-body #id").val(ids);
@@ -223,15 +230,6 @@
             $(document).on("click", ".btn-delete", function() {
                 var no_rumah = $(this).data('id');
                 $(".modal-footer #no_rumah").val(no_rumah);
-            });
-
-            $('#search, #status_rumah').on('input', function() {
-                dataRumah.ajax.reload();
-            });
-
-            $('#searchForm').on('submit', function(e) {
-                e.preventDefault(); // Mencegah form untuk submit
-                dataRumah.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
             });
         });
     </script>

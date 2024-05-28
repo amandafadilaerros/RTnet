@@ -261,6 +261,11 @@ Route::group(['prefix' => 'penduduk'], function () {
 
     Route::get('/', [PendudukController::class, 'getData'])->name('penduduk.dashboard');
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
+    Route::post('/tambah_daftaranggota',[DaftarAnggotaController::class, 'store']);
+    Route::post('/DaftarAnggota', [DaftarAnggotaController::class, 'show']);
+    Route::post('/DaftarAnggota/Update',[DaftarAnggotaController::class, 'update']);
+    Route::delete('/DaftarAnggota/delete', [DaftarAnggotaController::class, 'destroy']);
+    Route::post('/tambah_daftaranggota_kos',[DaftarAnggotaController::class, 'store_kos']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/maut', [mautController::class, 'index']);

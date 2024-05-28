@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kkModel;
+use App\Models\ktp;
+use App\Models\PendudukKosModel;
 use Illuminate\Http\Request;
 
 class DaftarAnggotaController extends Controller
 {
     public function index()
     {
+        $kks = kkModel::select('nama_kepala_keluarga','no_kk','alamat','jumlah_individu')->get();
+        $ktps = ktp::select('nama','NIK','agama','status_keluarga')->where('jenis_penduduk','tetap')->get();
+        $ktpss = ktp::select('nama', 'NIK')->where('jenis_penduduk', 'kos')->get();
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Keluarga Saya',
@@ -19,6 +25,228 @@ class DaftarAnggotaController extends Controller
 
         $activeMenu = 'DaftarAnggota';
 
-        return view('DaftarAnggota', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('DaftarAnggota', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu , 'kks' => $kks, 'ktps' => $ktps, 'ktpss' => $ktpss]);
+    }
+
+    public function store(Request $request)
+    {
+  
+        session()->put('id_akun', 4);
+        $noKK = session()->get('id_akun'); 
+
+        $request->validate([
+            'NIK' => 'required',
+            'nama' => 'required',
+            'tempat' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'golongan_darah' => 'required',
+            'agama' => 'required',
+            'status_perkawinan' => 'required',
+            'pekerjaan' => 'required',
+            'status_keluarga' => 'required',
+            'status_anggota' => 'required',
+            // 'dokumen' => 'required|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+        if ($request->hasFile('dokumen')) {
+            $file = $request->file('dokumen');
+            $path = $file->store('dokumen', 'public'); // Store the file in the 'dokumen' directory in the 'public' disk
+            ktp::create([
+                'NIK' => $request->NIK,
+                'no_kk' => $noKK,
+                'nama' => $request->nama,
+                'tempat' => $request->tempat,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+                'status_keluarga' => $request->status_keluarga,
+                'status_anggota' => $request->status_anggota,
+                'jenis_penduduk' => 'tetap',
+                'dokumen' => $path,
+            ]);
+        } else {
+            ktp::create([
+                'NIK' => $request->NIK,
+                'no_kk' => $noKK,
+                'nama' => $request->nama,
+                'tempat' => $request->tempat,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+                'status_keluarga' => $request->status_keluarga,
+                'status_anggota' => $request->status_anggota,
+                'jenis_penduduk' => 'tetap',
+            ]);
+        }
+
+
+        return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil ditambahkan');
+    }
+    public function show(Request $request)
+    {
+        // dd($request);
+        $ktp = ktp::find($request->NIK);
+        // dd($ktp);
+
+        return response()->json($ktp);
+    }
+
+    public function update(Request $request)
+    {
+        $ktp = ktp::find($request->NIK);
+
+        $request->validate([
+            'NIK' => 'required',
+            'nama' => 'required',
+            'tempat' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'golongan_darah' => 'required',
+            'agama' => 'required',
+            'status_perkawinan' => 'required',
+            'pekerjaan' => 'required',
+            'status_keluarga' => 'required',
+            'status_anggota' => 'required',
+            // 'dokumen' => 'required|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+        if ($request->hasFile('dokumen')) {
+            $file = $request->file('dokumen');
+            $path = $file->store('dokumen', 'public'); // Store the file in the 'dokumen' directory in the 'public' disk
+            ktp::find($request->nik)->update([
+                'NIK' => $request->NIK,
+                'nama' => $request->nama,
+                'tempat' => $request->tempat,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+                'status_keluarga' => $request->status_keluarga,
+                'status_anggota' => $request->status_anggota,
+                'dokumen' => $path,
+            ]);
+        } else {
+            ktp::find($request->nik)->update([
+                'NIK' => $request->NIK,
+                'nama' => $request->nama,
+                'tempat' => $request->tempat,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+                'status_keluarga' => $request->status_keluarga,
+                'status_anggota' => $request->status_anggota,
+            ]);
+        }
+        return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil diedit');
+    }
+
+    public function destroy(Request $request)
+    {
+        $ktp = ktp::find($request->NIK);
+        $ktp->delete();
+        return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil dihapus');
+    }
+
+    public function store_kos(Request $request)
+    {
+       
+        session()->put('id_akun', 4);
+        $noKK = session()->get('id_akun'); 
+
+        $request->validate([
+            'NIK' => 'required',
+            'nama' => 'required',
+            'tempat' => 'required',
+            'tanggal_lahir' => 'required',
+            'jenis_kelamin' => 'required',
+            'golongan_darah' => 'required',
+            'agama' => 'required',
+            'status_perkawinan' => 'required',
+            'pekerjaan' => 'required',
+            'status_keluarga' => 'required',
+            'status_anggota' => 'required',
+            // 'dokumen' => 'required|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+        if ($request->hasFile('dokumen')) {
+            $file = $request->file('dokumen');
+            $path = $file->store('dokumen', 'public'); // Store the file in the 'dokumen' directory in the 'public' disk
+            ktp::create([
+                'NIK' => $request->NIK,
+                'no_kk' => $noKK,
+                'nama' => $request->nama,
+                'tempat' => $request->tempat,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+                'status_keluarga' => $request->status_keluarga,
+                'status_anggota' => $request->status_anggota,
+                'jenis_penduduk' => 'kos',
+                'dokumen' => $path,
+            ]);
+        } else {
+            ktp::create([
+                'NIK' => $request->NIK,
+                'no_kk' => $noKK,
+                'nama' => $request->nama,
+                'tempat' => $request->tempat,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'golongan_darah' => $request->golongan_darah,
+                'agama' => $request->agama,
+                'status_perkawinan' => $request->status_perkawinan,
+                'pekerjaan' => $request->pekerjaan,
+                'status_keluarga' => $request->status_keluarga,
+                'status_anggota' => $request->status_anggota,
+                'jenis_penduduk' => 'kos',
+            ]);
+        }
+
+        return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil ditambahkan');
+
+    }
+
+    public function show_kos(Request $request)
+    {
+        // dd($request);
+        $kost= ktp::find($request->NIK);
+        // dd($ktp);
+
+        return response()->json($kost);
+    }
+
+    public function update_kos(Request $request)
+    {
+        $kost = ktp::find($request->NIK);
+        $request->validate([
+            'nama' => 'required',
+            'NIK' => 'required',
+            'no_kk' => 'required',
+        ]);
+        ktp::find($request->NIK)->update([
+                'nama' => $request->nama,
+                'NIK' => $request->NIK,
+                'no_kk' => $request->no_kk,
+        ]);
+        return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil diedit');
+    }
+
+    public function destroy_kos(Request $request)
+    {
+        $kost = ktp::find($request->NIK);
+        $kost->delete();
+        return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil dihapus');
     }
 }
