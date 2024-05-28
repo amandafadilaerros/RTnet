@@ -448,33 +448,33 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_nik">NIK</label>
-                                <input type="text" class="form-control" id="view_NIK" name="view_NIK" value="{{ $ktp->NIK }}" disabled>
+                                <input type="text" class="form-control" id="view_NIK" name="view_NIK" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_nama">Nama</label>
-                                <input type="text" class="form-control" id="view_nama" name="view_nama" value="{{ $ktp->nama }}" disabled>
+                                <input type="text" class="form-control" id="view_nama" name="view_nama" value="" disabled>
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="view_tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="view_tempat" name="view_tempat" value="{{ $ktp->tempat }}" disabled>
+                                    <input type="text" class="form-control" id="view_tempat" name="view_tempat" value="" disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="view_tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="view_tanggal_lahir" name="view_tanggal_lahir" value="{{ $ktp->tanggal_lahir }}" disabled>
+                                    <input type="date" class="form-control" id="view_tanggal_lahir" name="view_tanggal_lahir" value="" disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="view_jenis_kelamin">Jenis Kelamin</label>
-                                <input type="text" class="form-control" id="view_jenis_kelamin" name="view_jenis_kelamin"value="{{ $ktp->jenis_kelamin }}" disabled>
+                                <input type="text" class="form-control" id="view_jenis_kelamin" name="view_jenis_kelamin"value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_agama">Agama</label>
-                                <input type="text" class="form-control" id="view_agama" name="view_agama" value="{{ $ktp->agama }}" disabled>
+                                <input type="text" class="form-control" id="view_agama" name="view_agama" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_status_pernikahan">Status Pernikahan</label>
-                                <input type="text" class="form-control" id="view_status_perkawinan" name="view_status_pernikahan" value="{{ $ktp->status_perkawinan }}" disabled>
+                                <input type="text" class="form-control" id="view_status_perkawinan" name="view_status_pernikahan" value="{" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_ktp">Dokumen Kartu Tanda Penduduk</label>
@@ -484,15 +484,15 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_pekerjaan">Pekerjaan</label>
-                                <input type="text" class="form-control" id="view_pekerjaan" name="view_pekerjaan" value="{{ $ktp->pekerjaan }}" disabled>
+                                <input type="text" class="form-control" id="view_pekerjaan" name="view_pekerjaan" value="{" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_status_hubungan">Status Hubungan Keluarga</label>
-                                <input type="text" class="form-control" id="view_status_anggota" name="view_status_hubungan" value="{{ $ktp->status_anggota}}" disabled>
+                                <input type="text" class="form-control" id="view_status_anggota" name="view_status_hubungan" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="view_golongan_darah" name="view_golongan_darah" value="{{ $ktp->golongan_darah }}" disabled>
+                                <input type="text" class="form-control" id="view_golongan_darah" name="view_golongan_darah" value="" disabled>
                             </div>
                             {{-- <div class="form-group">
                                 <label for="view_pendidikan">Pendidikan</label>
@@ -810,35 +810,35 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_nik">NIK</label>
-                                <input type="text" class="form-control" id="view_nik_non" name="view_nik" value="{{$ktp->NIK}}" disabled>
+                                <input type="text" class="form-control" id="view_nik_non" name="view_nik" value="" disabled>
                             </div>
                             <!-- Tambahkan atribut value untuk setiap input sesuai dengan data yang ingin dilihat -->
                             <div class="form-group">
                                 <label for="view_nama">Nama</label>
-                                <input type="text" class="form-control" id="view_nama_non" name="view_nama" value="{{$ktp->nama}}" disabled>
+                                <input type="text" class="form-control" id="view_nama_non" name="view_nama" value="" disabled>
                             </div>
                             <div class="form-group row">
                                 <div class="col-md-6">
                                     <label for="view_tempat_lahir">Tempat Lahir</label>
-                                    <input type="text" class="form-control" id="view_tempat_non" name="view_tempat_lahir" placeholder="Tempat" value="{{$ktp->tempat_lahir}}" disabled>
+                                    <input type="text" class="form-control" id="view_tempat_non" name="view_tempat_lahir" placeholder="Tempat" value="" disabled>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="view_tanggal_lahir">Tanggal Lahir</label>
-                                    <input type="date" class="form-control" id="view_tanggal_lahir_non" name="view_tanggal_lahir" value="{{$ktp->tanggal_lahir}}" disabled>
+                                    <input type="date" class="form-control" id="view_tanggal_lahir_non" name="view_tanggal_lahir" value="" disabled>
                                  </div>
                             </div>
                             <div class="form-group">
                                 <label for="view_jenis_kelamin">Jenis Kelamin</label>
-                                <input type="text" class="form-control" id="view_jenis_kelamin_non" name="view_jenis_kelamin"value="{{ $ktp->jenis_kelamin }}" disabled>
+                                <input type="text" class="form-control" id="view_jenis_kelamin_non" name="view_jenis_kelamin"value="" disabled>
                             </div>
                             <!-- Sisipkan nilai yang ada saat ini untuk input jenis kelamin -->
                             <div class="form-group">
                                 <label for="view_agama">Agama</label>
-                                <input type="text" class="form-control" id="view_agama_non" name="view_agama" value="{{$ktp->agama}}" disabled>
+                                <input type="text" class="form-control" id="view_agama_non" name="view_agama" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_status_pernikahan">Status Pernikahan</label>
-                                <input type="text" class="form-control" id="view_status_perkawinan_non" name="view_status_pernikahan" value="{{$ktp->status_perkawinan}}" disabled>
+                                <input type="text" class="form-control" id="view_status_perkawinan_non" name="view_status_pernikahan" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_ktp">Dokumen Kartu Tanda Penduduk</label>
@@ -848,16 +848,16 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_pekerjaan">Pekerjaan</label>
-                                <input type="text" class="form-control" id="view_pekerjaan_non" name="view_pekerjaan" value="{{$ktp->pekerjaan}}" disabled>
+                                <input type="text" class="form-control" id="view_pekerjaan_non" name="view_pekerjaan" value="" disabled>
                             </div>
                             
                             <div class="form-group">
                                 <label for="view_status_hubungan">Status Hubungan Keluarga</label>
-                                <input type="text" class="form-control" id="view_status_anggota_non" name="view_status_hubungan" value="{{$ktp->status_anggota}}" disabled>
+                                <input type="text" class="form-control" id="view_status_anggota_non" name="view_status_hubungan" value="" disabled>
                             </div>
                             <div class="form-group">
                                 <label for="view_golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="view_golongan_darah_non" name="view_golongan_darah" value="{{$ktp->golongan_darah}}" disabled>
+                                <input type="text" class="form-control" id="view_golongan_darah_non" name="view_golongan_darah" value="" disabled>
                             </div>
                         </div>
                     </div>

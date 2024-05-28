@@ -30,11 +30,6 @@
           <p>Dashboard</p>
         </a>
       </li>
-      <li class="nav-item">
-        <a href="{{ url('/penduduk/DaftarAnggota') }}" class="nav-link {{ ($activeMenu == 'DaftarAnggota')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'DaftarAnggota')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-users"></i>
-          <p>Daftar Anggota</p>
-        </a>
-      </li>
       <li class="nav-header">Kegiatan Warga</li>
       <li class="nav-item">
         <a href="{{ url('/penduduk/DaftarAnggota') }}" class="nav-link {{ ($activeMenu == 'DaftarAnggota')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'DaftarAnggota')? 'background-color: #424874;' : '' }}"> <i class="nav-icon fas fa-users"></i>
