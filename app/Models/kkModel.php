@@ -15,6 +15,7 @@ class kkModel extends Model
 
     protected $fillable = ['no_kk','nama_kepala_keluarga', 'jumlah_individu', 'alamat', 'no_rumah', 'dokumen','paguyuban'];
 
+
     public function level(): HasMany
     {
         return $this->hasMany(level::class, 'id_level', 'id_level');
