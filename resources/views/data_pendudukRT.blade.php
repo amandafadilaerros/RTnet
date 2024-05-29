@@ -62,6 +62,7 @@
         $(document).ready(function() {
             var dataPenduduk = $('#table_data_penduduk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/data_penduduk/list') }}",
                     "dataType": "json",
