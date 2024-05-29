@@ -11,6 +11,7 @@ use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\pengumumans;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 // use App\Models\ktp;
 
@@ -66,23 +67,27 @@ class loginController extends Controller
     }
     public function login(Request $request)
     {
+        $credentials = $request->validate([
+            'family_number' => 'required',
+            'password' => 'required',
+        ]);
         // Find the user by family number (assuming family_number is a unique identifier)
-        $role = akun::find($request->family_number);
+        $role = akun::where('id_akun' ,$credentials['family_number'])->first();
+        // If the user is not found, handle the error (e.g., redirect back with an error message)
+        if (!$role) {
+            return back()->withErrors(['family_number' => 'Family number not found.']);
+        }
+        // Verify the password
+        if (!Hash::check($credentials['password'], $role->password)){
+            return back()->withErrors(['password' => 'The provided password does not match our records.']);
+        }
         // id akun harus sesuai dengan nkk
         $request->session()->put('id_akun', $role->id_akun);
         // nama harus sesuai dengan kk (proses pembuatan akun dari inputan kk rt/sekretaris)
         $request->session()->put('nama', $role->nama);
 
 
-        // If the user is not found, handle the error (e.g., redirect back with an error message)
-        if (!$role) {
-            return back()->withErrors(['family_number' => 'Family number not found.']);
-        }
 
-        // Verify the password by comparing plaintext passwords
-        if ($request->password !== $role->password) {
-            return back()->withErrors(['password' => 'The provided password does not match our records.']);
-        }
 
         // Retrieve the name of the role (nama_level) from the levels table
         $level = DB::table('levels')->where('id_level', $role->id_level)->first();
@@ -104,7 +109,8 @@ class loginController extends Controller
         $laporan_keuangan = iuranModel::count();
         $inventaris = inventaris::count();
         $pengumuman = pengumumans::count();
-        $ktp = ktp::count();
+        $ktpTetap = ktp::where('jenis_penduduk', 'Tetap')->count();
+        $ktpKos = ktp::where('jenis_penduduk', 'kos')->count();
 
         $pendudukData = Ktp::select(
             DB::raw('MONTH(tgl_masuk) as bulan'),
@@ -150,7 +156,8 @@ class loginController extends Controller
                     'laporan_keuangan' => $laporan_keuangan,
                     'inventaris' => $inventaris,
                     'pengumuman' => $pengumuman,
-                    'ktp' => $ktp
+                    'ktpTetap' => $ktpTetap,
+                    'ktpKos' => $ktpKos
                 ]);
             case 'penduduk':
                 return view('penduduk.dashboard', [

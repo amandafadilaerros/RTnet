@@ -13,6 +13,7 @@ class kriteriaSeeder extends Seeder
      */
     public function run(): void
     {
+        // DB::table('kriterias')->truncate();
         $data =[
             ['id_kriteria'=>1,'nama_kriteria'=>'Kemudahan Pelaksanaan', 'bobot'=>20, 'jenis_kriteria'=>'Benefit'],
             ['id_kriteria'=>2,'nama_kriteria'=>'Jumlah Partisipan', 'bobot'=>15, 'jenis_kriteria'=>'Benefit'],

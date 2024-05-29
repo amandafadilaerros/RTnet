@@ -148,6 +148,7 @@
         $(document).ready(function() {
             var dataRumah = $('#table_data_rumah').DataTable({
                 serverSide: true,
+                searching: false,
                 ajax: {
                     url: "{{ url('ketuaRt/data_rumah/list') }}",
                     dataType: "json",

@@ -68,6 +68,15 @@ class laporanKeuanganController extends Controller
         //     $keuangans->where('kategori_id', $request->kategori_id);
         // }
 
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $keuangans->where(function($query) use ($search) {
+                $query->where('jenis_transaksi', 'like', "%{$search}%")
+                      ->orWhere('jenis_iuran', 'like', "%{$search}%")
+                      ->orWhere('no_kk', 'like', "%{$search}%");
+            });
+        }
+
         return DataTables::of($keuangans)
         ->addIndexColumn()
         // ->addColumn('aksi', function ($barang) {

@@ -127,7 +127,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/create')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/create')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="no_kk" id="no_kkTambah" value="{{$data_kk->no_kk}}">
                     <input type="hidden" name="jenis_penduduk" id="jenis_pendudukTambah" value="tetap">
@@ -185,8 +185,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -251,7 +251,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/update')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/update')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -307,8 +307,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="edit_file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -373,7 +373,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/create2')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/create2')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">  
@@ -429,8 +429,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -484,7 +484,7 @@
     </div>
 </div>
 
-<!-- Modal Edit anggota -->
+<!-- Modal Edit non anggota -->
 <div class="modal fade" id="editModalNonAnggota" tabindex="-1" role="dialog" aria-labelledby="editNonModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -495,7 +495,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/update2')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/update2')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -539,8 +539,8 @@
                                 <input type="text" class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="edit_file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -577,6 +577,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -629,6 +630,7 @@
         $(document).ready(function() {
             var detailKK = $('#table_detail_data_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/detail_kk/list') }}",
                     "dataType": "json",
@@ -725,7 +727,10 @@
                         data: "dokumen",
                         className: "",
                         orderable: false,       //true, jika ingin kolom diurutkan
-                        searchable: false       //true, jika ingin kolom bisa dicari
+                        searchable: false,       //true, jika ingin kolom bisa dicari
+                        render: function(data, type, full, meta) {
+                        return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                  }
                     }, {
                       data: null,
                       classname: "",
@@ -761,6 +766,7 @@
         $(document).ready(function() {
             var detailKK = $('#table_detail_data_non_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/detail_kk/list2') }}",
                     "dataType": "json",
@@ -857,7 +863,10 @@
                         data: "dokumen",
                         className: "",
                         orderable: false,       //true, jika ingin kolom diurutkan
-                        searchable: false       //true, jika ingin kolom bisa dicari
+                        searchable: false,       //true, jika ingin kolom bisa dicari
+                        render: function(data, type, full, meta) {
+                    return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                  }
                     }, {
                       data: null,
                       classname: "",

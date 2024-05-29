@@ -16,7 +16,8 @@ class ketuaController extends Controller
     {
         $pengumuman = pengumumans::count();
         $inventaris = inventaris::count();
-        $ktp = ktp::count();
+        $ktpTetap = ktp::where('jenis_penduduk', 'Tetap')->count();
+        $ktpKos = ktp::where('jenis_penduduk', 'kos')->count();
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'dashboard',
@@ -33,7 +34,8 @@ class ketuaController extends Controller
             'activeMenu' => $activeMenu,
             'pengumuman' => $pengumuman,
             'inventaris' => $inventaris,
-            'ktp' => $ktp,
+            'ktpTetap' => $ktpTetap,
+            'ktpKos' => $ktpKos
         ]);
     }
     public function keuangan()

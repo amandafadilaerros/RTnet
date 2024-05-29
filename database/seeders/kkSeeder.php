@@ -13,6 +13,7 @@ class kkSeeder extends Seeder
      */
     public function run(): void
     {
+        // DB::table('kks')->truncate();
         $data =[
             ['no_kk'=>12345678,'no_rumah'=>1,'alamat'=>'Candipanggung RT 8','jumlah_individu'=>2,'paguyuban'=>'true','nama_kepala_keluarga'=>'Yoga'],
             ['no_kk'=>22345678,'no_rumah'=>2,'alamat'=>'Candipanggung RT 8','jumlah_individu'=>2,'paguyuban'=>'false','nama_kepala_keluarga'=>'Doni'],
