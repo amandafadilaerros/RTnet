@@ -298,6 +298,7 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::post('/list', [inventarisController::class, 'list']);
         Route::post('/show/{request}', [inventarisController::class, 'show']);
         Route::get('/searchdate', [inventarisController::class, 'searchdate']);
+        Route::get('/daftar_inventaris', [inventarisController::class, 'store']);
 
         Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
         Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);

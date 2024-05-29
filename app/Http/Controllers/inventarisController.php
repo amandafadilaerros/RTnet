@@ -137,9 +137,6 @@ class inventarisController extends Controller
 
 
 
-
-
-
     public function show(Request $request)
     {
         $no_kk = $request->no_kk;
