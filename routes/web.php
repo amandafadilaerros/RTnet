@@ -304,13 +304,13 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::post('/show/{request}', [inventarisController::class, 'show']);
         Route::get('/searchdate', [inventarisController::class, 'searchdate']);
 
+        Route::post('/pinjam', [InventarisController::class, 'pinjam']);
+        Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
     Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
     Route::post('/peminjaman/update', [inventarisController::class, 'update_peminjaman']);
     // Route::get('/pinjam/barang/{id}', [InventarisController::class, 'pinjamBarang'])->name('penduduk.daftar_inventaris.pinjam.barang');
-    Route::post('/pinjam', [InventarisController::class, 'pinjam']);
-    Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);
 
 
 });
