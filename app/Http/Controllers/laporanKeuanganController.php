@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IuranModel;
+use App\Models\iuranModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use JeroenNoten\LaravelAdminLte\View\Components\Tool\Datatable;
