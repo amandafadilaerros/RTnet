@@ -98,7 +98,18 @@ class data_kkRtController extends Controller
             'alamat'                => 'required|max:255',
             'no_rumah'              => 'required|max:255'
         ]);
-        // dd($request);
+        
+        $pathBaru = null;
+        if ($request->hasFile('dokumen')) {
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            $path = $request->dokumen->move('gambar', $namaFile);
+            $path = str_replace("\\","//",$path);
+            
+            $pathBaru = asset('gambar/'. $namaFile);
+        }
+
 
         kkModel::create([
             'no_kk'                 => $request->no_kk,
@@ -106,7 +117,7 @@ class data_kkRtController extends Controller
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $request->alamat,
             'no_rumah'              => $request->no_rumah,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         $level = level::where('nama_level', 'penduduk')->firstOrFail();
         // dd($level);
@@ -174,6 +185,7 @@ class data_kkRtController extends Controller
     
     public function update(Request $request)
     {
+        // dd($request);
         $request->validate([
             'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
@@ -181,14 +193,29 @@ class data_kkRtController extends Controller
             'alamat'                => 'required|max:255',
         ]);
 
-        kkModel::find($request->id)->update([
-            'no_kk'                 => $request->no_kk,
-            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
-            'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
-            'dokumen'               => $request->dokumen,
-        ]);
+        if ($request->hasFile('dokumen')) {
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
 
+            $path = $request->dokumen->move('gambar', $namaFile);
+            $path = str_replace("\\","//",$path);
+            
+            $pathBaru = asset('gambar/'. $namaFile);
+            kkModel::find($request->id)->update([
+                'no_kk'                 => $request->no_kk,
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'jumlah_individu'       => $request->jumlah_individu,
+                'alamat'                => $request->alamat,
+                'dokumen'               => $pathBaru,
+            ]);
+        } else {
+            kkModel::find($request->id)->update([
+                'no_kk'                 => $request->no_kk,
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'jumlah_individu'       => $request->jumlah_individu,
+                'alamat'                => $request->alamat,
+            ]);
+        }
         return redirect('/ketuaRt/data_kk')->with('success', 'Data berhasil diubah');
     }
 

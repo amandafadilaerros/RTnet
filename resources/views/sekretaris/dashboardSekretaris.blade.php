@@ -13,7 +13,7 @@
             </div>
             <div class="col">
               {{-- // nanti tinggal ubah sesuai data di db --}}
-              <h2>3</h2>
+              <h2>5</h2>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
                 <i class="fas fa-file-alt fa-3x"></i>
             </div>
             <div class="col">
-              <h2>4</h2>
+              <h2>9</h2>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
               <i class="fas fa-user-plus fa-3x"></i>
             </div>
             <div class="col">
-              <h2>4</h2>
+              <h2>9</h2>
             </div>
           </div>
         </div>
