@@ -127,7 +127,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/create')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/create')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" name="no_kk" id="no_kkTambah" value="{{$data_kk->no_kk}}">
                     <input type="hidden" name="jenis_penduduk" id="jenis_pendudukTambah" value="tetap">
@@ -251,7 +251,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/update')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/update')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -373,7 +373,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/create2')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/create2')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">  
@@ -484,7 +484,7 @@
     </div>
 </div>
 
-<!-- Modal Edit anggota -->
+<!-- Modal Edit non anggota -->
 <div class="modal fade" id="editModalNonAnggota" tabindex="-1" role="dialog" aria-labelledby="editNonModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -495,7 +495,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/ketuaRt/detail_kk/update2')}}" method="POST">
+                <form action="{{url('/ketuaRt/detail_kk/update2')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -577,6 +577,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
