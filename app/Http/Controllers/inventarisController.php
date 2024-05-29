@@ -37,7 +37,10 @@ class inventarisController extends Controller
     public function list()
     {
         // Mengambil semua inventaris
-        $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
+        $inventaris = Inventaris::leftJoin('peminjaman_inventaris', function ($join) {
+            $join->on('inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
+                ->whereNull('peminjaman_inventaris.tanggal_kembali');
+        })
             ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam', 'peminjaman_inventaris.tanggal_kembali')
             ->distinct()
             ->get();
