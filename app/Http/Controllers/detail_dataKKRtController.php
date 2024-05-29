@@ -123,25 +123,32 @@ class detail_dataKKRtController extends Controller
 
     public function store(Request $request)
     {
+        $jumlahIndividu = kkModel::where('no_kk', $request->no_kk)->value('jumlah_individu');
+        $jumlahKtp = ktp::where('no_kk', $request->no_kk)
+                    ->where('jenis_penduduk', 'tetap')
+                    ->count();
+        if($jumlahKtp >= $jumlahIndividu){
+            return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Maaf, jumlah individu dalam KK sudah mencapai batas.');
+        }
         // dd($request);
-        // $request->validate([
-        //     'nik'                   => 'required|max:255',                         
-        //     'no_kk'                 => 'required|max:255',
-        //     'nama'                  => 'required|max:255',
-        //     'tempat'                => 'required|max:255',
-        //     'tanggal_lahir'         => 'required|max:255',
-        //     'jenis_kelamin'         => 'required|max:255',
-        //     'golongan_darah'        => 'required|max:255',
-        //     'agama'                 => 'required|max:255',
-        //     'status_perkawinan'     => 'required|max:255',
-        //     'pekerjaan'             => 'required|max:255',
-        //     'status_keluarga'       => 'required|max:255',
-        //     'status_anggota'        => 'required|max:255',
-        //     'jenis_penduduk'        => 'required|max:255',
+        $request->validate([
+            'nik'                   => 'required|max:255|unique:ktps,NIK',                         
+            'no_kk'                 => 'required|max:255',
+            'nama'                  => 'required|max:255',
+            'tempat'                => 'required|max:255',
+            'tanggal_lahir'         => 'required|max:255',
+            'jenis_kelamin'         => 'required|max:255',
+            'golongan_darah'        => 'required|max:255',
+            'agama'                 => 'required|max:255',
+            'status_perkawinan'     => 'required|max:255',
+            'pekerjaan'             => 'required|max:255',
+            'status_keluarga'       => 'required|max:255',
+            'status_anggota'        => 'required|max:255',
+            'jenis_penduduk'        => 'required|max:255',
             // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
-        // ]);
+        ]);
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -167,7 +174,7 @@ class detail_dataKKRtController extends Controller
     {
         // dd($request);
         $request->validate([
-            'nik'                   => 'required|max:255',                         
+            'nik'                   => 'required|max:255|unique:ktps,NIK',                         
             'no_kk'                 => 'required|max:255',
             'nama'                  => 'required|max:255',
             'tempat'                => 'required|max:255',
