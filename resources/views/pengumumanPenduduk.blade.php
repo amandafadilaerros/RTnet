@@ -7,8 +7,8 @@
     <!-- Search -->
     <div class="col-md-4">
         <div class="row">
-            <input type="text" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-            <button class="btn btn-primary" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+            <input type="text" id="search" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+            <button class="btn btn-primary" id="searchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
         </div>
     </div>
 </div>        
@@ -29,18 +29,27 @@
 @endsection
 
 @push('css')
-    
+    <style>
+       .dataTables_filter {
+      display: none;
+  }
+  #searchOption option:hover {
+    outline: none; /* Remove default focus outline */
+    border-color: #424874; /* Change border color to match the desired color */
+    box-shadow: 0 0 0 0.2rem rgba(66, 72, 116, 0.25); /* Add a box shadow to simulate focus effect */
+  }
+    </style>
 @endpush
 
 @push('js')
     <script>
         $(document).ready(function() {
-            $('#table_pengumuman').DataTable({
+            var table = $('#table_pengumuman').DataTable({
                 serverSide: true,
                 ajax: {
-                    "url": "{{ url('penduduk/pengumuman') }}",
-                    "dataType": "json",
-                    "type": "POST"
+                    url: "{{ url('penduduk/pengumuman') }}",
+                    type: "POST",
+                    dataType: "json"
                 },
                 columns: [
                     {
@@ -58,12 +67,22 @@
                     {
                         data: "aksi",
                         className: "",
-                        orderable: true,
-                        searchable: true
+                        orderable: false,
+                        searchable: false
                     }
                 ]
             });
+
+            $('#searchButton').on('click', function() {
+                var keyword = $('#search').val();
+                table.search(keyword).draw();
+            });
+
+            $('#search').on('keypress', function(e) {
+                if (e.which == 13) { // enter key
+                    $('#searchButton').click();
+                }
+            });
         });
     </script>
-
 @endpush
