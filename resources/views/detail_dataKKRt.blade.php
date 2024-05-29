@@ -18,6 +18,9 @@
         @if (session('error'))
         <div class="alert alert-danger">{{session('error')}}</div>
         @endif
+        @error('nik')
+            <div class="alert alert-danger">{{ $message }}</div>
+        @enderror
         <input type="hidden" id="NKK" value="{{$data_kk->no_kk}}">
         <div class="row">
             <div class="col-md-9">

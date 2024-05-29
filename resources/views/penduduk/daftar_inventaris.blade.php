@@ -32,7 +32,6 @@
           <th scope="col">Gambar</th>
           <th scope="col">Nama Barang</th>
           <th scope="col">Status</th>
-      
         </tr>
       </thead>
       <tbody>
@@ -74,16 +73,19 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Anda ingin meminjam barang ini?</p>
+        <form id="pinjamBarangForm" action="{{ url('penduduk/daftar_inventaris/pinjam/barang') }}" method="POST">
+          @csrf
+          <p id="konfirmasiText">Anda ingin meminjam inventaris <span id="nama_barang"></span> ?</p>
+          <input type="hidden" class="form-control" id="id_inventaris" name="id_inventaris">
       </div>
       <div class="modal-footer" style="border-radius: 0 0 25px 25px;">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="border-radius: 20px;">Batal</button>
-        <button type="button" class="btn btn-primary" id="btnModalPinjam" style="border-radius: 20px; background-color: #424874; width: 200px;">Pinjam</button>
+        <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width: 200px;">Pinjam</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
-
 @endsection
 
 @push('css')
@@ -112,7 +114,7 @@ $(document).ready(function() {
         columns: [
             { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
             { 
-                data: "gambar", 
+              data: "gambar", 
                 className: "text-center", 
                 orderable: false, 
                 searchable: false,
@@ -121,83 +123,62 @@ $(document).ready(function() {
                 }
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
-            { data: "aksi", className: "text-center", orderable: true, searchable: true },
-           
+            { data: "aksi", className: "text-center", orderable: false, searchable: false }
         ]
     });
 
-    $(document).on("click", ".btn-danger", function () {
-    var noKK = $(this).data('no-kk');
-    console.log("Fetching data for no_kk: " + noKK); // Debugging
+    $(document).on('click', '.btn-danger', function() {
+        var noKK = $(this).data('no-kk');
+        console.log("Fetching data for no_kk: " + noKK);
 
-    if (noKK === undefined) {
-        console.error("no_kk is undefined");
-        return;
-    }
-
-    $.ajax({
-        url: "{{ url('penduduk/daftar_inventaris/show/{request}') }}",
-        type: "POST",
-        dataType: "json",
-        data: { no_kk: noKK },
-        success: function(response) {
-            console.log(response); // Log the response for debugging
-
-            if (response.error) {
-                console.error("Error: " + response.error);
-                alert("Data tidak ditemukan.");
-            } else {
-                // Set data peminjam ke dalam modal
-                $('#nama_kepala_keluarga').text(response.nama_kepala_keluarga || 'Data tidak tersedia');
-                $('#alamat').text(response.alamat || 'Data tidak tersedia');
-                $('#no_rumah').text(response.no_rumah || 'Data tidak tersedia');
-
-                // Tampilkan modal
-                $('#viewModalAnggota').modal('show');
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error("Error:", xhr.responseText); // Log the error for debugging
-            alert("Terjadi kesalahan saat mengambil data.");
+        if (noKK === undefined) {
+            console.error("no_kk is undefined");
+            return;
         }
-        
-    });
-});
 
-$(document).on("click", ".btn-pinjam", function () {
-    var idInventaris = $(this).data('id');
-    
-    // Tampilkan modal konfirmasi
-    $('#konfirmasiModal').modal('show');
-
-    // Tombol "Pinjam" di modal konfirmasi
-    $('#btnModalPinjam').click(function() {
         $.ajax({
-            url: "{{ url('pinjam/barang') }}",
+            url: "{{ url('penduduk/daftar_inventaris/show/{request}') }}",
             type: "POST",
-            data: { id_inventaris: idInventaris },
+            dataType: "json",
+            data: { no_kk: noKK },
             success: function(response) {
-                // Handle success (if any)
-                alert(response.success);
-                $('#konfirmasiModal').modal('hide');
+                console.log(response);
+
+                if (response.error) {
+                    console.error("Error: " + response.error);
+                    alert("Data tidak ditemukan.");
+                } else {
+                    $('#nama_kepala_keluarga').text(response.nama_kepala_keluarga || 'Data tidak tersedia');
+                    $('#alamat').text(response.alamat || 'Data tidak tersedia');
+                    $('#no_rumah').text(response.no_rumah || 'Data tidak tersedia');
+                    $('#viewModalAnggota').modal('show');
+                }
             },
             error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-                alert("Terjadi kesalahan saat meminjam barang.");
-                $('#konfirmasiModal').modal('hide');
+                console.error("Error:", xhr.responseText);
+                alert("Terjadi kesalahan saat mengambil data.");
             }
         });
     });
-});
 
+    $(document).on('click', '.pinjam-btn', function() {
+        var idInventaris = $(this).data('id');
+        var namaBarang = $(this).data('nama-barang');
+    
 
-    // Search barang
+        $('#id_inventaris').val(idInventaris); // Set value pada input hidden di modal
+        $('#id_inventaris_display').text(idInventaris); // Set ID untuk ditampilkan di modal
+        $('#nama_barang').text(namaBarang); // Set nama barang di modal konfirmasi
+      
+
+        $('#konfirmasiModal').modal('show'); // Tampilkan modal
+    });
+
     $('#searchButton').on('click', function() {
         var keyword = $('#searchOption').val().toLowerCase();
         inventaris.search(keyword).draw();
     });
 
-    // Search by date
     $('#searchDateButton').on('click', function() {
         var searchDate = $('#searchDateInput').val();
         
@@ -214,6 +195,8 @@ $(document).on("click", ".btn-pinjam", function () {
             }
         });
     });
+
+   
 });
 </script>
 @endpush
