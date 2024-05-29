@@ -13,7 +13,7 @@
             </div>
             <div class="col">
               {{-- // nanti tinggal ubah sesuai data di db --}}
-              <h2>{{$ktp}}</h2>
+              <h2>{{$ktpTetap}}</h2>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
               <i class="fas fa-user-plus fa-3x"></i>
             </div>
             <div class="col">
-              <h2>{{$ktp}}</h2>
+              <h2>{{$ktpKos}}</h2>
             </div>
           </div>
         </div>

@@ -104,7 +104,8 @@ class loginController extends Controller
         $laporan_keuangan = iuranModel::count();
         $inventaris = inventaris::count();
         $pengumuman = pengumumans::count();
-        $ktp = ktp::count();
+        $ktpTetap = ktp::where('jenis_penduduk', 'Tetap')->count();
+        $ktpKos = ktp::where('jenis_penduduk', 'kos')->count();
 
         $pendudukData = Ktp::select(
             DB::raw('MONTH(tgl_masuk) as bulan'),
@@ -150,7 +151,8 @@ class loginController extends Controller
                     'laporan_keuangan' => $laporan_keuangan,
                     'inventaris' => $inventaris,
                     'pengumuman' => $pengumuman,
-                    'ktp' => $ktp
+                    'ktpTetap' => $ktpTetap,
+                    'ktpKos' => $ktpKos
                 ]);
             case 'penduduk':
                 return view('penduduk.dashboard', [

@@ -173,6 +173,7 @@
         $(document).ready(function() {
             var dataKK = $('#table_data_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/data_kk/list') }}",
                     "dataType": "json",
