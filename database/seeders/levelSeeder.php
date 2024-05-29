@@ -13,6 +13,8 @@ class levelSeeder extends Seeder
      */
     public function run(): void
     {
+        
+        // DB::table('levels')->truncate();
         $data =[
             ['id_level'=>1,'nama_level'=>'ketua_rt'],
             ['id_level'=>2,'nama_level'=>'bendahara'],
