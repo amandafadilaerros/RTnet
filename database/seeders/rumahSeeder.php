@@ -13,6 +13,8 @@ class rumahSeeder extends Seeder
      */
     public function run(): void
     {
+        
+        // DB::table('rumahs')->truncate();
         $data =[
             ['no_rumah'=>1,'status_rumah'=>'Rumah Pribadi'],
             ['no_rumah'=>2,'status_rumah'=>'Rumah Pribadi'],
