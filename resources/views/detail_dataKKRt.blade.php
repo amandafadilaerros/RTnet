@@ -185,8 +185,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -307,8 +307,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="edit_file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -429,8 +429,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -539,8 +539,8 @@
                                 <input type="text" class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
-                                <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="edit_file_upload" name="file_upload">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
 
@@ -725,7 +725,10 @@
                         data: "dokumen",
                         className: "",
                         orderable: false,       //true, jika ingin kolom diurutkan
-                        searchable: false       //true, jika ingin kolom bisa dicari
+                        searchable: false,       //true, jika ingin kolom bisa dicari
+                        render: function(data, type, full, meta) {
+                        return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                  }
                     }, {
                       data: null,
                       classname: "",
@@ -857,7 +860,10 @@
                         data: "dokumen",
                         className: "",
                         orderable: false,       //true, jika ingin kolom diurutkan
-                        searchable: false       //true, jika ingin kolom bisa dicari
+                        searchable: false,       //true, jika ingin kolom bisa dicari
+                        render: function(data, type, full, meta) {
+                    return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                  }
                     }, {
                       data: null,
                       classname: "",
