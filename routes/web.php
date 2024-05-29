@@ -126,12 +126,12 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::get('/laporanKeuangan', [laporanKeuanganController::class, 'keuangan']);
     Route::post('/keuangan/list', [laporanKeuanganController::class, 'list']);
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-    // Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
-    // Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
-    // Route::post('/inventaris/getData', [InventarisKetuaController::class, 'getData']);
-    // Route::post('/inventaris/edit', [InventarisKetuaController::class, 'update']);
-    // Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
-    // Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
+    Route::get('/daftar_inventaris', [InventarisKetuaController::class, 'index']);
+    Route::post('/inventaris', [InventarisKetuaController::class, 'store']);
+    Route::post('/inventaris/getData', [InventarisKetuaController::class, 'getData']);
+    Route::post('/inventaris/edit', [InventarisKetuaController::class, 'update']);
+    Route::delete('/inventaris/delete', [InventarisKetuaController::class, 'destroy']);
+    Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
     Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
     Route::get('/daftar_peminjaman/edit/{id}', [daftar_peminjamanController::class, 'update']);
