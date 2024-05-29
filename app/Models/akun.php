@@ -14,7 +14,7 @@ class akun extends Model
     protected $primaryKey = 'id_akun';
 
     protected $fillable = [
-        'id_akun', 'id_user', 'password', 'nama',
+        'id_akun', 'id_user', 'password', 'nama', 'id_level'
     ];
 
     public function level(): HasMany

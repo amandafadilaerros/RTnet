@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\akun;
 use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
+use App\Models\level;
 use Yajra\DataTables\Facades\DataTables;
 
 class data_kkRtController extends Controller
@@ -66,6 +68,14 @@ class data_kkRtController extends Controller
     }
     public function list(Request $request){
         $kks = kkModel::select('no_kk','nama_kepala_keluarga', 'jumlah_individu', 'no_rumah', 'alamat', 'dokumen');
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $kks->where(function($query) use ($search) {
+                $query->where('nama_kepala_keluarga', 'like', "%{$search}%");
+                    //   ->orWhere('no_rumah', 'like', "%{$search}%")
+                    //   ->orWhere('alamat', 'like', "%{$search}%");
+            });
+        }
     
         return DataTables::of($kks)
         ->addIndexColumn()
@@ -97,6 +107,14 @@ class data_kkRtController extends Controller
             'alamat'                => $request->alamat,
             'no_rumah'              => $request->no_rumah,
             'dokumen'               => $request->dokumen,
+        ]);
+        $level = level::where('nama_level', 'penduduk')->firstOrFail();
+        // dd($level);
+        akun::create([
+            'id_akun' => $request->no_kk,
+            'id_level' => $level->id_level,
+            'password' => $request->no_kk,  // Meng-hash password
+            'nama' => $request->nama_kepala_keluarga
         ]);
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }

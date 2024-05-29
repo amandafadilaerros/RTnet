@@ -149,7 +149,7 @@ class detail_dataKKSekretarisController extends Controller
     {
         // dd($request);
         $request->validate([
-            'nik'                   => 'required|max:255',                         
+            'nik'                   => 'required|max:255|unique:ktps,NIK',                         
             'no_kk'                 => 'required|max:255',
             'nama'                  => 'required|max:255',
             'tempat'                => 'required|max:255',
