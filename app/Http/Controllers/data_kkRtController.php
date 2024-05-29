@@ -110,7 +110,6 @@ class data_kkRtController extends Controller
             $pathBaru = asset('gambar/'. $namaFile);
         }
 
-
         kkModel::create([
             'no_kk'                 => $request->no_kk,
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
