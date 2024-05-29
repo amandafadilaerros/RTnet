@@ -629,6 +629,7 @@
         $(document).ready(function() {
             var detailKK = $('#table_detail_data_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/detail_kk/list') }}",
                     "dataType": "json",
@@ -764,6 +765,7 @@
         $(document).ready(function() {
             var detailKK = $('#table_detail_data_non_anggota_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/detail_kk/list2') }}",
                     "dataType": "json",

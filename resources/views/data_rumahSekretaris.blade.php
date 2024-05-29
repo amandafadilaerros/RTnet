@@ -148,6 +148,7 @@
         $(document).ready(function() {
             var dataRumah = $('#table_data_rumah').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('sekretaris/data_rumah/list') }}",
                     "dataType": "json",
