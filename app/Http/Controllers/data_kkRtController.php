@@ -186,7 +186,7 @@ class data_kkRtController extends Controller
     {
         // dd($request);
         $request->validate([
-            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
+            'no_kk'                 => 'required|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',
