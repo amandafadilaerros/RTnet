@@ -34,16 +34,26 @@ class inventarisController extends Controller
         ]);
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        // Mengambil semua inventaris
-        $inventaris = Inventaris::leftJoin('peminjaman_inventaris', function ($join) {
-            $join->on('inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
-                ->whereNull('peminjaman_inventaris.tanggal_kembali');
-        })
-            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam', 'peminjaman_inventaris.tanggal_kembali')
-            ->distinct()
-            ->get();
+        // Mengambil nilai filter status dari request
+        $statusFilter = $request->input('status');
+
+        // Membuat query untuk mengambil semua inventaris dengan left join ke peminjaman_inventaris
+        $query = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
+            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam', 'peminjaman_inventaris.tanggal_peminjaman')
+            ->distinct();
+
+        // Terapkan filter berdasarkan status jika ada
+        if ($statusFilter == 'tersedia') {
+            $query->whereRaw('inventaris.jumlah > (SELECT COUNT(*) FROM peminjaman_inventaris WHERE inventaris.id_inventaris = peminjaman_inventaris.id_inventaris AND peminjaman_inventaris.tanggal_kembali IS NULL)');
+        } elseif ($statusFilter == 'dipinjam') {
+            $query->whereRaw('inventaris.jumlah = (SELECT COUNT(*) FROM peminjaman_inventaris WHERE inventaris.id_inventaris = peminjaman_inventaris.id_inventaris AND peminjaman_inventaris.tanggal_kembali IS NULL)');
+            ('peminjaman_inventaris.tanggal_kembali');
+
+        }
+
+        $inventaris = $query->get();
 
         // Mengambil id inventaris yang sedang dipinjam dan menghitung jumlah barang yang sedang dipinjam
         $barang_dipinjam = peminjaman_inventaris::select('id_inventaris', DB::raw('count(*) as total_dipinjam'))
@@ -72,18 +82,17 @@ class inventarisController extends Controller
                 $dipinjam = $barang_dipinjam->get($row->id_inventaris)->total_dipinjam ?? 0;
                 $tersedia = $row->jumlah - $dipinjam;
 
-                // Cek apakah barang sedang dipinjam berdasarkan tanggal_kembali
-                $isDipinjam = $barang_dipinjam->get($row->id_inventaris) && $barang_dipinjam->get($row->id_inventaris)->total_dipinjam > 0;
-
-                if ($isDipinjam) {
-                    return 'Dipinjam';
-                } else {
+                if ($tersedia > 0) {
                     return 'Tersedia = ' . $tersedia;
+                } else {
+                    return 'Dipinjam';
                 }
             })
             ->rawColumns(['aksi'])
             ->make(true);
     }
+
+
 
 
     public function pinjam(Request $request)
