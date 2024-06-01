@@ -261,11 +261,11 @@ Route::group(['prefix' => 'penduduk'], function () {
 
     Route::get('/', [PendudukController::class, 'getData'])->name('penduduk.dashboard');
     Route::get('/DaftarAnggota', [DaftarAnggotaController::class, 'index']);
-    Route::post('/tambah_daftaranggota',[DaftarAnggotaController::class, 'store']);
+    Route::post('/tambah_daftaranggota', [DaftarAnggotaController::class, 'store']);
     Route::post('/DaftarAnggota', [DaftarAnggotaController::class, 'show']);
-    Route::post('/DaftarAnggota/Update',[DaftarAnggotaController::class, 'update']);
+    Route::post('/DaftarAnggota/Update', [DaftarAnggotaController::class, 'update']);
     Route::delete('/DaftarAnggota/delete', [DaftarAnggotaController::class, 'destroy']);
-    Route::post('/tambah_daftaranggota_kos',[DaftarAnggotaController::class, 'store_kos']);
+    Route::post('/tambah_daftaranggota_kos', [DaftarAnggotaController::class, 'store_kos']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/maut', [mautController::class, 'index']);
@@ -303,9 +303,11 @@ Route::group(['prefix' => 'penduduk'], function () {
         Route::post('/list', [inventarisController::class, 'list']);
         Route::post('/show/{request}', [inventarisController::class, 'show']);
         Route::get('/searchdate', [inventarisController::class, 'searchdate']);
+        Route::get('/daftar_inventaris', [inventarisController::class, 'store']);
 
         Route::post('/pinjam', [InventarisController::class, 'pinjam']);
         Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);
+
     });
     Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
     Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
