@@ -11,9 +11,10 @@ class DaftarAnggotaController extends Controller
 {
     public function index()
     {
-        $kks = kkModel::select('nama_kepala_keluarga','no_kk','alamat','jumlah_individu')->get();
-        $ktps = ktp::select('nama','NIK','agama','status_keluarga')->where('jenis_penduduk','tetap')->get();
-        $ktpss = ktp::select('nama', 'NIK')->where('jenis_penduduk', 'kos')->get();
+        $no_kk = session()->get('id_akun');
+        $kks = kkModel::select('nama_kepala_keluarga','no_kk','alamat','jumlah_individu')->where('no_kk', $no_kk)->get();
+        $ktps = ktp::select('nama','NIK','agama','status_keluarga')->where('jenis_penduduk','tetap')->where('no_kk', $no_kk)->get();
+        $ktpss = ktp::select('nama', 'NIK')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)->get();
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Keluarga Saya',
@@ -30,9 +31,16 @@ class DaftarAnggotaController extends Controller
 
     public function store(Request $request)
     {
-        
-        session()->put('id_akun', 4);
-        $noKK = session()->get('id_akun'); 
+        $noKK = session()->get('id_akun');
+        // dd($request);
+
+        $jumlahIndividu = kkModel::where('no_kk', $noKK)->value('jumlah_individu');
+        $jumlahKtp = ktp::where('no_kk', $noKK)
+                    ->where('jenis_penduduk', 'tetap')
+                    ->count();
+        if($jumlahKtp >= $jumlahIndividu){
+            return redirect('/penduduk/DaftarAnggota')->with('error', 'Maaf, jumlah individu dalam KK sudah mencapai batas.');
+        }
 
         $validated = $request->validate([
             'NIK' => 'required',
@@ -151,8 +159,6 @@ class DaftarAnggotaController extends Controller
 
     public function store_kos(Request $request)
     {
-       
-        session()->put('id_akun', 4);
         $noKK = session()->get('id_akun'); 
 
         $validated = $request->validate([

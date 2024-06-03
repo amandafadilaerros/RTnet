@@ -71,7 +71,7 @@
                         <td>
                             <a href="#" class="btn btn-primary btn-sm btn-show" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-id="{{$ktp->NIK}}"><i class="fas fa-eye"></i></a>
                             <a href="#" class="btn btn-success btn-sm btn-update" data-toggle="modal" data-id="{{$ktp->NIK}}" data-target="#editModalAnggota"><i class="fas fa-pen"></i></a>
-                            <form class="d-inline-block" method="POST" action="{{'/penduduk/DaftarAnggota/delete'}}">
+                            <form class="d-inline-block" method="POST" action="{{url('/penduduk/DaftarAnggota/delete')}}">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="NIK" value="{{$ktp->NIK}}">
@@ -129,7 +129,7 @@
                             <a href="#" class="btn btn-primary btn-sm btn-show-non" style="border-radius: 5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalNonAnggota" data-id="{{$ktp->NIK}}"><i class="fas fa-eye"></i></a>
                             <a href="#" data-id="{{$ktp->NIK}}" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModalNonAnggota"><i class="fas fa-pen"></i></a>
 
-                            <form class="d-inline-block" method="POST" action="{{'/penduduk/DaftarAnggota/delete'}}">
+                            <form class="d-inline-block" method="POST" action="{{url('/penduduk/DaftarAnggota/delete')}}">
                                 @csrf
                                 @method('DELETE')
                                 <input type="hidden" name="NIK" value="{{$ktp->NIK}}">
@@ -157,7 +157,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{('/penduduk/tambah_daftaranggota')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/penduduk/tambah_daftaranggota')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -361,8 +361,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{('/penduduk/DaftarAnggota')}}" method="GET">
-                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -420,7 +418,6 @@
                         </div>
                     </div>
                 </div>
-                </form>
             </div>
         </div>
     </div>
@@ -439,7 +436,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{('/penduduk/tambah_daftaranggota_kos')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/penduduk/tambah_daftaranggota_kos')}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         {{-- <input type="hidden" id="kos" name="kos"> --}}
@@ -539,7 +536,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{('/penduduk/DaftarAnggota/Update')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{url('/penduduk/DaftarAnggota/Update')}}" method="POST"
+                enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="NIK_non" name="nik">
                     <div class="row">
@@ -638,8 +636,6 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{('/penduduk/DaftarAnggota')}}" method="GET">
-                    @csrf
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -695,7 +691,6 @@
                             </div>
                         </div>
                     </div>
-                </form>
             </div>
         </div>
     </div>

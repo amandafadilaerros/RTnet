@@ -173,6 +173,7 @@
         $(document).ready(function() {
             var dataKK = $('#table_data_kk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/data_kk/list') }}",
                     "dataType": "json",
@@ -218,7 +219,10 @@
                       data: "dokumen",
                         className: "",
                         orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
+                        searchable: true,        // jika ingin kolom bisa dicari
+                        render: function(data, type, full, meta) {
+                    return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                  }
                     }, {
                       data: null,
                       classname: "",

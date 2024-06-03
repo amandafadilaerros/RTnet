@@ -62,6 +62,7 @@
         $(document).ready(function() {
             var dataPenduduk = $('#table_data_penduduk').DataTable({
                 serverSide: true,   //jika ingin menggunakan server side processing
+                searching: false,
                 ajax: {
                     "url": "{{ url('ketuaRt/data_penduduk/list') }}",
                     "dataType": "json",
@@ -156,7 +157,10 @@
                         data: "dokumen",
                         className: "",
                         orderable: false,       //true, jika ingin kolom diurutkan
-                        searchable: false       //true, jika ingin kolom bisa dicari
+                        searchable: false,       //true, jika ingin kolom bisa dicari
+                        render: function(data, type, full, meta) {
+                        return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                  }
                     }
                 ]
             });

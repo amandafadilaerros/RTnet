@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IuranModel;
+use App\Models\iuranModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use JeroenNoten\LaravelAdminLte\View\Components\Tool\Datatable;
@@ -67,6 +67,15 @@ class laporanKeuanganController extends Controller
         // if ($request->kategori_id){
         //     $keuangans->where('kategori_id', $request->kategori_id);
         // }
+
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $keuangans->where(function($query) use ($search) {
+                $query->where('jenis_transaksi', 'like', "%{$search}%")
+                      ->orWhere('jenis_iuran', 'like', "%{$search}%")
+                      ->orWhere('no_kk', 'like', "%{$search}%");
+            });
+        }
 
         return DataTables::of($keuangans)
         ->addIndexColumn()
