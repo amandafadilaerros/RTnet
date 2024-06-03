@@ -400,4 +400,6 @@ class pendudukController extends Controller
         return redirect('/penduduk/akun')->with('success', 'Password berhasil diubah.');
     }
 
+
+
 }
