@@ -12,7 +12,8 @@
 
         <div class="row justify-content-end">
             <div class="col-md-10">
-                <form action="{{ url('inventaris') }}" class="form-inline justify-content-end">
+                <form action="{{url('/penduduk/peminjaman/search')}}" class="form-inline justify-content-end" method="post">
+                  @csrf
                     <input type="text" class="form-control form-control-sm mr-sm-2 mt-1" name="search"
                         placeholder="Search Inventaris" value="{{ request('search') }}">
                     <button class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;"

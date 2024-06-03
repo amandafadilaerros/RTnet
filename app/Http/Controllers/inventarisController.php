@@ -34,15 +34,21 @@ class inventarisController extends Controller
         ]);
     }
 
-    public function list()
+    public function list(Request $request)
     {
         // Mengambil semua inventaris
-        $inventaris = Inventaris::leftJoin('peminjaman_inventaris', 'inventaris.id_inventaris', '=', 'peminjaman_inventaris.id_inventaris')
+        $inventaris = peminjaman_inventaris::select('id_peminjaman', 'id_inventaris', 'id_peminjam', 'jumlah_peminjaman', 'tanggal_peminjaman', 'tanggal_kembali')
+                    ->with('inventaris')
+                    ->with('ktps');
+                    // ->where('id_peminjam', session()->get('NIK'))
+                    // ->get();
 
-            ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam')
-            ->distinct()
-
-            ->get();
+            if ($request->has('customSearch') && !empty($request->customSearch)) {
+                $search = $request->customSearch;
+                $inventaris->where(function($query) use ($search) {
+                    $query->where('nama_barang', 'like', "%{$search}%");
+                });
+            }
 
         // Mengambil id inventaris yang sedang dipinjam dan menghitung jumlah barang yang sedang dipinjam
         $barang_dipinjam = peminjaman_inventaris::select('id_inventaris', DB::raw('count(*) as total_dipinjam'))
@@ -79,6 +85,41 @@ class inventarisController extends Controller
             })
             ->rawColumns(['aksi'])
             ->make(true);
+    }
+    public function search(Request $request){
+        // Get the search value from the request
+        $search = $request->input('search');
+        // dd($search);
+        // dd($search);
+
+        $inventaris = inventaris::all();
+        // Search in the title and body columns from the posts table
+        $minjams = peminjaman_inventaris::with('inventaris')
+                    ->whereHas('inventaris', function($query) use ($search) {
+        $query->where('nama_barang', 'LIKE', "%{$search}%");
+    })
+    ->get();
+
+        // dd($minjams);
+    
+        // Return the search view with the resluts compacted
+        $breadcrumb = (object) [
+            'title' => 'Daftar Peminjaman',
+            'list' => [date('j F Y')],
+        ];
+        $page = (object) [
+            'title' => '-----',
+        ];
+
+        $activeMenu = 'peminjaman';
+
+        return view('inventaris_pk.peminjaman', [
+            'minjams' => $minjams,
+            'inventaris' => $inventaris,
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
     }
 
 
@@ -136,10 +177,6 @@ class inventarisController extends Controller
 
 
 
-
-
-
-
     public function show(Request $request)
     {
         $no_kk = $request->no_kk;
@@ -189,6 +226,7 @@ class inventarisController extends Controller
             Log::error('Error in querying data: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
+
     }
 
 

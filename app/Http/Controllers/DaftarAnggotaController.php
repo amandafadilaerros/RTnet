@@ -30,11 +30,11 @@ class DaftarAnggotaController extends Controller
 
     public function store(Request $request)
     {
-  
+        
         session()->put('id_akun', 4);
         $noKK = session()->get('id_akun'); 
 
-        $request->validate([
+        $validated = $request->validate([
             'NIK' => 'required',
             'nama' => 'required',
             'tempat' => 'required',
@@ -45,13 +45,19 @@ class DaftarAnggotaController extends Controller
             'status_perkawinan' => 'required',
             'pekerjaan' => 'required',
             'status_keluarga' => 'required',
-            'status_anggota' => 'required',
-            // 'dokumen' => 'required|file|mimes:pdf,doc,docx|max:2048',
-        ]);
-        if ($request->hasFile('dokumen')) {
-            $file = $request->file('dokumen');
-            $path = $file->store('dokumen', 'public'); // Store the file in the 'dokumen' directory in the 'public' disk
-            ktp::create([
+            'dokumen' => 'image|max:5000'
+            ]);
+        $pathBaru = null;
+            if ($request->hasFile('dokumen')) {
+                $extFile = $request->dokumen->getClientOriginalExtension();
+                $namaFile = 'web-'.time().".". $extFile;
+    
+                $path = $request->dokumen->move('gambar', $namaFile);
+                $path = str_replace("\\","//",$path);
+                
+                $pathBaru = asset('gambar/'. $namaFile);
+            }
+        ktp::create([
                 'NIK' => $request->NIK,
                 'no_kk' => $noKK,
                 'nama' => $request->nama,
@@ -65,27 +71,9 @@ class DaftarAnggotaController extends Controller
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
                 'jenis_penduduk' => 'tetap',
-                'dokumen' => $path,
+                'dokumen' => $pathBaru,
             ]);
-        } else {
-            ktp::create([
-                'NIK' => $request->NIK,
-                'no_kk' => $noKK,
-                'nama' => $request->nama,
-                'tempat' => $request->tempat,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'golongan_darah' => $request->golongan_darah,
-                'agama' => $request->agama,
-                'status_perkawinan' => $request->status_perkawinan,
-                'pekerjaan' => $request->pekerjaan,
-                'status_keluarga' => $request->status_keluarga,
-                'status_anggota' => $request->status_anggota,
-                'jenis_penduduk' => 'tetap',
-            ]);
-        }
-
-
+                
         return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil ditambahkan');
     }
     public function show(Request $request)
@@ -98,9 +86,9 @@ class DaftarAnggotaController extends Controller
     }
 
     public function update(Request $request)
-    {
+    {   
+        // dd($request);
         $ktp = ktp::find($request->NIK);
-
         $request->validate([
             'NIK' => 'required',
             'nama' => 'required',
@@ -112,12 +100,16 @@ class DaftarAnggotaController extends Controller
             'status_perkawinan' => 'required',
             'pekerjaan' => 'required',
             'status_keluarga' => 'required',
-            'status_anggota' => 'required',
-            // 'dokumen' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'dokumen' => 'image|max:5000'
         ]);
         if ($request->hasFile('dokumen')) {
-            $file = $request->file('dokumen');
-            $path = $file->store('dokumen', 'public'); // Store the file in the 'dokumen' directory in the 'public' disk
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            $path = $request->dokumen->move('gambar', $namaFile);
+            $path = str_replace("\\","//",$path);
+            
+            $pathBaru = asset('gambar/'. $namaFile);
             ktp::find($request->nik)->update([
                 'NIK' => $request->NIK,
                 'nama' => $request->nama,
@@ -130,7 +122,7 @@ class DaftarAnggotaController extends Controller
                 'pekerjaan' => $request->pekerjaan,
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
-                'dokumen' => $path,
+                'dokumen' => $pathBaru,
             ]);
         } else {
             ktp::find($request->nik)->update([
@@ -163,7 +155,7 @@ class DaftarAnggotaController extends Controller
         session()->put('id_akun', 4);
         $noKK = session()->get('id_akun'); 
 
-        $request->validate([
+        $validated = $request->validate([
             'NIK' => 'required',
             'nama' => 'required',
             'tempat' => 'required',
@@ -174,13 +166,19 @@ class DaftarAnggotaController extends Controller
             'status_perkawinan' => 'required',
             'pekerjaan' => 'required',
             'status_keluarga' => 'required',
-            'status_anggota' => 'required',
-            // 'dokumen' => 'required|file|mimes:pdf,doc,docx|max:2048',
-        ]);
-        if ($request->hasFile('dokumen')) {
-            $file = $request->file('dokumen');
-            $path = $file->store('dokumen', 'public'); // Store the file in the 'dokumen' directory in the 'public' disk
-            ktp::create([
+            'dokumen' => 'image|max:5000'
+            ]);
+        $pathBaru = null;
+            if ($request->hasFile('dokumen')) {
+                $extFile = $request->dokumen->getClientOriginalExtension();
+                $namaFile = 'web-'.time().".". $extFile;
+    
+                $path = $request->dokumen->move('gambar', $namaFile);
+                $path = str_replace("\\","//",$path);
+                
+                $pathBaru = asset('gambar/'. $namaFile);
+            }
+        ktp::create([
                 'NIK' => $request->NIK,
                 'no_kk' => $noKK,
                 'nama' => $request->nama,
@@ -194,26 +192,9 @@ class DaftarAnggotaController extends Controller
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
                 'jenis_penduduk' => 'kos',
-                'dokumen' => $path,
+                'dokumen' => $pathBaru,
             ]);
-        } else {
-            ktp::create([
-                'NIK' => $request->NIK,
-                'no_kk' => $noKK,
-                'nama' => $request->nama,
-                'tempat' => $request->tempat,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'jenis_kelamin' => $request->jenis_kelamin,
-                'golongan_darah' => $request->golongan_darah,
-                'agama' => $request->agama,
-                'status_perkawinan' => $request->status_perkawinan,
-                'pekerjaan' => $request->pekerjaan,
-                'status_keluarga' => $request->status_keluarga,
-                'status_anggota' => $request->status_anggota,
-                'jenis_penduduk' => 'kos',
-            ]);
-        }
-
+                
         return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil ditambahkan');
 
     }

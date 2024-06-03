@@ -204,7 +204,41 @@ class pendudukController extends Controller
     }
 
 
+    public function searching(Request $request){
+        // Get the search value from the request
+        $search = $request->input('search');
+        // dd($search);
+        // dd($search);
 
+        $inventaris = inventaris::all();
+        // Search in the title and body columns from the posts table
+        $minjams = peminjaman_inventaris::with('inventaris')
+                    ->whereHas('inventaris', function($query) use ($search) {
+        $query->where('nama_barang', 'LIKE', "%{$search}%");
+    })
+    ->get();
+
+        // dd($minjams);
+    
+        // Return the search view with the resluts compacted
+        $breadcrumb = (object) [
+            'title' => 'Daftar Peminjaman',
+            'list' => [date('j F Y')],
+        ];
+        $page = (object) [
+            'title' => '-----',
+        ];
+
+        $activeMenu = 'peminjaman';
+
+        return view('inventaris_pk.peminjaman', [
+            'minjams' => $minjams,
+            'inventaris' => $inventaris,
+            'breadcrumb' => $breadcrumb,
+            'page' => $page,
+            'activeMenu' => $activeMenu,
+        ]);
+    }
 
 
 
@@ -303,10 +337,16 @@ class pendudukController extends Controller
         ]);
     }
 
-    public function list_pengumuman()
+    public function list_pengumuman(Request $request)
     {
         $pengumumans = Pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
 
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $pengumumans->where(function($query) use ($search) {
+                $query->where('judul', 'like', "%{$search}%");
+            });
+        }
         return DataTables::of($pengumumans)
             ->addIndexColumn() // Add index column
             ->addColumn('aksi', function ($pengumuman) { // Add action column
