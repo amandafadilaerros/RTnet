@@ -61,7 +61,7 @@ class inventarisKetuaController extends Controller
             $extFile = $request->gambar->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->gambar->move(public_path().'gambar', $namaFile);
+            $path = $request->gambar->move('gambar', $namaFile);
             $path = str_replace("\\","//",$path);
             
             $pathBaru = asset('gambar/'. $namaFile);
