@@ -71,9 +71,11 @@ class data_kkRtController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $kks->where(function($query) use ($search) {
-                $query->where('nama_kepala_keluarga', 'like', "%{$search}%");
-                    //   ->orWhere('no_rumah', 'like', "%{$search}%")
-                    //   ->orWhere('alamat', 'like', "%{$search}%");
+                $query->where('nama_kepala_keluarga', 'like', "%{$search}%")
+                      ->orWhere('no_kk', 'like', "%{$search}%")
+                      ->orWhere('no_rumah', 'like', "%{$search}%")
+                      ->orWhere('jumlah_individu', 'like', "%{$search}%")
+                      ->orWhere('alamat', 'like', "%{$search}%");
             });
         }
     

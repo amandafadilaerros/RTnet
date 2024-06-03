@@ -135,7 +135,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nik">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <!-- NO. KK Otomatis -->
                                 <input type="hidden" class="form-control" id="no_kk" name="no_kk" value="{{ $data_kk->no_kk }}" style="border-radius: 25px;">
@@ -259,7 +259,7 @@
                             <input type="hidden" name="no_kk" id="edit_no_kk">
                             <div class="form-group">
                                 <label for="edit_nik">NIK</label>
-                                <input type="text" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_nama">Nama</label>
@@ -381,7 +381,7 @@
                             <input type="hidden" name="jenis_penduduk2" id="nonPenduduk" value="kos">
                             <div class="form-group">
                                 <label for="nik">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>
@@ -503,7 +503,7 @@
                             <input type="hidden" name="no_kk" id="edit_no_kk">
                             <div class="form-group">
                                 <label for="edit_nik">NIK</label>
-                                <input type="text" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_nama">Nama</label>
