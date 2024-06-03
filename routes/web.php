@@ -342,6 +342,13 @@ Route::group(['prefix' => 'penduduk'], function () {
 
 //halaman tidak ditemukan
 Route::fallback(function () {
-    return view('404');
+    $breadcrumb = (object) [
+        'title' => '',
+        'list' => ['--', '--'],
+    ];
+    $page = (object) [
+        'title' => '',
+    ];
+    return view('404', ['breadcrumb'=>$breadcrumb, 'page'=>$page]);
 });
 
