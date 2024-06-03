@@ -5,13 +5,10 @@
   <div class="col-md-3 mb-4">
     <div class="input-group float-right">
         <select class="form-control" id="searchOption" style="border-radius: 20px;">
-            <option value="" selected disabled>Cari Barang....</option>
+            <option value="" selected disabled>Filter</option>
             <option value="tersedia">Tersedia</option>
             <option value="dipinjam">Dipinjam</option>
         </select>
-        <div class="input-group-append">
-            <button class="btn btn-sm btn-primary mt-1" id="searchButton" style="border-radius: 20px; background-color: #424874; width: 100px;">Cari</button>
-        </div>
     </div>
   </div>
 </div>
@@ -109,22 +106,30 @@ $(document).ready(function() {
         processing: true,
         ajax: {
             url: "{{ url('penduduk/daftar_inventaris/list') }}",
-            type: "POST"
+            type: "POST",
+            data: function(d) {
+                d.status = $('#searchOption').val(); // Mengirimkan filter status ke server
+            }
         },
         columns: [
             { data: "DT_RowIndex", className: "text-center", orderable: false, searchable: false },
             { 
-              data: "gambar", 
-                className: "text-center", 
-                orderable: false, 
-                searchable: false,
-                render: function(data, type, row) {
-                  return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
+              data: "gambar",
+                  classname: "",
+                  orderable: false, //orderable false jika ingin kolom bisa diurutkan
+                  searchable: false, //searchable false jika ingin kolom bisa dicari
+                  render: function(data, type, full, meta) {
+                    return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
                 }
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: false, searchable: false }
         ]
+    });
+
+    // Event listener untuk filter status
+    $('#searchOption').on('change', function() {
+        inventaris.draw(); // Redraw tabel dengan filter baru
     });
 
     $(document).on('click', '.btn-danger', function() {
@@ -179,24 +184,6 @@ $(document).ready(function() {
         inventaris.search(keyword).draw();
     });
 
-    $('#searchDateButton').on('click', function() {
-        var searchDate = $('#searchDateInput').val();
-        
-        $.ajax({
-            url: "{{ url('penduduk/daftar_inventaris/search-by-date') }}",
-            type: "POST",
-            data: { searchDate: searchDate },
-            success: function(response) {
-                inventaris.clear().draw();
-                inventaris.rows.add(response).draw();
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    });
-
-   
 });
 </script>
 @endpush
