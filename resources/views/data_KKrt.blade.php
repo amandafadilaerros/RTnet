@@ -27,19 +27,22 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_data_kk">
-          <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">No. KK</th>
-                <th scope="col">Nama Kepala Keluarga</th>
-                <th scope="col">Jumlah Individu</th>
-                <th scope="col">Alamat</th>
-                <th scope="col">No Rumah</th>
-                <th scope="col">Dokumen</th>
-                <th scope="col">Aksi</th>
-              </tr>
-          </thead>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped" id="table_data_kk">
+            <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">No. KK</th>
+                  <th scope="col">Nama Kepala Keluarga</th>
+                  <th scope="col">Jumlah Individu</th>
+                  <th scope="col">Alamat</th>
+                  <th scope="col">No Rumah</th>
+                  <th scope="col">Dokumen</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+          </table>
+      </div>
         
 <!-- Modal Tambah -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
