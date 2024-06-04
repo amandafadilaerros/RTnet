@@ -8,7 +8,7 @@ use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\penduduk_tetapModel;
 use Barryvdh\DomPDF\Facade as PDF;
-use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
