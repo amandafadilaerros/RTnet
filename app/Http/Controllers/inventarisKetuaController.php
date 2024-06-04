@@ -7,6 +7,7 @@ use App\Models\inventaris;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class inventarisKetuaController extends Controller
@@ -22,10 +23,12 @@ class inventarisKetuaController extends Controller
         ];
 
         $activeMenu = 'inventaris';
+        
+        $inventaris = inventaris::where('nama_barang', 'pel')->get();
 
         // $inventaris = BarangModel::all();
 
-        return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
+        return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'inventaris'=> $inventaris]);
     }
     public function list(Request $request){
         $barangs = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'gambar');
@@ -58,13 +61,18 @@ class inventarisKetuaController extends Controller
         ]);
         $pathBaru = null;
         if ($request->hasFile('gambar')) {
+            $imageFile = $request->file('gambar');
             $extFile = $request->gambar->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->gambar->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
+            Storage::disk('img_inventaris')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+            // $pathBaru = 'storage/image_path/' . $namaFile;
+
+            // $path = $request->gambar->move('gambar', $namaFile);
+            // $path = str_replace("\\","//",$path);
             
-            $pathBaru = asset('gambar/'. $namaFile);
+            // $pathBaru = asset('gambar/'. $namaFile);
         }
         inventaris::create([
             'nama_barang' => $request->nama_barang,
