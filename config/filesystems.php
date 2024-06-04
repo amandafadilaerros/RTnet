@@ -62,6 +62,12 @@ return [
             'url' => env('APP_URL').'/storage/ktps',
             'visibility' => 'public',
         ],
+        'pdf_penduduk' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/pdf_penduduk'),
+            'url' => env('APP_URL').'/storage/pdf_penduduk',
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',
