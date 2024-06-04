@@ -215,6 +215,12 @@
       </li>
       <li class="nav-header">Keuangan</li>
       <li class="nav-item">
+        <a href="{{ url('bendahara/keuanganBendahara') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
+          <i class="nav-icon fas fa-file-invoice"></i>
+          <p>Laporan Keuangan</p>
+        </a>
+      </li>
+      <li class="nav-item">
         <a href="{{ url('bendahara/pemasukan') }}" class="nav-link {{ ($activeMenu == 'pemasukan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pemasukan')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-money-bill-wave"></i>
           <p>Pemasukan</p>
@@ -224,12 +230,6 @@
         <a href="{{ url('bendahara/pengeluaran') }}" class="nav-link {{ ($activeMenu == 'pengeluaran')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pengeluaran')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-money-bill-alt"></i>
           <p>Pengeluaran</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="{{ url('bendahara/keuanganBendahara') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
-          <i class="nav-icon fas fa-file-invoice"></i>
-          <p>Laporan Keuangan</p>
         </a>
       </li>
       <li class="nav-header">Paguyuban</li>
