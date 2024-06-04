@@ -51,7 +51,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="border-radius: 25px;">
         <div class="modal-header">
-          <h5 class="modal-title" id="tambahModalLabel">Tambah Data Inventaris</h5>
+          <h5 class="modal-title" id="tambahModalLabel">Tambah Inventaris</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -92,7 +92,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 25px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Pengeluaran</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Inventaris</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
