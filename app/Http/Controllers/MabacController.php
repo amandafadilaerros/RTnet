@@ -19,7 +19,7 @@ class MabacController extends Controller
 
         // 1. Tabel perhitungan bobot dengan rumus bobot/100
         $bobot = $this->hitungBobot($kriteriaList);
-        
+
         // Jika tidak ada data alternatif, berikan respon yang sesuai
         if ($alternatifs->isEmpty()) {
             return view('mabac', [
@@ -32,11 +32,11 @@ class MabacController extends Controller
                 'jarakElemen' => [],
                 'normalisasi' => [],
                 'preferensi' => [],
-                'breadcrumb' => (object)[
+                'breadcrumb' => (object) [
                     'title' => 'MABAC',
                     'list' => ['--', '--'],
                 ],
-                'page' => (object)[
+                'page' => (object) [
                     'title' => '-----',
                 ],
                 'activeMenu' => 'mabac',
@@ -77,7 +77,7 @@ class MabacController extends Controller
 
         $breadcrumb = (object) [
             'title' => 'MABAC',
-            'list' => ['--', '--'],
+            'list' => ['Kerja Bakti', 'Mabac'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -150,14 +150,13 @@ class MabacController extends Controller
             foreach ($matriksKeputusan as $namaAlternatif => $nilaiAlternatif) {
                 $nilai = $nilaiAlternatif[$idKriteria];
 
-                if ($max - $min == 0) {
-                    $normalisasi[$namaAlternatif][$idKriteria] = $jenisKriteria == 'Cost' ? 1 : 0;
+
+
+                if ($jenisKriteria == 'Cost') {
+                    $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $max) / ($min - $max);
                 } else {
-                    if ($jenisKriteria == 'Cost') {
-                        $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $max) / ($min - $max);
-                    } else {
-                        $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $min) / ($max - $min);
-                    }
+                    $normalisasi[$namaAlternatif][$idKriteria] = ($nilai - $min) / ($max - $min);
+
                 }
             }
         }
@@ -186,6 +185,7 @@ class MabacController extends Controller
                 if (!isset($areaPerkiraanBatas[$idKriteria])) {
                     $areaPerkiraanBatas[$idKriteria] = 1;
                 }
+                //mengalikan semua di satu kriteria
                 $areaPerkiraanBatas[$idKriteria] *= $nilai;
             }
         }

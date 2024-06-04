@@ -21,7 +21,7 @@
                         @foreach($kriteriaList as $kriteria)
                         <tr>
                             <td>{{ $kriteria->nama_kriteria }}</td>
-                            <td>{{ $kriteria->bobot }}</td>
+                            <td>{{ $bobot[$kriteria->id_kriteria] }}</td>
                         </tr>
                         @endforeach
                     </tbody>
