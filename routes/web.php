@@ -51,6 +51,7 @@ Route::get('/', function () {
     return view('login');
 
 });
+Route::get('/logout', [loginController::class, 'logout']);
 
 Route::post('/dashboard', [loginController::class, 'login']);
 
