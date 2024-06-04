@@ -119,6 +119,22 @@ class pendudukController extends Controller
         // Inisialisasi query untuk mengambil data iuran
         $query = DB::table('iurans');
 
+
+        // Filter data berdasarkan no_kk
+        if ($request->no_kk) {
+            $query->where('no_kk', $request->no_kk);
+        }
+
+        // Filter data berdasarkan pencarian
+        if ($request->search) {
+            $search = $request->search;
+            $query->where(function ($query) use ($search) {
+                $query->where('nominal', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('jenis_iuran', 'like', '%' . $search . '%');
+            });
+        }
+
         // Menambahkan kondisi filter jika ada
         if ($filter) {
             if ($filter === 'kas') {
@@ -230,7 +246,7 @@ class pendudukController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Laporan Keuangan',
-            'list' => ['Penduduk', 'Laporan Keuangan'],
+            'list' => ['Penduduk', 'Laporan'],
         ];
         $page = (object) [
             'title' => '-----',
