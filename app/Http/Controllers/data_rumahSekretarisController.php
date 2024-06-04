@@ -70,17 +70,27 @@ class data_rumahSekretarisController extends Controller
 
     public function store(Request $request)
     {
+        // Validasi input
         $request->validate([
-            'no_rumah'     => 'required|max:255',                         
-            'status_rumah'     => 'required|max:255',                                         
+            'no_rumah' => 'required|max:255',
+            'status_rumah' => 'required|max:255',
         ]);
-
-        rumahModel::create([
-            'no_rumah'     => $request->no_rumah,
-            'status_rumah'     => $request->status_rumah,
-        ]);
-        return redirect('/sekretaris/data_rumah')->with('success', 'Data rumah berhasil disimpan');
+    
+        // Penanganan pengecualian
+        try {
+            // Buat data rumah baru
+            rumahModel::create([
+                'no_rumah' => $request->no_rumah,
+                'status_rumah' => $request->status_rumah,
+            ]);
+            // Redirect dengan pesan sukses
+            return redirect('/sekretaris/data_rumah')->with('success', 'Data rumah berhasil disimpan');
+        } catch (\Exception $e) {
+            // Redirect dengan pesan error jika gagal menyimpan data
+            return redirect('/sekretaris/data_rumah')->with('error', 'Gagal menyimpan, data rumah sudah terdaftar');
+        }
     }
+    
 
     public function create()
     {

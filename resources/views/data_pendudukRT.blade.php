@@ -10,9 +10,9 @@
         </form>
     </div>
     <div class="col-md-3" style="">
-      <div class="row">
-          <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
-          <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+        <div class="row">
+            <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
+            <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
         </div>
     </div>
 </div>
@@ -177,9 +177,9 @@
                 ]
             });
 
-            $('#nik').on('input', function() {
-                dataPenduduk.ajax.reload();
-            });
+        $('#nik').on('input', function() {
+            dataPenduduk.ajax.reload();
+        });
 
             $('#customSearchButton').on('click', function() {
                 dataPenduduk.ajax.reload(); // Reload tabel dengan parameter pencarian baru
