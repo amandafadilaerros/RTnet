@@ -1,14 +1,14 @@
 @extends('layouts.template')
 @section('content')
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 mb-4">
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahKkModal">Tambah</a>
     </div>
     <div class="col-md-6">
         <div class="row justify-content-end">
-            <form id="searchKkForm" class="form-inline">
+            <form id="searchForm" class="form-inline">
                 <div class="form-group">
-                    <input type="text" class="form-control" id="searchKk" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
+                    <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
                 </div>
                 <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
             </form>
@@ -190,7 +190,7 @@
                 "dataType": "json",
                 "type": "POST",
                 "data": function(d) {
-                    d.search = $('#searchKk').val();
+                    d.search = $('#search').val();
                 }
             },
             columns: [{
@@ -219,9 +219,9 @@
             ]
         });
 
-        $('#searchKkForm').on('submit', function(e) {
-            e.preventDefault();
-            dataKkPaguyuban.ajax.reload();
+        $('#searchForm').on('submit', function(e) {
+            e.preventDefault(); // Mencegah form untuk submit
+            dataKkPaguyuban.ajax.reload(); // Memuat ulang data tabel dengan pencarian yang baru
         });
 
         $(document).on("click", ".btn-delete", function() {

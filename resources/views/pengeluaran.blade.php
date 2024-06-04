@@ -1,7 +1,7 @@
 @extends('layouts.template')
 @section('content')
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-6 mb-4">
     <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah</a>
   </div>
   <div class="col-md-6">

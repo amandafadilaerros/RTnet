@@ -90,8 +90,6 @@ class mautController extends Controller
         }
         return $bobot;
     }
-
-    // Hitung matriks keputusan
     // Hitung matriks keputusan
     private function matriksKeputusan($alternatifs, $kriteriaList)
     {
