@@ -36,9 +36,21 @@ class data_pendudukSekretarisController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $ktps->where(function($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%");
-                    //   ->orWhere('no_kk', 'like', "%{$search}%")
-                    //   ->orWhere('nik', 'like', "%{$search}%");
+                $query->where('nama', 'like', "%{$search}%")
+                ->orWhere('no_kk', 'like', "%{$search}%")
+                ->orWhere('nik', 'like', "%{$search}%")
+                ->orWhere('tempat', 'like', "%{$search}%")
+                ->orWhere('tanggal_lahir', 'like', "%{$search}%")
+                ->orWhere('jenis_kelamin', 'like', "%{$search}%")
+                ->orWhere('golongan_darah', 'like', "%{$search}%")
+                ->orWhere('agama', 'like', "%{$search}%")
+                ->orWhere('status_perkawinan', 'like', "%{$search}%")
+                ->orWhere('pekerjaan', 'like', "%{$search}%")
+                ->orWhere('status_keluarga', 'like', "%{$search}%")
+                ->orWhere('status_anggota', 'like', "%{$search}%")
+                ->orWhere('jenis_penduduk', 'like', "%{$search}%")
+                ->orWhere('tgl_masuk', 'like', "%{$search}%")
+                ->orWhere('tgl_keluar', 'like', "%{$search}%");
                     });
                 }
 

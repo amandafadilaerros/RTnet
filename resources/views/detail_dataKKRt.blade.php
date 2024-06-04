@@ -135,7 +135,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="nik">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <!-- NO. KK Otomatis -->
                                 <input type="hidden" class="form-control" id="no_kk" name="no_kk" value="{{ $data_kk->no_kk }}" style="border-radius: 25px;">
@@ -259,7 +259,7 @@
                             <input type="hidden" name="no_kk" id="edit_no_kk">
                             <div class="form-group">
                                 <label for="edit_nik">NIK</label>
-                                <input type="text" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_nama">Nama</label>
@@ -381,7 +381,7 @@
                             <input type="hidden" name="jenis_penduduk2" id="nonPenduduk" value="kos">
                             <div class="form-group">
                                 <label for="nik">NIK</label>
-                                <input type="text" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="nama">Nama</label>
@@ -503,7 +503,7 @@
                             <input type="hidden" name="no_kk" id="edit_no_kk">
                             <div class="form-group">
                                 <label for="edit_nik">NIK</label>
-                                <input type="text" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
+                                <input type="number" class="form-control" id="edit_nik" name="nik" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_nama">Nama</label>
@@ -522,12 +522,12 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
-                                    <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
+                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
+                                    <label class="form-check-label" for="edit_laki_laki_non">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
-                                    <label class="form-check-label" for="edit_perempuan">Perempuan</label>
+                                    <input class="form-check-input" type="checkbox" id="edit_perempuan_non" name="jenis_kelamin" value="p">
+                                    <label class="form-check-label" for="edit_perempuan_non">Perempuan</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -920,6 +920,12 @@
                             $('#edit_laki_laki').prop('checked', true);
                         } else if (response.jenis_kelamin === 'p') {
                             $('#edit_perempuan').prop('checked', true);
+                        }
+                        
+                        if (response.jenis_kelamin === 'l') {
+                            $('#edit_laki_laki_non').prop('checked', true);
+                        } else if (response.jenis_kelamin === 'p') {
+                            $('#edit_perempuan_non').prop('checked', true);
                         }
                         $('.modal-body #edit_golongan_darah').val(response.golongan_darah);
                         $('.modal-body #edit_agama').val(response.agama);

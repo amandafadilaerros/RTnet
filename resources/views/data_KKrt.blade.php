@@ -56,7 +56,7 @@
                 @csrf
                 <div class="form-group">
                   <label for="no_kk">No KK</label>
-                  <input type="text" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
+                  <input type="number" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
                 </div>
                 <div class="form-group">
                   <label for="nama_kepala_keluarga">Nama Kepala Keluarga</label>
@@ -64,7 +64,7 @@
                 </div>
                 <div class="form-group">
                   <label for="jumlah_individu">Jumlah Individu</label>
-                  <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
+                  <input type="number" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
                 </div>
                 <div class="form-group">
                   <label for="alamat">Alamat</label>
@@ -113,7 +113,7 @@
                   </div>
                   <div class="form-group">
                     <label for="jumlah_individu">Jumlah Individu</label>
-                    <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu"  required>
+                    <input type="number" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu"  required>
                   </div>
                   <div class="form-group">
                     <label for="alamat">Alamat</label>
@@ -121,7 +121,7 @@
                   </div>
                   <div class="form-group">
                   <label for="no_rumah">No Rumah</label>
-                  <input type="text" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah"  required>
+                  <input type="number" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah"  required>
                   </div>
                   <div class="form-group">
                     <label for="dokumen">Dokumen Kartu Keluarga</label>
