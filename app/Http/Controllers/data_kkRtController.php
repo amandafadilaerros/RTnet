@@ -8,6 +8,7 @@ use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
 use App\Models\level;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class data_kkRtController extends Controller
@@ -103,13 +104,12 @@ class data_kkRtController extends Controller
         
         $pathBaru = null;
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
         }
 
         kkModel::create([
@@ -125,7 +125,7 @@ class data_kkRtController extends Controller
         akun::create([
             'id_akun' => $request->no_kk,
             'id_level' => $level->id_level,
-            'password' => $request->no_kk,  // Meng-hash password
+            'password' => bcrypt($request->no_kk),  // Meng-hash password
             'nama' => $request->nama_kepala_keluarga
         ]);
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
@@ -195,13 +195,12 @@ class data_kkRtController extends Controller
         ]);
 
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
             kkModel::find($request->id)->update([
                 'no_kk'                 => $request->no_kk,
                 'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
@@ -231,6 +230,7 @@ class data_kkRtController extends Controller
 
         try {
         kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
+        akun::destroy($request->no_kk);
 
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 

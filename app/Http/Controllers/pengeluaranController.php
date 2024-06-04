@@ -13,7 +13,7 @@ class PengeluaranController extends Controller
     {
         $breadcrumb = (object) [
             'title' => 'Pengeluaran',
-            'list' => ['--', '--'],
+            'list' => ['Bendahara', 'Pengeluaran'],
         ];
         $page = (object) [
             'title' => '-----',

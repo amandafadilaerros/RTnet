@@ -16,7 +16,7 @@ class pemasukanController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Pemasukan',
-            'list' => ['--', '--'],
+            'list' => ['Bendahara', 'Pemasukan'],
         ];
         $page = (object) [
             'title' => '-----',

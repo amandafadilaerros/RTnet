@@ -93,7 +93,7 @@ class pendudukController extends Controller
         // Definisikan breadcrumb dan judul halaman
         $breadcrumb = (object) [
             'title' => 'Laporan Keuangan',
-            'list' => ['Home', 'Laporan Keuangan', 'Keuangan']
+            'list' => ['Penduduk', 'Laporan Keuangan']
         ];
 
         $page = (object) [
@@ -113,21 +113,38 @@ class pendudukController extends Controller
 
     public function list(Request $request)
     {
-        // Menghitung total pemasukan dari seluruh data
-        $totalPemasukan = DB::table('iurans')
+        // Mengambil parameter filter dari request
+        $filter = $request->input('filter');
+
+        // Inisialisasi query untuk mengambil data iuran
+        $query = DB::table('iurans');
+
+        // Menambahkan kondisi filter jika ada
+        if ($filter) {
+            if ($filter === 'kas') {
+                // Filter untuk kas
+                $query->where('jenis_iuran', 'kas');
+            } elseif ($filter === 'paguyuban') {
+                // Filter untuk paguyuban
+                $query->where('jenis_iuran', 'paguyuban');
+            }
+        }
+
+        // Menghitung total pemasukan dari data yang difilter
+        $totalPemasukan = $query->clone()
             ->where('jenis_transaksi', 'pemasukan')
             ->sum('nominal');
 
-        // Menghitung total pengeluaran dari seluruh data
-        $totalPengeluaran = DB::table('iurans')
+        // Menghitung total pengeluaran dari data yang difilter
+        $totalPengeluaran = $query->clone()
             ->where('jenis_transaksi', 'pengeluaran')
             ->sum('nominal');
 
         // Inisialisasi saldo awal
         $saldo = 0;
 
-        // Mengambil semua data iuran
-        $iurans = DB::table('iurans')->get();
+        // Mengambil data iuran yang sudah difilter
+        $iurans = $query->get();
 
         // Inisialisasi array untuk menyimpan data yang akan dikirim ke DataTables
         $data = [];
@@ -160,7 +177,6 @@ class pendudukController extends Controller
                 'keterangan' => $keterangan, // Kolom keterangan
             ];
         }
-
 
         // Mengirimkan data menggunakan DataTables
         return DataTables::of($data)
@@ -214,7 +230,7 @@ class pendudukController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Laporan Keuangan',
-            'list' => ['--', '--'],
+            'list' => ['Penduduk', 'Laporan Keuangan'],
         ];
         $page = (object) [
             'title' => '-----',

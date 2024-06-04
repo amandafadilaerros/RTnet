@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class detail_dataKKSekretarisController extends Controller
@@ -127,13 +128,12 @@ class detail_dataKKSekretarisController extends Controller
        
         $pathBaru = null;
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
         }
 
         ktpModel::create([
@@ -152,7 +152,7 @@ class detail_dataKKSekretarisController extends Controller
             'jenis_penduduk'        => $request->jenis_penduduk,
             'tgl_masuk'             => $request->tgl_masuk,
             'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
@@ -180,13 +180,12 @@ class detail_dataKKSekretarisController extends Controller
 
         $pathBaru = null;
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
         }
        
         ktpModel::create([
@@ -205,7 +204,7 @@ class detail_dataKKSekretarisController extends Controller
             'jenis_penduduk'        => $request->jenis_penduduk2,
             'tgl_masuk'             => $request->tgl_masuk,
             'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
@@ -283,13 +282,12 @@ class detail_dataKKSekretarisController extends Controller
         ]);
 
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
             ktp::find($request->nik_awal)->update([
                 'nik'                   => $request->nik,
                 'nama'                  => $request->nama,
@@ -345,13 +343,12 @@ class detail_dataKKSekretarisController extends Controller
         ]);
         
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
             ktp::find($request->nik_awal)->update([
                 'nik'                   => $request->nik,
                 'nama'                  => $request->nama,

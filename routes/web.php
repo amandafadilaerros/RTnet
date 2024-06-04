@@ -51,6 +51,7 @@ Route::get('/', function () {
     return view('login');
 
 });
+Route::get('/logout', [loginController::class, 'logout']);
 
 Route::post('/dashboard', [loginController::class, 'login']);
 
@@ -65,7 +66,7 @@ Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
 
 
-Route::group(['prefix' => 'ketuaRt'], function () {
+Route::group(['prefix' => 'ketuaRt', 'middleware' => ['cek_login:ketua_rt']], function () {
     Route::get('/dashboard', [ketuaController::class, 'index']);
     //Data Rumah
     Route::group(['prefix' => 'data_rumah'], function () {
@@ -158,7 +159,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
 });
 
 
-Route::group(['prefix' => 'sekretaris'], function () {
+Route::group(['prefix' => 'sekretaris', 'middleware' => ['cek_login:sekretaris']], function () {
     Route::get('/dashboard', [sekretarisController::class, 'index']);
     //Data Rumah
     Route::group(['prefix' => 'data_rumah'], function () {
@@ -221,7 +222,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
     Route::post('/akun', [sekretarisController::class, 'update_password']);
 });
 
-Route::group(['prefix' => 'bendahara'], function () {
+Route::group(['prefix' => 'bendahara', 'middleware' => ['cek_login:bendahara']], function () {
     Route::group(['prefix' => 'pemasukan'], function () {
         Route::get('/', [pemasukanController::class, 'index']);
         Route::get('/checkIuran', [pemasukanController::class, 'checkIuran']);
@@ -259,7 +260,7 @@ Route::group(['prefix' => 'bendahara'], function () {
     Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
 
-Route::group(['prefix' => 'penduduk'], function () {
+Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], function () {
     Route::get('/dashboard', [PendudukController::class, 'index'])->name('penduduk.dashboard');
 
     Route::get('/', [PendudukController::class, 'getData'])->name('penduduk.dashboard');
@@ -347,6 +348,13 @@ Route::group(['prefix' => 'penduduk'], function () {
 
 //halaman tidak ditemukan
 Route::fallback(function () {
-    return view('404');
+    $breadcrumb = (object) [
+        'title' => '',
+        'list' => ['--', '--'],
+    ];
+    $page = (object) [
+        'title' => '',
+    ];
+    return view('404', ['breadcrumb'=>$breadcrumb, 'page'=>$page]);
 });
 

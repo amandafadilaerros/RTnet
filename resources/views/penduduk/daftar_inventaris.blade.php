@@ -119,8 +119,9 @@ $(document).ready(function() {
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false, //searchable false jika ingin kolom bisa dicari
                   render: function(data, type, full, meta) {
-                    return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
-                }
+                        var baseUrl = '{{ asset('storage/inventaris/') }}';
+                        return '<img src="'+ baseUrl+'/' + data + '" alt="Gambar inventaris" style="max-width: 100px; max-height: 100px;">';
+                      }
             },
             { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: false, searchable: false }
