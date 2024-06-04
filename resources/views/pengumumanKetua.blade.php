@@ -27,17 +27,19 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_pengumuman">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">Pengumuman</th>
-                <th scope="col">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+      <div class="table-responsive">
+          <table class="table table-hover table-striped" id="table_pengumuman">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">Pengumuman</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+      </div>
   </div>
 </div>
 <!-- Modal tambah pengumuman -->

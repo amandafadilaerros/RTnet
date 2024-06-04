@@ -17,6 +17,7 @@
 </div>
 <div class="card">
     <div class="card-body">
+        <div class="table-responsive"></div>
         <table class="table table-hover table-striped" id="laporan">
             <thead>
                 <tr>
