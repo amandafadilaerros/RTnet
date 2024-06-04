@@ -213,13 +213,14 @@
           <p>Dashboard</p>
         </a>
       </li>
-      <li class="nav-header">Keuangan</li>
+      <li class="nav-header">Paguyuban</li>
       <li class="nav-item">
-        <a href="{{ url('bendahara/keuanganBendahara') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
+        <a href="{{ url('bendahara/paguyuban') }}" class="nav-link {{ ($activeMenu == 'paguyuban')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'paguyuban')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-file-invoice"></i>
-          <p>Laporan Keuangan</p>
+          <p>Paguyuban</p>
         </a>
       </li>
+      <li class="nav-header">Keuangan</li>
       <li class="nav-item">
         <a href="{{ url('bendahara/pemasukan') }}" class="nav-link {{ ($activeMenu == 'pemasukan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'pemasukan')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-money-bill-wave"></i>
@@ -232,11 +233,10 @@
           <p>Pengeluaran</p>
         </a>
       </li>
-      <li class="nav-header">Paguyuban</li>
       <li class="nav-item">
-        <a href="{{ url('bendahara/paguyuban') }}" class="nav-link {{ ($activeMenu == 'paguyuban')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'paguyuban')? 'background-color: #424874;' : '' }}">
+        <a href="{{ url('bendahara/keuanganBendahara') }}" class="nav-link {{ ($activeMenu == 'laporan_keuangan')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'laporan_keuangan')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-file-invoice"></i>
-          <p>Paguyuban</p>
+          <p>Laporan Keuangan</p>
         </a>
       </li>
       <li class="nav-header">Informasi Akun</li>
@@ -250,7 +250,7 @@
       @default
       @endswitch
       <li class="nav-item">
-        <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'keluar')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'keluar')? 'background-color: #424874;' : '' }}">
+        <a href="{{ url('/logout') }}" class="nav-link {{ ($activeMenu == 'keluar')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'keluar')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-sign-out-alt"></i>
           <p>Keluar</p>
         </a>

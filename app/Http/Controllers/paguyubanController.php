@@ -16,7 +16,7 @@ class paguyubanController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Paguyuban',
-            'list' => ['--', '--'],
+            'list' => ['Bendahara', 'Paguyuban'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -31,15 +31,39 @@ class paguyubanController extends Controller
     }
 
     public function list(Request $request)
-    {
-        if ($request->ajax()) {
+{
+    if ($request->ajax()) {
+        // Validasi input dari form pencarian
+        $request->validate([
+            'search' => 'nullable|string|max:255', // Kolom pencarian, bisa berupa teks atau kosong
+        ]);
+
+        try {
+            // Mengambil data berdasarkan input pencarian
+            $searchQuery = $request->input('search');
+
+            // Base query
             $data = KkModel::where('paguyuban', true);
+
+            // Filter data berdasarkan pencarian teks
+            if ($searchQuery) {
+                $data->where(function ($query) use ($searchQuery) {
+                    $query->where('nama_kepala_keluarga', 'LIKE', "%$searchQuery%")
+                        ->where('paguyuban',1);
+                    
+                });
+            }
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->make(true);
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'An error occurred while fetching data.'], 500);
         }
     }
+}
+
 
     public function store(Request $request)
     {
