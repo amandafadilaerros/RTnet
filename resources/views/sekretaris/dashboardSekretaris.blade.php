@@ -132,26 +132,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script>
-    $(document).ready(function() {
-        // Data pertambahan warga tiap bulan
+  $(document).ready(function() {
         var data = {
-        labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni','Juli','Agustus', 'September','Oktober', 'November','Desember'],
-        datasets: [{
-            label: 'Penduduk Tetap',
-            data: [], // Contoh data penduduk tetap
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
-            borderWidth: 1
-        }, {
-            label: 'Penduduk Kos',
-            data: [], // Contoh data penduduk kos
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1
-        }]
-    };
+            labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            datasets: [{
+                label: 'Penduduk',
+                data: @json(array_values($data_bulan)), // Data jumlah penduduk untuk setiap bulan
+                backgroundColor: 'rgba(155, 102, 255, 0.2)',
+                borderColor: 'rgba(102, 0, 153, 1)',
+                borderWidth: 1
+            }]
+        };
+
         var options = {
             responsive: true,
+            maintainAspectRatio: false, // Tambahkan ini untuk membuat chart responsif
             plugins: {
                 legend: {
                     display: true,
@@ -164,14 +159,17 @@
             },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true, // Mulai sumbu Y dari nilai 0
+                    ticks: {
+                        stepSize: 1 // Langkah interval antara setiap nilai pada sumbu Y
+                    }
                 }
             }
         };
-        // Inisialisasi grafik menggunakan Chart.js
+
         var ctx = document.getElementById('line-chart').getContext('2d');
         var lineChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: data,
             options: options
         });

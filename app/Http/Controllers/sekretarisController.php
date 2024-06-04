@@ -14,9 +14,10 @@ class sekretarisController extends Controller
 {
     public function index()
     {
-        $laporan_keuangan = iuranModel::count();
-        $inventaris = inventaris::count();
-        $pengumuman = pengumumans::count();
+
+        $laporan_keuangan = IuranModel::count();
+        $inventaris = Inventaris::count();
+        $pengumuman = Pengumumans::count();
 
         // Ambil data untuk grafik garis dari kolom jenis_penduduk di dalam tabel ktps
         $data_grafik = [
@@ -48,7 +49,9 @@ class sekretarisController extends Controller
             'list' => ['Home', 'Dashboard']
         ];
 
-        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'breadcrumb'));
+
+        return view('sekretaris.dashboardSekretaris', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'breadcrumb'));
+
     }
     public function dataPenduduk()
     {
