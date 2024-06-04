@@ -17,10 +17,10 @@ class data_kkRtController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Kartu Keluarga',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Data Kartu Keluarga'],
         ];
         $page = (object) [
-            'title' => '-----',
+            'title' => 'Daftar data kartu keluarga yang terdaftar dalam sistem',
         ];
         $activeMenu = 'data_kk';
 

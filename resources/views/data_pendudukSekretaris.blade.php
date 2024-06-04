@@ -3,7 +3,8 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-md-9">
-        <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;" data-toggle="modal" data-target="#tambahModal">Eksport PDF</a>
+        <!-- <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;" data-toggle="modal" data-target="#tambahModal">Eksport PDF</a> -->
+        <a href="{{ url('ketuaRt/sekretaris/exportPDF') }}" class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;">Eksport PDF</a>
     </div>
     <div class="col-md-3" style="">
       <div class="row">
@@ -49,6 +50,7 @@
                     <th scope="col">Tgl Msuk</th>
                     <th scope="col">Tgl Keluar</th>
                     <th scope="col">Dokumen</th>
+                    <th scope="col">Aksi</th>
                 </tr>
             </thead>
         </table>
@@ -160,7 +162,12 @@
                         searchable: false,      //true, jika ingin kolom bisa dicari
                         render: function(data, type, full, meta) {
                         return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
-                  }
+                    }
+                    }, {
+                    data: "aksi",
+                    orderable: false,
+                    searchable: false,
+                    className: "text-center"
                     }
                 ]
             });
