@@ -250,7 +250,7 @@
       @default
       @endswitch
       <li class="nav-item">
-        <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'keluar')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'keluar')? 'background-color: #424874;' : '' }}">
+        <a href="{{ url('/logout') }}" class="nav-link {{ ($activeMenu == 'keluar')? 'active' : '' }} rounded-pill" style="{{ ($activeMenu == 'keluar')? 'background-color: #424874;' : '' }}">
           <i class="nav-icon fas fa-sign-out-alt"></i>
           <p>Keluar</p>
         </a>

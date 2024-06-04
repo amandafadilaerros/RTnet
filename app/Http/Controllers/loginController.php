@@ -10,6 +10,7 @@ use App\Models\alternatif;
 use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\pengumumans;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -67,12 +68,17 @@ class loginController extends Controller
     }
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'family_number' => 'required',
             'password' => 'required',
         ]);
+        $credentials = [
+            'id_akun' => $request->family_number,
+            'password' => $request->password,
+        ];
+        Auth::attempt($credentials);
         // Find the user by family number (assuming family_number is a unique identifier)
-        $role = akun::where('id_akun' ,$credentials['family_number'])->first();
+        $role = akun::where('id_akun' ,$credentials['id_akun'])->first();
         // If the user is not found, handle the error (e.g., redirect back with an error message)
         if (!$role) {
             return back()->withErrors(['family_number' => 'Family number not found.']);
@@ -194,5 +200,11 @@ class loginController extends Controller
                     'totalPengeluaran' => $totalPengeluaran
                 ]);
         }
+    }
+    public function logout(){
+        // $user = Auth::user();
+        Auth::logout();
+        // dd($user);
+        return redirect('/')->with('success', 'You have been logged out.');
     }
 }
