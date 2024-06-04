@@ -46,6 +46,9 @@ class inventarisController extends Controller
             })
                 ->select('inventaris.*', 'peminjaman_inventaris.id_peminjam', 'peminjaman_inventaris.tanggal_kembali')
                 ->distinct();
+
+
+
             // Terapkan filter berdasarkan status jika ada
             if ($statusFilter == 'tersedia') {
                 $query->whereRaw('inventaris.jumlah > (SELECT COUNT(*) FROM peminjaman_inventaris WHERE inventaris.id_inventaris = peminjaman_inventaris.id_inventaris AND peminjaman_inventaris.tanggal_kembali IS NULL)');

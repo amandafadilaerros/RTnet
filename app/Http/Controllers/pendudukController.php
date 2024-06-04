@@ -113,73 +113,56 @@ class pendudukController extends Controller
 
     public function list(Request $request)
     {
-        // Mengambil parameter filter dari request
-        $filter = $request->input('filter');
+        $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+            ->with('kk')
+            ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+            ->orderBy('created_at', 'ASC');
 
-        // Inisialisasi query untuk mengambil data iuran
-        $query = DB::table('iurans');
-
-        // Menambahkan kondisi filter jika ada
-        if ($filter) {
-            if ($filter === 'kas') {
-                // Filter untuk kas
-                $query->where('jenis_iuran', 'kas');
-            } elseif ($filter === 'paguyuban') {
-                // Filter untuk paguyuban
-                $query->where('jenis_iuran', 'paguyuban');
-            }
+        // Filter data berdasarkan no_kk
+        if ($request->no_kk) {
+            $bendaharas->where('no_kk', $request->no_kk);
         }
 
-        // Menghitung total pemasukan dari data yang difilter
-        $totalPemasukan = $query->clone()
-            ->where('jenis_transaksi', 'pemasukan')
-            ->sum('nominal');
-
-        // Menghitung total pengeluaran dari data yang difilter
-        $totalPengeluaran = $query->clone()
-            ->where('jenis_transaksi', 'pengeluaran')
-            ->sum('nominal');
-
-        // Inisialisasi saldo awal
-        $saldo = 0;
-
-        // Mengambil data iuran yang sudah difilter
-        $iurans = $query->get();
-
-        // Inisialisasi array untuk menyimpan data yang akan dikirim ke DataTables
-        $data = [];
-
-        // Looping untuk menyiapkan data sesuai format DataTables
-        foreach ($iurans as $index => $row) {
-            // Menghitung saldo berdasarkan jenis transaksi
-            if ($row->jenis_transaksi === 'pemasukan') {
-                $saldo += $row->nominal;
-            } elseif ($row->jenis_transaksi === 'pengeluaran') {
-                $saldo -= $row->nominal;
-            }
-
-            // Mengambil keterangan dari tabel inventaris jika jenis_iuran ada
-            $keterangan = ''; // Inisialisasi keterangan
-
-            // Cek apakah jenis_iuran ada, lalu ambil nilainya
-            if (!empty($row->keterangan)) {
-                // Misalnya, jika jenis_iuran adalah nama kolom di tabel iurans
-                $keterangan = $row->keterangan;
-            }
-
-            // Menyiapkan baris data untuk DataTables
-            $data[] = [
-                'DT_RowIndex' => $index + 1, // Nomor urut
-                'jenis_iuran' => $row->jenis_iuran,
-                'pemasukan' => $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0,
-                'pengeluaran' => $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0,
-                'saldo' => $saldo,
-                'keterangan' => $keterangan, // Kolom keterangan
-            ];
+        // Filter data berdasarkan pencarian
+        if ($request->search) {
+            $search = $request->search;
+            $bendaharas->where(function ($query) use ($search) {
+                $query->where('nominal', 'like', '%' . $search . '%')
+                    ->orWhere('keterangan', 'like', '%' . $search . '%')
+                    ->orWhere('jenis_iuran', 'like', '%' . $search . '%');
+            });
         }
 
-        // Mengirimkan data menggunakan DataTables
-        return DataTables::of($data)
+        // Filter data berdasarkan filter yang dipilih
+        if ($request->filter) {
+            $filter = $request->filter;
+            $bendaharas->where(function ($query) use ($filter) {
+                if (strtolower($filter) === 'kas') {
+                    $query->where('jenis_iuran', 'Kas')
+                        ->orWhere('jenis_iuran', 'Tambahan'); // Contoh tambahan kondisi lainnya
+                } else {
+                    $query->where('jenis_iuran', $filter);
+                }
+            });
+        }
+
+        return DataTables::of($bendaharas)
+            ->addIndexColumn()
+            ->addColumn('jumlah_uang_masuk', function ($row) {
+                return $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0;
+            })
+            ->addColumn('jumlah_uang_keluar', function ($row) {
+                return $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0;
+            })
+            ->addColumn('saldo', function ($row) use ($request) {
+                $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')
+                    ->where('id_iuran', '<=', $row->id_iuran)
+                    ->sum('nominal');
+                $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')
+                    ->where('id_iuran', '<=', $row->id_iuran)
+                    ->sum('nominal');
+                return $totalUangMasuk - $totalUangKeluar;
+            })
             ->make(true);
     }
 
@@ -230,7 +213,7 @@ class pendudukController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Laporan Keuangan',
-            'list' => ['Penduduk', 'Laporan Keuangan'],
+            'list' => ['Penduduk', 'Laporan'],
         ];
         $page = (object) [
             'title' => '-----',
