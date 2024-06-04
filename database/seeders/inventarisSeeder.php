@@ -13,6 +13,8 @@ class inventarisSeeder extends Seeder
      */
     public function run(): void
     {
+        
+        // DB::table('inventaris')->truncate();
         $data =[
             ['id_inventaris'=>1,'nama_barang'=>'sapu', 'jumlah'=>2],
         ];

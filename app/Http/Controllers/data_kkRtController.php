@@ -8,6 +8,7 @@ use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
 use App\Models\level;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class data_kkRtController extends Controller
@@ -71,9 +72,11 @@ class data_kkRtController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $kks->where(function($query) use ($search) {
-                $query->where('nama_kepala_keluarga', 'like', "%{$search}%");
-                    //   ->orWhere('no_rumah', 'like', "%{$search}%")
-                    //   ->orWhere('alamat', 'like', "%{$search}%");
+                $query->where('nama_kepala_keluarga', 'like', "%{$search}%")
+                      ->orWhere('no_kk', 'like', "%{$search}%")
+                      ->orWhere('no_rumah', 'like', "%{$search}%")
+                      ->orWhere('jumlah_individu', 'like', "%{$search}%")
+                      ->orWhere('alamat', 'like', "%{$search}%");
             });
         }
     
@@ -98,7 +101,16 @@ class data_kkRtController extends Controller
             'alamat'                => 'required|max:255',
             'no_rumah'              => 'required|max:255'
         ]);
-        // dd($request);
+        
+        $pathBaru = null;
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+        }
 
         kkModel::create([
             'no_kk'                 => $request->no_kk,
@@ -106,14 +118,14 @@ class data_kkRtController extends Controller
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $request->alamat,
             'no_rumah'              => $request->no_rumah,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         $level = level::where('nama_level', 'penduduk')->firstOrFail();
         // dd($level);
         akun::create([
             'id_akun' => $request->no_kk,
             'id_level' => $level->id_level,
-            'password' => $request->no_kk,  // Meng-hash password
+            'password' => bcrypt($request->no_kk),  // Meng-hash password
             'nama' => $request->nama_kepala_keluarga
         ]);
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil disimpan');
@@ -174,21 +186,36 @@ class data_kkRtController extends Controller
     
     public function update(Request $request)
     {
+        // dd($request);
         $request->validate([
-            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
+            'no_kk'                 => 'required|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',
         ]);
 
-        kkModel::find($request->id)->update([
-            'no_kk'                 => $request->no_kk,
-            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
-            'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
-            'dokumen'               => $request->dokumen,
-        ]);
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
 
+            Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+            kkModel::find($request->id)->update([
+                'no_kk'                 => $request->no_kk,
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'jumlah_individu'       => $request->jumlah_individu,
+                'alamat'                => $request->alamat,
+                'dokumen'               => $pathBaru,
+            ]);
+        } else {
+            kkModel::find($request->id)->update([
+                'no_kk'                 => $request->no_kk,
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'jumlah_individu'       => $request->jumlah_individu,
+                'alamat'                => $request->alamat,
+            ]);
+        }
         return redirect('/ketuaRt/data_kk')->with('success', 'Data berhasil diubah');
     }
 
@@ -203,6 +230,7 @@ class data_kkRtController extends Controller
 
         try {
         kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
+        akun::destroy($request->no_kk);
 
         return redirect('/ketuaRt/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 

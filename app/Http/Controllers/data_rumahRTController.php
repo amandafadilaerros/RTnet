@@ -77,7 +77,8 @@ class data_rumahRTController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $rumahs->where(function($query) use ($search) {
-                $query->where('status_rumah', 'like', "%{$search}%");
+                $query->where('status_rumah', 'like', "%{$search}%")
+                    ->orWhere('no_rumah', 'like', "%{$search}%");
                     });
         }
         return DataTables::of($rumahs)

@@ -30,6 +30,12 @@ class daftar_peminjamanController extends Controller
         // if ($request->kategori_id){
         //     $barangs->where('kategori_id', $request->kategori_id);
         // }
+        if ($request->has('customSearch') && !empty($request->customSearch)) {
+            $search = $request->customSearch;
+            $peminjamans->where(function($query) use ($search) {
+                $query->where('id_peminjam', 'like', "%{$search}%");
+            });
+        }
 
         return DataTables::of($peminjamans)
         ->addIndexColumn()

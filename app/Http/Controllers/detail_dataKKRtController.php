@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class detail_dataKKRtController extends Controller
@@ -149,6 +150,16 @@ class detail_dataKKRtController extends Controller
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
         ]);
+
+        $pathBaru = null;
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+        }
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -166,10 +177,11 @@ class detail_dataKKRtController extends Controller
             'jenis_penduduk'        => $request->jenis_penduduk,
             'tgl_masuk'             => $request->tgl_masuk,
             'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
+
     public function store2(Request $request)
     {
         // dd($request);
@@ -191,6 +203,16 @@ class detail_dataKKRtController extends Controller
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
         ]);
+
+        $pathBaru = null;
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+        }
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -208,7 +230,7 @@ class detail_dataKKRtController extends Controller
             'jenis_penduduk'        => $request->jenis_penduduk2,
             'tgl_masuk'             => $request->tgl_masuk,
             'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data Kartu Keluarga berhasil disimpan');
     }
@@ -285,24 +307,49 @@ class detail_dataKKRtController extends Controller
             
         ]);
 
-        ktp::find($request->nik_awal)->update([
-            'nik'                   => $request->nik,
-            'nama'                  => $request->nama,
-            'tempat'                => $request->tempat,
-            'tanggal_lahir'         => $request->tanggal_lahir,
-            'jenis_kelamin'         => $request->jenis_kelamin,
-            'golongan_darah'        => $request->golongan_darah,
-            'agama'                 => $request->agama,
-            'status_perkawinan'     => $request->status_perkawinan,
-            'pekerjaan'             => $request->pekerjaan,
-            'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
-            'tgl_masuk'             => $request->tgl_masuk,
-            'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
-        ]);
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+            ktp::find($request->nik_awal)->update([
+                'nik'                   => $request->nik,
+                'nama'                  => $request->nama,
+                'tempat'                => $request->tempat,
+                'tanggal_lahir'         => $request->tanggal_lahir,
+                'jenis_kelamin'         => $request->jenis_kelamin,
+                'golongan_darah'        => $request->golongan_darah,
+                'agama'                 => $request->agama,
+                'status_perkawinan'     => $request->status_perkawinan,
+                'pekerjaan'             => $request->pekerjaan,
+                'status_keluarga'       => $request->status_keluarga,
+                'status_anggota'        => $request->status_anggota,
+                'tgl_masuk'             => $request->tgl_masuk,
+                'tgl_keluar'            => $request->tgl_keluar,
+                'dokumen'               => $pathBaru,
+            ]);
+        } else {
+            ktp::find($request->nik_awal)->update([
+                'nik'                   => $request->nik,
+                'nama'                  => $request->nama,
+                'tempat'                => $request->tempat,
+                'tanggal_lahir'         => $request->tanggal_lahir,
+                'jenis_kelamin'         => $request->jenis_kelamin,
+                'golongan_darah'        => $request->golongan_darah,
+                'agama'                 => $request->agama,
+                'status_perkawinan'     => $request->status_perkawinan,
+                'pekerjaan'             => $request->pekerjaan,
+                'status_keluarga'       => $request->status_keluarga,
+                'status_anggota'        => $request->status_anggota,
+                'tgl_masuk'             => $request->tgl_masuk,
+                'tgl_keluar'            => $request->tgl_keluar,
+            ]);
+        }
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil disimpan');
     }
+
     public function update2(Request $request){
         // dd($request);
         $request->validate([
@@ -321,23 +368,47 @@ class detail_dataKKRtController extends Controller
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
         ]);
+        
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
 
-        ktp::find($request->nik_awal)->update([
-            'nik'                   => $request->nik,
-            'nama'                  => $request->nama,
-            'tempat'                => $request->tempat,
-            'tanggal_lahir'         => $request->tanggal_lahir,
-            'jenis_kelamin'         => $request->jenis_kelamin,
-            'golongan_darah'        => $request->golongan_darah,
-            'agama'                 => $request->agama,
-            'status_perkawinan'     => $request->status_perkawinan,
-            'pekerjaan'             => $request->pekerjaan,
-            'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
-            'tgl_masuk'             => $request->tgl_masuk,
-            'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
-        ]);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+            ktp::find($request->nik_awal)->update([
+                'nik'                   => $request->nik,
+                'nama'                  => $request->nama,
+                'tempat'                => $request->tempat,
+                'tanggal_lahir'         => $request->tanggal_lahir,
+                'jenis_kelamin'         => $request->jenis_kelamin,
+                'golongan_darah'        => $request->golongan_darah,
+                'agama'                 => $request->agama,
+                'status_perkawinan'     => $request->status_perkawinan,
+                'pekerjaan'             => $request->pekerjaan,
+                'status_keluarga'       => $request->status_keluarga,
+                'status_anggota'        => $request->status_anggota,
+                'tgl_masuk'             => $request->tgl_masuk,
+                'tgl_keluar'            => $request->tgl_keluar,
+                'dokumen'               => $pathBaru,
+            ]);
+        } else {
+            ktp::find($request->nik_awal)->update([
+                'nik'                   => $request->nik,
+                'nama'                  => $request->nama,
+                'tempat'                => $request->tempat,
+                'tanggal_lahir'         => $request->tanggal_lahir,
+                'jenis_kelamin'         => $request->jenis_kelamin,
+                'golongan_darah'        => $request->golongan_darah,
+                'agama'                 => $request->agama,
+                'status_perkawinan'     => $request->status_perkawinan,
+                'pekerjaan'             => $request->pekerjaan,
+                'status_keluarga'       => $request->status_keluarga,
+                'status_anggota'        => $request->status_anggota,
+                'tgl_masuk'             => $request->tgl_masuk,
+                'tgl_keluar'            => $request->tgl_keluar,
+            ]);
+        }
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success2', 'Data ktp berhasil disimpan');
     }
 

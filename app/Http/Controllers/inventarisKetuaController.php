@@ -7,6 +7,7 @@ use App\Models\inventaris;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class inventarisKetuaController extends Controller
@@ -58,13 +59,18 @@ class inventarisKetuaController extends Controller
         ]);
         $pathBaru = null;
         if ($request->hasFile('gambar')) {
+            $imageFile = $request->file('gambar');
             $extFile = $request->gambar->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->gambar->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
+            Storage::disk('img_inventaris')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+            // $pathBaru = 'storage/image_path/' . $namaFile;
+
+            // $path = $request->gambar->move('gambar', $namaFile);
+            // $path = str_replace("\\","//",$path);
             
-            $pathBaru = asset('gambar/'. $namaFile);
+            // $pathBaru = asset('gambar/'. $namaFile);
         }
         inventaris::create([
             'nama_barang' => $request->nama_barang,
@@ -92,13 +98,13 @@ class inventarisKetuaController extends Controller
             'gambar' => 'image|max:5000'
         ]);
         if ($request->hasFile('gambar')) {
+            $imageFile = $request->file('gambar');
             $extFile = $request->gambar->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->gambar->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_inventaris')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+
             inventaris::find($request->id_inventaris)->update([
                 'nama_barang' => $request->nama_barang,
                 'jumlah' => $request->jumlah,
