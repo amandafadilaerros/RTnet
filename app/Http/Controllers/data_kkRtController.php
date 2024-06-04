@@ -71,9 +71,11 @@ class data_kkRtController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $kks->where(function($query) use ($search) {
-                $query->where('nama_kepala_keluarga', 'like', "%{$search}%");
-                    //   ->orWhere('no_rumah', 'like', "%{$search}%")
-                    //   ->orWhere('alamat', 'like', "%{$search}%");
+                $query->where('nama_kepala_keluarga', 'like', "%{$search}%")
+                      ->orWhere('no_kk', 'like', "%{$search}%")
+                      ->orWhere('no_rumah', 'like', "%{$search}%")
+                      ->orWhere('jumlah_individu', 'like', "%{$search}%")
+                      ->orWhere('alamat', 'like', "%{$search}%");
             });
         }
     
@@ -186,7 +188,7 @@ class data_kkRtController extends Controller
     {
         // dd($request);
         $request->validate([
-            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
+            'no_kk'                 => 'required|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             'alamat'                => 'required|max:255',

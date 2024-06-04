@@ -54,7 +54,7 @@
                 @csrf
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No.Rumah</label>
-                        <input type="text" class="form-control" id="no_rumah" name="no_rumah">
+                        <input type="number" class="form-control" id="no_rumah" name="no_rumah">
                     </div>
                     <div class="form-group">
                         <label for="status_rumah" style="color: #424874;">Status Rumah</label>
@@ -92,7 +92,7 @@
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No. Rumah</label>
-                        <input type="text" class="form-control" id="no_rumah" name="no_rumah">
+                        <input type="number" class="form-control" id="no_rumah" name="no_rumah">
                     </div>
                     <div class="form-group">
                         <label for="status_rumah" style="color: #424874;">Status Rumah</label>
