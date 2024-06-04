@@ -54,31 +54,14 @@ class data_pendudukSekretarisController extends Controller
                     });
                 }
 
-        return DataTables::of($ktps)
-        ->addIndexColumn()
-        // ->addColumn('aksi', function ($data_rumah) {
-        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
-        // //     Detail
-        // // </button>';
-        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
-        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
-        // //             '<button type="submit" class="btn btn-danger btn-sm"
-        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
-        //     // return $btn;
-        // })
-        // ->rawColumns(['aksi'])
-        // ->addColumn('aksi', function ($data_rumah) {
-        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
-        // //     Detail
-        // // </button>';
-        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
-        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
-        // //             '<button type="submit" class="btn btn-danger btn-sm"
-        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
-        //     // return $btn;
-        // })
-        // ->rawColumns(['aksi'])
-        ->make(true);
+                return DataTables::of($ktps)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($row) {
+                    return '<input type="checkbox" class="row-checkbox" value="' . $row->nik . '">';
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+                }      
     }
 
     // public function store(Request $request)
@@ -158,5 +141,5 @@ class data_pendudukSekretarisController extends Controller
     //     }
     // }
 
-}
+// }
 
