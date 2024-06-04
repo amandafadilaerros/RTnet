@@ -15,13 +15,6 @@
     {{-- </div> --}}
 </div>
 <div class="card">
-  <div class="card-body">
-    @foreach ($inventaris as $item)
-    <img src="{{ asset('storage/inventaris/' . $item->gambar) }}"alt="">
-    @endforeach
-  </div>
-</div>
-<div class="card">
   {{-- <div class="card-header">
       <h3 class="card-title">
         {{ $page->title }}

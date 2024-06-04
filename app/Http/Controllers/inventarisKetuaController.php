@@ -23,12 +23,10 @@ class inventarisKetuaController extends Controller
         ];
 
         $activeMenu = 'inventaris';
-        
-        $inventaris = inventaris::where('nama_barang', 'pel')->get();
 
         // $inventaris = BarangModel::all();
 
-        return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu, 'inventaris'=> $inventaris]);
+        return view('inventaris.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request){
         $barangs = inventaris::select('id_inventaris', 'nama_barang', 'jumlah', 'gambar');
@@ -100,13 +98,13 @@ class inventarisKetuaController extends Controller
             'gambar' => 'image|max:5000'
         ]);
         if ($request->hasFile('gambar')) {
+            $imageFile = $request->file('gambar');
             $extFile = $request->gambar->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->gambar->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_inventaris')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+
             inventaris::find($request->id_inventaris)->update([
                 'nama_barang' => $request->nama_barang,
                 'jumlah' => $request->jumlah,
