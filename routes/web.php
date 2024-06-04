@@ -90,7 +90,10 @@ Route::group(['prefix' => 'ketuaRt', 'middleware' => ['cek_login:ketua_rt']], fu
         Route::get('/{id}', [data_pendudukRTController::class, 'show']);
         Route::get('/{id}/edit', [data_pendudukRTController::class, 'edit']);
         Route::put('/{id}', [data_pendudukRTController::class, 'update']);
+        Route::post('/{id}/exportPDF', [data_pendudukRTController::class, 'exportPDF']); //PDF
+        // Route::get('ketuaRt/data_penduduk/exportPDF', 'data_pendudukRTController@exportPDF')->name('exportPDF');
         Route::delete('/{id}', [data_pendudukRTController::class, 'destroy']);
+    
     });
 
     //Data KK

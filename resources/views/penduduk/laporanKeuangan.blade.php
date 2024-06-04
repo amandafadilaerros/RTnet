@@ -29,6 +29,7 @@
         <h3 class="card-title">Laporan Keuangan</h3>
     </div> --}}
     <div class="card-body">
+        <div class="table-responsive"></div>
         <table class="table table-hover table-striped" id="laporan">
             <thead>
                 <tr>

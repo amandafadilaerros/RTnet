@@ -9,6 +9,7 @@ use App\Models\iuranModel;
 use App\Models\ktp;
 use App\Models\pengumumans;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class sekretarisController extends Controller
 {
@@ -93,12 +94,12 @@ class sekretarisController extends Controller
     public function update_password(Request $request)
     {
         $akun = akun::find(session()->get('id_akun'));
-
+        
         // Validasi apakah password lama sesuai dengan yang tersimpan di database
-        if ($request->old_password !== $akun->password) {
+        if (!Hash::check($request->old_password, $akun->password)) {
             return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
         }
-        $akun->password = $request->password;
+        $akun->password = Hash::make($request->password);
         $akun->save();
 
         return redirect('/sekretaris/akun')->with('success', 'Password berhasil diubah.');

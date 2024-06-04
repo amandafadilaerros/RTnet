@@ -28,15 +28,18 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_data_rumah">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">No.Rumah</th>
-                <th scope="col">Status Rumah</th>
-                <th scope="col">Aksi</th>
-            </tr>
-        </thead>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped" id="table_data_rumah">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">No.Rumah</th>
+                    <th scope="col">Status Rumah</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
         
 
 <!-- Modal Tambah -->

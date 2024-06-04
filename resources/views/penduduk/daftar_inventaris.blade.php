@@ -22,18 +22,20 @@
       <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="inventaris_table">
-      <thead>
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Gambar</th>
-          <th scope="col">Nama Barang</th>
-          <th scope="col">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" id="inventaris_table">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Gambar</th>
+            <th scope="col">Nama Barang</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
