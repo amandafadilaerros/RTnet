@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\iuranModel;
 use Yajra\DataTables\Facades\DataTables;
 use App\Models\akun;
-
+use Illuminate\Support\Facades\Hash;
 
 class bendaharaController extends Controller
 {
@@ -72,12 +72,12 @@ class bendaharaController extends Controller
     public function update_password(Request $request)
     {
         $akun = akun::find(session()->get('id_akun'));
-
+        
         // Validasi apakah password lama sesuai dengan yang tersimpan di database
-        if ($request->old_password !== $akun->password) {
+        if (!Hash::check($request->old_password, $akun->password)) {
             return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();
         }
-        $akun->password = $request->password;
+        $akun->password = Hash::make($request->password);
         $akun->save();
 
         return redirect('/bendahara/akunBendahara')->with('success', 'Password berhasil diubah.');
