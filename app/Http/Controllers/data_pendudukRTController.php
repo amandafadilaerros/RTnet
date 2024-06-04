@@ -9,7 +9,6 @@ use App\Models\penduduk_tetapModel;
 use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class data_pendudukRTController extends Controller
 {
