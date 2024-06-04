@@ -74,17 +74,17 @@
                   orderable: true, //orderable false jika ingin kolom bisa diurutkan
                   searchable: true //searchable false jika ingin kolom bisa dicari
               },{
-                  data: "nominal",
+                  data: "jumlah_uang_masuk",
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false //searchable false jika ingin kolom bisa dicari
               },{
-                  data: "nominal",
+                  data: "jumlah_uang_keluar",
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false //searchable false jika ingin kolom bisa dicari
               },{
-                  data: "nominal",
+                  data: "saldo",
                   classname: "",
                   orderable: false, //orderable true jika ingin kolom bisa diurutkan
                   searchable: false, //searchable true jika ingin kolom bisa dicari

@@ -62,7 +62,15 @@ class laporanKeuanganController extends Controller
         ]);
     }
     public function list(Request $request){
-        $keuangans = IuranModel::select('jenis_iuran','nominal');
+        $keuangans = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+            ->with('kk')
+            ->groupBy('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'created_at')
+            ->orderBy('created_at', 'ASC');
+
+        // Filter data berdasarkan no_kk
+        if ($request->no_kk) {
+            $keuangans->where('no_kk', $request->no_kk);
+        }
 
         // if ($request->kategori_id){
         //     $keuangans->where('kategori_id', $request->kategori_id);
@@ -79,12 +87,21 @@ class laporanKeuanganController extends Controller
 
         return DataTables::of($keuangans)
         ->addIndexColumn()
-        // ->addColumn('aksi', function ($barang) {
-        //     $btn = '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="'. $barang->id_pengumuman .'"><i class="fas fa-pen"></i></a>';
-        //     $btn .= '<a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal data-id="'. $barang->id_pengumuman .'"><i class="fas fa-trash"></i></a>';
-        //     return $btn;
-        // })
-        // ->rawColumns(['aksi'])
+        ->addColumn('jumlah_uang_masuk', function ($row) {
+            return $row->jenis_transaksi === 'pemasukan' ? $row->nominal : 0;
+        })
+        ->addColumn('jumlah_uang_keluar', function ($row) {
+            return $row->jenis_transaksi === 'pengeluaran' ? $row->nominal : 0;
+        })
+        ->addColumn('saldo', function ($row) use ($request) {
+            $totalUangMasuk = iuranModel::where('jenis_transaksi', 'pemasukan')
+                ->where('id_iuran', '<=', $row->id_iuran)
+                ->sum('nominal');
+            $totalUangKeluar = iuranModel::where('jenis_transaksi', 'pengeluaran')
+                ->where('id_iuran', '<=', $row->id_iuran)
+                ->sum('nominal');
+            return $totalUangMasuk - $totalUangKeluar;
+        })
         ->make(true);
     }
 }
