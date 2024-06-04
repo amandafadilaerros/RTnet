@@ -17,22 +17,24 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_peminjaman">
-      <thead>
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Nama Warga</th>
-          <th scope="col">Nama Barang</th>
-          <th scope="col">Jumlah Peminjaman</th>
-          <th scope="col">Tanggal Peminjaman</th>
-          <th scope="col">Tanggal Pengembalian</th>
-          <th scope="col">Status Peminjaman</th>
-        </tr>
-      </thead>
-      {{-- hanya CONTOH DATA TABEL --}}
-      <tbody>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" id="table_peminjaman">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Nama Warga</th>
+            <th scope="col">Nama Barang</th>
+            <th scope="col">Jumlah Peminjaman</th>
+            <th scope="col">Tanggal Peminjaman</th>
+            <th scope="col">Tanggal Pengembalian</th>
+            <th scope="col">Status Peminjaman</th>
+          </tr>
+        </thead>
+        {{-- hanya CONTOH DATA TABEL --}}
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

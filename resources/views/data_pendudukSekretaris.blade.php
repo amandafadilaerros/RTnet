@@ -29,6 +29,7 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
+    <div class="table-responsive">
         <table class="table table-hover table-striped" id="table_data_penduduk">
             <thead>
                 <tr>
@@ -52,6 +53,7 @@
                 </tr>
             </thead>
         </table>
+    </div>
     </div>
 </div>
 @endsection
