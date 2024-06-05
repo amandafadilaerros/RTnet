@@ -188,7 +188,7 @@ Route::group(['prefix' => 'sekretaris', 'middleware' => ['cek_login:sekretaris']
 
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
-        Route::get('/', [data_kkSekretarisController::class, 'index']);
+        Route::get('/', [data_kkSekretarisController::class, 'index1']);
         Route::post('/list', [data_kkSekretarisController::class, 'list']);
         Route::get('/create', [data_kkSekretarisController::class, 'create']);
         Route::post('/', [data_kkSekretarisController::class, 'store']);
