@@ -14,7 +14,7 @@ class ktp extends Model
     public function peminjaman_inventaris(){
         return $this->hasMany(peminjaman_inventaris::class, 'id_peminjam', 'NIK');
     }
-    protected $fillable = ['NIK','no_kk','nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota' ,'jenis_penduduk' , 'dokumen'];
+    protected $fillable = ['NIK','no_kk','nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin', 'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota' ,'jenis_penduduk' , 'dokumen','tgl_masuk','tgl_keluar'];
 
     public function kkModel(): HasMany{
         return $this->hasMany(kkModel::class, 'no_kk', 'no_kk');
