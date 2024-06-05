@@ -192,18 +192,18 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_lakiTambah" name="jenis_kelamin" value="l" required>
+                                    <input class="form-check-input" type="radio" id="laki_lakiTambah" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuanTambah" name="jenis_kelamin" value="p" required>
+                                    <input class="form-check-input" type="radio" id="perempuanTambah" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label for="agama">Agama</label>
-                                <select class="form-control" id="agamaTambah" name="agama" style="border-radius: 25px;" re>
+                                <select class="form-control" id="agamaTambah" name="agama" style="border-radius: 25px;" required>
                                     <option value="Islam">Islam</option>
                                     <option value="Katolik">Katolik</option>
                                     <option value="Konghucu">Konghucu</option>
@@ -215,7 +215,7 @@
 
                             <div class="form-group">
                                 <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" required>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" >
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -248,20 +248,14 @@
                                 </div>
                             </div>
 
-
-                            <div class="form-group">
-                                <label for="status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggotaTambah" name="status_anggota" style="border-radius: 25px;" required>
-                            </div>
-
                             <div class="form-group">
                                 <label for="tgl_masuk">Tanggal Masuk</label>
-                                <input type="date" class="form-control" id="tgl_masukTambah" name="tgl_masuk" style="border-radius: 25px;" required>
+                                <input type="date" class="form-control" id="tgl_masukTambah" name="tgl_masuk" style="border-radius: 25px;" >
                             </div>
 
                             <div class="form-group">
                                 <label for="tgl_keluar">Tanggal Keluar</label>
-                                <input type="date" class="form-control" id="tgl_keluarTambah" name="tgl_keluar" style="border-radius: 25px;" required>
+                                <input type="date" class="form-control" id="tgl_keluarTambah" name="tgl_keluar" style="border-radius: 25px;" >
                             </div>
 
                         </div>
@@ -318,11 +312,11 @@
                                     <div class="form-group">
                                         <label>Jenis Kelamin</label><br>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l">
+                                            <input class="form-check-input" type="radio" id="laki_laki" name="jenis_kelamin" value="l">
                                             <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p">
+                                            <input class="form-check-input" type="radio" id="perempuan" name="jenis_kelamin" value="p">
                                             <label class="form-check-label" for="perempuan">Perempuan</label>
                                         </div>
                                     </div>
@@ -342,7 +336,7 @@
 
                                     <div class="form-group">
                                         <label for="agama">Agama</label>
-                                        <select class="form-control" id="agama" name="agama" style="border-radius: 25px;" re>
+                                        <select class="form-control" id="agama" name="agama" style="border-radius: 25px;" >
                                             <option value="Islam">Islam</option>
                                             <option value="Katolik">Katolik</option>
                                             <option value="Konghucu">Konghucu</option>
@@ -386,14 +380,10 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label for="status_anggota">Status Anggota</label>
-                                        <input type="text" class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
-                                    </div>
-                                    <div class="col-md-6">
                                         <label for="tgl_masuk">Tanggal Masuk</label>
                                         <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="form-group">
                                         <label for="tgl_keluar">Tanggal Keluar</label>
                                         <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                                     </div>
@@ -469,25 +459,17 @@
                                 <input type="text" class="form-control" id="view_status_keluarga" name="view_status_hubungan" value="" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="view_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="view_status_anggota" name="view_status_anggota" value="" disabled>
-                            </div>
-                            <div class="form-group">
                                 <label for="view_golongan_darah">Golongan Darah</label>
                                 <input type="text" class="form-control" id="view_golongan_darah" name="view_golongan_darah" value="" disabled>
                             </div>
-                            <div class="col-md-6">
-                                <label for="view_tgl_masuk">Tanggal Lahir</label>
+                            <div class="form-group">
+                                <label for="view_tgl_masuk">Tanggal Masuk</label>
                                 <input type="date" class="form-control" id="view_tgl_masuk" name="view_tgl_masuk" value="" disabled>
                             </div>
-                            <div class="col-md-6">
-                                <label for="view_tgl_keluar">Tanggal Lahir</label>
+                            <div class="form-group">
+                                <label for="view_tgl_keluar">Tanggal Masuk</label>
                                 <input type="date" class="form-control" id="view_tgl_keluar" name="view_tgl_keluar" value="" disabled>
                             </div>
-                            {{-- <div class="form-group">
-                                <label for="view_pendidikan">Pendidikan</label>
-                                <input type="text" class="form-control" id="view_pekerjaan" name="view_pendidikan" value="{{ $ktp->pendidikan }}" disabled>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -538,11 +520,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l" required>
+                                    <input class="form-check-input" type="radio" id="laki_laki" name="jenis_kelamin" value="l" >
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p" required>
+                                    <input class="form-check-input" type="radio" id="perempuan" name="jenis_kelamin" value="p" >
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -567,7 +549,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" required>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" >
                             </div>
                             
                         </div>
@@ -594,10 +576,6 @@
                                         <option value="Keponakan">Keponakan</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggotaTambah" name="status_anggota" style="border-radius: 25px;" required>
                             </div>
                             <div class="form-group">
                                 <label for="tgl_masuk">Tanggal Masuk</label>
@@ -662,11 +640,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_laki_non" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="laki_laki_non" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuan_non" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="perempuan_non" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -725,11 +703,6 @@
                                         <option value="Famili Lain">Famili lain</option>
                                     </select>
                                 </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggota_non" name="status_anggota" style="border-radius: 25px;">
                             </div>
                             <div class="form-group">
                                 <label for="edit_tgl_masuk">Tanggal Masuk</label>
@@ -812,10 +785,7 @@
                                 <label for="view_status_hubungan">Status Hubungan Keluarga</label>
                                 <input type="text" class="form-control" id="view_status_keluarga_non" name="view_status_hubungan" value="" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="view_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="view_status_anggota_non" name="view_status_anggota" value="" disabled>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="view_golongan_darah">Golongan Darah</label>
                                 <input type="text" class="form-control" id="view_golongan_darah_non" name="view_golongan_darah" value="" disabled>
@@ -881,7 +851,7 @@
                         $('#ViewModalAnggota .modal-body #view_status_perkawinan').val(response.status_perkawinan);
                         $('#ViewModalAnggota .modal-body #view_pekerjaan').val(response.pekerjaan);
                         $('#ViewModalAnggota .modal-body #view_status_keluarga').val(response.status_keluarga);
-                        $('#ViewModalAnggota .modal-body #view_status_anggota').val(response.status_anggota);
+                        // $('#ViewModalAnggota .modal-body #view_status_anggota').val(response.status_anggota);
                         $('#ViewModalAnggota .modal-body #view_dokumen').val(response.dokumen);
                         $('#ViewModalAnggota .modal-body #view_tgl_masuk').val(response.tgl_masuk);
                         $('#ViewModalAnggota .modal-body #view_tgl_keluar').val(response.tgl_keluar);
@@ -915,10 +885,10 @@
                         $('#ViewModalNonAnggota .modal-body #view_pekerjaan_non').val(response.pekerjaan);
                         $('#ViewModalNonAnggota .modal-body #view_status_keluarga_non').val(response.status_keluarga);
                         
-                        $('#ViewModalNonAnggota .modal-body #view_status_anggota_non').val(response.status_anggota);
+                        // $('#ViewModalNonAnggota .modal-body #view_status_anggota_non').val(response.status_anggota);
                         $('#ViewModalNonAnggota .modal-body #view_dokumen_non').val(response.dokumen);
-                        $('#ViewModalNonAnggota .modal-body #view_tgl_masuk_non').val(response.tgl_masuk)
-                        $('#ViewModalNonAnggota .modal-body #view_tgl_keluar_non').val(response.tgl_keluar)
+                        $('#ViewModalNonAnggota .modal-body #view_tgl_masuk_non').val(response.tgl_masuk);
+                        $('#ViewModalNonAnggota .modal-body #view_tgl_keluar_non').val(response.tgl_keluar);
                     },
                     error: function(xhr, status, error) {
                         // Tangani kesalahan yang terjadi
@@ -952,7 +922,7 @@
                 $('.modal-body #agama').val(response.agama);
                 $('.modal-body #status_perkawinan').val(response.status_perkawinan);
                 $('.modal-body #pekerjaan').val(response.pekerjaan);
-                $('.modal-body #status_anggota').val(response.status_anggota);
+                // $('.modal-body #status_anggota').val(response.status_anggota);
                 $('.modal-body #status_keluarga').val(response.status_keluarga);
 
                 if (response.status_keluarga === 'Anak') {
@@ -998,8 +968,8 @@
                 $('.modal-body #agama_non').val(response.agama);
                 $('.modal-body #status_perkawinan_non').val(response.status_perkawinan);
                 $('.modal-body #pekerjaan_non').val(response.pekerjaan);
-                $('.modal-body #status_keluarga').val(response.status_keluarga);
-                $('.modal-body #status_anggota_non').val(response.status_anggota);
+                $('.modal-body #status_keluarga_non').val(response.status_keluarga);
+                // $('.modal-body #status_anggota_non').val(response.status_anggota);
 
                 if (response.status_keluarga === 'Anak') {
                     $('.modal-body #anak_non').prop('checked', true);
