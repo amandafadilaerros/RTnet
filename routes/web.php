@@ -178,6 +178,7 @@ Route::group(['prefix' => 'sekretaris', 'middleware' => ['cek_login:sekretaris']
     Route::group(['prefix' => 'data_penduduk'], function () {
         Route::get('/', [data_pendudukSekretarisController::class, 'index']);
         Route::post('/list', [data_pendudukSekretarisController::class, 'list']);
+        Route::post('/export', [data_pendudukSekretarisController::class, 'export']);
         Route::get('/create', [data_pendudukSekretarisController::class, 'create']);
         Route::post('/', [data_pendudukSekretarisController::class, 'store']);
         Route::get('/{id}', [data_pendudukSekretarisController::class, 'show']);
