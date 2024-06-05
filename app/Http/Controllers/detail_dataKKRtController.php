@@ -73,8 +73,7 @@ class detail_dataKKRtController extends Controller
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
-              ->whereNull('tgl_keluar')
-              ->get();
+              ->whereNull('tgl_keluar');
 
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
@@ -84,6 +83,7 @@ class detail_dataKKRtController extends Controller
                           ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
+                    $ktps = $ktps->get();
     
         return DataTables::of($ktps)
         ->addIndexColumn()
@@ -101,8 +101,7 @@ class detail_dataKKRtController extends Controller
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
-              ->whereNull('tgl_keluar')
-              ->get();
+              ->whereNull('tgl_keluar');
 
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
@@ -112,6 +111,7 @@ class detail_dataKKRtController extends Controller
                         //   ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
+                    $ktps = $ktps->get();
     
         return DataTables::of($ktps)
         ->addIndexColumn()

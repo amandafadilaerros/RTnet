@@ -561,7 +561,7 @@
                                         <option value="Sudah Menikah">Sudah Menikah</option>
                                         <option value="Belum Menikah">Belum Menikah</option>
                                     </select>
-                                </d
+                                </div>
                             <div class="form-group">
                                 <label for="pekerjaan">Pekerjaan</label>
                                 <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" style="border-radius: 25px;" required>
@@ -583,7 +583,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="tgl_keluar">Tanggal Keluar</label>
-                                <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;" required>
+                                <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                             </div>
                         </div>
                     </div>
