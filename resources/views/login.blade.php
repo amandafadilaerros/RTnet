@@ -122,6 +122,7 @@
 </head>
 <body>
     <div class="login-container">
+        {{-- <img src="{{asset('adminlte/dist/img/RTplakat.jpg')}}" class="login-image"> --}}
         <img src="{{asset('adminlte/dist/img/rt.webp')}}" class="login-image">
         </div>
         <div class="login-form">
