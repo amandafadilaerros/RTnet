@@ -219,7 +219,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                             <!-- Jenis Penduduk Otomatis -->
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
@@ -341,7 +344,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                     <label for="edit_tgl_masuk">Tanggal Masuk</label>
@@ -400,11 +406,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -463,7 +469,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
                             <div class="col-md-6">
@@ -522,21 +531,33 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki_non">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan_non" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="edit_perempuan_non" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan_non">Perempuan</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="edit_golongan_darah" name="golongan_darah" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_golongan_darah" name="golongan_darah" style="border-radius: 25px;">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="AB">AB</option>
+                                    <option value="O">O</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_agama">Agama</label>
-                                <input type="text" class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Konghucu">Konghucu</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_dokumen">Dokumen Kartu Tanda Penduduk</label>
@@ -545,9 +566,14 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
                                 <label for="edit_status_perkawinan">Status Perkawinan</label>
-                                <input type="text" class="form-control" id="edit_status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
+                                    <option value="Kawin">Kawin</option>
+                                    <option value="Belum Kawin">Belum Kawin</option>
+                                    <option value="Cerai Hidup">Cerai Hidup</option>
+                                    <option value="Cerai Mati">Cerai Mati</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_pekerjaan">Pekerjaan</label>
@@ -555,11 +581,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_keluarga">Status Keluarga</label>
-                                <input type="text" class="form-control" id="edit_status_keluarga" name="status_keluarga" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_keluarga" name="status_keluarga" style="border-radius: 25px;">
+                                    <option value="Suami">Suami</option>
+                                    <option value="Istri">Istri</option>
+                                    <option value="Anak">Anak</option>
+                                    <option value="Menantu">Menantu</option>
+                                    <option value="Cucu">Cucu</option>
+                                    <option value="Keponakan">Keponakan</option>
+                                    <option value="Orang tua">Orang tua</option>
+                                    <option value="Mertua">Mertua</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                     <label for="edit_tgl_masuk">Tanggal Masuk</label>
@@ -861,7 +899,7 @@
                       orderable: false, //orderable true jika ingin kolom bisa diurutkan
                       searchable: false, //searchable true jika ingin kolom bisa dicari
                       render: function (data, type, row) {
-                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModalNonAnggota" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit-non" data-toggle="modal" data-target="#editModalNonAnggota" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
                     }
                 }
                 ]
@@ -898,6 +936,43 @@
                             $('#edit_perempuan').prop('checked', true);
                         }
 
+                        if (response.jenis_kelamin === 'l') {
+                            $('#edit_laki_laki_non').prop('checked', true);
+                        } else if (response.jenis_kelamin === 'p') {
+                            $('#edit_perempuan_non').prop('checked', true);
+                        }
+                        $('.modal-body #edit_golongan_darah').val(response.golongan_darah);
+                        $('.modal-body #edit_agama').val(response.agama);
+                        $('.modal-body #edit_status_perkawinan').val(response.status_perkawinan);
+                        $('.modal-body #edit_pekerjaan').val(response.pekerjaan);
+                        $('.modal-body #edit_status_keluarga').val(response.status_keluarga);
+                        $('.modal-body #edit_status_anggota').val(response.status_anggota);
+                        $('.modal-body #edit_tgl_masuk').val(response.tgl_masuk);
+                        $('.modal-body #edit_tgl_keluar').val(response.tgl_keluar);
+                        // Isi formulir lainnya sesuai kebutuhan Anda
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
+            });
+            $(document).on("click", ".btn-edit-non", function () {
+                var ids = $(this).data('id');
+                // $(".modal-body #id_pengumuman").val( ids );
+                $.ajax({
+                    url: "{{ url('sekretaris/detail_kk/edit') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        nik: ids
+                    },
+                    success: function(response) {
+                        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                        $('.modal-body #edit_nik').val(response.NIK);
+                        $('.modal-body #edit_no_kk').val(response.no_kk);
+                        $('.modal-body #edit_nama').val(response.nama);
+                        $('.modal-body #edit_tempat_lahir').val(response.tempat);
+                        $('.modal-body #edit_tanggal_lahir').val(response.tanggal_lahir);
                         if (response.jenis_kelamin === 'l') {
                             $('#edit_laki_laki_non').prop('checked', true);
                         } else if (response.jenis_kelamin === 'p') {

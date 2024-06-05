@@ -1,10 +1,10 @@
 @extends('layouts.template')
 @section('content')
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
     </div>
-    <div class="col-md-3" style="">
+    <div class="col-md-4" style="">
       <div class="row">
           <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
           <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
@@ -242,7 +242,7 @@
                       searchable: false, //searchable true jika ingin kolom bisa dicari
                       render: function (data, type, row) {
                         var detailUrl = 'data_kk/show/' + row.no_kk;
-                        return '<a href="'+ detailUrl +'" class="btn btn-primary btn-sm btn-detail" data-toggle="modal" data-target="#detailModal" data-id="' + row.no_kk + '"><i class="fas fa-info-circle"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.no_kk + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.no_kk + '"><i class="fas fa-trash"></i></a>';
+                        return '<a href="'+ detailUrl +'" class="btn btn-primary btn-sm btn-detail" ><i class="fas fa-info-circle"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.no_kk + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.no_kk + '"><i class="fas fa-trash"></i></a>';
                       }
                     }
           ]

@@ -13,7 +13,7 @@
             </div>
             <div class="col">
               {{-- // nanti tinggal ubah sesuai data di db --}}
-              <h2>5</h2>
+              <h2>{{$rumah}}</h2>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
                 <i class="fas fa-users fa-3x"></i>
             </div>
             <div class="col">
-              <h2>4</h2>
+              <h2>{{$kk}}</h2>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
                 <i class="fas fa-file-alt fa-3x"></i>
             </div>
             <div class="col">
-              <h2>9</h2>
+              <h2>{{$ktpTetap}}</h2>
             </div>
           </div>
         </div>
@@ -64,7 +64,7 @@
               <i class="fas fa-user-plus fa-3x"></i>
             </div>
             <div class="col">
-              <h2>9</h2>
+              <h2>{{$ktpKos}}</h2>
             </div>
           </div>
         </div>
@@ -133,6 +133,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
 <script>
   $(document).ready(function() {
+
         var data = {
             labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
             datasets: [{

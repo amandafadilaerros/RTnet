@@ -23,11 +23,11 @@
         @enderror
         <input type="hidden" id="NKK" value="{{$data_kk->no_kk}}">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <h2>Data Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-3" style="">
+            <div class="col-md-4" style="">
             <div class="row">
                 <input type="text" id="customSearchBox1" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
                 <button class="btn btn-primary" id="customSearchButton1" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
@@ -74,11 +74,11 @@
         <div class="alert alert-danger">{{session('error')}}</div>
         @endif
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <h2>Data Non-Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahNonAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-3" style="">
+            <div class="col-md-4" style="">
             <div class="row">
                 <input type="text" id="customSearchBox2" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
                 <button class="btn btn-primary" id="customSearchButton2" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
@@ -219,7 +219,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                             <!-- Jenis Penduduk Otomatis -->
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
@@ -278,11 +281,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="edit_laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="edit_perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -341,7 +344,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                     <label for="edit_tgl_masuk">Tanggal Masuk</label>
@@ -463,7 +469,10 @@
                             </div>
                             <div class="form-group">
                                 <label for="status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
                             <div class="col-md-6">
@@ -522,21 +531,33 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki_non">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan_non" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="edit_perempuan_non" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan_non">Perempuan</label>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="edit_golongan_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" id="edit_golongan_darah" name="golongan_darah" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_golongan_darah" name="golongan_darah" style="border-radius: 25px;">
+                                    <option value="A">A</option>
+                                    <option value="B">B</option>
+                                    <option value="AB">AB</option>
+                                    <option value="O">O</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_agama">Agama</label>
-                                <input type="text" class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_agama" name="agama" style="border-radius: 25px;">
+                                    <option value="Islam">Islam</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                    <option value="Konghucu">Konghucu</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
@@ -545,9 +566,14 @@
                         </div>
 
                         <div class="col-md-6">
-                            <div class="form-group">
+                        <div class="form-group">
                                 <label for="edit_status_perkawinan">Status Perkawinan</label>
-                                <input type="text" class="form-control" id="edit_status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
+                                    <option value="Kawin">Kawin</option>
+                                    <option value="Belum Kawin">Belum Kawin</option>
+                                    <option value="Cerai Hidup">Cerai Hidup</option>
+                                    <option value="Cerai Mati">Cerai Mati</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_pekerjaan">Pekerjaan</label>
@@ -555,11 +581,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_keluarga">Status Keluarga</label>
-                                <input type="text" class="form-control" id="edit_status_keluarga" name="status_keluarga" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_keluarga" name="status_keluarga" style="border-radius: 25px;">
+                                    <option value="Suami">Suami</option>
+                                    <option value="Istri">Istri</option>
+                                    <option value="Anak">Anak</option>
+                                    <option value="Menantu">Menantu</option>
+                                    <option value="Cucu">Cucu</option>
+                                    <option value="Keponakan">Keponakan</option>
+                                    <option value="Orang tua">Orang tua</option>
+                                    <option value="Mertua">Mertua</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="edit_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                <select class="form-control" id="edit_status_anggota" name="status_anggota" style="border-radius: 25px;">
+                                    <option value="Kepala Keluarga">Kepala Keluarga</option>
+                                    <option value="Anggota">Anggota</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                     <label for="edit_tgl_masuk">Tanggal Masuk</label>
