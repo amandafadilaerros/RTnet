@@ -204,7 +204,6 @@ class inventarisController extends Controller
             Log::error('Error in querying data: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
-
     }
 
 
