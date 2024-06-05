@@ -8,6 +8,7 @@ use App\Models\ktp;
 use App\Models\ktpModel;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class detail_dataKKSekretarisController extends Controller
 {
@@ -70,10 +71,20 @@ class detail_dataKKSekretarisController extends Controller
 
         $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
-             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
+             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
+              ->whereNull('tgl_keluar')
               ->get();
     
+              if ($request->has('customSearch') && !empty($request->customSearch)) {
+                $search = $request->customSearch;
+                $ktps->where(function($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%")
+                          ->orWhere('no_kk', 'like', "%{$search}%")
+                          ->orWhere('nik', 'like', "%{$search}%");
+                        });
+                    }
+
         return DataTables::of($ktps)
         ->addIndexColumn()
         // ->addColumn('aksi', function ($kk) {
@@ -88,10 +99,20 @@ class detail_dataKKSekretarisController extends Controller
     public function list2(Request $request){
         $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
-             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
+             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
+              ->whereNull('tgl_keluar')
               ->get();
     
+              if ($request->has('customSearch') && !empty($request->customSearch)) {
+                $search = $request->customSearch;
+                $ktps->where(function($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%");
+                        //   ->orWhere('no_kk', 'like', "%{$search}%")
+                        //   ->orWhere('nik', 'like', "%{$search}%");
+                        });
+                    }
+
         return DataTables::of($ktps)
         ->addIndexColumn()
         // ->addColumn('aksi', function ($kk) {
@@ -106,6 +127,14 @@ class detail_dataKKSekretarisController extends Controller
 
     public function store(Request $request)
     {
+        $jumlahIndividu = kkModel::where('no_kk', $request->no_kk)->value('jumlah_individu');
+        $jumlahKtp = ktp::where('no_kk', $request->no_kk)
+                    ->where('jenis_penduduk', 'tetap')
+                    ->count();
+        if($jumlahKtp >= $jumlahIndividu){
+            return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Maaf, jumlah individu dalam KK sudah mencapai batas.');
+        }
+
         // dd($request);
         $request->validate([
             'nik'                   => 'required|max:255',                         
@@ -119,9 +148,9 @@ class detail_dataKKSekretarisController extends Controller
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
             'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             'jenis_penduduk'        => 'required|max:255',
-            'tgl_masuk'             => 'required|max:255', //penduduk tetap gak butuh ini
+            // 'tgl_masuk'             => 'required|max:255', //penduduk tetap gak butuh ini
             // 'tgl_keluar'         => 'required|max:255', ini juga, jadi di comment
             
         ]);
@@ -135,6 +164,7 @@ class detail_dataKKSekretarisController extends Controller
             Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
             $pathBaru = $namaFile;
         }
+        $today = Carbon::now();
 
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -148,9 +178,9 @@ class detail_dataKKSekretarisController extends Controller
             'status_perkawinan'     => $request->status_perkawinan,
             'pekerjaan'             => $request->pekerjaan,
             'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
+            // 'status_anggota'        => $request->status_anggota,
             'jenis_penduduk'        => $request->jenis_penduduk,
-            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_masuk'             => $today,
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $pathBaru,
         ]);
@@ -170,8 +200,8 @@ class detail_dataKKSekretarisController extends Controller
             'agama'                 => 'required|max:255',
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
-            'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_keluarga'       => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             'jenis_penduduk2'        => 'required|max:255',
             'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
@@ -187,6 +217,7 @@ class detail_dataKKSekretarisController extends Controller
             Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
             $pathBaru = $namaFile;
         }
+        $today = Carbon::now();
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -199,10 +230,10 @@ class detail_dataKKSekretarisController extends Controller
             'agama'                 => $request->agama,
             'status_perkawinan'     => $request->status_perkawinan,
             'pekerjaan'             => $request->pekerjaan,
-            'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
+            // 'status_keluarga'       => $request->status_keluarga,
+            // 'status_anggota'        => $request->status_anggota,
             'jenis_penduduk'        => $request->jenis_penduduk2,
-            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_masuk'             => $today,
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $pathBaru,
         ]);
@@ -275,7 +306,7 @@ class detail_dataKKSekretarisController extends Controller
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
             'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
@@ -299,9 +330,7 @@ class detail_dataKKSekretarisController extends Controller
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
                 'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
+                // 'status_anggota'        => $request->status_anggota,
                 'dokumen'               => $pathBaru,
             ]);
         } else {
@@ -316,9 +345,7 @@ class detail_dataKKSekretarisController extends Controller
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
                 'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
+                // 'status_anggota'        => $request->status_anggota,
             ]);
         }
         return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil disimpan');
@@ -335,8 +362,8 @@ class detail_dataKKSekretarisController extends Controller
             'agama'                 => 'required|max:255',
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
-            'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_keluarga'       => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
@@ -359,10 +386,8 @@ class detail_dataKKSekretarisController extends Controller
                 'agama'                 => $request->agama,
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
-                'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
+                // 'status_keluarga'       => $request->status_keluarga,
+                // 'status_anggota'        => $request->status_anggota,
                 'dokumen'               => $pathBaru,
             ]);
         } else {
@@ -376,28 +401,11 @@ class detail_dataKKSekretarisController extends Controller
                 'agama'                 => $request->agama,
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
-                'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
+                // 'status_keluarga'       => $request->status_keluarga,
+                // 'status_anggota'        => $request->status_anggota,
+                
             ]);
         }
-        ktp::find($request->nik_awal)->update([
-            'nik'                   => $request->nik,
-            'nama'                  => $request->nama,
-            'tempat'                => $request->tempat,
-            'tanggal_lahir'         => $request->tanggal_lahir,
-            'jenis_kelamin'         => $request->jenis_kelamin,
-            'golongan_darah'        => $request->golongan_darah,
-            'agama'                 => $request->agama,
-            'status_perkawinan'     => $request->status_perkawinan,
-            'pekerjaan'             => $request->pekerjaan,
-            'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
-            'tgl_masuk'             => $request->tgl_masuk,
-            'tgl_keluar'            => $request->tgl_keluar,
-            'dokumen'               => $request->dokumen,
-        ]);
         return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success2', 'Data ktp berhasil disimpan');
     }
 
@@ -411,7 +419,10 @@ class detail_dataKKSekretarisController extends Controller
         }
 
         try {
-        ktp::destroy($request->nik);    //Hapus data rumah dengan $request->no_rumah dari parameter
+            $today = Carbon::now();
+            ktp::find($request->nik)->update([
+                'tgl_keluar'            => $today,
+            ]);
 
         return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
