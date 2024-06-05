@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="row mb-4">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <!-- <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;" data-toggle="modal" data-target="#tambahModal">Eksport PDF</a> -->
         <a href="{{ url('ketuaRt/sekretaris/exportPDF') }}" class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #ff0000; width: 20%; border-color: red;">Eksport PDF</a>
     </div>
-    <div class="col-md-3" style="">
+    <div class="col-md-4" style="">
       <div class="row">
           <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
           <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
