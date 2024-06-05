@@ -27,7 +27,7 @@ class ketuaController extends Controller
             ->groupBy('bulan')
             ->orderBy('bulan')
             ->get();
-        dd($pendudukData);
+        // dd($pendudukData);
         $data_bulan = [];
         for ($i = 1; $i <= 12; $i++) {
             $data_bulan[$i] = 0; // Inisialisasi setiap bulan dengan nilai 0
