@@ -73,11 +73,11 @@ class inventarisController extends Controller
                     $tersedia = $row->jumlah - $dipinjam;
 
                     if ($tersedia > 0) {
-                        return '<button class="btn btn-sm btn-success pinjam-btn" style="border-radius: 20px;" data-id="' . $row->id_inventaris . '" data-nama-barang="' . $row->nama_barang . '" data-toggle="modal" data-target="#konfirmasiModal">Pinjam</button>';
+                        return '<button class="btn btn-sm btn-success pinjam-btn" style="border-radius: 20px;" data-id="' . $row->id_inventaris . '" data-nama-barang="' . $row->nama_barang . '" data-toggle="modal" data-target="#konfirmasiModal">Pinjam barang</button>';
                     } else {
                         $buttonDetailPeminjam = '';
                         if ($row->id_peminjam) {
-                            $buttonDetailPeminjam = '<a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '">Dipinjam</a>';
+                            $buttonDetailPeminjam = '<a href="#" class="btn btn-sm btn-danger" style="border-radius: 20px;" data-toggle="modal" data-target="#viewModalAnggota" data-no-kk="' . $row->id_peminjam . '">Barang sudah dipinjam</a>';
                         }
                         return $buttonDetailPeminjam;
                     }
