@@ -74,8 +74,16 @@
                   <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
                 </div>
                 <div class="form-group">
-                  <label for="no_rumah">No Rumah</label>
-                  <input type="number" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah">
+                  <label for="no_rumah">No. Rumah</label>
+                  <select class="form-control" id="no_rumah" name="no_rumah" required>
+                    <option value="">- Pilih No. Rumah -</option>
+                    @foreach($rumah as $item)
+                      <option value="{{ $item->no_rumah }}">{{ $item->no_rumah }}</option>
+                    @endforeach
+                      </select>
+                    @error('no_rumah')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                     @enderror
                 </div>
                 <div class="form-group">
                   <label for="dokumen">Dokumen Kartu Keluarga</label>
@@ -201,28 +209,28 @@
                     }, {
                         data: "nama_kepala_keluarga",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
+                        orderable: false,        //jika ingin kolom bisa diurutkan 
+                        searchable: false        // jika ingin kolom bisa dicari
                     }, {
                       data: "jumlah_individu",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
+                        orderable: false,        //jika ingin kolom bisa diurutkan 
+                        searchable: false        // jika ingin kolom bisa dicari
                     }, {
                       data: "alamat",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
+                        orderable: false,        //jika ingin kolom bisa diurutkan 
+                        searchable: false        // jika ingin kolom bisa dicari
                     }, {
                       data: "no_rumah",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
+                        orderable: false,        //jika ingin kolom bisa diurutkan 
+                        searchable: false        // jika ingin kolom bisa dicari
                     }, {
                       data: "dokumen",
                         className: "",
-                        orderable: true,        //jika ingin kolom bisa diurutkan 
-                        searchable: true        // jika ingin kolom bisa dicari
+                        orderable: false,        //jika ingin kolom bisa diurutkan 
+                        searchable: false,        // jika ingin kolom bisa dicari
                         render: function(data, type, full, meta) {
                         var baseUrl = '{{ asset('storage/kks/') }}';
                         return '<img src="'+ baseUrl+'/' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
@@ -235,9 +243,8 @@
                       render: function (data, type, row) {
                         var detailUrl = 'data_kk/show/' + row.no_kk;
                         return '<a href="'+ detailUrl +'" class="btn btn-primary btn-sm btn-detail" data-toggle="modal" data-target="#detailModal" data-id="' + row.no_kk + '"><i class="fas fa-info-circle"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.no_kk + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.no_kk + '"><i class="fas fa-trash"></i></a>';
-
-                  }
-              }
+                      }
+                    }
           ]
       });
       $('#no_kk').on('change', function(){

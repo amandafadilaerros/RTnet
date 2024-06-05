@@ -85,6 +85,7 @@ Route::group(['prefix' => 'ketuaRt', 'middleware' => ['cek_login:ketua_rt']], fu
     Route::group(['prefix' => 'data_penduduk'], function () {
         Route::get('/', [data_pendudukRTController::class, 'index']);
         Route::post('/list', [data_pendudukRTController::class, 'list']);
+        Route::post('/export', [data_pendudukRTController::class, 'export']);
         Route::get('/create', [data_pendudukRTController::class, 'create']);
         Route::post('/', [data_pendudukRTController::class, 'store']);
         Route::get('/{id}', [data_pendudukRTController::class, 'show']);
@@ -187,7 +188,7 @@ Route::group(['prefix' => 'sekretaris', 'middleware' => ['cek_login:sekretaris']
 
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
-        Route::get('/', [data_kkSekretarisController::class, 'index']);
+        Route::get('/', [data_kkSekretarisController::class, 'index1']);
         Route::post('/list', [data_kkSekretarisController::class, 'list']);
         Route::get('/create', [data_kkSekretarisController::class, 'create']);
         Route::post('/', [data_kkSekretarisController::class, 'store']);
