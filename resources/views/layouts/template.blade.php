@@ -19,13 +19,13 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
   <style>
-    .content-wrapper {
-      background-color: #f4eeff;
-      top: 0;
-      left: 0;
-      height: 100%;
-      bottom: 0; /* Menghapus jarak di bagian bawah */
-    }
+   .content-wrapper {
+    background-color: #f4eeff;
+    top: 0;
+    left: 0;
+    height: 100%;
+    bottom: 0; /* Menghapus jarak di bagian bawah */
+}
 
     .container-fluid {
       background-color: #f4eeff;
@@ -64,6 +64,7 @@
       color: white;
     }
 
+
     h1 {
       font-weight: bold;
     }
@@ -74,37 +75,6 @@
       padding: 20px;
       /* Atur jarak antara content dengan batas content-wrapper */
     }
-
-    .navbar-toggler {
-      border: none;
-      font-size: 1.25rem;
-    }
-
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba%2842, 42, 42, 0.7%29' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    }
-
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 100%;
-        height: auto;
-        position: relative;
-      }
-      .content-wrapper {
-        margin-left: 0;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .sidebar {
-        display: block !important;
-      }
-    }
-
-    .content-wrapper {
-      margin-left: 250px;
-      /* default margin for large screens */
-    }
   </style>
   @stack('css') <!-- digunakan untuk memanggil custom css dari perintah push('css') pada masing-masing view -->
 </head>
@@ -113,14 +83,7 @@
   <!-- Site wrapper -->
   <div class="wrapper">
     <!-- Navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-      <!-- Left navbar links -->
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-      </ul>
-    </nav>
+    @include('layouts.header')
     <!-- /.navbar -->
 
     <!-- Main Sidebar Container -->
