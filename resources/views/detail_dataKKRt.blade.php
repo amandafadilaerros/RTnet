@@ -23,11 +23,11 @@
         @enderror
         <input type="hidden" id="NKK" value="{{$data_kk->no_kk}}">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <h2>Data Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-3" style="">
+            <div class="col-md-4" style="">
             <div class="row">
                 <input type="text" id="customSearchBox1" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
                 <button class="btn btn-primary" id="customSearchButton1" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
@@ -74,11 +74,11 @@
         <div class="alert alert-danger">{{session('error')}}</div>
         @endif
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-8">
                 <h2>Data Non-Anggota Keluarga</h2>
                 <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahNonAnggotaModal">Tambah</a>
             </div>
-            <div class="col-md-3" style="">
+            <div class="col-md-4" style="">
             <div class="row">
                 <input type="text" id="customSearchBox2" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
                 <button class="btn btn-primary" id="customSearchButton2" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
