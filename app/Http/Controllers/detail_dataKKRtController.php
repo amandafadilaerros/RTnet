@@ -9,6 +9,8 @@ use App\Models\ktpModel;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
+use function Laravel\Prompts\search;
+
 class detail_dataKKRtController extends Controller
 {
     // public function index()
@@ -71,8 +73,7 @@ class detail_dataKKRtController extends Controller
         $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
-              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
-              ->get();
+              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk);
 
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
@@ -82,6 +83,7 @@ class detail_dataKKRtController extends Controller
                         //   ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
+                    $ktps = $ktps->get();
     
         return DataTables::of($ktps)
         ->addIndexColumn()
@@ -98,8 +100,7 @@ class detail_dataKKRtController extends Controller
         $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
-              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
-              ->get();
+              'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk);
 
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
@@ -109,6 +110,7 @@ class detail_dataKKRtController extends Controller
                         //   ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
+                    $ktps = $ktps->get();
     
         return DataTables::of($ktps)
         ->addIndexColumn()

@@ -538,11 +538,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l" required>
+                                    <input class="form-check-input" type="checkbox" id="laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p" required>
+                                    <input class="form-check-input" type="checkbox" id="perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -567,7 +567,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" required>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                             
                         </div>
@@ -579,7 +579,7 @@
                                         <option value="Sudah Menikah">Sudah Menikah</option>
                                         <option value="Belum Menikah">Belum Menikah</option>
                                     </select>
-                                </d
+                                </div>
                             <div class="form-group">
                                 <label for="pekerjaan">Pekerjaan</label>
                                 <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" style="border-radius: 25px;" required>
@@ -605,7 +605,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="tgl_keluar">Tanggal Keluar</label>
-                                <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;" required>
+                                <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                             </div>
                         </div>
                     </div>
@@ -812,10 +812,7 @@
                                 <label for="view_status_hubungan">Status Hubungan Keluarga</label>
                                 <input type="text" class="form-control" id="view_status_keluarga_non" name="view_status_hubungan" value="" disabled>
                             </div>
-                            <div class="form-group">
-                                <label for="view_status_anggota">Status Anggota</label>
-                                <input type="text" class="form-control" id="view_status_anggota_non" name="view_status_anggota" value="" disabled>
-                            </div>
+                            
                             <div class="form-group">
                                 <label for="view_golongan_darah">Golongan Darah</label>
                                 <input type="text" class="form-control" id="view_golongan_darah_non" name="view_golongan_darah" value="" disabled>

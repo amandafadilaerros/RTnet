@@ -24,8 +24,14 @@
       @if (session('success'))
           <div class="alert alert-success">{{session('success')}}</div>
       @endif
-      @if (session('error'))
-          <div class="alert alert-danger">{{session('error')}}</div>
+      @if (session('errors'))
+          <div class="alert alert-danger">
+            <ul>
+                @foreach (session('errors')->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+          </div>
       @endif
       <div class="table-responsive">
           <table class="table table-hover table-striped" id="table_pengumuman">
@@ -65,7 +71,11 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="date" class="form-control" id="jadwal" name="jadwal">
+                        <input type="date" class="form-control" id="jadwal" name="jadwal" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal">Jadwal Berakhir:</label>
+                        <input type="date" class="form-control" id="jadwal" name="jadwal_berakhir" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label for="detail">Deskripsi:</label>
@@ -204,7 +214,7 @@
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: true, //searchable false jika ingin kolom bisa dicari
                   render: function (data, type, row) {
-                        return row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan + ')';
+                        return row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan + ')' + ' - Berakhir pada: ' + row.jadwal_berakhir;
                     }
               },{
                   data: null,
