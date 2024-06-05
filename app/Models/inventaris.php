@@ -23,4 +23,6 @@ class inventaris extends Model
     {
         return $this->hasMany(peminjaman_inventaris::class, 'id_inventaris', 'id_inventaris');
     }
+    
+    
 }
