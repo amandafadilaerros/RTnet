@@ -8,6 +8,7 @@ use App\Models\ktp;
 use App\Models\ktpModel;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use Carbon\Carbon;
 
 class detail_dataKKRtController extends Controller
 {
@@ -72,14 +73,15 @@ class detail_dataKKRtController extends Controller
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
+              ->whereNull('tgl_keluar')
               ->get();
 
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
                 $ktps->where(function($query) use ($search) {
-                    $query->where('nama', 'like', "%{$search}%");
-                        //   ->orWhere('no_kk', 'like', "%{$search}%")
-                        //   ->orWhere('nik', 'like', "%{$search}%");
+                    $query->where('nama', 'like', "%{$search}%")
+                          ->orWhere('no_kk', 'like', "%{$search}%")
+                          ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
     
@@ -99,6 +101,7 @@ class detail_dataKKRtController extends Controller
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
+              ->whereNull('tgl_keluar')
               ->get();
 
               if ($request->has('customSearch') && !empty($request->customSearch)) {
@@ -160,6 +163,7 @@ class detail_dataKKRtController extends Controller
             Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
             $pathBaru = $namaFile;
         }
+        $today = Carbon::now();
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -175,7 +179,7 @@ class detail_dataKKRtController extends Controller
             'status_keluarga'       => $request->status_keluarga,
             // 'status_anggota'        => $request->status_anggota,
             'jenis_penduduk'        => $request->jenis_penduduk,
-            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_masuk'             => $today,
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $pathBaru,
         ]);
@@ -213,6 +217,7 @@ class detail_dataKKRtController extends Controller
             Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
             $pathBaru = $namaFile;
         }
+        $today = Carbon::now();
        
         ktpModel::create([
             'nik'                   => $request->nik,                         
@@ -228,7 +233,7 @@ class detail_dataKKRtController extends Controller
             // 'status_keluarga'       => $request->status_keluarga,
             // 'status_anggota'        => $request->status_anggota,
             'jenis_penduduk'        => $request->jenis_penduduk2,
-            'tgl_masuk'             => $request->tgl_masuk,
+            'tgl_masuk'             => $today,
             'tgl_keluar'            => $request->tgl_keluar,
             'dokumen'               => $pathBaru,
         ]);
@@ -326,8 +331,6 @@ class detail_dataKKRtController extends Controller
                 'pekerjaan'             => $request->pekerjaan,
                 'status_keluarga'       => $request->status_keluarga,
                 // 'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
                 'dokumen'               => $pathBaru,
             ]);
         } else {
@@ -343,8 +346,6 @@ class detail_dataKKRtController extends Controller
                 'pekerjaan'             => $request->pekerjaan,
                 'status_keluarga'       => $request->status_keluarga,
                 // 'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
             ]);
         }
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil disimpan');
@@ -388,8 +389,6 @@ class detail_dataKKRtController extends Controller
                 'pekerjaan'             => $request->pekerjaan,
                 // 'status_keluarga'       => $request->status_keluarga,
                 // 'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
                 'dokumen'               => $pathBaru,
             ]);
         } else {
@@ -405,8 +404,6 @@ class detail_dataKKRtController extends Controller
                 'pekerjaan'             => $request->pekerjaan,
                 // 'status_keluarga'       => $request->status_keluarga,
                 // 'status_anggota'        => $request->status_anggota,
-                'tgl_masuk'             => $request->tgl_masuk,
-                'tgl_keluar'            => $request->tgl_keluar,
             ]);
         }
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success2', 'Data ktp berhasil disimpan');
@@ -422,7 +419,10 @@ class detail_dataKKRtController extends Controller
         }
 
         try {
-        ktp::destroy($request->nik);    //Hapus data rumah dengan $request->no_rumah dari parameter
+            $today = Carbon::now();
+            ktp::find($request->nik)->update([
+                'tgl_keluar'            => $today,
+            ]);
 
         return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('success', 'Data ktp berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
