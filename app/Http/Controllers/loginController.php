@@ -7,9 +7,11 @@ use Illuminate\Http\Request;
 use App\Models\iuranModel;
 use App\Models\inventaris;
 use App\Models\alternatif;
+use App\Models\kkModel;
 use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\pengumumans;
+use App\Models\rumahModel;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -115,6 +117,8 @@ class loginController extends Controller
         $laporan_keuangan = iuranModel::count();
         $inventaris = inventaris::count();
         $pengumuman = pengumumans::count();
+        $rumah = rumahModel::count();
+        $kk = kkModel::count();
         $ktpTetap = ktp::where('jenis_penduduk', 'Tetap')->count();
         $ktpKos = ktp::where('jenis_penduduk', 'kos')->count();
 
@@ -184,6 +188,11 @@ class loginController extends Controller
                     'activeMenu' => $activeMenu,
                     'role' => $sessionRole,
                     'laporan_keuangan' => $laporan_keuangan,
+                    'rumah' => $rumah,
+                    'kk' => $kk,
+                    'ktpTetap' => $ktpTetap,
+                    'ktpKos' => $ktpKos,
+                    'data_bulan' => $data_bulan,
                     'inventaris' => $inventaris,
                     'pengumuman' => $pengumuman
                 ]);
