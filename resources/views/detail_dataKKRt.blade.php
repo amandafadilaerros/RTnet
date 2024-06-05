@@ -281,11 +281,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="edit_laki_laki" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="edit_perempuan" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan">Perempuan</label>
                                 </div>
                             </div>
@@ -531,11 +531,11 @@
                             <div class="form-group">
                                 <label>Jenis Kelamin</label><br>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
+                                    <input class="form-check-input" type="radio" id="edit_laki_laki_non" name="jenis_kelamin" value="l">
                                     <label class="form-check-label" for="edit_laki_laki_non">Laki-Laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="checkbox" id="edit_perempuan_non" name="jenis_kelamin" value="p">
+                                    <input class="form-check-input" type="radio" id="edit_perempuan_non" name="jenis_kelamin" value="p">
                                     <label class="form-check-label" for="edit_perempuan_non">Perempuan</label>
                                 </div>
                             </div>
