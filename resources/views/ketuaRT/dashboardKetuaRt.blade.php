@@ -82,8 +82,95 @@
 </div>
 @endsection
 @push('css')
-    
+  <style>
+    .dashboard {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 50px;
+        padding: 20px;
+    }
+    .section, .big {
+        flex: 1;
+        min-width: 400px;
+        padding: 20px;
+    }
+    .section {
+        flex: 1;
+        min-width: 400px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+    }
+
+    /* .big {
+        flex: 2;
+        min-width: 400px;
+        padding: 20px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        width: 1000px;
+        order: 1;
+    } */
+
+  
+
+    #chart-container {
+        width: 80vw;
+        height: 100%; /* Menggunakan tinggi 100% untuk mengisi seluruh area div */
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px; /* Menambahkan padding untuk menjaga jarak dari batas div */
+        box-sizing: border-box; /* Menyesuaikan box-sizing untuk memperhitungkan padding */
+    }
+
+
+  </style>
 @endpush
 @push('js')
-    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+<script>
+    $(document).ready(function() {
+        var data = {
+            labels: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+            datasets: [{
+                label: 'Penduduk',
+                data: @json(array_values($data_bulan)), // Data jumlah penduduk untuk setiap bulan
+                backgroundColor: 'rgba(155, 102, 255, 0.2)',
+                borderColor: 'rgba(102, 0, 153, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        var options = {
+            responsive: true,
+            maintainAspectRatio: false, // Tambahkan ini untuk membuat chart responsif
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                },
+                title: {
+                    display: false,
+                    text: 'Pertambahan Warga Tiap Bulan'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true, // Mulai sumbu Y dari nilai 0
+                    ticks: {
+                        stepSize: 1 // Langkah interval antara setiap nilai pada sumbu Y
+                    }
+                }
+            }
+        };
+
+        var ctx = document.getElementById('line-chart').getContext('2d');
+        var lineChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
+    });
+</script>
 @endpush

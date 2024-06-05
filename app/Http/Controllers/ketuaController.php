@@ -9,6 +9,7 @@ use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\pengumumans;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class ketuaController extends Controller
@@ -19,6 +20,20 @@ class ketuaController extends Controller
         $inventaris = inventaris::count();
         $ktpTetap = ktp::where('jenis_penduduk', 'Tetap')->count();
         $ktpKos = ktp::where('jenis_penduduk', 'kos')->count();
+        $pendudukData = Ktp::select(
+            DB::raw('MONTH(tgl_masuk) as bulan'),
+            DB::raw('count(*) as total_penduduk')
+        )
+            ->groupBy('bulan')
+            ->orderBy('bulan')
+            ->get();
+        $data_bulan = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $data_bulan[$i] = 0; // Inisialisasi setiap bulan dengan nilai 0
+        }
+        foreach ($pendudukData as $item) {
+            $data_bulan[$item->bulan] = $item->total_penduduk;
+        }
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'dashboard',
@@ -36,6 +51,7 @@ class ketuaController extends Controller
             'pengumuman' => $pengumuman,
             'inventaris' => $inventaris,
             'ktpTetap' => $ktpTetap,
+            'data_bulan' => $data_bulan,
             'ktpKos' => $ktpKos
         ]);
     }
