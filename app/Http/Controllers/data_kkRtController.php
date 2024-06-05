@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
+use App\Models\rumahModel;
 use App\Models\level;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -18,16 +19,18 @@ class data_kkRtController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Kartu Keluarga',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Data Kartu Keluarga'],
         ];
         $page = (object) [
-            'title' => '-----',
+            'title' => 'Daftar data kartu keluarga yang terdaftar dalam sistem',
         ];
         $activeMenu = 'data_kk';
 
+        $rumah = rumahModel::all(); //mengambil semua data rumah dari modal
         return view('data_KKrt', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
+            'rumah' => $rumah,
             'activeMenu' => $activeMenu,
         ]);
     }

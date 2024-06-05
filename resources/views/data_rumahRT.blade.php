@@ -1,10 +1,10 @@
 @extends('layouts.template')
 @section('content')
 <div class="row mb-4">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
     </div>
-    <div class="col-md-3" style="">
+    <div class="col-md-4" style="">
       <div class="row">
           <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
           <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
@@ -28,15 +28,18 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_data_rumah">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">No.Rumah</th>
-                <th scope="col">Status Rumah</th>
-                <th scope="col">Aksi</th>
-            </tr>
-        </thead>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped" id="table_data_rumah">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">No.Rumah</th>
+                    <th scope="col">Status Rumah</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
         
 
 <!-- Modal Tambah -->

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\kkModel;
+use App\Models\ktp;
 use App\Models\penduduk_tetapModel;
 use Illuminate\Http\RedirectResponse;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
 
@@ -54,32 +56,35 @@ class data_pendudukSekretarisController extends Controller
                     });
                 }
 
-        return DataTables::of($ktps)
-        ->addIndexColumn()
-        // ->addColumn('aksi', function ($data_rumah) {
-        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
-        // //     Detail
-        // // </button>';
-        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
-        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
-        // //             '<button type="submit" class="btn btn-danger btn-sm"
-        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
-        //     // return $btn;
-        // })
-        // ->rawColumns(['aksi'])
-        // ->addColumn('aksi', function ($data_rumah) {
-        // //     $btn = '<button type="button" class="button-detail btn btn-sm btn-primary" style="border-radius: 20px; background-color: #424874;" id='. $data_rumah->no_rumah .' data-toggle="modal" data-target="#detailModal">
-        // //     Detail
-        // // </button>';
-        // //     $btn .= '<a href="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah . '/edit') . '" class="btn btn-warning btn-sm">Edit</a>  ';
-        // //     $btn .= '<form class="d-inline-block" method="POST" action="' . url('/ketuaRt/data_rumah/' . $data_rumah->no_rumah) . '">' . csrf_field() . method_field('DELETE').
-        // //             '<button type="submit" class="btn btn-danger btn-sm"
-        // //             onclik="return confirm(\'Apakah Anda yakin menhapus data ini?\');">Hapus</button></form>' ;
-        //     // return $btn;
-        // })
-        // ->rawColumns(['aksi'])
-        ->make(true);
+                return DataTables::of($ktps)
+                ->addIndexColumn()
+                ->addColumn('aksi', function ($row) {
+                    return '<input type="checkbox" class="row-checkbox" value="' . $row->nik . '">';
+                })
+                ->rawColumns(['aksi'])
+                ->make(true);
+    }      
+    public function export(Request $request){
+        // $this->validate($request, [
+        //     'niks' => 'required|array',
+        //     'niks.*' => 'exists:ktps,NIK' // Pastikan data_penduduks adalah nama tabel Anda
+        // ]);
+        $niksArray = explode(',', $request->niks);
+
+        // Ambil data berdasarkan NIK yang dipilih
+        $penduduk = ktp::whereIn('nik', $niksArray)->get();
+        // dd($penduduk);
+
+        // Buat view untuk PDF
+        $pdf= FacadePdf::loadView('pdf.penduduk', ['penduduk' => $penduduk]);
+
+        // Generate nama file PDF
+        $fileName = 'data_penduduk_' . time() . '.pdf';
+
+        // Return PDF untuk di-download
+        return $pdf->download($fileName);
     }
+}
 
     // public function store(Request $request)
     // {
@@ -128,7 +133,7 @@ class data_pendudukSekretarisController extends Controller
     //         //dan bernilai unik ditabel m_levels kolom level kecuali untuk level dengan id yang sedang diedit
     //         'no_rumah'     => 'required|max:255',                         
     //         'status_rumah'     => 'required|max:255',
-           
+        
     //     ]);
 
     //     rumahModel::find($id)->update([
@@ -158,5 +163,5 @@ class data_pendudukSekretarisController extends Controller
     //     }
     // }
 
-}
+// }
 

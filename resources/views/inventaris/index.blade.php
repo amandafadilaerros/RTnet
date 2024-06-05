@@ -30,56 +30,19 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_inventaris">
-          <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">Gambar</th>
-                <th scope="col">Nama</th>
-                <th scope="col">Jumlah</th>
-                <th scope="col">Aksi</th>
-              </tr>
-          </thead>
-          {{-- hanya CONTOH DATA TABEL --}}
-          {{-- <tbody>
-            <tr>
-                <td>1</td>
-                <td>
-                  <img src="{{URL::asset('img/speaker.png')}}" alt="Placeholder" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
-                </td>
-                <td>Sound</td>
-                <td>2</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>
-                  <img src="{{URL::asset('img/carpet.png')}}" alt="Placeholder" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
-                </td>
-                <td>Karpet</td>
-                <td>3</td>
-                <td>
-                    <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="paguyuban"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>
-                    <img src="{{URL::asset('img/sprayer.png')}}" alt="" class="img-fluid img-thumbnail" style="width: 80px; height: auto;">
-                </td>
-                <td>Semprotan</td>
-                <td>4</td>
-                <td>
-                  <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="1" data-jenis="kas"><i class="fas fa-pen"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
-                </td>
-            </tr>
-        </tbody> --}}
-      </table>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped" id="table_inventaris">
+            <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">Gambar</th>
+                  <th scope="col">Nama</th>
+                  <th scope="col">Jumlah</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+        </table>
+      </div>
   </div>
 </div>
 
@@ -88,7 +51,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content" style="border-radius: 25px;">
         <div class="modal-header">
-          <h5 class="modal-title" id="tambahModalLabel">Tambah Data Inventaris</h5>
+          <h5 class="modal-title" id="tambahModalLabel">Tambah Inventaris</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -129,7 +92,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content" style="border-radius: 25px;">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Edit Pengeluaran</h5>
+                <h5 class="modal-title" id="editModalLabel">Edit Inventaris</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
