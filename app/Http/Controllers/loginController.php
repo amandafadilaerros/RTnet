@@ -114,7 +114,7 @@ class loginController extends Controller
         // dd($sessionRole);
 
         // Prepare common variables
-        $laporan_keuangan = iuranModel::count();
+        
         $inventaris = inventaris::count();
         $pengumuman = pengumumans::count();
         $rumah = rumahModel::count();
@@ -138,7 +138,7 @@ class loginController extends Controller
         }
         $totalPemasukan = IuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
         $totalPengeluaran = IuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
-
+        $laporan_keuangan = $totalPemasukan - $totalPengeluaran;
         $data_grafik = [
             'penduduk_tetap' => ktp::where('jenis_penduduk', 'Penduduk Tetap')->count(),
             'penduduk_kos' => ktp::where('jenis_penduduk', 'Penduduk Kos')->count()
