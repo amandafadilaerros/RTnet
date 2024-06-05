@@ -57,7 +57,7 @@ class inventarisController extends Controller
         // Mengambil semua inventaris
         $inventaris = peminjaman_inventaris::select('id_peminjaman', 'id_inventaris', 'id_peminjam', 'jumlah_peminjaman', 'tanggal_peminjaman', 'tanggal_kembali')
                     ->with('inventaris')
-                    ->with('ktps');
+                    ->with('kks');
                     // ->where('id_peminjam', session()->get('NIK'))
                     // ->get();
 

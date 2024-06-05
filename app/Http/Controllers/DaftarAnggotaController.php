@@ -6,6 +6,7 @@ use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\PendudukKosModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DaftarAnggotaController extends Controller
 {
@@ -53,6 +54,7 @@ class DaftarAnggotaController extends Controller
             'status_perkawinan' => 'required',
             'pekerjaan' => 'required',
             'status_keluarga' => 'required',
+            'status_anggota' => 'required',
             'dokumen' => 'image|max:5000'
             ]);
         $pathBaru = null;
@@ -78,10 +80,12 @@ class DaftarAnggotaController extends Controller
                 'pekerjaan' => $request->pekerjaan,
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
-                'jenis_penduduk' => 'tetap',
+                'tgl_masuk' => $request->tgl_masuk,
+                'tgl_keluar' => $request->tgl_keluar,
+                'jenis_penduduk' => 'Tetap',
                 'dokumen' => $pathBaru,
             ]);
-                
+            
         return redirect('/penduduk/DaftarAnggota')->with('success', 'Data anggota berhasil ditambahkan');
     }
     public function show(Request $request)
@@ -108,6 +112,7 @@ class DaftarAnggotaController extends Controller
             'status_perkawinan' => 'required',
             'pekerjaan' => 'required',
             'status_keluarga' => 'required',
+            'status_anggota' => 'required',
             'dokumen' => 'image|max:5000'
         ]);
         if ($request->hasFile('dokumen')) {
@@ -131,6 +136,8 @@ class DaftarAnggotaController extends Controller
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
                 'dokumen' => $pathBaru,
+                'tgl_masuk' => $request->tgl_masuk,
+                'tgl_keluar' => $request->tgl_keluar,
             ]);
         } else {
             ktp::find($request->nik)->update([
@@ -143,6 +150,8 @@ class DaftarAnggotaController extends Controller
                 'agama' => $request->agama,
                 'status_perkawinan' => $request->status_perkawinan,
                 'pekerjaan' => $request->pekerjaan,
+                'tgl_masuk' => $request->tgl_masuk,
+                'tgl_keluar' => $request->tgl_keluar,
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
             ]);
@@ -172,6 +181,7 @@ class DaftarAnggotaController extends Controller
             'status_perkawinan' => 'required',
             'pekerjaan' => 'required',
             'status_keluarga' => 'required',
+            'status_anggota' => 'required',
             'dokumen' => 'image|max:5000'
             ]);
         $pathBaru = null;
@@ -198,6 +208,8 @@ class DaftarAnggotaController extends Controller
                 'status_keluarga' => $request->status_keluarga,
                 'status_anggota' => $request->status_anggota,
                 'jenis_penduduk' => 'kos',
+                'tgl_masuk' => $request->tgl_masuk,
+                'tgl_keluar' => $request->tgl_keluar,
                 'dokumen' => $pathBaru,
             ]);
                 

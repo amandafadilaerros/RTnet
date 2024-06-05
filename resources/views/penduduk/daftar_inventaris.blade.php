@@ -122,7 +122,7 @@ $(document).ready(function() {
                     return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
                 }
             },
-            { data: "nama_barang", className: "text-center", orderable: true, searchable: true },
+            { data: "inventaris.nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: false, searchable: false }
         ]
     });
