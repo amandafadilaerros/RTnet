@@ -1,10 +1,10 @@
 @extends('layouts.template')
 @section('content')
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874;width:20%" data-toggle="modal" data-target="#tambahModal">Tambah</a>
     </div>
-    <div class="col-md-3" style="">
+    <div class="col-md-4" style="">
       <div class="row">
           <input type="text" id="customSearchBox" class="form-control" style="border-radius: 20px; width: 260px;" placeholder="Search" aria-label="Search" aria-describedby="search-addon">
           <button class="btn btn-primary" id="customSearchButton" type="button" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
@@ -27,19 +27,22 @@
       @if (session('error'))
           <div class="alert alert-danger">{{session('error')}}</div>
       @endif
-      <table class="table table-hover table-striped" id="table_data_kk">
-          <thead>
-              <tr>
-                <th scope="col">No</th>
-                <th scope="col">No. KK</th>
-                <th scope="col">Nama Kepala Keluarga</th>
-                <th scope="col">Jumlah Individu</th>
-                <th scope="col">Alamat</th>
-                <th scope="col">No Rumah</th>
-                <th scope="col">Dokumen</th>
-                <th scope="col">Aksi</th>
-              </tr>
-          </thead>
+      <div class="table-responsive">
+        <table class="table table-hover table-striped" id="table_data_kk">
+            <thead>
+                <tr>
+                  <th scope="col">No</th>
+                  <th scope="col">No. KK</th>
+                  <th scope="col">Nama Kepala Keluarga</th>
+                  <th scope="col">Jumlah Individu</th>
+                  <th scope="col">Alamat</th>
+                  <th scope="col">No Rumah</th>
+                  <th scope="col">Dokumen</th>
+                  <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+          </table>
+      </div>
         
 <!-- Modal Tambah -->
 <div class="modal fade" id="tambahModal" tabindex="-1" role="dialog" aria-labelledby="tambahModalLabel" aria-hidden="true">
@@ -56,7 +59,7 @@
                 @csrf
                 <div class="form-group">
                   <label for="no_kk">No KK</label>
-                  <input type="text" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
+                  <input type="number" class="form-control" id="no_kk" name="no_kk" placeholder="Masukkan No KK">
                 </div>
                 <div class="form-group">
                   <label for="nama_kepala_keluarga">Nama Kepala Keluarga</label>
@@ -64,15 +67,23 @@
                 </div>
                 <div class="form-group">
                   <label for="jumlah_individu">Jumlah Individu</label>
-                  <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
+                  <input type="number" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu">
                 </div>
                 <div class="form-group">
                   <label for="alamat">Alamat</label>
                   <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
                 </div>
                 <div class="form-group">
-                  <label for="no_rumah">No Rumah</label>
-                  <input type="text" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah">
+                  <label for="no_rumah">No. Rumah</label>
+                  <select class="form-control" id="no_rumah" name="no_rumah" required>
+                    <option value="">- Pilih No. Rumah -</option>
+                    @foreach($rumah as $item)
+                      <option value="{{ $item->no_rumah }}">{{ $item->no_rumah }}</option>
+                    @endforeach
+                      </select>
+                    @error('no_rumah')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                     @enderror
                 </div>
                 <div class="form-group">
                   <label for="dokumen">Dokumen Kartu Keluarga</label>
@@ -113,7 +124,7 @@
                   </div>
                   <div class="form-group">
                     <label for="jumlah_individu">Jumlah Individu</label>
-                    <input type="text" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu"  required>
+                    <input type="number" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu"  required>
                   </div>
                   <div class="form-group">
                     <label for="alamat">Alamat</label>
@@ -121,7 +132,7 @@
                   </div>
                   <div class="form-group">
                   <label for="no_rumah">No Rumah</label>
-                  <input type="text" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah"  required>
+                  <input type="number" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah"  required>
                   </div>
                   <div class="form-group">
                     <label for="dokumen">Dokumen Kartu Keluarga</label>
@@ -221,8 +232,9 @@
                         orderable: true,        //jika ingin kolom bisa diurutkan 
                         searchable: true,        // jika ingin kolom bisa dicari
                         render: function(data, type, full, meta) {
-                    return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
-                  }
+                        var baseUrl = '{{ asset('storage/kks/') }}';
+                        return '<img src="'+ baseUrl+'/' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                      }
                     }, {
                       data: null,
                       classname: "",

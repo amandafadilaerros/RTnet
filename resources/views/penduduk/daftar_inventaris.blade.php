@@ -22,18 +22,20 @@
       <div class="alert alert-danger">{{ session('error') }}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="inventaris_table">
-      <thead>
-        <tr>
-          <th scope="col">No</th>
-          <th scope="col">Gambar</th>
-          <th scope="col">Nama Barang</th>
-          <th scope="col">Status</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-hover table-striped" id="inventaris_table">
+        <thead>
+          <tr>
+            <th scope="col">No</th>
+            <th scope="col">Gambar</th>
+            <th scope="col">Nama Barang</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 
@@ -119,8 +121,9 @@ $(document).ready(function() {
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false, //searchable false jika ingin kolom bisa dicari
                   render: function(data, type, full, meta) {
-                    return '<img src="' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
-                }
+                        var baseUrl = '{{ asset('storage/inventaris/') }}';
+                        return '<img src="'+ baseUrl+'/' + data + '" alt="Gambar inventaris" style="max-width: 100px; max-height: 100px;">';
+                      }
             },
             { data: "inventaris.nama_barang", className: "text-center", orderable: true, searchable: true },
             { data: "aksi", className: "text-center", orderable: false, searchable: false }

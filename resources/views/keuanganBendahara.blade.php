@@ -10,17 +10,19 @@
                 <option value="paguyuban">Paguyuban</option>
             </select>
         </div>
-      </div>
-  <div class="col-md-6">
-    <div class="row justify-content-end">
-      <form id="searchForm" class="form-inline">
-        <div class="form-group">
-          <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
-        </div>
-        <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
-      </form>
     </div>
-  </div>
+    <div class="col-md-3 mb-4"></div>
+
+    <div class="col-md-6">
+        <div class="row justify-content-end">
+            <form id="searchForm" class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="search" style="border-radius: 20px; width: 260px;" placeholder="Cari disini..." aria-label="Search" aria-describedby="search-addon">
+                </div>
+                <button type="submit" class="btn btn-primary" style="border-radius: 20px; width: 80px; margin-left: 20px; margin-bottom: 10px; background-color: #424874;">Cari</button>
+            </form>
+        </div>
+    </div>
 </div>
 <div class="card">
     {{-- <div class="card-header">
@@ -44,18 +46,22 @@
 @endsection
 @push('css')
 <style>
-  /* Menyembunyikan fitur pencarian di tabel */
-  .dataTables_filter {
-      display: none;
-  }
-  #searchOption option:hover {
-    outline: none; /* Remove default focus outline */
-    border-color: #424874; /* Change border color to match the desired color */
-    box-shadow: 0 0 0 0.2rem rgba(66, 72, 116, 0.25); /* Add a box shadow to simulate focus effect */
-  }
+    /* Menyembunyikan fitur pencarian di tabel */
+    .dataTables_filter {
+        display: none;
+    }
+
+    #searchOption option:hover {
+        outline: none;
+        /* Remove default focus outline */
+        border-color: #424874;
+        /* Change border color to match the desired color */
+        box-shadow: 0 0 0 0.2rem rgba(66, 72, 116, 0.25);
+        /* Add a box shadow to simulate focus effect */
+    }
 </style>
 
-    <!-- Tambahkan CSS tambahan jika diperlukan -->
+<!-- Tambahkan CSS tambahan jika diperlukan -->
 @endpush
 @push('js')
 <script>

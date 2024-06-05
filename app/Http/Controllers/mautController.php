@@ -28,11 +28,11 @@ class mautController extends Controller
                 'matriksKeputusan' => [],
                 'normalisasi' => [],
                 'preferensi' => [],
-                'breadcrumb' => (object)[
+                'breadcrumb' => (object) [
                     'title' => 'MAUT',
                     'list' => ['--', '--'],
                 ],
-                'page' => (object)[
+                'page' => (object) [
                     'title' => '-----',
                 ],
                 'activeMenu' => 'maut',
@@ -55,27 +55,29 @@ class mautController extends Controller
 
         $breadcrumb = (object) [
             'title' => 'MAUT',
-            'list' => ['--', '--'],
+            'list' => ['Kerja Bakti', 'Maut'],
         ];
         $page = (object) [
             'title' => '-----',
         ];
         $activeMenu = 'maut';
 
-        return view('maut', compact(
-            'alternatifs',
-            'kriteriaList',
-            'bobot',
-            'matriksKeputusan',
-            'normalisasi',
-            'preferensi',
-            'breadcrumb',
-            'page',
+        return view(
+            'maut',
+            compact(
+                'alternatifs',
+                'kriteriaList',
+                'bobot',
+                'matriksKeputusan',
+                'normalisasi',
+                'preferensi',
+                'breadcrumb',
+                'page',
 
-            'activeMenu',
-            'min',
-            'max'
-        )
+                'activeMenu',
+                'min',
+                'max'
+            )
         );
 
     }
@@ -90,8 +92,6 @@ class mautController extends Controller
         }
         return $bobot;
     }
-
-    // Hitung matriks keputusan
     // Hitung matriks keputusan
     private function matriksKeputusan($alternatifs, $kriteriaList)
     {

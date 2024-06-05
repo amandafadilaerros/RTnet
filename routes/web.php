@@ -51,6 +51,7 @@ Route::get('/', function () {
     return view('login');
 
 });
+Route::get('/logout', [loginController::class, 'logout']);
 
 Route::post('/dashboard', [loginController::class, 'login']);
 
@@ -65,7 +66,7 @@ Route::get('/pemasukan', [pemasukanController::class, 'index']);
 
 
 
-Route::group(['prefix' => 'ketuaRt'], function () {
+Route::group(['prefix' => 'ketuaRt', 'middleware' => ['cek_login:ketua_rt']], function () {
     Route::get('/dashboard', [ketuaController::class, 'index']);
     //Data Rumah
     Route::group(['prefix' => 'data_rumah'], function () {
@@ -84,12 +85,16 @@ Route::group(['prefix' => 'ketuaRt'], function () {
     Route::group(['prefix' => 'data_penduduk'], function () {
         Route::get('/', [data_pendudukRTController::class, 'index']);
         Route::post('/list', [data_pendudukRTController::class, 'list']);
+        Route::post('/export', [data_pendudukRTController::class, 'export']);
         Route::get('/create', [data_pendudukRTController::class, 'create']);
         Route::post('/', [data_pendudukRTController::class, 'store']);
         Route::get('/{id}', [data_pendudukRTController::class, 'show']);
         Route::get('/{id}/edit', [data_pendudukRTController::class, 'edit']);
         Route::put('/{id}', [data_pendudukRTController::class, 'update']);
+        Route::post('/{id}/exportPDF', [data_pendudukRTController::class, 'exportPDF']); //PDF
+        // Route::get('ketuaRt/data_penduduk/exportPDF', 'data_pendudukRTController@exportPDF')->name('exportPDF');
         Route::delete('/{id}', [data_pendudukRTController::class, 'destroy']);
+    
     });
 
     //Data KK
@@ -155,7 +160,7 @@ Route::group(['prefix' => 'ketuaRt'], function () {
 });
 
 
-Route::group(['prefix' => 'sekretaris'], function () {
+Route::group(['prefix' => 'sekretaris', 'middleware' => ['cek_login:sekretaris']], function () {
     Route::get('/dashboard', [sekretarisController::class, 'index']);
     //Data Rumah
     Route::group(['prefix' => 'data_rumah'], function () {
@@ -173,6 +178,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
     Route::group(['prefix' => 'data_penduduk'], function () {
         Route::get('/', [data_pendudukSekretarisController::class, 'index']);
         Route::post('/list', [data_pendudukSekretarisController::class, 'list']);
+        Route::post('/export', [data_pendudukSekretarisController::class, 'export']);
         Route::get('/create', [data_pendudukSekretarisController::class, 'create']);
         Route::post('/', [data_pendudukSekretarisController::class, 'store']);
         Route::get('/{id}', [data_pendudukSekretarisController::class, 'show']);
@@ -183,7 +189,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
 
     //Data KK
     Route::group(['prefix' => 'data_kk'], function () {
-        Route::get('/', [data_kkSekretarisController::class, 'index']);
+        Route::get('/', [data_kkSekretarisController::class, 'index1']);
         Route::post('/list', [data_kkSekretarisController::class, 'list']);
         Route::get('/create', [data_kkSekretarisController::class, 'create']);
         Route::post('/', [data_kkSekretarisController::class, 'store']);
@@ -218,7 +224,7 @@ Route::group(['prefix' => 'sekretaris'], function () {
     Route::post('/akun', [sekretarisController::class, 'update_password']);
 });
 
-Route::group(['prefix' => 'bendahara'], function () {
+Route::group(['prefix' => 'bendahara', 'middleware' => ['cek_login:bendahara']], function () {
     Route::group(['prefix' => 'pemasukan'], function () {
         Route::get('/', [pemasukanController::class, 'index']);
         Route::get('/checkIuran', [pemasukanController::class, 'checkIuran']);
@@ -256,7 +262,7 @@ Route::group(['prefix' => 'bendahara'], function () {
     Route::post('/akun', [bendaharaController::class, 'update_password']);
 });
 
-Route::group(['prefix' => 'penduduk'], function () {
+Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], function () {
     Route::get('/dashboard', [PendudukController::class, 'index'])->name('penduduk.dashboard');
 
     Route::get('/', [PendudukController::class, 'getData'])->name('penduduk.dashboard');
@@ -349,6 +355,13 @@ Route::group(['prefix' => 'penduduk'], function () {
 
 //halaman tidak ditemukan
 Route::fallback(function () {
-    return view('404');
+    $breadcrumb = (object) [
+        'title' => '',
+        'list' => ['--', '--'],
+    ];
+    $page = (object) [
+        'title' => '',
+    ];
+    return view('404', ['breadcrumb'=>$breadcrumb, 'page'=>$page]);
 });
 

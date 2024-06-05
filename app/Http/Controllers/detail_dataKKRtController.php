@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class detail_dataKKRtController extends Controller
@@ -152,13 +153,12 @@ class detail_dataKKRtController extends Controller
 
         $pathBaru = null;
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
         }
        
         ktpModel::create([
@@ -206,13 +206,12 @@ class detail_dataKKRtController extends Controller
 
         $pathBaru = null;
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
         }
        
         ktpModel::create([
@@ -309,13 +308,12 @@ class detail_dataKKRtController extends Controller
         ]);
 
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
             ktp::find($request->nik_awal)->update([
                 'nik'                   => $request->nik,
                 'nama'                  => $request->nama,
@@ -372,13 +370,12 @@ class detail_dataKKRtController extends Controller
         ]);
         
         if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
             $extFile = $request->dokumen->getClientOriginalExtension();
             $namaFile = 'web-'.time().".". $extFile;
 
-            $path = $request->dokumen->move('gambar', $namaFile);
-            $path = str_replace("\\","//",$path);
-            
-            $pathBaru = asset('gambar/'. $namaFile);
+            Storage::disk('img_ktps')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
             ktp::find($request->nik_awal)->update([
                 'nik'                   => $request->nik,
                 'nama'                  => $request->nama,

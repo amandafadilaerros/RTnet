@@ -28,15 +28,18 @@
     <div class="alert alert-danger">{{session('error')}}</div>
     @endif
 
-    <table class="table table-hover table-striped" id="table_data_rumah">
-        <thead>
-            <tr>
-                <th scope="col">No</th>
-                <th scope="col">No.Rumah</th>
-                <th scope="col">Status Rumah</th>
-                <th scope="col">Aksi</th>
-            </tr>
-        </thead>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped" id="table_data_rumah">
+            <thead>
+                <tr>
+                    <th scope="col">No</th>
+                    <th scope="col">No.Rumah</th>
+                    <th scope="col">Status Rumah</th>
+                    <th scope="col">Aksi</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
         
 
 <!-- Modal Tambah -->
@@ -54,7 +57,7 @@
                 @csrf
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No.Rumah</label>
-                        <input type="text" class="form-control" id="no_rumah" name="no_rumah">
+                        <input type="number" class="form-control" id="no_rumah" name="no_rumah">
                     </div>
                     <div class="form-group">
                         <label for="status_rumah" style="color: #424874;">Status Rumah</label>
@@ -92,7 +95,7 @@
                     <input type="hidden" id="id" name="id">
                     <div class="form-group">
                         <label for="no_rumah" style="color: #424874;">No. Rumah</label>
-                        <input type="text" class="form-control" id="no_rumah" name="no_rumah">
+                        <input type="number" class="form-control" id="no_rumah" name="no_rumah">
                     </div>
                     <div class="form-group">
                         <label for="status_rumah" style="color: #424874;">Status Rumah</label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\akun;
 use Illuminate\Http\Request;
 use App\Models\kkModel;
+use App\Models\rumahModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
 use App\Models\level;
@@ -24,9 +25,11 @@ class data_kkSekretarisController extends Controller
         ];
         $activeMenu = 'data_kk';
 
+        $rumah = rumahModel::all(); //mengambil semua data rumah dari modal
         return view('data_KKrt', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
+            'rumah' => $rumah,
             'activeMenu' => $activeMenu,
         ]);
     }
@@ -42,9 +45,11 @@ class data_kkSekretarisController extends Controller
         ];
         $activeMenu = 'data_kk';
 
+        $rumah = rumahModel::all(); //mengambil semua data rumah dari modal
         return view('data_KKSekretaris', [
             'breadcrumb' => $breadcrumb,
             'page' => $page,
+            'rumah' => $rumah,
             'activeMenu' => $activeMenu,
         ]);
     }
@@ -71,9 +76,11 @@ class data_kkSekretarisController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $kks->where(function($query) use ($search) {
-                $query->where('nama_kepala_keluarga', 'like', "%{$search}%");
-                    //   ->orWhere('kegiatan', 'like', "%{$search}%")
-                    //   ->orWhere('jadwal_pelaksanaan', 'like', "%{$search}%");
+                $query->where('nama_kepala_keluarga', 'like', "%{$search}%")
+                ->orWhere('no_kk', 'like', "%{$search}%")
+                ->orWhere('no_rumah', 'like', "%{$search}%")
+                ->orWhere('jumlah_individu', 'like', "%{$search}%")
+                ->orWhere('alamat', 'like', "%{$search}%");
                     });
                 }
     

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\kkModel;
+use App\Models\ktp;
 use App\Models\penduduk_tetapModel;
+use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Illuminate\Http\RedirectResponse;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
@@ -36,11 +39,23 @@ class data_pendudukRTController extends Controller
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
             $ktps->where(function($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%");
-                    //   ->orWhere('no_kk', 'like', "%{$search}%")
-                    //   ->orWhere('nik', 'like', "%{$search}%");
+                $query->where('nama', 'like', "%{$search}%")
+                      ->orWhere('no_kk', 'like', "%{$search}%")
+                      ->orWhere('nik', 'like', "%{$search}%")
+                      ->orWhere('tempat', 'like', "%{$search}%")
+                      ->orWhere('tanggal_lahir', 'like', "%{$search}%")
+                      ->orWhere('jenis_kelamin', 'like', "%{$search}%")
+                      ->orWhere('golongan_darah', 'like', "%{$search}%")
+                      ->orWhere('agama', 'like', "%{$search}%")
+                      ->orWhere('status_perkawinan', 'like', "%{$search}%")
+                      ->orWhere('pekerjaan', 'like', "%{$search}%")
+                      ->orWhere('status_keluarga', 'like', "%{$search}%")
+                      ->orWhere('status_anggota', 'like', "%{$search}%")
+                      ->orWhere('jenis_penduduk', 'like', "%{$search}%")
+                      ->orWhere('tgl_masuk', 'like', "%{$search}%")
+                      ->orWhere('tgl_keluar', 'like', "%{$search}%");
                     });
-    }
+        }
 
         return DataTables::of($ktps)
         ->addIndexColumn()
@@ -67,6 +82,27 @@ class data_pendudukRTController extends Controller
         // })
         // ->rawColumns(['aksi'])
         ->make(true);
+    }
+
+    public function export(Request $request){
+        // $this->validate($request, [
+        //     'niks' => 'required|array',
+        //     'niks.*' => 'exists:ktps,NIK' // Pastikan data_penduduks adalah nama tabel Anda
+        // ]);
+        $niksArray = explode(',', $request->niks);
+
+        // Ambil data berdasarkan NIK yang dipilih
+        $penduduk = ktp::whereIn('nik', $niksArray)->get();
+        // dd($penduduk);
+
+        // Buat view untuk PDF
+        $pdf= FacadePdf::loadView('pdf.penduduk', ['penduduk' => $penduduk]);
+
+        // Generate nama file PDF
+        $fileName = 'data_penduduk_' . time() . '.pdf';
+
+        // Return PDF untuk di-download
+        return $pdf->download($fileName);
     }
 
     // public function store(Request $request)

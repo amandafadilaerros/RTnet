@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\iuranModel;
 use App\Models\inventaris;
 use App\Models\alternatif;
+use App\Models\kkModel;
 use App\Models\kriteria;
 use App\Models\ktp;
 use App\Models\pengumumans;
+use App\Models\rumahModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -67,12 +70,17 @@ class loginController extends Controller
     }
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'family_number' => 'required',
             'password' => 'required',
         ]);
+        $credentials = [
+            'id_akun' => $request->family_number,
+            'password' => $request->password,
+        ];
+        Auth::attempt($credentials);
         // Find the user by family number (assuming family_number is a unique identifier)
-        $role = akun::where('id_akun' ,$credentials['family_number'])->first();
+        $role = akun::where('id_akun' ,$credentials['id_akun'])->first();
         // If the user is not found, handle the error (e.g., redirect back with an error message)
         if (!$role) {
             return back()->withErrors(['family_number' => 'Family number not found.']);
@@ -109,6 +117,8 @@ class loginController extends Controller
         $laporan_keuangan = iuranModel::count();
         $inventaris = inventaris::count();
         $pengumuman = pengumumans::count();
+        $rumah = rumahModel::count();
+        $kk = kkModel::count();
         $ktpTetap = ktp::where('jenis_penduduk', 'Tetap')->count();
         $ktpKos = ktp::where('jenis_penduduk', 'kos')->count();
 
@@ -178,6 +188,11 @@ class loginController extends Controller
                     'activeMenu' => $activeMenu,
                     'role' => $sessionRole,
                     'laporan_keuangan' => $laporan_keuangan,
+                    'rumah' => $rumah,
+                    'kk' => $kk,
+                    'ktpTetap' => $ktpTetap,
+                    'ktpKos' => $ktpKos,
+                    'data_bulan' => $data_bulan,
                     'inventaris' => $inventaris,
                     'pengumuman' => $pengumuman
                 ]);
@@ -194,5 +209,11 @@ class loginController extends Controller
                     'totalPengeluaran' => $totalPengeluaran
                 ]);
         }
+    }
+    public function logout(){
+        // $user = Auth::user();
+        Auth::logout();
+        // dd($user);
+        return redirect('/')->with('success', 'You have been logged out.');
     }
 }
