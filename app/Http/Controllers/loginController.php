@@ -63,7 +63,7 @@ class loginController extends Controller
             case 'penduduk':
                 return view('penduduk.dashboard', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan'));
             case 'sekretaris':
-                return view('sekretaris.dashboardSekretaris', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman'));
+                return view('sekretaris.dashboardSekretaris', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'data_bulan'));
             case 'bendahara':
                 return view('bendahara.dashboardBendahara', compact('breadcrumb', 'activeMenu', 'role', 'laporan_keuangan', 'inventaris', 'pengumuman', 'totalPemasukan', 'totalPengeluaran'));
         }
@@ -80,13 +80,13 @@ class loginController extends Controller
         ];
         Auth::attempt($credentials);
         // Find the user by family number (assuming family_number is a unique identifier)
-        $role = akun::where('id_akun' ,$credentials['id_akun'])->first();
+        $role = akun::where('id_akun', $credentials['id_akun'])->first();
         // If the user is not found, handle the error (e.g., redirect back with an error message)
         if (!$role) {
             return back()->withErrors(['family_number' => 'Family number not found.']);
         }
         // Verify the password
-        if (!Hash::check($credentials['password'], $role->password)){
+        if (!Hash::check($credentials['password'], $role->password)) {
             return back()->withErrors(['password' => 'The provided password does not match our records.']);
         }
         // id akun harus sesuai dengan nkk
@@ -195,7 +195,8 @@ class loginController extends Controller
                     'ktpKos' => $ktpKos,
                     'data_bulan' => $data_bulan,
                     'inventaris' => $inventaris,
-                    'pengumuman' => $pengumuman
+                    'pengumuman' => $pengumuman,
+                    'data_bulan' => $data_bulan,
                 ]);
             case 'bendahara':
                 return view('bendahara.dashboardBendahara', [
@@ -211,7 +212,8 @@ class loginController extends Controller
                 ]);
         }
     }
-    public function logout(){
+    public function logout()
+    {
         // $user = Auth::user();
         Auth::logout();
         // dd($user);
