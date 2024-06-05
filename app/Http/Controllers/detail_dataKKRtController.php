@@ -70,7 +70,7 @@ class detail_dataKKRtController extends Controller
 
         $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
-             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
+             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
               ->get();
 
@@ -97,7 +97,7 @@ class detail_dataKKRtController extends Controller
     public function list2(Request $request){
         $no_kk = $request->no_kk;
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
-             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'status_anggota', 'jenis_penduduk',
+             'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
               ->get();
 
@@ -144,7 +144,7 @@ class detail_dataKKRtController extends Controller
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
             'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             'jenis_penduduk'        => 'required|max:255',
             // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
@@ -173,7 +173,7 @@ class detail_dataKKRtController extends Controller
             'status_perkawinan'     => $request->status_perkawinan,
             'pekerjaan'             => $request->pekerjaan,
             'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
+            // 'status_anggota'        => $request->status_anggota,
             'jenis_penduduk'        => $request->jenis_penduduk,
             'tgl_masuk'             => $request->tgl_masuk,
             'tgl_keluar'            => $request->tgl_keluar,
@@ -196,8 +196,8 @@ class detail_dataKKRtController extends Controller
             'agama'                 => 'required|max:255',
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
-            'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_keluarga'       => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             'jenis_penduduk2'        => 'required|max:255',
             'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
@@ -225,8 +225,8 @@ class detail_dataKKRtController extends Controller
             'agama'                 => $request->agama,
             'status_perkawinan'     => $request->status_perkawinan,
             'pekerjaan'             => $request->pekerjaan,
-            'status_keluarga'       => $request->status_keluarga,
-            'status_anggota'        => $request->status_anggota,
+            // 'status_keluarga'       => $request->status_keluarga,
+            // 'status_anggota'        => $request->status_anggota,
             'jenis_penduduk'        => $request->jenis_penduduk2,
             'tgl_masuk'             => $request->tgl_masuk,
             'tgl_keluar'            => $request->tgl_keluar,
@@ -301,7 +301,7 @@ class detail_dataKKRtController extends Controller
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
             'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            //'status_anggota'        => 'required|max:255',
             // 'tgl_masuk'             => 'required|max:255', penduduk tetap gak butuh ini
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
@@ -325,7 +325,7 @@ class detail_dataKKRtController extends Controller
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
                 'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
+                // 'status_anggota'        => $request->status_anggota,
                 'tgl_masuk'             => $request->tgl_masuk,
                 'tgl_keluar'            => $request->tgl_keluar,
                 'dokumen'               => $pathBaru,
@@ -342,7 +342,7 @@ class detail_dataKKRtController extends Controller
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
                 'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
+                // 'status_anggota'        => $request->status_anggota,
                 'tgl_masuk'             => $request->tgl_masuk,
                 'tgl_keluar'            => $request->tgl_keluar,
             ]);
@@ -362,8 +362,8 @@ class detail_dataKKRtController extends Controller
             'agama'                 => 'required|max:255',
             'status_perkawinan'     => 'required|max:255',
             'pekerjaan'             => 'required|max:255',
-            'status_keluarga'       => 'required|max:255',
-            'status_anggota'        => 'required|max:255',
+            // 'status_keluarga'       => 'required|max:255',
+            // 'status_anggota'        => 'required|max:255',
             'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
@@ -386,8 +386,8 @@ class detail_dataKKRtController extends Controller
                 'agama'                 => $request->agama,
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
-                'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
+                // 'status_keluarga'       => $request->status_keluarga,
+                // 'status_anggota'        => $request->status_anggota,
                 'tgl_masuk'             => $request->tgl_masuk,
                 'tgl_keluar'            => $request->tgl_keluar,
                 'dokumen'               => $pathBaru,
@@ -403,8 +403,8 @@ class detail_dataKKRtController extends Controller
                 'agama'                 => $request->agama,
                 'status_perkawinan'     => $request->status_perkawinan,
                 'pekerjaan'             => $request->pekerjaan,
-                'status_keluarga'       => $request->status_keluarga,
-                'status_anggota'        => $request->status_anggota,
+                // 'status_keluarga'       => $request->status_keluarga,
+                // 'status_anggota'        => $request->status_anggota,
                 'tgl_masuk'             => $request->tgl_masuk,
                 'tgl_keluar'            => $request->tgl_keluar,
             ]);
