@@ -171,7 +171,8 @@
                         orderable: false,       //true, jika ingin kolom diurutkan
                         searchable: false,       //true, jika ingin kolom bisa dicari
                         render: function(data, type, full, meta) {
-                            return '<img src="' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
+                            var baseUrl = '{{ asset('storage/kks/') }}';
+                            return '<img src="'+ baseUrl+'/' + data + '" alt="Gambar KK" style="max-width: 100px; max-height: 100px;">';
                         }
                     }
                 ]
