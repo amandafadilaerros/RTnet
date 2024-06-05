@@ -279,6 +279,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], f
     Route::get('/pengumuman', [pendudukController::class, 'pengumuman']);
     Route::post('/pengumuman', [pendudukController::class, 'list_pengumuman']);
     Route::get('/showPengumumanPenduduk/{id_pengumuman}', [pendudukController::class, 'show_pengumuman']);
+    // Route::post('/pengumuman/search', [pendudukController::class, 'searching']);
     Route::get('/akun', [pendudukController::class, 'akun']);
     Route::post('/akun', [pendudukController::class, 'update_password']);
     Route::group(['prefix' => 'laporan_keuangan'], function () {
@@ -311,15 +312,19 @@ Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], f
         Route::get('/searchdate', [inventarisController::class, 'searchdate']);
         Route::get('/daftar_inventaris', [inventarisController::class, 'store']);
 
-        Route::post('/pinjam', [InventarisController::class, 'pinjam']);
-        Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);
+        
+
 
     });
-    Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
-    Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
-    Route::post('/peminjaman/update', [inventarisController::class, 'update_peminjaman']);
-    // Route::get('/pinjam/barang/{id}', [InventarisController::class, 'pinjamBarang'])->name('penduduk.daftar_inventaris.pinjam.barang');
+        Route::get('/peminjaman', [inventarisController::class, 'pk_peminjaman']);
+        Route::post('/peminjaman/list', [inventarisController::class, 'list']);
+        Route::get('/peminjaman/{id}', [inventarisController::class, 'store_peminjaman']);
+        Route::post('/peminjaman/update', [inventarisController::class, 'update_peminjaman']);
+        Route::post('/peminjaman/search', [inventarisController::class, 'search']);
 
+        // Route::get('/pinjam/barang/{id}', [InventarisController::class, 'pinjamBarang'])->name('penduduk.daftar_inventaris.pinjam.barang');
+        Route::post('/pinjam', [InventarisController::class, 'pinjam']);
+        Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);   
 
 });
 // Route::middleware(['auth'])->group(function () {

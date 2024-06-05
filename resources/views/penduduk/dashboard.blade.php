@@ -57,7 +57,7 @@
 
 <div class="big">
     <h2 style="color: #424874;">
-        <i class="fas fa-chart-line" style="color: #424874; font-size: 60px;"></i> Pertumbuhan Penduduk
+        <i class="fas fa-chart-line" style="color: #424874; font-size: 30px;"></i> Pertumbuhan Penduduk
     </h2>
     <div id="chart-container">
         <canvas id="line-chart"></canvas>

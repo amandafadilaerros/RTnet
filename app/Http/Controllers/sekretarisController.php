@@ -17,9 +17,10 @@ class sekretarisController extends Controller
 {
     public function index()
     {
-        $laporan_keuangan = iuranModel::count();
-        $inventaris = inventaris::count();
-        $pengumuman = pengumumans::count();
+
+        $laporan_keuangan = IuranModel::count();
+        $inventaris = Inventaris::count();
+        $pengumuman = Pengumumans::count();
 
         // Ambil data untuk grafik garis dari kolom jenis_penduduk di dalam tabel ktps
         $data_grafik = [
@@ -71,7 +72,9 @@ class sekretarisController extends Controller
         }
         // dd($data_bulan);
 
+
         return view('sekretaris.dashboardSekretaris', compact('laporan_keuangan', 'activeMenu', 'rumah', 'kk', 'data_bulan', 'inventaris', 'ktpTetap', 'ktpKos', 'pengumuman', 'data_grafik', 'data_bulan', 'breadcrumb'));
+
     }
     public function dataPenduduk()
     {
@@ -113,7 +116,7 @@ class sekretarisController extends Controller
     public function update_password(Request $request)
     {
         $akun = akun::find(session()->get('id_akun'));
-        
+
         // Validasi apakah password lama sesuai dengan yang tersimpan di database
         if (!Hash::check($request->old_password, $akun->password)) {
             return back()->withErrors(['old_password' => 'Password lama tidak cocok.'])->withInput();

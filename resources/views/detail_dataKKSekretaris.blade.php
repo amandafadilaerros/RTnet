@@ -827,7 +827,7 @@
                       orderable: false, //orderable true jika ingin kolom bisa diurutkan
                       searchable: false, //searchable true jika ingin kolom bisa dicari
                       render: function (data, type, row) {
-                      return '<a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModalNonAnggota" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
+                      return '<a href="#" class="btn btn-success btn-sm btn-edit-non" data-toggle="modal" data-target="#editModalNonAnggota" data-id="' + row.nik + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.nik + '"><i class="fas fa-trash"></i></a>';
                     }
                 }
                 ]
@@ -864,6 +864,42 @@
                             $('#edit_perempuan').prop('checked', true);
                         }
 
+                        if (response.jenis_kelamin === 'l') {
+                            $('#edit_laki_laki_non').prop('checked', true);
+                        } else if (response.jenis_kelamin === 'p') {
+                            $('#edit_perempuan_non').prop('checked', true);
+                        }
+                        $('.modal-body #edit_golongan_darah').val(response.golongan_darah);
+                        $('.modal-body #edit_agama').val(response.agama);
+                        $('.modal-body #edit_status_perkawinan').val(response.status_perkawinan);
+                        $('.modal-body #edit_pekerjaan').val(response.pekerjaan);
+                        $('.modal-body #edit_status_keluarga').val(response.status_keluarga);
+                        $('.modal-body #edit_tgl_masuk').val(response.tgl_masuk);
+                        $('.modal-body #edit_tgl_keluar').val(response.tgl_keluar);
+                        // Isi formulir lainnya sesuai kebutuhan Anda
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
+            });
+            $(document).on("click", ".btn-edit-non", function () {
+                var ids = $(this).data('id');
+                // $(".modal-body #id_pengumuman").val( ids );
+                $.ajax({
+                    url: "{{ url('sekretaris/detail_kk/edit') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        nik: ids
+                    },
+                    success: function(response) {
+                        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                        $('.modal-body #edit_nik').val(response.NIK);
+                        $('.modal-body #edit_no_kk').val(response.no_kk);
+                        $('.modal-body #edit_nama').val(response.nama);
+                        $('.modal-body #edit_tempat_lahir').val(response.tempat);
+                        $('.modal-body #edit_tanggal_lahir').val(response.tanggal_lahir);
                         if (response.jenis_kelamin === 'l') {
                             $('#edit_laki_laki_non').prop('checked', true);
                         } else if (response.jenis_kelamin === 'p') {
