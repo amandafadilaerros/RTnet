@@ -166,6 +166,7 @@ class loginController extends Controller
                     'laporan_keuangan' => $laporan_keuangan,
                     'inventaris' => $inventaris,
                     'pengumuman' => $pengumuman,
+                    'data_bulan' => $data_bulan,
                     'ktpTetap' => $ktpTetap,
                     'ktpKos' => $ktpKos
                 ]);
