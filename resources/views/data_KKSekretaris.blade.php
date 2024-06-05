@@ -242,7 +242,7 @@
                       searchable: false, //searchable true jika ingin kolom bisa dicari
                       render: function (data, type, row) {
                         var detailUrl = 'data_kk/show/' + row.no_kk;
-                        return '<a href="'+ detailUrl +'" class="btn btn-primary btn-sm btn-detail" data-toggle="modal" data-target="#detailModal" data-id="' + row.no_kk + '"><i class="fas fa-info-circle"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.no_kk + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.no_kk + '"><i class="fas fa-trash"></i></a>';
+                        return '<a href="'+ detailUrl +'" class="btn btn-primary btn-sm btn-detail" ><i class="fas fa-info-circle"></i></a> <a href="#" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModal" data-id="' + row.no_kk + '"><i class="fas fa-pen"></i></a> <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-target="#hapusModal" data-id="' + row.no_kk + '"><i class="fas fa-trash"></i></a>';
                       }
                     }
           ]
