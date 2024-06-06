@@ -73,8 +73,8 @@ class detail_dataKKSekretarisController extends Controller
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'status_keluarga', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'tetap')->where('no_kk', $no_kk)
-              ->whereNull('tgl_keluar')
-              ->get();
+              ->whereNull('tgl_keluar');
+             
     
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
@@ -84,6 +84,7 @@ class detail_dataKKSekretarisController extends Controller
                           ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
+                    $ktps = $ktps->get();
 
         return DataTables::of($ktps)
         ->addIndexColumn()
@@ -101,17 +102,18 @@ class detail_dataKKSekretarisController extends Controller
             $ktps = ktpModel::select('nik','no_kk', 'nama', 'tempat', 'tanggal_lahir', 'jenis_kelamin',
              'golongan_darah', 'agama', 'status_perkawinan', 'pekerjaan', 'jenis_penduduk',
               'tgl_masuk', 'tgl_keluar', 'dokumen')->where('jenis_penduduk', 'kos')->where('no_kk', $no_kk)
-              ->whereNull('tgl_keluar')
-              ->get();
+              ->whereNull('tgl_keluar');
+              
     
               if ($request->has('customSearch') && !empty($request->customSearch)) {
                 $search = $request->customSearch;
                 $ktps->where(function($query) use ($search) {
-                    $query->where('nama', 'like', "%{$search}%");
-                        //   ->orWhere('no_kk', 'like', "%{$search}%")
-                        //   ->orWhere('nik', 'like', "%{$search}%");
+                    $query->where('nama', 'like', "%{$search}%")
+                          ->orWhere('no_kk', 'like', "%{$search}%")
+                          ->orWhere('nik', 'like', "%{$search}%");
                         });
                     }
+                    $ktps = $ktps->get();
 
         return DataTables::of($ktps)
         ->addIndexColumn()
@@ -203,7 +205,7 @@ class detail_dataKKSekretarisController extends Controller
             // 'status_keluarga'       => 'required|max:255',
             // 'status_anggota'        => 'required|max:255',
             'jenis_penduduk2'        => 'required|max:255',
-            'tgl_masuk'             => 'required|max:255',
+            // 'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
         ]);
@@ -364,7 +366,7 @@ class detail_dataKKSekretarisController extends Controller
             'pekerjaan'             => 'required|max:255',
             // 'status_keluarga'       => 'required|max:255',
             // 'status_anggota'        => 'required|max:255',
-            'tgl_masuk'             => 'required|max:255',
+            // 'tgl_masuk'             => 'required|max:255',
             // 'tgl_keluar'            => 'required|max:255', ini juga, jadi di comment
             
         ]);
