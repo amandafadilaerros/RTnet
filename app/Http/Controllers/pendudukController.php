@@ -15,6 +15,7 @@ use App\Models\inventaris;
 use App\Models\level;
 use App\Models\pengumumans;
 use App\Models\peminjaman_inventaris;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -339,7 +340,9 @@ class pendudukController extends Controller
 
     public function list_pengumuman(Request $request)
     {
-        $pengumumans = Pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
+        $yesterday = Carbon::yesterday()->startOfDay();
+        $pengumumans = Pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan')
+                        ->where('jadwal_pelaksanaan', '>', $yesterday);
 
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
@@ -347,6 +350,7 @@ class pendudukController extends Controller
                 $query->where('judul', 'like', "%{$search}%");
             });
         }
+        $pengumumans = $pengumumans->get();
         return DataTables::of($pengumumans)
             ->addIndexColumn() // Add index column
             ->addColumn('aksi', function ($pengumuman) { // Add action column
