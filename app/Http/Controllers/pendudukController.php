@@ -29,6 +29,8 @@ class pendudukController extends Controller
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
+        $totalPemasukan = IuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
+        $totalPengeluaran = IuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
 
         // Ambil data untuk grafik garis dari kolom jenis_penduduk di dalam tabel ktps
         $data_grafik = [
@@ -59,8 +61,9 @@ class pendudukController extends Controller
             'title' => 'Dashboard',
             'list' => ['Home', 'Dashboard']
         ];
+        $activeMenu = 'dashboard';
 
-        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'breadcrumb'));
+        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'totalPemasukan', 'totalPengeluaran', 'breadcrumb', 'activeMenu'));
     }
 
 
