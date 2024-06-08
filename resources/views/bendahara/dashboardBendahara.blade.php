@@ -47,7 +47,7 @@
               <i class="fas fa-file-invoice-dollar fa-3x"></i>
             </div>
             <div class="col">
-              <h2>{{ $laporan_keuangan }}</h2>
+              <h2>{{ $totalPemasukan - $totalPengeluaran }}</h2>
             </div>
           </div>
         </div>
