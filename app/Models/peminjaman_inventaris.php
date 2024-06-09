@@ -27,6 +27,6 @@ class peminjaman_inventaris extends Model
 
     public function kks()
     {
-        return $this->belongsTo(kkModel::class, 'no_kk'); // Assuming 'id' is the primary key in ktp table
+        return $this->belongsTo(kkModel::class, 'id_peminjam', 'no_kk'); // Assuming 'id' is the primary key in ktp table
     }
 }
