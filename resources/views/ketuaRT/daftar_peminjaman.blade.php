@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-8">
-    <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah peminjaman anak kos</a>
+    <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Peminjaman anak kos</a>
   </div>
   {{-- <div class="col-md-6"> --}}
     {{-- UNTUK SEARCH --}}
@@ -142,9 +142,9 @@
                   render: function(data, type, row) {
                       if (row.tanggal_kembali === null) {
                         var url = 'daftar_peminjaman/edit/'+ row.id_peminjaman;
-                          return '<a class="btn btn-success btn-sm" href="'+url+'" style="border-radius: 20px; background-color: #747998; min-width: 170px; max-width: 70%;">Kembalikan</a>';
+                          return '<a class="btn btn-success btn-sm" href="'+url+'" style="border-radius: 20px; background-color: #424874; min-width: 170px; max-width: 70%;">Kembalikan</a>';
                       } else {
-                          return '<button class="btn btn-primary btn-sm" style="border-radius: 20px; background-color: #424874; min-width: 170px; max-width: 70%;">Selesai</button>';
+                          return '<button class="btn btn-primary btn-sm" style="border-radius: 20px; background-color: #747998; min-width: 170px; max-width: 70%;">Selesai</button>';
                       }
                   }
               }
