@@ -181,6 +181,8 @@ class loginController extends Controller
                     'pengumuman' => $pengumuman,
                     'data_grafik' => $data_grafik,
                     'data_bulan' => $data_bulan,
+                    'totalPemasukan' => $totalPemasukan,
+                    'totalPengeluaran' => $totalPengeluaran
                 ]);
             case 'sekretaris':
                 return view('sekretaris.dashboardSekretaris', [

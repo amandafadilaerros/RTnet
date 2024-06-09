@@ -28,11 +28,11 @@ class pengumumanKetuaController extends Controller
         ]);
     }
     public function list(Request $request){
-        $today = Carbon::now()->startOfDay();
+        $yesterday = Carbon::yesterday()->startOfDay();
 
         // Memilih data pengumuman dengan tanggal berakhir setelah hari ini
         $pengumumans = pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan', 'jadwal_berakhir')
-                                ->where('jadwal_berakhir', '>', $today)
+                                ->where('jadwal_pelaksanaan', '>', $yesterday)
                                 ->get();
 
         if ($request->has('customSearch') && !empty($request->customSearch)) {
@@ -65,15 +65,13 @@ class pengumumanKetuaController extends Controller
         ]);
 
         $jadwalBerakhir = $request->jadwal_berakhir;
-        if (empty($jadwalBerakhir)) {
-            $jadwalBerakhir = Carbon::now(); // Mengubah null menjadi now()
-        }
+        // dd($request);
         
         pengumumans::create([
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
-            'jadwal_berakhir' => $jadwalBerakhir,
+            'jadwal_berakhir' => $request->jadwal_berakhir,
             'deskripsi' => $request->deskripsi,
         ]);
 
@@ -100,6 +98,7 @@ class pengumumanKetuaController extends Controller
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
+            'jadwal_berakhir' => $request->jadwal_berakhir,
             'deskripsi' => $request->deskripsi,
         ]);
 

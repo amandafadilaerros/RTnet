@@ -11,6 +11,6 @@ class pengumumans extends Model
     protected $primaryKey = 'id_pengumuman';
 
     protected $fillable = [
-        'id_pengumuman','judul', 'kegiatan', 'jadwal_pelaksanaan', 'deskripsi'
+        'id_pengumuman','judul', 'kegiatan', 'jadwal_pelaksanaan', 'deskripsi', 'jadwal_berakhir'
     ];
 }

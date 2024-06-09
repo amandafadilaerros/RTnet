@@ -15,6 +15,7 @@ use App\Models\inventaris;
 use App\Models\level;
 use App\Models\pengumumans;
 use App\Models\peminjaman_inventaris;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,6 +29,8 @@ class pendudukController extends Controller
         $laporan_keuangan = IuranModel::count();
         $inventaris = Inventaris::count();
         $pengumuman = Pengumumans::count();
+        $totalPemasukan = IuranModel::where('jenis_transaksi', 'pemasukan')->sum('nominal');
+        $totalPengeluaran = IuranModel::where('jenis_transaksi', 'pengeluaran')->sum('nominal');
 
         // Ambil data untuk grafik garis dari kolom jenis_penduduk di dalam tabel ktps
         $data_grafik = [
@@ -58,8 +61,9 @@ class pendudukController extends Controller
             'title' => 'Dashboard',
             'list' => ['Home', 'Dashboard']
         ];
+        $activeMenu = 'dashboard';
 
-        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'breadcrumb'));
+        return view('penduduk.dashboard', compact('laporan_keuangan', 'inventaris', 'pengumuman', 'data_grafik', 'data_bulan', 'totalPemasukan', 'totalPengeluaran', 'breadcrumb', 'activeMenu'));
     }
 
 
@@ -339,7 +343,9 @@ class pendudukController extends Controller
 
     public function list_pengumuman(Request $request)
     {
-        $pengumumans = Pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
+        $yesterday = Carbon::yesterday()->startOfDay();
+        $pengumumans = Pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan')
+                        ->where('jadwal_pelaksanaan', '>', $yesterday);
 
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
@@ -347,6 +353,7 @@ class pendudukController extends Controller
                 $query->where('judul', 'like', "%{$search}%");
             });
         }
+        $pengumumans = $pengumumans->get();
         return DataTables::of($pengumumans)
             ->addIndexColumn() // Add index column
             ->addColumn('aksi', function ($pengumuman) { // Add action column
