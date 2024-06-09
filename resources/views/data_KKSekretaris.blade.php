@@ -131,9 +131,17 @@
                     <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat"  required>
                   </div>
                   <div class="form-group">
-                  <label for="no_rumah">No Rumah</label>
-                  <input type="number" class="form-control" id="no_rumah" name="no_rumah" placeholder="Masukkan No Rumah"  required>
-                  </div>
+                  <label for="no_rumah">No. Rumah</label>
+                  <select class="form-control" id="no_rumah" name="no_rumah" required>
+                    <option value="">- Pilih No. Rumah -</option>
+                    @foreach($rumah as $item)
+                      <option value="{{ $item->no_rumah }}">{{ $item->no_rumah }}</option>
+                    @endforeach
+                      </select>
+                    @error('no_rumah')
+                      <small class="form-text text-danger">{{ $message }}</small>
+                     @enderror
+                </div>
                   <div class="form-group">
                     <label for="dokumen">Dokumen Kartu Keluarga</label>
                     <input type="file" class="form-control-file" id="dokumen" name="dokumen">
