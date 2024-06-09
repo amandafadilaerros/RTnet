@@ -113,11 +113,11 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="date" class="form-control" id="e_jadwal_pelaksanaan" name="jadwal" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}>
+                        <input type="date" class="form-control" id="e_jadwal_pelaksanaan" name="jadwal" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Berakhir:</label>
-                        <input type="date" class="form-control" id="e_jadwal_berakhir" name="jadwal_berakhir" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}>
+                        <input type="date" class="form-control" id="e_jadwal_berakhir" name="jadwal_berakhir" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label for="detail">Deskripsi:</label>

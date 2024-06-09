@@ -67,7 +67,7 @@
               </div>
               <div class="form-group">
                 <label for="jumlah">Jumlah:</label>
-                <input type="text" class="form-control" id="jumlah" name="jumlah">
+                <input type="number" class="form-control" id="jumlah" name="jumlah">
                 </label>
               </div>
             </div>
