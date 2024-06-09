@@ -110,7 +110,7 @@
                   orderable: false,
                   searchable: false
               },{
-                  data: "id_peminjam",
+                  data: "kks.nama_kepala_keluarga",
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false, //searchable false jika ingin kolom bisa dicari

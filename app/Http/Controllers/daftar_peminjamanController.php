@@ -30,7 +30,14 @@ class daftar_peminjamanController extends Controller
         return view('ketuaRT.daftar_peminjaman', ['inventaris' => $inventaris, 'kos' => $kos, 'breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
     }
     public function list(Request $request){
-        $peminjamans = peminjaman_inventaris::select('id_peminjaman', 'id_inventaris', 'id_peminjam', 'jumlah_peminjaman', 'tanggal_peminjaman', 'tanggal_kembali')->with('inventaris');
+        $yesterday = Carbon::yesterday();
+        $xDaysAgo = $yesterday->copy()->subDays(5);
+        
+        $peminjamans = peminjaman_inventaris::select('id_peminjaman', 'id_inventaris', 'id_peminjam', 'jumlah_peminjaman', 'tanggal_peminjaman', 'tanggal_kembali')->with(['inventaris', 'kks'])
+        ->where(function ($query) use ($xDaysAgo) {
+            $query->whereNull('tanggal_kembali')
+                  ->orWhere('tanggal_kembali', '>', $xDaysAgo);
+        });
 
         // if ($request->kategori_id){
         //     $barangs->where('kategori_id', $request->kategori_id);
@@ -41,6 +48,7 @@ class daftar_peminjamanController extends Controller
                 $query->where('id_peminjam', 'like', "%{$search}%");
             });
         }
+        $peminjamans = $peminjamans->get();
 
         return DataTables::of($peminjamans)
         ->addIndexColumn()
