@@ -2,7 +2,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-8">
-    <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Peminjaman anak kos</a>
+    <a class="btn btn-sm btn-primary mt-1" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px;" data-toggle="modal" data-target="#tambahModal">Tambah peminjaman anak kos</a>
   </div>
   {{-- <div class="col-md-6"> --}}
     {{-- UNTUK SEARCH --}}
