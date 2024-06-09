@@ -326,7 +326,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Simpan</button>
                 </form>
             </div>
         </div>
@@ -521,7 +521,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Simpan</button>
                 </form>
             </div>
         </div>
