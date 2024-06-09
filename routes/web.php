@@ -139,6 +139,7 @@ Route::group(['prefix' => 'ketuaRt', 'middleware' => ['cek_login:ketua_rt']], fu
     Route::post('/daftar_inventaris/list', [InventarisKetuaController::class, 'list']);
     Route::get('/daftar_peminjaman', [daftar_peminjamanController::class, 'index']);
     Route::post('/daftar_peminjaman/list', [daftar_peminjamanController::class, 'list']);
+    Route::post('/daftar_peminjaman/store', [daftar_peminjamanController::class, 'store']);
     Route::get('/daftar_peminjaman/edit/{id}', [daftar_peminjamanController::class, 'update']);
     Route::get('/kelola_pengumuman', [pengumumanKetuaController::class, 'index']);
     Route::post('/pengumuman/list', [pengumumanKetuaController::class, 'list']);

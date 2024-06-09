@@ -14,7 +14,8 @@ class peminjaman_inventaris extends Model
     protected $fillable = [
         'id_peminjaman',
         'id_inventaris',
-        'no_kk',
+        'id_peminjam',
+        'jumlah_peminjaman',
         'tanggal_peminjaman',
         'tanggal_kembali'
     ];
