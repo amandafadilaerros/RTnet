@@ -81,7 +81,7 @@ class sekretarisController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Penduduk',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Data Penduduk'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -99,7 +99,7 @@ class sekretarisController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Akun Saya'],
         ];
         $page = (object) [
             'title' => '-----',

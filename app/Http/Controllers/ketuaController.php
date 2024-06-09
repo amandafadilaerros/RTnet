@@ -38,7 +38,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'dashboard',
-            'list' => ['--', '--'],
+            'list' => ['Home ', 'Dashboard'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -61,7 +61,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Laporan Keuangan',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Laporan Keuangan'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -79,7 +79,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Kerja Bakti',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Kerja Bakti'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -97,7 +97,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Penduduk',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Data Penduduk'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -115,7 +115,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Kriteria',
-            'list' => ['--', '--'],
+            'list' => ['Kerja Bakti', 'Kriteria'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -188,7 +188,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Alternatif',
-            'list' => ['--', '--'],
+            'list' => ['Kerja Bakti', 'Alternatif'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -208,7 +208,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'MAUT',
-            'list' => ['--', '--'],
+            'list' => ['Kerja Bakti', 'MAUT'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -226,7 +226,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'MABAC',
-            'list' => ['--', '--'],
+            'list' => ['Kerja Bakti', 'MABAC'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -246,7 +246,7 @@ class ketuaController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Akun Saya',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Akun Saya'],
         ];
         $page = (object) [
             'title' => '-----',
