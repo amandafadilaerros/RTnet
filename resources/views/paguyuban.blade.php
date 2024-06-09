@@ -76,7 +76,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editKkModalLabel">Edit KK</h5>
+                <h5 class="modal-title" id="editKkModalLabel">Ubah Paguyuban</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -98,7 +98,7 @@
                         @enderror
                     </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Update</button>
+                        <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
