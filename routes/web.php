@@ -271,7 +271,9 @@ Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], f
     Route::post('/tambah_daftaranggota', [DaftarAnggotaController::class, 'store']);
     Route::post('/DaftarAnggota', [DaftarAnggotaController::class, 'show']);
     Route::post('/DaftarAnggota/Update', [DaftarAnggotaController::class, 'update']);
+    Route::post('/DaftarAnggota/Update_kos', [DaftarAnggotaController::class, 'update_kos']);
     Route::delete('/DaftarAnggota/delete', [DaftarAnggotaController::class, 'destroy']);
+    Route::delete('/DaftarAnggota/delete_kos', [DaftarAnggotaController::class, 'destroy_kos']);
     Route::post('/tambah_daftaranggota_kos', [DaftarAnggotaController::class, 'store_kos']);
     Route::get('/laporan_keuangan', [pendudukController::class, 'keuangan']);
     Route::get('/keuangan', [pendudukController::class, 'keuangan']);

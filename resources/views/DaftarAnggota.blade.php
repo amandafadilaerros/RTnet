@@ -33,11 +33,11 @@
         
     </div>
     <div class="card-body">
-        @if (session('success'))
-        <div class="alert alert-success">{{session('success')}}</div>
+        @if (session('successAnggota'))
+        <div class="alert alert-success">{{session('successAnggota')}}</div>
         @endif
-        @if (session('error'))
-        <div class="alert alert-danger">{{session('error')}}</div>
+        @if (session('errorAnggota'))
+        <div class="alert alert-danger">{{session('errorAnggota')}}</div>
         @endif
         <div class="row">
             <div class="col-md-6">
@@ -71,12 +71,7 @@
                         <td>
                             <a href="#" class="btn btn-primary btn-sm btn-show" style="border-radius:5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalAnggota" data-id="{{$ktp->NIK}}"><i class="fas fa-eye"></i></a>
                             <a href="#" class="btn btn-success btn-sm btn-update" data-toggle="modal" data-id="{{$ktp->NIK}}" data-target="#editModalAnggota"><i class="fas fa-pen"></i></a>
-                            <form class="d-inline-block" method="POST" action="{{url('/penduduk/DaftarAnggota/delete')}}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="NIK" value="{{$ktp->NIK}}">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
-                            </form>
+                            <a href="#" class="btn btn-danger btn-sm btn-delete" data-toggle="modal" data-id="{{$ktp->NIK}}" data-target="#hapusModal"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach
@@ -128,13 +123,7 @@
                         <td>
                             <a href="#" class="btn btn-primary btn-sm btn-show-non" style="border-radius: 5px; background-color: #424874;" data-toggle="modal" data-target="#viewModalNonAnggota" data-id="{{$ktp->NIK}}"><i class="fas fa-eye"></i></a>
                             <a href="#" data-id="{{$ktp->NIK}}" class="btn btn-success btn-sm btn-edit" data-toggle="modal" data-target="#editModalNonAnggota"><i class="fas fa-pen"></i></a>
-
-                            <form class="d-inline-block" method="POST" action="{{url('/penduduk/DaftarAnggota/delete')}}">
-                                @csrf
-                                @method('DELETE')
-                                <input type="hidden" name="NIK" value="{{$ktp->NIK}}">
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin menghapus data ini?');"><i class="fas fa-trash"></i></button>
-                            </form>
+                            <a href="#" class="btn btn-danger btn-sm btn-delete btn-non" data-toggle="modal" data-id="{{$ktp->NIK}}" data-target="#hapusModalnon"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
                 @endforeach
@@ -200,23 +189,7 @@
                                     <label class="form-check-label" for="perempuan">Perempuan</label>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <label for="agama">Agama</label>
-                                <select class="form-control" id="agamaTambah" name="agama" style="border-radius: 25px;" required>
-                                    <option value="Islam">Islam</option>
-                                    <option value="Katolik">Katolik</option>
-                                    <option value="Konghucu">Konghucu</option>
-                                    <option value="Kristen">Kristen</option>
-                                    <option value="Hindu">Hindu</option>
-                                    <option value="Buddha">Buddha</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" >
-                            </div>
+                           
                         </div>
                         <div class="col-md-6">
 
@@ -247,8 +220,22 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="form-group">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen" >
+                            </div>
+                            <div class="form-group">
+                                <label for="agama">Agama</label>
+                                <select class="form-control" id="agamaTambah" name="agama" style="border-radius: 25px;" required>
+                                    <option value="Islam">Islam</option>
+                                    <option value="Katolik">Katolik</option>
+                                    <option value="Konghucu">Konghucu</option>
+                                    <option value="Kristen">Kristen</option>
+                                    <option value="Hindu">Hindu</option>
+                                    <option value="Buddha">Buddha</option>
+                                </select>
+                            </div>
+                            {{-- <div class="form-group">
                                 <label for="tgl_masuk">Tanggal Masuk</label>
                                 <input type="date" class="form-control" id="tgl_masukTambah" name="tgl_masuk" style="border-radius: 25px;" >
                             </div>
@@ -256,7 +243,7 @@
                             <div class="form-group">
                                 <label for="tgl_keluar">Tanggal Keluar</label>
                                 <input type="date" class="form-control" id="tgl_keluarTambah" name="tgl_keluar" style="border-radius: 25px;" >
-                            </div>
+                            </div> --}}
 
                         </div>
                     </div>
@@ -333,27 +320,27 @@
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div class="form-group">
-                                        <label for="agama">Agama</label>
-                                        <select class="form-control" id="agama" name="agama" style="border-radius: 25px;" >
-                                            <option value="Islam">Islam</option>
-                                            <option value="Katolik">Katolik</option>
-                                            <option value="Konghucu">Konghucu</option>
-                                            <option value="Kristen">Kristen</option>
-                                            <option value="Hindu">Hindu</option>
-                                            <option value="Buddha">Buddha</option>
-                                        </select>
-                                    </div>
                                     
-                                    <div class="form-group">
-                                        <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                        <input type="file" class="form-control-file" id="dokumen" name="dokumen">
-                                    </div>
-                                    
+                                 
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <div class="form-group">
+                                            <label for="agama">Agama</label>
+                                            <select class="form-control" id="agama" name="agama" style="border-radius: 25px;" >
+                                                <option value="Islam">Islam</option>
+                                                <option value="Katolik">Katolik</option>
+                                                <option value="Konghucu">Konghucu</option>
+                                                <option value="Kristen">Kristen</option>
+                                                <option value="Hindu">Hindu</option>
+                                                <option value="Buddha">Buddha</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                            <input type="file" class="form-control-file" id="dokumen" name="dokumen">
+                                        </div>
+                                        
                                         <div class="form-group">
                                             <label for="status_perkawinan">Status Perkawinan</label>
                                             <select class="form-control" id="status_perkawinan" name="status_perkawinan" style="border-radius: 25px;">
@@ -378,14 +365,6 @@
                                                 <option value="Famili Lain">Famili lain</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tgl_masuk">Tanggal Masuk</label>
-                                        <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tgl_keluar">Tanggal Keluar</label>
-                                        <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                                     </div>
                                 </div>
                             </div>
@@ -440,6 +419,8 @@
                                 <label for="view_agama">Agama</label>
                                 <input type="text" class="form-control" id="view_agama" name="view_agama" value="" disabled>
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_status_pernikahan">Status Pernikahan</label>
                                 <input type="text" class="form-control" id="view_status_perkawinan" name="view_status_pernikahan" value="{" disabled>
@@ -448,8 +429,6 @@
                                 <label for="view_ktp">Dokumen Kartu Tanda Penduduk</label>
                                 <input type="file" class="form-control-file" id="view_dokumen" name="view_dokumen" disabled>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_pekerjaan">Pekerjaan</label>
                                 <input type="text" class="form-control" id="view_pekerjaan" name="view_pekerjaan" value="{" disabled>
@@ -462,14 +441,14 @@
                                 <label for="view_golongan_darah">Golongan Darah</label>
                                 <input type="text" class="form-control" id="view_golongan_darah" name="view_golongan_darah" value="" disabled>
                             </div>
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label for="view_tgl_masuk">Tanggal Masuk</label>
                                 <input type="date" class="form-control" id="view_tgl_masuk" name="view_tgl_masuk" value="" disabled>
                             </div>
                             <div class="form-group">
-                                <label for="view_tgl_keluar">Tanggal Masuk</label>
+                                <label for="view_tgl_keluar">Tanggal Keluar</label>
                                 <input type="date" class="form-control" id="view_tgl_keluar" name="view_tgl_keluar" value="" disabled>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -477,7 +456,33 @@
         </div>
     </div>
 </div>
-
+{{-- modal hapus --}}
+<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin menghapus data ini?
+        </div>
+        <div class="modal-footer justifiy-content">
+          <form id="hapusForm" action="{{url('penduduk/DaftarAnggota/delete')}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="nik" id="delete_nik">
+            <input type="hidden" name="no_kk" id="delete_no_kk">
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 <!-- Modal Tambah Non-Anggota -->
@@ -536,6 +541,8 @@
                                     <option value="O">O</option>
                                 </select>
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="agama">Agama</label>
                                 <select class="form-control" id="agama" name="agama" style="border-radius: 25px;" required>
@@ -551,9 +558,6 @@
                                 <label for="ktp">Dokumen Kartu Tanda Penduduk</label>
                                 <input type="file" class="form-control-file" id="dokumen" name="dokumen" >
                             </div>
-                            
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <div class="form-group">
                                     <label for="status_perkawinan">Status Perkawinan</label>
@@ -576,14 +580,6 @@
                                         <option value="Keponakan">Keponakan</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="tgl_masuk">Tanggal Masuk</label>
-                                <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" style="border-radius: 25px;" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="tgl_keluar">Tanggal Keluar</label>
-                                <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
                             </div>
                         </div>
                     </div>
@@ -611,7 +607,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{url('/penduduk/DaftarAnggota/Update')}}" method="POST"
+                <form action="{{url('/penduduk/DaftarAnggota/Update_kos')}}" method="POST"
                 enctype="multipart/form-data">
                     @csrf
                     <input type="hidden" id="NIK_non" name="nik">
@@ -662,6 +658,8 @@
                             </div>
 
                             <!-- Sisipkan nilai yang ada saat ini untuk input jenis kelamin -->
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="edit_agama">Agama</label>
                                 <select class="form-control" id="agama_non" name="agama" style="border-radius: 25px;" re>
@@ -677,9 +675,6 @@
                                 <label for="edit_ktp">Dokumen Kartu Tanda Penduduk</label>
                                 <input type="file" class="form-control-file" id="dokumen_non" name="dokumen">
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                    
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="edit_status_perkawinan">Status Perkawinan</label>
@@ -703,14 +698,6 @@
                                         <option value="Famili Lain">Famili lain</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_tgl_masuk">Tanggal Masuk</label>
-                                <input type="date" class="form-control" id="tgl_masuk_non" name="tgl_masuk" style="border-radius: 25px;">
-                            </div>
-                            <div class="form-group">
-                                <label for="edit_tgl_keluar">Tanggal Keluar</label>
-                                <input type="date" class="form-control" id="tgl_keluar_non" name="tgl_keluar" style="border-radius: 25px;">
                             </div>
                         </div>
                     </div>
@@ -766,6 +753,8 @@
                                 <label for="view_agama">Agama</label>
                                 <input type="text" class="form-control" id="view_agama_non" name="view_agama" value="" disabled>
                             </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_status_pernikahan">Status Pernikahan</label>
                                 <input type="text" class="form-control" id="view_status_perkawinan_non" name="view_status_pernikahan" value="" disabled>
@@ -774,8 +763,6 @@
                                 <label for="view_ktp">Dokumen Kartu Tanda Penduduk</label>
                                 <input type="file" class="form-control-file" id="view_dokumen_non" name="view_file_upload" disabled>
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="view_pekerjaan">Pekerjaan</label>
                                 <input type="text" class="form-control" id="view_pekerjaan_non" name="view_pekerjaan" value="" disabled>
@@ -790,14 +777,6 @@
                                 <label for="view_golongan_darah">Golongan Darah</label>
                                 <input type="text" class="form-control" id="view_golongan_darah_non" name="view_golongan_darah" value="" disabled>
                             </div>
-                            <div class="col-md-6">
-                                <label for="view_tgl_masuk">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="view_tgl_masuk_non" name="view_tgl_masuk" value="" disabled>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="view_tgl_keluar">Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="view_tgl_keluar_non" name="view_tgl_keluar" value="" disabled>
-                            </div>
                         </div>
                     </div>
             </div>
@@ -805,6 +784,32 @@
     </div>
 </div>
 
+<div class="modal fade" id="hapusModalnon" tabindex="-1" role="dialog" aria-labelledby="hapusModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="hapusModalLabel">Konfirmasi Hapus Data</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Apakah Anda yakin menghapus data ini?
+        </div>
+        <div class="modal-footer justifiy-content">
+          <form id="hapusForm" action="{{url('penduduk/DaftarAnggota/delete_kos')}}" method="POST">
+            @csrf
+            @method('DELETE')
+            <input type="hidden" name="nik" id="delete_nik">
+            <input type="hidden" name="no_kk" id="delete_no_kk">
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 
@@ -855,6 +860,46 @@
                         $('#ViewModalAnggota .modal-body #view_dokumen').val(response.dokumen);
                         $('#ViewModalAnggota .modal-body #view_tgl_masuk').val(response.tgl_masuk);
                         $('#ViewModalAnggota .modal-body #view_tgl_keluar').val(response.tgl_keluar);
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".btn-delete", function () {
+                var ids = $(this).data('id');
+                $.ajax({
+                    url: "{{ url('penduduk/DaftarAnggota') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        NIK: ids
+                    },
+                    success: function(response) {
+                        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                        $('#hapusModal .modal-footer #delete_nik').val(response.NIK);
+                    },
+                    error: function(xhr, status, error) {
+                        // Tangani kesalahan yang terjadi
+                    }
+                });
+            });
+        });
+        $(document).ready(function () {
+            $(document).on("click", ".btn-non", function () {
+                var ids = $(this).data('id');
+                $.ajax({
+                    url: "{{ url('penduduk/DaftarAnggota') }}",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        NIK: ids
+                    },
+                    success: function(response) {
+                        // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
+                        $('#hapusModalnon .modal-footer #delete_nik').val(response.NIK);
                     },
                     error: function(xhr, status, error) {
                         // Tangani kesalahan yang terjadi
