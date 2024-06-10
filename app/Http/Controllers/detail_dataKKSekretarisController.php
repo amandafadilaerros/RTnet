@@ -54,7 +54,7 @@ class detail_dataKKSekretarisController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Kartu Keluarga',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Detail Data Kartu Keluarga'],
         ];
         $page = (object) [
             'title' => '-----',

@@ -438,7 +438,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: none;">
-                <h5 class="modal-title text-center w-100" id="editNonModalLabel" style="color: #424874">Ubah Data Anggota Keluarga </h5>
+                <h5 class="modal-title text-center w-100" id="editNonModalLabel" style="color: #424874">Ubah Data Non Anggota Keluarga </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

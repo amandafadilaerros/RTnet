@@ -38,7 +38,7 @@ class data_kkSekretarisController extends Controller
         // ini hanya TEST
         $breadcrumb = (object) [
             'title' => 'Data Kartu Keluarga',
-            'list' => ['--', '--'],
+            'list' => ['Home', 'Data Kartu Keluarga'],
         ];
         $page = (object) [
             'title' => '-----',
@@ -102,21 +102,24 @@ class data_kkSekretarisController extends Controller
             'no_kk'                 => 'required|max:255',                         
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
-            'alamat'                => 'required|max:255',
+            // 'alamat'                => 'required|max:255',
             'no_rumah'              => 'required|max:255'
         ]);
         // dd($request);
+
+          // Menggunakan alamat default jika tidak ada input dari pengguna
+          $alamat = $request->input('alamat', 'Candi Panggung RT 08');
 
         kkModel::create([
             'no_kk'                 => $request->no_kk,
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
+            'alamat'                => $alamat,
             'no_rumah'                => $request->no_rumah,
             'dokumen'               => $request->dokumen,
         ]);
         $level = level::where('nama_level', 'penduduk')->firstOrFail();
-        dd($level);
+        // dd($level);
         akun::create([
             'id_akun' => $request->no_kk,
             'id_level' => $level->id_level,
@@ -184,14 +187,17 @@ class data_kkSekretarisController extends Controller
             'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
-            'alamat'                => 'required|max:255',
+            // 'alamat'                => 'required|max:255',
         ]);
+
+        // Menggunakan alamat default jika tidak ada input dari pengguna
+        $alamat = $request->input('alamat', 'Candi Panggung RT 08');
 
         kkModel::find($request->id)->update([
             'no_kk'                 => $request->no_kk,
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
+            'alamat'                => $alamat,
             'dokumen'               => $request->dokumen,
         ]);
 

@@ -101,7 +101,7 @@ class data_kkRtController extends Controller
             'no_kk'                 => 'required|max:255',                         
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
-            'alamat'                => 'required|max:255',
+            // 'alamat'                => 'required|max:255',
             'no_rumah'              => 'required|max:255'
         ]);
         
@@ -114,12 +114,14 @@ class data_kkRtController extends Controller
             Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
             $pathBaru = $namaFile;
         }
+        // Menggunakan alamat default jika tidak ada input dari pengguna
+        $alamat = $request->input('alamat', 'Candi Panggung RT 08');
 
         kkModel::create([
             'no_kk'                 => $request->no_kk,
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $request->alamat,
+            'alamat'                => $alamat,
             'no_rumah'              => $request->no_rumah,
             'dokumen'               => $pathBaru,
         ]);
@@ -194,8 +196,11 @@ class data_kkRtController extends Controller
             'no_kk'                 => 'required|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
-            'alamat'                => 'required|max:255',
+            // 'alamat'                => 'required|max:255',
         ]);
+
+          // Menggunakan alamat default jika tidak ada input dari pengguna
+          $alamat = $request->input('alamat', 'Candi Panggung RT 08');
 
         if ($request->hasFile('dokumen')) {
             $imageFile = $request->file('dokumen');
@@ -208,7 +213,7 @@ class data_kkRtController extends Controller
                 'no_kk'                 => $request->no_kk,
                 'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
                 'jumlah_individu'       => $request->jumlah_individu,
-                'alamat'                => $request->alamat,
+                'alamat'                => $alamat,
                 'dokumen'               => $pathBaru,
             ]);
         } else {
@@ -216,7 +221,7 @@ class data_kkRtController extends Controller
                 'no_kk'                 => $request->no_kk,
                 'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
                 'jumlah_individu'       => $request->jumlah_individu,
-                'alamat'                => $request->alamat,
+                'alamat'                => $alamat,
             ]);
         }
         return redirect('/ketuaRt/data_kk')->with('success', 'Data berhasil diubah');

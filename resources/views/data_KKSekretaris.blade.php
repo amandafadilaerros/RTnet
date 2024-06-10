@@ -71,8 +71,8 @@
                 </div>
                 <div class="form-group">
                   <label for="alamat">Alamat</label>
-                  <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat">
-                </div>
+                  <input type="text" class="form-control" id="alamat" name="alamat" value="CandiPanggung RT 08" disabled>
+                  </div>
                 <div class="form-group">
                   <label for="no_rumah">No. Rumah</label>
                   <select class="form-control" id="no_rumah" name="no_rumah" required>
@@ -127,8 +127,8 @@
                     <input type="number" class="form-control" id="jumlah_individu" name="jumlah_individu" placeholder="Masukkan Jumlah Individu"  required>
                   </div>
                   <div class="form-group">
-                    <label for="alamat">Alamat</label>
-                    <input type="text" class="form-control" id="alamat" name="alamat" placeholder="Masukkan Alamat"  required>
+                  <label for="alamat">Alamat</label>
+                  <input type="text" class="form-control" id="alamat" name="alamat" value="CandiPanggung RT 08" disabled>
                   </div>
                   <div class="form-group">
                   <label for="no_rumah">No. Rumah</label>
