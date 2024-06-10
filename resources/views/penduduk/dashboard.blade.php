@@ -63,6 +63,14 @@
         <canvas id="line-chart"></canvas>
     </div>
 </div>
+<div class="big">
+    <h2 style="color: #424874;">
+        <i class="fas fa-chart-line" style="color: #424874; font-size: 30px;"></i> Pertumbuhan Penduduk Looker
+    </h2>
+    <div id="chart-container chart-2">
+        <iframe width="600" height="450" src="https://lookerstudio.google.com/embed/reporting/8a0303c9-df3a-4f8b-ab70-1c0ba4d5f2aa/page/p_ji4r5v43hd" frameborder="0" style="border:0" allowfullscreen sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+    </div>
+</div>
 @endsection
 
 @push('css')
