@@ -170,10 +170,6 @@
                                     <option value="O">O</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
-                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -216,13 +212,9 @@
                             </div>
                             <!-- Jenis Penduduk Otomatis -->
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
-                            <div class="col-md-6">
-                                    <label for="tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
-                            </div>
-                            <div class="col-md-6">
-                                    <label for="tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
+                            <div class="form-group">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
                     </div>
@@ -288,10 +280,6 @@
                                     <option value="O">O</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
-                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -332,17 +320,13 @@
                                     <option value="Mertua">Mertua</option>
                                 </select>
                             </div>
-                            <div class="col-md-6">
-                                    <label for="edit_tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="edit_tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
-                            </div>
-                            <div class="col-md-6">
-                                    <label for="edit_tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="edit_tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
+                            <div class="form-group">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Simpan</button>
                 </form>
             </div>
         </div>
@@ -406,10 +390,7 @@
                                     <option>O</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
-                            </div>
+                           
                         </div>
 
                         <div class="col-md-6">
@@ -438,13 +419,9 @@
                                 <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" style="border-radius: 25px;">
                             </div>
                                 <input type="hidden" class="form-control" id="jenis_penduduk" name="jenis_penduduk" value="Tetap" style="border-radius: 25px;">
-                            <div class="col-md-6">
-                                    <label for="tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
-                            </div>
-                            <div class="col-md-6">
-                                    <label for="tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
+                            <div class="form-group">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
                     </div>
@@ -461,7 +438,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header" style="border-bottom: none;">
-                <h5 class="modal-title text-center w-100" id="editNonModalLabel" style="color: #424874">Ubah Data Anggota Keluarga </h5>
+                <h5 class="modal-title text-center w-100" id="editNonModalLabel" style="color: #424874">Ubah Data Non Anggota Keluarga </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -511,10 +488,6 @@
                                     <option value="O">O</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
-                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
-                            </div>
                         </div>
 
                         <div class="col-md-6">
@@ -542,17 +515,13 @@
                                 <label for="edit_pekerjaan">Pekerjaan</label>
                                 <input type="text" class="form-control" id="edit_pekerjaan" name="pekerjaan" style="border-radius: 25px;">
                             </div>
-                            <div class="col-md-6">
-                                    <label for="edit_tgl_masuk">Tanggal Masuk</label>
-                                    <input type="date" class="form-control" id="edit_tgl_masuk" name="tgl_masuk" style="border-radius: 25px;">
-                            </div>
-                            <div class="col-md-6">
-                                    <label for="edit_tgl_keluar">Tanggal Keluar</label>
-                                    <input type="date" class="form-control" id="edit_tgl_keluar" name="tgl_keluar" style="border-radius: 25px;">
+                            <div class="form-group">
+                                <label for="dokumen">Dokumen Kartu Tanda Penduduk</label>
+                                <input type="file" class="form-control-file" id="dokumen" name="dokumen">
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Tambah</button>
+                    <button class="btn btn-sm btn-primary mt-1 d-block mx-auto" style="border-radius: 20px; background-color: #424874; margin-bottom: 10px; width: 200px;">Simpan</button>
                 </form>
             </div>
         </div>

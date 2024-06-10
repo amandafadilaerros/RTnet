@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\pengumumans;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,7 +28,12 @@ class pengumumanKetuaController extends Controller
         ]);
     }
     public function list(Request $request){
-        $pengumumans = pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan');
+        $yesterday = Carbon::yesterday()->startOfDay();
+
+        // Memilih data pengumuman dengan tanggal berakhir setelah hari ini
+        $pengumumans = pengumumans::select('id_pengumuman', 'judul', 'kegiatan', 'jadwal_pelaksanaan', 'jadwal_berakhir')
+                                ->where('jadwal_pelaksanaan', '>', $yesterday)
+                                ->get();
 
         if ($request->has('customSearch') && !empty($request->customSearch)) {
             $search = $request->customSearch;
@@ -55,13 +61,17 @@ class pengumumanKetuaController extends Controller
         $validated = $request->validate([
             'judul' => 'bail|required',
             'kegiatan' => 'required',
-            'jadwal' => 'required',
+            'jadwal' => 'required|after:yesterday',
         ]);
+
+        $jadwalBerakhir = $request->jadwal_berakhir;
+        // dd($request);
         
         pengumumans::create([
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
+            'jadwal_berakhir' => $request->jadwal_berakhir,
             'deskripsi' => $request->deskripsi,
         ]);
 
@@ -88,6 +98,7 @@ class pengumumanKetuaController extends Controller
             'judul' => $request->judul,
             'kegiatan' => $request->kegiatan,
             'jadwal_pelaksanaan' => $request->jadwal,
+            'jadwal_berakhir' => $request->jadwal_berakhir,
             'deskripsi' => $request->deskripsi,
         ]);
 

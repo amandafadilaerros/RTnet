@@ -13,7 +13,7 @@
                         <i class="fas fa-file-alt fa-3x" style="color: #424874;"></i>
                     </div>
                     <div class="col">
-                        <h2 style="color: #424874;">{{ $laporan_keuangan }}</h2>
+                        <h2 style="color: #424874;">{{ $totalPemasukan - $totalPengeluaran }}</h2>
                     </div>
                 </div>
             </div>

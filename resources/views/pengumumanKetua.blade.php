@@ -24,8 +24,14 @@
       @if (session('success'))
           <div class="alert alert-success">{{session('success')}}</div>
       @endif
-      @if (session('error'))
-          <div class="alert alert-danger">{{session('error')}}</div>
+      @if (session('errors'))
+          <div class="alert alert-danger">
+            <ul>
+                @foreach (session('errors')->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+          </div>
       @endif
       <div class="table-responsive">
           <table class="table table-hover table-striped" id="table_pengumuman">
@@ -65,7 +71,11 @@
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="date" class="form-control" id="jadwal" name="jadwal">
+                        <input type="date" class="form-control" id="jadwal" name="jadwal" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal">Jadwal Berakhir:</label>
+                        <input type="date" class="form-control" id="jadwal" name="jadwal_berakhir" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label for="detail">Deskripsi:</label>
@@ -95,19 +105,23 @@
                     <input type="hidden" id="id_pengumuman" name="id_pengumuman" value="">
                     <div class="form-group">
                         <label for="judul">Judul:</label>
-                        <input type="text" class="form-control" id="judul" name="judul">
+                        <input type="text" class="form-control" id="e_judul" name="judul">
                     </div>
                     <div class="form-group">
                         <label for="kegiatan">Kegiatan:</label>
-                        <input type="text" class="form-control" id="kegiatan" name="kegiatan">
+                        <input type="text" class="form-control" id="e_kegiatan" name="kegiatan">
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="date" class="form-control" id="jadwal_pelaksanaan" name="jadwal">
+                        <input type="date" class="form-control" id="e_jadwal_pelaksanaan" name="jadwal" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal">Jadwal Berakhir:</label>
+                        <input type="date" class="form-control" id="e_jadwal_berakhir" name="jadwal_berakhir" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
                     </div>
                     <div class="form-group">
                         <label for="detail">Deskripsi:</label>
-                        <input type="textarea" class="form-control" id="detail" name="deskripsi">
+                        <input type="textarea" class="form-control" id="e_detail" name="deskripsi">
                     </div>
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary" style="border-radius: 20px; background-color: #424874; width:200px;">Ubah</button>
@@ -130,19 +144,23 @@
             <div class="modal-body">
                     <div class="form-group">
                         <label for="judul">Judul:</label>
-                        <input type="text" class="form-control" id="judul" name="judul" readonly>
+                        <input type="text" class="form-control" id="s_judul" name="judul" readonly>
                     </div>
                     <div class="form-group">
                         <label for="kegiatan">Kegiatan:</label>
-                        <input type="text" class="form-control" id="kegiatan" name="kegiatan" readonly>
+                        <input type="text" class="form-control" id="s_kegiatan" name="kegiatan" readonly>
                     </div>
                     <div class="form-group">
                         <label for="jadwal">Jadwal Pelaksanaan:</label>
-                        <input type="text" class="form-control" id="jadwal_pelaksanaan" name="jadwal" readonly>
+                        <input type="text" class="form-control" id="s_jadwal_pelaksanaan" name="jadwal" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="jadwal">Jadwal Berakhir:</label>
+                        <input type="text" class="form-control" id="s_jadwal_berakhir" name="jadwal" readonly>
                     </div>
                     <div class="form-group">
                         <label for="detail">Deskripsi:</label>
-                        <input type="textarea" class="form-control" id="detail" name="deskripsi" readonly>
+                        <input type="textarea" class="form-control" id="s_detail" name="deskripsi" readonly>
                     </div>
             </div>
         </div>
@@ -204,7 +222,12 @@
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: true, //searchable false jika ingin kolom bisa dicari
                   render: function (data, type, row) {
-                        return row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan + ')';
+                    var display = row.judul + ' - ' + row.kegiatan + ' (' + row.jadwal_pelaksanaan;
+                    if (row.jadwal_berakhir != null) {
+                        display += ' - ' + row.jadwal_berakhir;
+                    }
+                    display += ')';
+                        return display;
                     }
               },{
                   data: null,
@@ -240,9 +263,11 @@
             },
             success: function(response) {
                 // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #judul').val(response.judul);
-                $('.modal-body #kegiatan').val(response.kegiatan);
-                $('.modal-body #jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                $('.modal-body #e_judul').val(response.judul);
+                $('.modal-body #e_kegiatan').val(response.kegiatan);
+                $('.modal-body #e_jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                $('.modal-body #e_jadwal_berakhir').val(response.jadwal_berakhir);
+                $('.modal-body #e_detail').val(response.deskripsi);
                 // Isi formulir lainnya sesuai kebutuhan Anda
             },
             error: function(xhr, status, error) {
@@ -262,9 +287,11 @@
             },
             success: function(response) {
                 // Set nilai input dalam formulir modal dengan respons dari permintaan AJAX
-                $('.modal-body #judul').val(response.judul);
-                $('.modal-body #kegiatan').val(response.kegiatan);
-                $('.modal-body #jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                $('.modal-body #s_judul').val(response.judul);
+                $('.modal-body #s_kegiatan').val(response.kegiatan);
+                $('.modal-body #s_jadwal_pelaksanaan').val(response.jadwal_pelaksanaan);
+                $('.modal-body #s_jadwal_berakhir').val(response.jadwal_berakhir);
+                $('.modal-body #s_detail').val(response.deskripsi);
                 // Isi formulir lainnya sesuai kebutuhan Anda
             },
             error: function(xhr, status, error) {

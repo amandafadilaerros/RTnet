@@ -565,7 +565,7 @@
                                         <option value="Sudah Menikah">Sudah Menikah</option>
                                         <option value="Belum Menikah">Belum Menikah</option>
                                     </select>
-                                </d
+                                </div>
                             <div class="form-group">
                                 <label for="pekerjaan">Pekerjaan</label>
                                 <input type="text" class="form-control" id="pekerjaan" name="pekerjaan" style="border-radius: 25px;" required>

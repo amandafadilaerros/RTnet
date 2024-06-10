@@ -14,7 +14,8 @@ class peminjaman_inventaris extends Model
     protected $fillable = [
         'id_peminjaman',
         'id_inventaris',
-        'no_kk',
+        'id_peminjam',
+        'jumlah_peminjaman',
         'tanggal_peminjaman',
         'tanggal_kembali'
     ];
@@ -26,6 +27,6 @@ class peminjaman_inventaris extends Model
 
     public function kks()
     {
-        return $this->belongsTo(kkModel::class, 'no_kk'); // Assuming 'id' is the primary key in ktp table
+        return $this->belongsTo(kkModel::class, 'id_peminjam', 'no_kk'); // Assuming 'id' is the primary key in ktp table
     }
 }
