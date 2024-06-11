@@ -185,8 +185,9 @@ class data_kkSekretarisController extends Controller
     
     public function update(Request $request)
     {
+        // dd($request);
         $request->validate([
-            'no_kk'     => 'required|integer|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
+            'no_kk'     => 'required|max:255|unique:kks,no_kk,'. $request->id . ',no_kk',
             'nama_kepala_keluarga'  => 'required|max:255',
             'jumlah_individu'       => 'required|max:255',
             // 'alamat'                => 'required|max:255',
@@ -200,6 +201,7 @@ class data_kkSekretarisController extends Controller
             'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $alamat,
+            'no_rumah'       => $request->no_rumah,
             'dokumen'               => $request->dokumen,
         ]);
 
