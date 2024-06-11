@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\akun;
+use App\Models\iuranModel;
 use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\rumahModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
 use App\Models\level;
+use App\Models\peminjaman_inventaris;
 use Yajra\DataTables\Facades\DataTables;
 
 class data_kkSekretarisController extends Controller
@@ -214,7 +216,11 @@ class data_kkSekretarisController extends Controller
         }
 
         try {
-        kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
+            peminjaman_inventaris::where('id_peminjam', $request->no_kk);
+            iuranModel::where('no_kk', $request->no_kk)->delete();
+            ktp::where('no_kk', $request->no_kk)->delete();
+            kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
+            akun::destroy($request->no_kk);
 
         return redirect('/sekretaris/data_kk')->with('success', 'Data Kartu Keluarga berhasil dihapus');
         } catch (\Illuminate\Database\QueryException $e) { 
