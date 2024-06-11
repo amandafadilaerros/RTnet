@@ -314,6 +314,7 @@ Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], f
         Route::post('/show/{request}', [inventarisController::class, 'show']);
         Route::get('/searchdate', [inventarisController::class, 'searchdate']);
         Route::get('/daftar_inventaris', [inventarisController::class, 'store']);
+        Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);   
 
         
 
@@ -327,7 +328,6 @@ Route::group(['prefix' => 'penduduk', 'middleware' => ['cek_login:penduduk']], f
 
         // Route::get('/pinjam/barang/{id}', [InventarisController::class, 'pinjamBarang'])->name('penduduk.daftar_inventaris.pinjam.barang');
         Route::post('/pinjam', [InventarisController::class, 'pinjam']);
-        Route::post('/pinjam/barang', [InventarisController::class, 'pinjamBarang']);   
 
 });
 // Route::middleware(['auth'])->group(function () {

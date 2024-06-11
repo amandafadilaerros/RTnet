@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\akun;
+use App\Models\iuranModel;
 use Illuminate\Http\Request;
 use App\Models\kkModel;
 use App\Models\ktp;
 use App\Models\ktpModel;
 use App\Models\rumahModel;
 use App\Models\level;
+use App\Models\peminjaman_inventaris;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -237,6 +239,9 @@ class data_kkRtController extends Controller
         }
 
         try {
+        peminjaman_inventaris::where('id_peminjam', $request->no_kk);
+        iuranModel::where('no_kk', $request->no_kk)->delete();
+        ktp::where('no_kk', $request->no_kk)->delete();
         kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
         akun::destroy($request->no_kk);
 

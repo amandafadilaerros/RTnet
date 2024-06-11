@@ -132,6 +132,7 @@ class detail_dataKKSekretarisController extends Controller
         $jumlahIndividu = kkModel::where('no_kk', $request->no_kk)->value('jumlah_individu');
         $jumlahKtp = ktp::where('no_kk', $request->no_kk)
                     ->where('jenis_penduduk', 'tetap')
+                    ->where('tgl_keluar', null)
                     ->count();
         if($jumlahKtp >= $jumlahIndividu){
             return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Maaf, jumlah individu dalam KK sudah mencapai batas.');
