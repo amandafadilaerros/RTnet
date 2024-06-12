@@ -211,7 +211,8 @@ class inventarisController extends Controller
     {
         $id_peminjam = session()->get('id_akun');
         $inventaris = inventaris::all();
-        $minjams = peminjaman_inventaris::where('id_peminjam', $id_peminjam);
+        $minjams = peminjaman_inventaris::where('id_peminjam', $id_peminjam)->get();
+        // dd($minjams);
         $breadcrumb = (object) [
             'title' => 'Daftar Peminjaman',
             'list' => [
