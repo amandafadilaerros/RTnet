@@ -59,9 +59,6 @@
                 </tbody>
             </table>
         </div>
-        @if ($minjams->isEmpty())
-            <p class="text-center">Tidak ada data peminjaman.</p>
-        @endif
     </div>
 </div>
 
