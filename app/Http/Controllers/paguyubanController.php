@@ -25,7 +25,9 @@ class paguyubanController extends Controller
         $activeMenu = 'paguyuban';
 
         $kk = kkModel::all(); // Mengambil semua data KK dari model
-        $kkNonPaguyuban = KkModel::where('paguyuban', false)->get(); // Mengambil semua data KK dari model
+        $kkNonPaguyuban = KkModel::where('paguyuban', false)
+                          ->orWhereNull('paguyuban')
+                          ->get(); // Mengambil semua data KK dari model
 
         return view('paguyuban', ['breadcrumb' => $breadcrumb, 'page' => $page, 'kk' => $kk, 'kkNonPaguyuban' => $kkNonPaguyuban, 'activeMenu' => $activeMenu]);
     }
