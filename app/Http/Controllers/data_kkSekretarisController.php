@@ -11,6 +11,7 @@ use App\Models\ktp;
 use App\Models\ktpModel;
 use App\Models\level;
 use App\Models\peminjaman_inventaris;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class data_kkSekretarisController extends Controller
@@ -108,6 +109,15 @@ class data_kkSekretarisController extends Controller
             'no_rumah'              => 'required|max:255'
         ]);
         // dd($request);
+        $pathBaru = null;
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+        }
 
           // Menggunakan alamat default jika tidak ada input dari pengguna
           $alamat = $request->input('alamat', 'Candi Panggung RT 08');
@@ -118,7 +128,7 @@ class data_kkSekretarisController extends Controller
             'jumlah_individu'       => $request->jumlah_individu,
             'alamat'                => $alamat,
             'no_rumah'                => $request->no_rumah,
-            'dokumen'               => $request->dokumen,
+            'dokumen'               => $pathBaru,
         ]);
         $level = level::where('nama_level', 'penduduk')->firstOrFail();
         // dd($level);
@@ -196,14 +206,30 @@ class data_kkSekretarisController extends Controller
         // Menggunakan alamat default jika tidak ada input dari pengguna
         $alamat = $request->input('alamat', 'Candi Panggung RT 08');
 
-        kkModel::find($request->id)->update([
-            'no_kk'                 => $request->no_kk,
-            'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
-            'jumlah_individu'       => $request->jumlah_individu,
-            'alamat'                => $alamat,
-            'no_rumah'       => $request->no_rumah,
-            'dokumen'               => $request->dokumen,
-        ]);
+        if ($request->hasFile('dokumen')) {
+            $imageFile = $request->file('dokumen');
+            $extFile = $request->dokumen->getClientOriginalExtension();
+            $namaFile = 'web-'.time().".". $extFile;
+
+            Storage::disk('img_kks')->put($namaFile, file_get_contents($imageFile));
+            $pathBaru = $namaFile;
+            kkModel::find($request->id)->update([
+                'no_kk'                 => $request->no_kk,
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'jumlah_individu'       => $request->jumlah_individu,
+                'no_rumah'       => $request->no_rumah,
+                'alamat'                => $alamat,
+                'dokumen'               => $pathBaru,
+            ]);
+        } else {
+            kkModel::find($request->id)->update([
+                'no_kk'                 => $request->no_kk,
+                'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
+                'jumlah_individu'       => $request->jumlah_individu,
+                'no_rumah'       => $request->no_rumah,
+                'alamat'                => $alamat,
+            ]);
+        }
 
         return redirect('/sekretaris/data_kk')->with('success', 'Data berhasil diubah');
     }
@@ -218,7 +244,7 @@ class data_kkSekretarisController extends Controller
         }
 
         try {
-            peminjaman_inventaris::where('id_peminjam', $request->no_kk);
+            peminjaman_inventaris::where('id_peminjam', $request->no_kk)->delete();
             iuranModel::where('no_kk', $request->no_kk)->delete();
             ktp::where('no_kk', $request->no_kk)->delete();
             kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter

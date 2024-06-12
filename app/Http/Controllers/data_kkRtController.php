@@ -215,6 +215,7 @@ class data_kkRtController extends Controller
                 'no_kk'                 => $request->no_kk,
                 'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
                 'jumlah_individu'       => $request->jumlah_individu,
+                'no_rumah'       => $request->no_rumah,
                 'alamat'                => $alamat,
                 'dokumen'               => $pathBaru,
             ]);
@@ -223,6 +224,7 @@ class data_kkRtController extends Controller
                 'no_kk'                 => $request->no_kk,
                 'nama_kepala_keluarga'  => $request->nama_kepala_keluarga,
                 'jumlah_individu'       => $request->jumlah_individu,
+                'no_rumah'       => $request->no_rumah,
                 'alamat'                => $alamat,
             ]);
         }
@@ -239,7 +241,7 @@ class data_kkRtController extends Controller
         }
 
         try {
-        peminjaman_inventaris::where('id_peminjam', $request->no_kk);
+        peminjaman_inventaris::where('id_peminjam', $request->no_kk)->delete();
         iuranModel::where('no_kk', $request->no_kk)->delete();
         ktp::where('no_kk', $request->no_kk)->delete();
         kkModel::destroy($request->no_kk);    //Hapus data rumah dengan $request->no_rumah dari parameter
