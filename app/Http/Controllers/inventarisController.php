@@ -209,8 +209,9 @@ class inventarisController extends Controller
 
     public function pk_peminjaman()
     {
+        $id_peminjam = session()->get('id_akun');
         $inventaris = inventaris::all();
-        $minjams = peminjaman_inventaris::all();
+        $minjams = peminjaman_inventaris::where('id_peminjam', $id_peminjam);
         $breadcrumb = (object) [
             'title' => 'Daftar Peminjaman',
             'list' => [
