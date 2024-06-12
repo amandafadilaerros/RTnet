@@ -135,7 +135,7 @@ class detail_dataKKSekretarisController extends Controller
                     ->where('tgl_keluar', null)
                     ->count();
         if($jumlahKtp >= $jumlahIndividu){
-            return redirect('/ketuaRt/detail_kk/'.$request->no_kk)->with('error', 'Maaf, jumlah individu dalam KK sudah mencapai batas.');
+            return redirect('/sekretaris/detail_kk/'.$request->no_kk)->with('error', 'Maaf, jumlah individu dalam KK sudah mencapai batas.');
         }
 
         // dd($request);
