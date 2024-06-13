@@ -184,9 +184,7 @@
                   classname: "",
                   orderable: false, //orderable false jika ingin kolom bisa diurutkan
                   searchable: false, //searchable false jika ingin kolom bisa dicari
-                  render: function(data, type, full, meta) {
-                    var baseUrl = '{{ asset('storage/inventaris/') }}';
-                    return '<img src="' + baseUrl+'/' + data + '" alt="Gambar Inventaris" style="max-width: 100px; max-height: 100px;">';
+                  render: function(data, type, full, meta) { 
                 }
               },{
                   data: "nama_barang",
