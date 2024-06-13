@@ -45,7 +45,7 @@ class pemasukanController extends Controller
 
             $bendaharas = iuranModel::select('id_iuran', 'nominal', 'keterangan', 'jenis_transaksi', 'jenis_iuran', 'no_kk', 'bulan', 'created_at')
                 ->with('kk')
-                ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
+                // ->where('jenis_transaksi', 'pemasukan') // Hanya mengambil jenis transaksi "pemasukan"
                 ->orderBy('created_at', 'DESC'); // Urutkan berdasarkan bulan secara descending
 
             // Filter data berdasarkan no_kk
